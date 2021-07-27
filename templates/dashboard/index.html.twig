@@ -1,0 +1,122 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Hello DashboardController!{% endblock %}
+
+{% block stylesheets %}
+    <link rel="stylesheet" href="{{ asset('/assets/css/custom/sidebar.css') }}" />
+{% endblock %}
+
+
+{% block body %}
+
+    <main>
+
+
+        <div class="d-flex flex-column flex-shrink-0 p-3 bg-light" style="width: 280px;">
+            <div class="d-flex justify-content-center">
+                <a href="/" class="link-dark text-decoration-none">
+                    <img height="80" width="80" src="{{ asset('/assets/img/and_bg.png') }}">
+                </a>
+            </div>
+
+            <hr>
+            <ul class="nav nav-pills flex-column mb-auto">
+                <li class="nav-item">
+                    <a href="#" class="nav-link active" aria-current="page">
+                        <i class="fa fa-home"></i>
+                        Tableau de bord
+                    </a>
+                </li>
+                <li class="border-top my-3"></li>
+                <li class="mb-1">
+                    <button class="btn btn-toggle align-items-center rounded collapsed" data-bs-toggle="collapse" data-bs-target="#elements-collapse" aria-expanded="false">
+                        <span style="margin-left: 10px">Elements</span>
+                    </button>
+                    <div class="collapse" id="elements-collapse">
+                        <ul class="btn-toggle-nav list-unstyled fw-normal pb-1 small">
+                            <li><a href="#" class="link-dark rounded">Toutes les donnees</a></li>
+                            <li><a href="#" class="link-dark rounded">Creer</a></li>
+                            <li><a href="#" class="link-dark rounded">Rechercher</a></li>
+                        </ul>
+                    </div>
+                </li>
+                <li class="border-top my-3"></li>
+                <li class="nav-item">
+                    <a href="#" class="nav-link link-dark">
+                        <i class="fa fa-chart-line"></i>
+                        Statistiques
+                    </a>
+                </li>
+                <li class="border-top my-3"></li>
+                <li class="nav-item">
+                    <a href="#" class="nav-link link-dark">
+                        <i class="fa fa-users"></i>
+                        Unites et corps
+                    </a>
+                </li>
+                <li class="border-top my-3"></li>
+                <li class="nav-item">
+                    <a href="#" class="nav-link link-dark">
+                        <i class="fa fa-plane-departure"></i>
+                        Missions
+                    </a>
+                </li>
+                <li class="border-top my-3"></li>
+                <li class="nav-item">
+                    <a href="#" class="nav-link link-dark">
+                        <i class="fa fa-school"></i>
+                        Formations
+                    </a>
+                </li>
+                <li class="border-top my-3"></li>
+                <li class="nav-item">
+                    <a href="#" class="nav-link link-dark">
+                        <i class="fa fa-medal"></i>
+                        Distinctions et medailles
+                    </a>
+                </li>
+                <li class="border-top my-3"></li>
+                <li class="nav-item">
+                    <a href="#" class="nav-link link-dark">
+                        <i class="fa fa-level-up-alt"></i>
+                        Grades et categories
+                    </a>
+                </li>
+            </ul>
+
+            <hr>
+            <div class="dropdown">
+                <a href="#" class="d-flex align-items-center link-dark text-decoration-none dropdown-toggle" id="dropdownUser2" data-bs-toggle="dropdown" aria-expanded="false">
+                    <img src="https://github.com/mdo.png" alt="" width="32" height="32" class="rounded-circle me-2">
+                    <strong>mdo</strong>
+                </a>
+                <ul class="dropdown-menu text-small shadow" aria-labelledby="dropdownUser2">
+                    <li><a class="dropdown-item" href="#">New project...</a></li>
+                    <li><a class="dropdown-item" href="#">Settings</a></li>
+                    <li><a class="dropdown-item" href="#">Profile</a></li>
+                    <li><hr class="dropdown-divider"></li>
+                    <li><a class="dropdown-item" href="#">Sign out</a></li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="b-nav-divider"></div>
+
+        <div class="container-fluid">
+            dadaio <i class="fas fa-calculator"></i>
+
+
+
+        </div>
+
+
+    </main>
+
+
+
+
+    {% block botton_javascripts %}
+        <script  src="{{ asset('/assets/js/custom/sidebars.js') }}"></script>
+    {% endblock %}
+
+{% endblock %}
