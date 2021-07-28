@@ -13,14 +13,14 @@ use Symfony\Component\Form\FormError;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
-use Knp\Component\Pager\Pagination\PaginationInterface;
+use Knp\Component\Pager\PaginatorInterface;
 
 class CorpsController extends AbstractController
 {
     /**
      * @Route("/corps", name="corps")
      */
-    public function index(Request $request,FileUploader $fileUploader,PaginationInterface $paginator): Response
+    public function index(Request $request,FileUploader $fileUploader,PaginatorInterface $paginator): Response
     {
         $user = $this->getUser();
 
