@@ -22,6 +22,11 @@ class Logement
      */
     private $adresse;
 
+    /**
+     * @ORM\OneToOne(targetEntity=Militaire::class, mappedBy="logement", cascade={"persist", "remove"})
+     */
+    private $militaire;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -35,6 +40,28 @@ class Logement
     public function setAdresse(string $adresse): self
     {
         $this->adresse = $adresse;
+
+        return $this;
+    }
+
+    public function getMilitaire(): ?Militaire
+    {
+        return $this->militaire;
+    }
+
+    public function setMilitaire(?Militaire $militaire): self
+    {
+        // unset the owning side of the relation if necessary
+        if ($militaire === null && $this->militaire !== null) {
+            $this->militaire->setLogement(null);
+        }
+
+        // set the owning side of the relation if necessary
+        if ($militaire !== null && $militaire->getLogement() !== $this) {
+            $militaire->setLogement($this);
+        }
+
+        $this->militaire = $militaire;
 
         return $this;
     }

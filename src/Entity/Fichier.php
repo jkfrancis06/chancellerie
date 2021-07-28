@@ -23,9 +23,9 @@ class Fichier
     private $nom;
 
     /**
-     * @ORM\Column(type="string", length=255)
+     * @ORM\Column(type="datetime")
      */
-    private $repertoire;
+    private $createdAt;
 
     /**
      * @ORM\Column(type="string", length=255)
@@ -36,6 +36,16 @@ class Fichier
      * @ORM\ManyToOne(targetEntity=Corps::class, inversedBy="fichiers")
      */
     private $corps;
+
+    /**
+     * @ORM\ManyToOne(targetEntity=Militaire::class, inversedBy="fichiers")
+     */
+    private $militaire;
+
+    public function __construct()
+    {
+        $this->createdAt = new \DateTime();
+    }
 
     public function getId(): ?int
     {
@@ -54,17 +64,6 @@ class Fichier
         return $this;
     }
 
-    public function getRepertoire(): ?string
-    {
-        return $this->repertoire;
-    }
-
-    public function setRepertoire(string $repertoire): self
-    {
-        $this->repertoire = $repertoire;
-
-        return $this;
-    }
 
     public function getType(): ?string
     {
@@ -86,6 +85,30 @@ class Fichier
     public function setCorps(?Corps $corps): self
     {
         $this->corps = $corps;
+
+        return $this;
+    }
+
+    public function getMilitaire(): ?Militaire
+    {
+        return $this->militaire;
+    }
+
+    public function setMilitaire(?Militaire $militaire): self
+    {
+        $this->militaire = $militaire;
+
+        return $this;
+    }
+
+    public function getCreatedAt(): ?\DateTimeInterface
+    {
+        return $this->createdAt;
+    }
+
+    public function setCreatedAt(\DateTimeInterface $createdAt): self
+    {
+        $this->createdAt = $createdAt;
 
         return $this;
     }

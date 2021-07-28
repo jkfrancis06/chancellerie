@@ -1,0 +1,183 @@
+{% extends 'nav.html.twig' %}
+
+{% block title %}Grades et categories{% endblock %}
+
+
+{% block content %}
+
+
+    <div style="margin-top: 1em">
+        <ul class="nav nav-tabs" id="myTab" role="tablist">
+            <li class="nav-item" role="presentation">
+                <button class="nav-link active" id="home-tab" data-bs-toggle="tab" data-bs-target="#grades" type="button" role="tab" aria-controls="home" aria-selected="true">Grades</button>
+            </li>
+            <li class="nav-item" role="presentation">
+                <button class="nav-link" id="profile-tab" data-bs-toggle="tab" data-bs-target="#categories" type="button" role="tab" aria-controls="profile" aria-selected="false">Categories</button>
+            </li>
+        </ul>
+        <div class="tab-content" id="myTabContent">
+            <div class="tab-pane fade show active" id="grades" role="tabpanel" aria-labelledby="grades-tab">
+                <div class="row" style="margin-top: 1em">
+
+                    <div class="col col-5">
+
+                        {% for message in app.session.flashbag.get('grade_add') %}
+                            <div class="alert alert-success alert-dismissible fade show" role="alert">
+                                <strong>{{ message }}!</strong>
+                                <button type="button" class="btn-close"  data-bs-dismiss="alert"  aria-label="Close"></button>
+                            </div>
+                        {% endfor %}
+
+                        {{ form_start(gradeForm) }}
+
+                        {{ form_errors(gradeForm) }}
+
+                        <div class="mb-3">
+                            {{ form_label(gradeForm.intitule, "Intitule du grade : ", {'label_attr': {'class': 'intitule_label'}}) }}
+                            {{ form_widget(gradeForm.intitule, {'attr': {'class': 'form-control'}}) }}
+                            <div class="form-error" style="color: red">
+                                {{ form_errors(gradeForm.intitule) }}
+                            </div>
+                        </div>
+
+                        <div class="mb-3">
+                            {{ form_label(gradeForm.description, "Description du grade : ", {'label_attr': {'class': 'intitule_label'}}) }}
+                            {{ form_widget(gradeForm.description, {'attr': {'class': 'form-control'}}) }}
+                            <div class="form-error" style="color: red">
+                                {{ form_errors(gradeForm.description) }}
+                            </div>
+                        </div>
+
+                        <div class="mb-3">
+                            {{ form_label(gradeForm.gradeCategorie, "Categorie du grade : ", {'label_attr': {'class': 'intitule_label'}}) }}
+                            {{ form_widget(gradeForm.gradeCategorie, {'attr': {'class': 'form-control'}}) }}
+                            <div class="form-error" style="color: red">
+                                {{ form_errors(gradeForm.gradeCategorie) }}
+                            </div>
+                        </div>
+
+                        <hr>
+                        <div class="col col-12">
+                            <div class="row">
+                                <div class="col col-2">
+                                    {{ form_row(gradeForm.cancel,{'attr':{'class': 'btn btn-outline-secondary form-btn'}}) }}
+                                </div>
+                                <div class="col col-2">
+                                    {{ form_row(gradeForm.submit,{'attr':{'class': 'btn btn-outline-success form-btn'}}) }}
+                                </div>
+                            </div>
+                        </div>
+
+                        {{ form_end(gradeForm) }}
+
+                    </div>
+
+                    <div class="col col-5">
+                        <div class="card" >
+                            <div class="card-body">
+                                <h5 class="card-title">Liste des  grades</h5>
+                                <hr>
+                                <table class="table  table-responsive table-bordered table-striped table-hover">
+                                    <thead>
+                                    <tr>
+                                        <th></th>
+                                        <th>Intitule</th>
+                                        <th>Description</th>
+                                        <th>Categorie</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    {% if grades | length == 0 %}
+                                        <p class="text-center">Aucun grade n'a été ajoutée pour l'instant</p>
+                                    {% else %}
+                                        {% for grade in grades%}
+                                            <tr>
+                                                <td></td>
+                                                <td>{{ grade.intitule }}</td>
+                                                <td>{{ grade.description }}</td>
+                                                <td>{{ grade.gradeCategorie.intitule }}</td>
+                                            </tr>
+                                        {% endfor %}
+
+                                    {% endif %}
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="tab-pane fade" id="categories" role="tabpanel" aria-labelledby="categories-tab">
+                <div class="row" style="margin-top: 1em">
+                    <div class="col col-5">
+
+                        {% for message in app.session.flashbag.get('categorie_add') %}
+                            <div class="alert alert-success alert-dismissible fade show" role="alert">
+                                <strong>{{ message }}!</strong>
+                                <button type="button" class="btn-close"  data-bs-dismiss="alert"  aria-label="Close"></button>
+                            </div>
+                        {% endfor %}
+
+                        {{ form_start(gradeCategoriesForm) }}
+
+                        {{ form_errors(gradeCategoriesForm) }}
+
+                        <div class="mb-3">
+                            {{ form_label(gradeCategoriesForm.intitule, "Intitule de la categorie : ", {'label_attr': {'class': 'intitule_label'}}) }}
+                            {{ form_widget(gradeCategoriesForm.intitule, {'attr': {'class': 'form-control'}}) }}
+                            <div class="form-error" style="color: red">
+                                {{ form_errors(gradeCategoriesForm.intitule) }}
+                            </div>
+                        </div>
+                        <hr>
+                        <div class="col col-12">
+                            <div class="row">
+                                <div class="col col-2">
+                                    {{ form_row(gradeCategoriesForm.cancel,{'attr':{'class': 'btn btn-outline-secondary form-btn'}}) }}
+                                </div>
+                                <div class="col col-2">
+                                    {{ form_row(gradeCategoriesForm.submit,{'attr':{'class': 'btn btn-outline-success form-btn'}}) }}
+                                </div>
+                            </div>
+                        </div>
+
+                        {{ form_end(gradeCategoriesForm) }}
+
+                    </div>
+
+                    <div class="col col-5">
+                        <div class="card" >
+                            <div class="card-body">
+                                <h5 class="card-title">Liste des categories de grade</h5>
+                                <hr>
+                                <table class="table  table-responsive table-bordered table-striped table-hover">
+                                    <thead>
+                                    <tr>
+                                        <th></th>
+                                        <th>Nom</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    {% if gradesCategories | length == 0 %}
+                                        <p class="text-center">Aucune categorie n'a été ajoutée pour l'instant</p>
+                                    {% else %}
+                                        {% for gradesCategorie in gradesCategories%}
+                                            <tr>
+                                                <td></td>
+                                                <td>{{ gradesCategorie.intitule }}</td>
+                                            </tr>
+                                        {% endfor %}
+
+                                    {% endif %}
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+{% endblock %}

@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\FamilleRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -31,6 +33,16 @@ class Famille
      * @ORM\Column(type="string", length=255)
      */
     private $typeFiliation;
+
+    /**
+     * @ORM\ManyToMany(targetEntity=Militaire::class, inversedBy="familles")
+     */
+    private $militaire;
+
+    public function __construct()
+    {
+        $this->militaire = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -69,6 +81,30 @@ class Famille
     public function setTypeFiliation(string $typeFiliation): self
     {
         $this->typeFiliation = $typeFiliation;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Militaire[]
+     */
+    public function getMilitaire(): Collection
+    {
+        return $this->militaire;
+    }
+
+    public function addMilitaire(Militaire $militaire): self
+    {
+        if (!$this->militaire->contains($militaire)) {
+            $this->militaire[] = $militaire;
+        }
+
+        return $this;
+    }
+
+    public function removeMilitaire(Militaire $militaire): self
+    {
+        $this->militaire->removeElement($militaire);
 
         return $this;
     }

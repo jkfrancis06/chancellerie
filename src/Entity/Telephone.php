@@ -22,6 +22,12 @@ class Telephone
      */
     private $numero;
 
+    /**
+     * @ORM\ManyToOne(targetEntity=Militaire::class, inversedBy="telephone")
+     * @ORM\JoinColumn(nullable=false)
+     */
+    private $militaire;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -35,6 +41,18 @@ class Telephone
     public function setNumero(string $numero): self
     {
         $this->numero = $numero;
+
+        return $this;
+    }
+
+    public function getMilitaire(): ?Militaire
+    {
+        return $this->militaire;
+    }
+
+    public function setMilitaire(?Militaire $militaire): self
+    {
+        $this->militaire = $militaire;
 
         return $this;
     }

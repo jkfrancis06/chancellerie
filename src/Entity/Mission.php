@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\MissionRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -31,6 +33,16 @@ class Mission
      * @ORM\Column(type="string", length=255)
      */
     private $commentaire;
+
+    /**
+     * @ORM\OneToMany(targetEntity=MilitaireMission::class, mappedBy="mission", orphanRemoval=true)
+     */
+    private $militaireMissions;
+
+    public function __construct()
+    {
+        $this->militaireMissions = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -69,6 +81,36 @@ class Mission
     public function setCommentaire(string $commentaire): self
     {
         $this->commentaire = $commentaire;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|MilitaireMission[]
+     */
+    public function getMilitaireMissions(): Collection
+    {
+        return $this->militaireMissions;
+    }
+
+    public function addMilitaireMission(MilitaireMission $militaireMission): self
+    {
+        if (!$this->militaireMissions->contains($militaireMission)) {
+            $this->militaireMissions[] = $militaireMission;
+            $militaireMission->setMission($this);
+        }
+
+        return $this;
+    }
+
+    public function removeMilitaireMission(MilitaireMission $militaireMission): self
+    {
+        if ($this->militaireMissions->removeElement($militaireMission)) {
+            // set the owning side to null (unless already changed)
+            if ($militaireMission->getMission() === $this) {
+                $militaireMission->setMission(null);
+            }
+        }
 
         return $this;
     }
