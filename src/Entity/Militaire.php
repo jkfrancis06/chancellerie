@@ -6,9 +6,12 @@ use App\Repository\MilitaireRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
 /**
  * @ORM\Entity(repositoryClass=MilitaireRepository::class)
+ * @UniqueEntity("matricule",message="Ce matricule existe deja")
  */
 class Militaire
 {
@@ -75,12 +78,12 @@ class Militaire
     private $professionAnt;
 
     /**
-     * @ORM\OneToMany(targetEntity=Fichier::class, mappedBy="militaire")
+     * @ORM\OneToMany(targetEntity=Fichier::class, mappedBy="militaire",cascade={"persist"})
      */
     private $fichiers;
 
     /**
-     * @ORM\OneToMany(targetEntity=Telephone::class, mappedBy="militaire", orphanRemoval=true)
+     * @ORM\OneToMany(targetEntity=Telephone::class, mappedBy="militaire", orphanRemoval=true,cascade={"persist"})
      */
     private $telephone;
 
@@ -145,6 +148,11 @@ class Militaire
      * @ORM\ManyToMany(targetEntity=Famille::class, mappedBy="militaire")
      */
     private $familles;
+
+    /**
+     * @ORM\Column(type="boolean")
+     */
+    private $hasChildren;
 
     public function __construct()
     {
@@ -638,6 +646,18 @@ class Militaire
         if ($this->familles->removeElement($famille)) {
             $famille->removeMilitaire($this);
         }
+
+        return $this;
+    }
+
+    public function getHasChildren(): ?bool
+    {
+        return $this->hasChildren;
+    }
+
+    public function setHasChildren(bool $hasChildren): self
+    {
+        $this->hasChildren = $hasChildren;
 
         return $this;
     }

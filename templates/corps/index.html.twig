@@ -17,6 +17,9 @@
             <li class="nav-item" role="presentation">
                 <button class="nav-link" id="contact-tab" data-bs-toggle="tab" data-bs-target="#specialites" type="button" role="tab" aria-controls="specialites" aria-selected="false">Specialites</button>
             </li>
+            <li class="nav-item" role="presentation">
+                <button class="nav-link" id="origin-tab" data-bs-toggle="tab" data-bs-target="#origin" type="button" role="tab" aria-controls="origin" aria-selected="false">Origine de recrutement</button>
+            </li>
         </ul>
         <div class="tab-content" id="myTabContent">
             <div class="tab-pane fade show active" id="unites" role="tabpanel" aria-labelledby="unites-tab">
@@ -83,9 +86,15 @@
                                 <table class="table table-responsive table-bordered table-striped table-hover text-center">
                                     <thead>
                                     <tr>
-                                        <th>Intitule</th>
-                                        <th>Description</th>
-                                        <th>Corps</th>
+                                        <th{% if db_unites.isSorted('Intitule') %} class="sorted"{% endif %}>
+                                            {{ knp_pagination_sortable(db_corps, 'Intitule', 'Intitule') }}
+                                        </th>
+                                        <th{% if db_unites.isSorted('Description') %} class="sorted"{% endif %}>
+                                            {{ knp_pagination_sortable(db_unites, 'Description', 'Description') }}
+                                        </th>
+                                        <th{% if db_unites.isSorted('Corps.Intitule') %} class="sorted"{% endif %}>
+                                            {{ knp_pagination_sortable(db_corps, 'Corps', 'Corps.Intitule') }}
+                                        </th>
                                     </tr>
                                     </thead>
                                     <tbody>
@@ -103,6 +112,11 @@
                                     {% endif %}
                                     </tbody>
                                 </table>
+                            </div>
+                            <div class="card-footer">
+                                <div class="d-flex justify-content-center">
+                                    {{ knp_pagination_render(db_unites,'/paginator/paginator.html.twig') }}
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -176,8 +190,12 @@
                                     <thead>
                                     <tr>
                                         <th></th>
-                                        <th>Intitule</th>
-                                        <th>Description</th>
+                                        <th{% if db_corps.isSorted('Intitule') %} class="sorted"{% endif %}>
+                                            {{ knp_pagination_sortable(db_corps, 'Intitule', 'Intitule') }}
+                                        </th>
+                                        <th{% if db_corps.isSorted('Description') %} class="sorted"{% endif %}>
+                                            {{ knp_pagination_sortable(db_corps, 'Description', 'Description') }}
+                                        </th>
                                     </tr>
                                     </thead>
                                     <tbody>
@@ -198,18 +216,198 @@
                                     </tbody>
                                 </table>
                             </div>
+                            <div class="card-footer">
+                                <div class="d-flex justify-content-center">
+                                    {{ knp_pagination_render(db_corps,'/paginator/paginator.html.twig') }}
+                                </div>
+                            </div>
                         </div>
 
                     </div>
-
-
+                </div>
             </div>
             <div class="tab-pane fade" id="specialites" role="tabpanel" aria-labelledby="specialites-tab">
+                <div class="row" style="margin-top: 2em">
+                    <div class="col col-6">
 
+                        {% for message in app.session.flashbag.get('specialite_add') %}
+                            <div class="alert alert-success alert-dismissible fade show" role="alert">
+                                <strong>{{ message }}!</strong>
+                                <button type="button" class="btn-close"  data-bs-dismiss="alert"  aria-label="Close"></button>
+                            </div>
+                        {% endfor %}
+
+                        {{ form_start(specialiteForm) }}
+
+                        {{ form_errors(specialiteForm) }}
+
+                        <div class="mb-3">
+                            {{ form_label(specialiteForm.intitule, "Intitule de la specialite : ", {'label_attr': {'class': 'intitule_label'}}) }}
+                            {{ form_widget(specialiteForm.intitule, {'attr': {'class': 'form-control'}}) }}
+                            <div class="form-error" style="color: red">
+                                {{ form_errors(specialiteForm.intitule) }}
+                            </div>
+                        </div>
+
+                        <div class="mb-3">
+                            {{ form_label(specialiteForm.description, "Description du la specialite : ", {'label_attr': {'class': 'intitule_label'}}) }}
+                            {{ form_widget(specialiteForm.description, {'attr': {'class': 'form-control'}}) }}
+                            <div class="form-error" style="color: red">
+                                {{ form_errors(specialiteForm.description) }}
+                            </div>
+                        </div>
+                        <hr>
+                        <div class="col col-12">
+                            <div class="row">
+                                <div class="col col-2">
+                                    {{ form_row(specialiteForm.cancel,{'attr':{'class': 'btn btn-outline-secondary form-btn'}}) }}
+                                </div>
+                                <div class="col col-2">
+                                    {{ form_row(specialiteForm.submit,{'attr':{'class': 'btn btn-outline-success form-btn'}}) }}
+                                </div>
+                            </div>
+                        </div>
+
+                        {{ form_end(specialiteForm) }}
+                    </div>
+
+                    <div class="col col-6">
+
+                        <div class="card" >
+                            <div class="card-body">
+                                <h5 class="card-title">Liste des specialites</h5>
+                                <hr>
+                                <table class="table table-responsive table-bordered table-striped table-hover text-center">
+                                    <thead>
+                                    <tr>
+                                        <th{% if db_specialites.isSorted('Intitule') %} class="sorted"{% endif %}>
+                                            {{ knp_pagination_sortable(db_specialites, 'Intitule', 'Intitule') }}
+                                        </th>
+                                        <th{% if db_specialites.isSorted('Description') %} class="sorted"{% endif %}>
+                                            {{ knp_pagination_sortable(db_specialites, 'Description', 'Description') }}
+                                        </th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    {% if db_specialites | length == 0 %}
+                                        <p class="text-center">Aucune specialite n'a été ajoutée pour l'instant</p>
+                                    {% else %}
+                                        {% for specialites in db_specialites %}
+                                            <tr>
+
+                                                <td>{{ specialites.intitule }}</td>
+                                                <td>{{ specialites.description }}</td>
+                                            </tr>
+                                        {% endfor %}
+
+                                    {% endif %}
+                                    </tbody>
+                                </table>
+                            </div>
+                            <div class="card-footer">
+                                <div class="d-flex justify-content-center">
+                                    {{ knp_pagination_render(db_specialites,'/paginator/paginator.html.twig') }}
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+            <div class="tab-pane fade" id="origin" role="tabpanel" aria-labelledby="origin-tab">
+
+                <div class="row" style="margin-top: 2em">
+                    <div class="col col-6">
+
+                        {% for message in app.session.flashbag.get('origin_add') %}
+                            <div class="alert alert-success alert-dismissible fade show" role="alert">
+                                <strong>{{ message }}!</strong>
+                                <button type="button" class="btn-close"  data-bs-dismiss="alert"  aria-label="Close"></button>
+                            </div>
+                        {% endfor %}
+
+                        {{ form_start(originForm) }}
+
+                        {{ form_errors(originForm) }}
+
+                        <div class="mb-3">
+                            {{ form_label(originForm.intitule, "Intitule : ", {'label_attr': {'class': 'intitule_label'}}) }}
+                            {{ form_widget(originForm.intitule, {'attr': {'class': 'form-control'}}) }}
+                            <div class="form-error" style="color: red">
+                                {{ form_errors(originForm.intitule) }}
+                            </div>
+                        </div>
+
+                        <div class="mb-3">
+                            {{ form_label(originForm.description, "Description: ", {'label_attr': {'class': 'intitule_label'}}) }}
+                            {{ form_widget(originForm.description, {'attr': {'class': 'form-control'}}) }}
+                            <div class="form-error" style="color: red">
+                                {{ form_errors(originForm.description) }}
+                            </div>
+                        </div>
+
+                        <hr>
+                        <div class="col col-12">
+                            <div class="row">
+                                <div class="col col-2">
+                                    {{ form_row(originForm.cancel,{'attr':{'class': 'btn btn-outline-secondary form-btn'}}) }}
+                                </div>
+                                <div class="col col-2">
+                                    {{ form_row(originForm.submit,{'attr':{'class': 'btn btn-outline-success form-btn'}}) }}
+                                </div>
+                            </div>
+                        </div>
+
+                        {{ form_end(originForm) }}
+                    </div>
+
+                    <div class="col col-6">
+
+                        <div class="card" >
+                            <div class="card-body">
+                                <h5 class="card-title">Liste des origines de recrutement</h5>
+                                <hr>
+                                <table class="table table-responsive table-bordered table-striped table-hover text-center">
+                                    <thead>
+                                    <tr>
+                                        <th{% if db_origins.isSorted('Intitule') %} class="sorted"{% endif %}>
+                                            {{ knp_pagination_sortable(db_origins, 'Intitule', 'Intitule') }}
+                                        </th>
+                                        <th{% if db_origins.isSorted('Description') %} class="sorted"{% endif %}>
+                                            {{ knp_pagination_sortable(db_origins, 'Description', 'Description') }}
+                                        </th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    {% if db_corps | length == 0 %}
+                                        <p class="text-center">Aucune origine n'a été ajoutée pour l'instant</p>
+                                    {% else %}
+                                        {% for origin in db_origins %}
+                                            <tr>
+                                                <td>{{ origin.intitule }}</td>
+                                                <td>{{ origin.description }}</td>
+                                            </tr>
+                                        {% endfor %}
+
+                                    {% endif %}
+                                    </tbody>
+                                </table>
+                            </div>
+                            <div class="card-footer">
+                                <div class="d-flex justify-content-center">
+                                    {{ knp_pagination_render(db_origins,'/paginator/paginator.html.twig') }}
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
             </div>
         </div>
 
     </div>
+
+
 
 
 
