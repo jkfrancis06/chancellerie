@@ -116,9 +116,9 @@ class MilitaireType extends AbstractType
                 'required' => true,
                 'label' => 'Situation matrimoniale : ',
                 'choices'  => [
-                    'Celibataire' => 'h',
-                    'Marie' => 'f',
-                    'Divorce' => 'f',
+                    'Celibataire' => 'Celibataire',
+                    'Marie' => 'Marie',
+                    'Divorce' => 'Divorce',
                 ],
                 'constraints' => [
                     new NotBlank()

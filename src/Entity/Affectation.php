@@ -39,6 +39,11 @@ class Affectation
      */
     private $dateFin;
 
+    /**
+     * @ORM\Column(type="string", length=255)
+     */
+    private $fonction;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -88,6 +93,18 @@ class Affectation
     public function setDateFin(?\DateTimeInterface $dateFin): self
     {
         $this->dateFin = $dateFin;
+
+        return $this;
+    }
+
+    public function getFonction(): ?string
+    {
+        return $this->fonction;
+    }
+
+    public function setFonction(string $fonction): self
+    {
+        $this->fonction = $fonction;
 
         return $this;
     }

@@ -81,9 +81,15 @@
                                     <thead>
                                     <tr>
                                         <th></th>
-                                        <th>Intitule</th>
-                                        <th>Description</th>
-                                        <th>Categorie</th>
+                                        <th{% if grades.isSorted('Intitule') %} class="sorted"{% endif %}>
+                                            {{ knp_pagination_sortable(grades, 'Intitule', 'Intitule') }}
+                                        </th>
+                                        <th{% if grades.isSorted('Description') %} class="sorted"{% endif %}>
+                                            {{ knp_pagination_sortable(grades, 'Description', 'Description') }}
+                                        </th>
+                                        <th{% if grades.isSorted('GradeCategorie.Intitule') %} class="sorted"{% endif %}>
+                                            {{ knp_pagination_sortable(grades, 'Categorie', 'GradeCategorie.Intitule') }}
+                                        </th>
                                     </tr>
                                     </thead>
                                     <tbody>
@@ -102,6 +108,11 @@
                                     {% endif %}
                                     </tbody>
                                 </table>
+                            </div>
+                            <div class="card-footer">
+                                <div class="d-flex justify-content-center">
+                                    {{ knp_pagination_render(grades,'/paginator/paginator.html.twig') }}
+                                </div>
                             </div>
                         </div>
                     </div>
