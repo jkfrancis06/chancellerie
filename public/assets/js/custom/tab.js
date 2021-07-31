@@ -3,12 +3,21 @@ $(function() {
     $('button[role="tab"]').on('shown.bs.tab', function (e) {
         // save the latest tab; use cookies if you like 'em better:
         localStorage.setItem('lastTab', $(this).attr('data-bs-target'));
-        console.log('ok')
     });
 
+
+    $('button[data-bs-toggle="modal"]').on('click', function (e) {
+        // save the latest tab; use cookies if you like 'em better:
+        localStorage.setItem('lastModal', $(this).attr('data-bs-target'));
+        console.log('ok')
+    });
     // go to the latest tab, if it exists:
-    var lastTab = localStorage.getItem('lastTab');
+    let lastTab = localStorage.getItem('lastTab');
+    let lastModal = localStorage.getItem('lastModal');
     if (lastTab) {
         $('[data-bs-target="' + lastTab + '"]').tab('show');
+    }
+    if (lastModal) {
+        $('[data-bs-target="' + lastModal + '"]').show('show');
     }
 });

@@ -42,6 +42,11 @@ class Fichier
      */
     private $militaire;
 
+    /**
+     * @ORM\ManyToOne(targetEntity=MilitaireMission::class, inversedBy="piecesJoints")
+     */
+    private $militaireMission;
+
     public function __construct()
     {
         $this->createdAt = new \DateTime();
@@ -109,6 +114,18 @@ class Fichier
     public function setCreatedAt(\DateTimeInterface $createdAt): self
     {
         $this->createdAt = $createdAt;
+
+        return $this;
+    }
+
+    public function getMilitaireMission(): ?MilitaireMission
+    {
+        return $this->militaireMission;
+    }
+
+    public function setMilitaireMission(?MilitaireMission $militaireMission): self
+    {
+        $this->militaireMission = $militaireMission;
 
         return $this;
     }

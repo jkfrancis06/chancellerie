@@ -5,8 +5,12 @@ namespace App\Controller;
 use App\Entity\Affectation;
 use App\Entity\Fichier;
 use App\Entity\Militaire;
+use App\Entity\MilitaireExercice;
+use App\Entity\MilitaireMission;
 use App\Entity\Telephone;
 use App\Form\AffectationType;
+use App\Form\MilitaireExerciceType;
+use App\Form\MilitaireMissionType;
 use App\Form\MilitaireType;
 use App\Service\FileUploader;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -119,10 +123,20 @@ class MilitaireController extends AbstractController
         }
 
         $affectation = new Affectation();
+        $militaireMission = new MilitaireMission();
+        $militaireExercice = new MilitaireExercice();
+
 
         $affectationForm = $this->createForm(AffectationType::class,$affectation);
+        $militaireMissionForm = $this->createForm(MilitaireMissionType::class,$militaireMission);
+        $militaireExerciceForm = $this->createForm(MilitaireExerciceType::class,$militaireExercice);
+
+
 
         $affectationForm->handleRequest($request);
+        $militaireMissionForm->handleRequest($request);
+        $militaireExerciceForm->handleRequest($request);
+
 
         $em = $this->getDoctrine()->getManager();
 
@@ -133,10 +147,28 @@ class MilitaireController extends AbstractController
             $request->getSession()->getFlashBag()->add('create_affectation', 'Affectation cree avec success');
         }
 
-        $affectations = $this->getDoctrine()->getManager()->getRepository(Affectation::class)->findBy([
-            'militaire' => $militaire
-        ]);
+        if ($militaireMissionForm->isSubmitted() && $militaireMissionForm->isValid()){
+            $militaireMission->setMilitaire($militaire);
+            $em->persist($militaireMission);
+            $em->flush();
+            $request->getSession()->getFlashBag()->add('create_militaireMission', 'Success');
+        }
 
+        if ($militaireExerciceForm->isSubmitted() && $militaireExerciceForm->isValid()){
+
+
+            $militaireExercice->setMilitaire($militaire);
+            $em->persist($militaireExercice);
+            $em->flush();
+            $request->getSession()->getFlashBag()->add('create_militaireExercice', 'Success');
+
+        }
+
+        $affectations = $militaire->getAffectations();
+
+        $militaireMissions = $militaire->getMilitaireMissions();
+
+        $militaireExercices = $militaire->getMilitaireExercices();
 
 
         $user = $this->getUser();
@@ -145,8 +177,12 @@ class MilitaireController extends AbstractController
             'active' => 'militaire',
             'user' => $user,
             'militaire' => $militaire,
+            'militaireMissions' => $militaireMissions,
+            'militaireExercices' => $militaireExercices,
             'affectations' => $affectations,
-            'affectationForm' => $affectationForm->createView()
+            'affectationForm' => $affectationForm->createView(),
+            'militaireMissionForm' => $militaireMissionForm->createView(),
+            'militaireExerciceForm' => $militaireExerciceForm->createView()
         ]);
     }
 }

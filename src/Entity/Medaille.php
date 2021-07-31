@@ -7,8 +7,12 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
+use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
+
 /**
  * @ORM\Entity(repositoryClass=MedailleRepository::class)
+ * @UniqueEntity("designation",message="Cette medaille/distinction a ete deja cree")
  */
 class Medaille
 {
@@ -24,10 +28,6 @@ class Medaille
      */
     private $designation;
 
-    /**
-     * @ORM\Column(type="string", length=255)
-     */
-    private $type;
 
     /**
      * @ORM\OneToMany(targetEntity=MilitaireMedaille::class, mappedBy="medaille")
@@ -52,18 +52,6 @@ class Medaille
     public function setDesignation(string $designation): self
     {
         $this->designation = $designation;
-
-        return $this;
-    }
-
-    public function getType(): ?string
-    {
-        return $this->type;
-    }
-
-    public function setType(string $type): self
-    {
-        $this->type = $type;
 
         return $this;
     }

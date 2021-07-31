@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\MilitaireMissionRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -43,6 +45,16 @@ class MilitaireMission
      * @ORM\JoinColumn(nullable=false)
      */
     private $mission;
+
+    /**
+     * @ORM\OneToMany(targetEntity=Fichier::class, mappedBy="militaireMission")
+     */
+    private $piecesJoints;
+
+    public function __construct()
+    {
+        $this->piecesJoints = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -105,6 +117,36 @@ class MilitaireMission
     public function setMission(?Mission $mission): self
     {
         $this->mission = $mission;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Fichier[]
+     */
+    public function getPiecesJoints(): Collection
+    {
+        return $this->piecesJoints;
+    }
+
+    public function addPiecesJoint(Fichier $piecesJoint): self
+    {
+        if (!$this->piecesJoints->contains($piecesJoint)) {
+            $this->piecesJoints[] = $piecesJoint;
+            $piecesJoint->setMilitaireMission($this);
+        }
+
+        return $this;
+    }
+
+    public function removePiecesJoint(Fichier $piecesJoint): self
+    {
+        if ($this->piecesJoints->removeElement($piecesJoint)) {
+            // set the owning side to null (unless already changed)
+            if ($piecesJoint->getMilitaireMission() === $this) {
+                $piecesJoint->setMilitaireMission(null);
+            }
+        }
 
         return $this;
     }

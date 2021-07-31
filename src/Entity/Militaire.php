@@ -11,7 +11,8 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
 /**
  * @ORM\Entity(repositoryClass=MilitaireRepository::class)
- * @UniqueEntity("matricule",message="Ce matricule existe deja")
+
+ *
  */
 class Militaire
 {
@@ -154,6 +155,12 @@ class Militaire
      */
     private $hasChildren;
 
+
+    /**
+     * @ORM\OneToMany(targetEntity=MilitaireExercice::class, mappedBy="militaire", orphanRemoval=true)
+     */
+    private $militaireExercices;
+
     public function __construct()
     {
         $this->fichiers = new ArrayCollection();
@@ -166,6 +173,7 @@ class Militaire
         $this->militaireDiplomes = new ArrayCollection();
         $this->militaireFormations = new ArrayCollection();
         $this->familles = new ArrayCollection();
+        $this->militaireExercices = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -658,6 +666,37 @@ class Militaire
     public function setHasChildren(bool $hasChildren): self
     {
         $this->hasChildren = $hasChildren;
+
+        return $this;
+    }
+
+
+    /**
+     * @return Collection|MilitaireExercice[]
+     */
+    public function getMilitaireExercices(): Collection
+    {
+        return $this->militaireExercices;
+    }
+
+    public function addMilitaireExercice(MilitaireExercice $militaireExercice): self
+    {
+        if (!$this->militaireExercices->contains($militaireExercice)) {
+            $this->militaireExercices[] = $militaireExercice;
+            $militaireExercice->setMilitaire($this);
+        }
+
+        return $this;
+    }
+
+    public function removeMilitaireExercice(MilitaireExercice $militaireExercice): self
+    {
+        if ($this->militaireExercices->removeElement($militaireExercice)) {
+            // set the owning side to null (unless already changed)
+            if ($militaireExercice->getMilitaire() === $this) {
+                $militaireExercice->setMilitaire(null);
+            }
+        }
 
         return $this;
     }

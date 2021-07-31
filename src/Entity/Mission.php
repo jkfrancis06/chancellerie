@@ -6,9 +6,12 @@ use App\Repository\MissionRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
 /**
  * @ORM\Entity(repositoryClass=MissionRepository::class)
+ * @UniqueEntity("intitule",message="Cette mission existe deja")
  */
 class Mission
 {
@@ -30,7 +33,7 @@ class Mission
     private $lieu;
 
     /**
-     * @ORM\Column(type="string", length=255)
+     * @ORM\Column(type="text")
      */
     private $commentaire;
 
@@ -38,6 +41,16 @@ class Mission
      * @ORM\OneToMany(targetEntity=MilitaireMission::class, mappedBy="mission", orphanRemoval=true)
      */
     private $militaireMissions;
+
+    /**
+     * @ORM\ManyToOne(targetEntity=Fichier::class,cascade={"persist"})
+     */
+    private $logo;
+
+    /**
+     * @ORM\Column(type="string", length=255)
+     */
+    private $intitule;
 
     public function __construct()
     {
@@ -111,6 +124,30 @@ class Mission
                 $militaireMission->setMission(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getLogo(): ?Fichier
+    {
+        return $this->logo;
+    }
+
+    public function setLogo(?Fichier $logo): self
+    {
+        $this->logo = $logo;
+
+        return $this;
+    }
+
+    public function getIntitule(): ?string
+    {
+        return $this->intitule;
+    }
+
+    public function setIntitule(string $intitule): self
+    {
+        $this->intitule = $intitule;
 
         return $this;
     }

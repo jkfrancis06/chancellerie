@@ -1,0 +1,102 @@
+{% extends 'nav.html.twig' %}
+
+{% block title %}Medailles et exercices{% endblock %}
+
+
+{% block content %}
+
+    <div style="margin-top: 1em">
+
+        <ul class="nav nav-tabs" id="myTab" role="tablist">
+            <li class="nav-item" role="presentation">
+                <button class="nav-link active" id="medaille-tab" data-bs-toggle="tab" data-bs-target="#medaille" type="button" role="tab" aria-controls="medaille" aria-selected="true">Medailles ou distinctions</button>
+            </li>
+
+        </ul>
+        <div class="tab-content" id="myTabContent">
+            <div class="tab-pane fade show active" id="medaille" role="tabpanel" aria-labelledby="medaille-tab">
+                <div class="row" style="margin-top: 2em">
+                    <div class="col col-6">
+
+                        {% for message in app.session.flashbag.get('medaille_add') %}
+                            <div class="alert alert-success alert-dismissible fade show" role="alert">
+                                <strong>{{ message }}!</strong>
+                                <button type="button" class="btn-close"  data-bs-dismiss="alert"  aria-label="Close"></button>
+                            </div>
+                        {% endfor %}
+
+                        {{ form_start(medailleForm) }}
+
+                        <div class="text-danger">
+                            {{ form_errors(medailleForm) }}
+                        </div>
+
+                        <div class="mb-3">
+                            {{ form_label(medailleForm.designation, "Designation  de la medaille ou distinction : ", {'label_attr': {'class': 'intitule_label'}}) }}
+                            {{ form_widget(medailleForm.designation, {'attr': {'class': 'form-control'}}) }}
+                            <div class="form-error" style="color: red">
+                                {{ form_errors(medailleForm.designation) }}
+                            </div>
+                        </div>
+
+                        <hr>
+                        <div class="col col-12">
+                            <div class="row">
+                                <div class="col col-2">
+                                    {{ form_row(medailleForm.cancel,{'attr':{'class': 'btn btn-outline-secondary form-btn'}}) }}
+                                </div>
+                                <div class="col col-2">
+                                    {{ form_row(medailleForm.submit,{'attr':{'class': 'btn btn-outline-success form-btn'}}) }}
+                                </div>
+                            </div>
+                        </div>
+
+                        {{ form_end(medailleForm) }}
+                    </div>
+
+                    <div class="col col-6">
+                        <div class="card" >
+                            <div class="card-body">
+                                <h5 class="card-title">Liste des  medailles / distinctions</h5>
+                                <hr>
+                                <table class="table table-responsive table-bordered table-striped table-hover text-center">
+                                    <thead>
+                                    <tr>
+                                        <th{% if medailles.isSorted('Designation') %} class="sorted"{% endif %}>
+                                            {{ knp_pagination_sortable(medailles, 'Designation', 'Designation') }}
+                                        </th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    {% if medailles | length == 0 %}
+                                        <p class="text-center">Aucune medaille ou distinction n'a été ajoutée pour l'instant</p>
+                                    {% else %}
+                                        {% for medaille in medailles %}
+                                            <tr>
+                                                <td>{{ medaille.designation }}</td>
+                                            </tr>
+                                        {% endfor %}
+
+                                    {% endif %}
+                                    </tbody>
+                                </table>
+                            </div>
+                            <div class="card-footer">
+                                <div class="d-flex justify-content-center">
+                                    {{ knp_pagination_render(medailles,'/paginator/paginator.html.twig') }}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+
+
+
+
+
+{% endblock %}

@@ -95,10 +95,19 @@
                     </li>
                     <li class="border-top my-3"></li>
                     <li class="nav-item">
-                        <a href="#" class="nav-link link-dark">
-                            <i style="margin-right: 0.3rem" class="fa fa-plane-departure"></i>
-                            Missions
-                        </a>
+
+                        {% if active == "mission" %}
+                            <a href="{{ path('mission') }}" class="nav-link link-dark active">
+                                <i style="margin-right: 0.3rem" class="fa fa-plane-departure"></i>
+                                Missions et exercices
+                            </a>
+                        {% else %}
+                            <a href="{{ path('mission') }}" class="nav-link link-dark">
+                                <i style="margin-right: 0.3rem" class="fa fa-plane-departure"></i>
+                                Missions et exercices
+                            </a>
+                        {% endif %}
+
                     </li>
                     <li class="border-top my-3"></li>
                     <li class="nav-item">
@@ -109,10 +118,17 @@
                     </li>
                     <li class="border-top my-3"></li>
                     <li class="nav-item">
-                        <a href="#" class="nav-link link-dark">
-                            <i style="margin-right: 0.3rem" class="fa fa-medal"></i>
-                            Distinctions et medailles
-                        </a>
+                        {% if active == "medaille" %}
+                            <a href="{{ path('medaille') }}" class="nav-link link-dark active">
+                                <i style="margin-right: 0.3rem" class="fa fa-medal"></i>
+                                Medailles
+                            </a>
+                        {% else %}
+                            <a href="{{ path('medaille') }}" class="nav-link link-dark">
+                                <i style="margin-right: 0.3rem" class="fa fa-medal"></i>
+                                Medailles
+                            </a>
+                        {% endif %}
                     </li>
                     <li class="border-top my-3"></li>
                     <li class="nav-item">

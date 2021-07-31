@@ -6,9 +6,11 @@
     <script  src="{{ asset('/assets/js/datepicker/moment.min.js') }}"></script>
     <script  src="{{ asset('/assets/js/datepicker/daterangepicker.js') }}"></script>
     <script  src="{{ asset('/assets/js/custom/picker.js') }}"></script>
+
 {% endblock %}
 
 {% block stylesheets %}
+
     <link rel="stylesheet" href="{{ asset('/assets/css/datepicker/daterangepicker.css') }}" />
 
 
@@ -17,6 +19,7 @@
 
 {% block content %}
 
+    {{ form_errors(militaireExerciceForm)|length }}
 
     <div class="modal fade" id="affectationModal" tabindex="-1" aria-labelledby="affectationModalLabel" aria-hidden="true" data-bs-backdrop="static" data-bs-keyboard="false">
         <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
@@ -25,7 +28,7 @@
 
                     {{ form_errors(affectationForm) }}
                     <div class="modal-header">
-                        <h5 class="modal-title" id="exampleModalLabel">Changer d'affectation</h5>
+                        <h5 class="modal-title" id="exampleModalLabel">Affecter</h5>
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
                     <div class="modal-body">
@@ -44,7 +47,7 @@
                             </div>
                         </div>
                         <div class="mb-3">
-                            {{ form_label(affectationForm.fonction, "Fonction : ", {'label_attr': {'class': 'intitule_label'}}) }}
+                            {{ form_label(affectationForm.fonction, "Poste : ", {'label_attr': {'class': 'intitule_label'}}) }}
                             {{ form_widget(affectationForm.fonction, {'attr': {'class': 'form-control'}}) }}
                             <div class="form-error" style="color: red">
                                 {{ form_errors(affectationForm.fonction) }}
@@ -69,6 +72,109 @@
     </div>
 
 
+    <div class="modal fade" id="missionModal" tabindex="-1" aria-labelledby="missionModalLabel" aria-hidden="true" data-bs-backdrop="static" data-bs-keyboard="false">
+        <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+            <div class="modal-content">
+                {{ form_start(militaireMissionForm) }}
+
+                {{ form_errors(militaireMissionForm) }}
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Ajouter une mission effectuee</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+
+                    <div class="mb-3">
+                        {{ form_label(militaireMissionForm.dateDebut, "Date de debut de mission : ", {'label_attr': {'class': 'intitule_label'}}) }}
+                        {{ form_widget(militaireMissionForm.dateDebut, {'attr': {'class': 'form-control js-datepicker'}}) }}
+                        <div class="form-error" style="color: red">
+                            {{ form_errors(militaireMissionForm.dateDebut) }}
+                        </div>
+                    </div>
+                    <div class="mb-3">
+                        {{ form_label(militaireMissionForm.dateFin, "Date de fin de mission : ", {'label_attr': {'class': 'intitule_label'}}) }}
+                        {{ form_widget(militaireMissionForm.dateFin, {'attr': {'class': 'form-control js-datepicker'}}) }}
+                        <div class="form-error" style="color: red">
+                            {{ form_errors(militaireMissionForm.dateFin) }}
+                        </div>
+                    </div>
+                    <div class="mb-3">
+                        {{ form_label(militaireMissionForm.commentaire, "Commentaire : ", {'label_attr': {'class': 'intitule_label'}}) }}
+                        {{ form_widget(militaireMissionForm.commentaire, {'attr': {'class': 'form-control'}}) }}
+                        <div class="form-error" style="color: red">
+                            {{ form_errors(militaireMissionForm.commentaire) }}
+                        </div>
+                    </div>
+                    <div class="mb-3">
+                        {{ form_label(militaireMissionForm.mission, "Mission : ", {'label_attr': {'class': 'intitule_label'}}) }}
+                        {{ form_widget(militaireMissionForm.mission, {'attr': {'class': 'form-control'}}) }}
+                        <div class="form-error" style="color: red">
+                            {{ form_errors(militaireMissionForm.mission) }}
+                        </div>
+                    </div>
+
+
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fermer</button>
+                    {{ form_row(militaireMissionForm.cancel,{'attr':{'class': 'btn btn-outline-secondary form-btn'}}) }}
+                    {{ form_row(militaireMissionForm.submit,{'attr':{'class': 'btn btn-outline-success form-btn'}}) }}
+                </div>
+                {{ form_end(militaireMissionForm) }}
+            </div>
+        </div>
+    </div>
+
+
+    <div class="modal fade" id="exerciceModal" tabindex="-1" aria-labelledby="exerciceModalLabel" aria-hidden="true" data-bs-backdrop="static" data-bs-keyboard="false">
+        <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+            <div class="modal-content">
+                {{ form_start(militaireExerciceForm) }}
+
+                {{ form_errors(militaireExerciceForm) }}
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Ajouter un exercice effectue</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+
+                    <div class="mb-3">
+                        {{ form_label(militaireExerciceForm.exercice, "Exercice : ", {'label_attr': {'class': 'intitule_label'}}) }}
+                        {{ form_widget(militaireExerciceForm.exercice, {'attr': {'class': 'form-control'}}) }}
+                        <div class="form-error" style="color: red">
+                            {{ form_errors(militaireExerciceForm.exercice) }}
+                        </div>
+                    </div>
+
+                    <div class="mb-3">
+                        {{ form_label(militaireExerciceForm.date, '', {'label_attr': {'class': 'intitule_label'}}) }}
+                        {{ form_widget(militaireExerciceForm.date, {'attr': {'class': 'form-control js-datepicker'}}) }}
+                        <div class="form-error" style="color: red">
+                            {{ form_errors(militaireExerciceForm.date) }}
+                        </div>
+                    </div>
+
+                    <div class="mb-3">
+                        {{ form_label(militaireExerciceForm.commentaire, '', {'label_attr': {'class': 'intitule_label'}}) }}
+                        {{ form_widget(militaireExerciceForm.commentaire, {'attr': {'class': 'form-control'}}) }}
+                        <div class="form-error" style="color: red">
+                            {{ form_errors(militaireExerciceForm.commentaire) }}
+                        </div>
+                    </div>
+
+
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fermer</button>
+                    {{ form_row(militaireExerciceForm.cancel,{'attr':{'class': 'btn btn-outline-secondary form-btn'}}) }}
+                    {{ form_row(militaireExerciceForm.submit,{'attr':{'class': 'btn btn-outline-success form-btn'}}) }}
+                </div>
+                {{ form_end(militaireExerciceForm) }}
+            </div>
+        </div>
+    </div>
+
+
     <div style="margin-top: 1em">
         {% for message in app.session.flashbag.get('create_militaire') %}
             <div class="alert alert-success alert-dismissible fade show" role="alert">
@@ -82,10 +188,10 @@
                 <div class="col col-12">
                     <div class="card mb-3">
                         <div class="row g-0">
-                            <div class="col-md-1">
-                                <img style="height: 12em;width: 12em" src="{{ asset('/elements/') }}{{ militaire.fichiers[0].nom }}" class="img-thumbnail" alt="...">
+                            <div class="col col-2">
+                                <img style="height: 14em;width: 14em" src="{{ asset('/elements/') }}{{ militaire.fichiers[0].nom }}" class="img-thumbnail" alt="...">
                             </div>
-                            <div class="col-md-11">
+                            <div class="col col-10">
                                 <div class="card-body">
                                     <div class="row">
                                         <div class="col col-2" style="word-wrap: break-word;">
@@ -152,10 +258,10 @@
                                             <p>
                                                 <span class="fw-bold">Numeros de telephones: </span>
                                                 <span>
-                                    {% for telephone in militaire.telephone %}
-                                        {{ telephone.numero }}
-                                    {% endfor %}
-                                </span>
+                                                    {% for telephone in militaire.telephone %}
+                                                        {{ telephone.numero }}
+                                                    {% endfor %}
+                                                </span>
                                             </p>
 
                                         </div>
@@ -168,16 +274,16 @@
                                             <p>
                                                 <span class="fw-bold">Annees de service: </span>
                                                 <span>
-                                    {% set srv = date().diff(date(militaire.dateIncorp)).y %}
+                                                    {% set srv = date().diff(date(militaire.dateIncorp)).y %}
                                                     {{ srv }} ans
-                                </span>
+                                                </span>
                                             </p>
 
                                             <p>
                                                 <span class="fw-bold">Statut: </span>
                                                 <span>
 
-                                </span>
+                                                </span>
                                             </p>
                                         </div>
                                     </div>
@@ -205,16 +311,23 @@
                         <div class="row">
                             <div class="col col-12"  style="word-wrap: break-word;">
                                 <div class="row">
-                                    <div class="col col-3">
+                                    <div class="col col-12">
                                         <p>
-                                            <span class="fw-bold">Origine de recrutement: </span>
-                                            <span>{{ militaire.origineRecrutement.intitule }}</span>
+                                            <span class="fw-bold">Origine de recrutement : </span>
+                                            <span>  {{ militaire.origineRecrutement.intitule }} </span>
                                         </p>
                                     </div>
-                                    <div class="col col-4">
+                                    <div class="col col-12">
                                         <p>
-                                            <span class="fw-bold">Grade actuel / Categorie: </span>
-                                            <span>{{ militaire.grade.intitule }} / {{ militaire.grade.gradeCategorie.intitule }}</span>
+                                            <span class="fw-bold">Grade actuel / Categorie : </span>
+                                            <span>  {{ militaire.grade.intitule }} / {{ militaire.grade.gradeCategorie.intitule }}  </span>
+                                        </p>
+                                    </div>
+
+                                    <div class="col col-12">
+                                        <p>
+                                            <span class="fw-bold">Profession anterieure : </span>
+                                            <span>  {{ militaire.professionAnt }}   </span>
                                         </p>
                                     </div>
                                 </div>
@@ -251,7 +364,7 @@
                                                     <th scope="col">Date de fin</th>
                                                     <th scope="col">Unite</th>
                                                     <th scope="col">Corps</th>
-                                                    <th scope="col">Fonction</th>
+                                                    <th scope="col">Poste</th>
                                                     <th scope="col">Duree</th>
                                                 </tr>
                                             </thead>
@@ -268,14 +381,133 @@
                                                             <td>{{ affectation.fonction }}</td>
                                                             <td>
                                                                 {% if affectation.dateFin != null %}
-                                                                    {% set duree = affectation.dateFin.diff(date(affectation.date)).y %}
-                                                                    {{ duree }} ans
+                                                                    {% set dureeY = affectation.dateFin.diff(date(affectation.date)).y %}
+                                                                    {% set dureeM = (dureeY*12)+affectation.dateFin.diff(date(affectation.date)).m %}
+                                                                    {{ dureeM }} mois
                                                                 {% endif %}
                                                             </td>
                                                         </tr>
                                                     {% endfor %}
 
                                                 {% endif %}
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col col-6"></div>
+
+                            <div class="col col-6 mt-4"  style="word-wrap: break-word;">
+
+                                {% for message in app.session.flashbag.get('create_militaireMission') %}
+                                    <div class="alert alert-success alert-dismissible fade show" role="alert">
+                                        <strong>{{ message }}!</strong>
+                                        <button type="button" class="btn-close"  data-bs-dismiss="alert"  aria-label="Close"></button>
+                                    </div>
+                                {% endfor %}
+
+                                <div class="card ">
+                                    <div class="card-header">
+                                        <div class="d-flex justify-content-between">
+                                            <span class="fw-bold">Missions effectues</span>
+                                            <span>
+                                                <button type="button" class="btn btn-outline-primary" data-bs-toggle="modal" data-bs-target="#missionModal">
+                                                    <i class="fa fa-plus"></i>
+                                                    Ajouter
+                                                </button>
+                                            </span>
+                                        </div>
+                                    </div>
+                                    <div class="card-body">
+                                        <table class="table text-center table-bordered table-striped table-hover table-responsive">
+                                            <thead>
+                                            <tr>
+                                                <th scope="col"></th>
+                                                <th scope="col">Date de debut</th>
+                                                <th scope="col">Date de fin</th>
+                                                <th scope="col">Mission</th>
+                                                <th scope="col">Lieu</th>
+                                                <th scope="col">Commentaires</th>
+                                                <th scope="col">Duree</th>
+                                            </tr>
+                                            </thead>
+                                            <tbody>
+                                            {% if militaireMissions | length == 0 %}
+                                                <p class="text-center">Aucune mission</p>
+                                            {% else %}
+                                                {% for militaireMission in militaireMissions %}
+                                                    <tr>
+                                                        <td class="d-flex justify-content-center">
+                                                            <img height="50" width="50" src="{{ asset('/logos/') }}{{ militaireMission.mission.logo.nom }}" class="img-thumbnail" alt="...">
+                                                        </td>
+                                                        <td>{{ militaireMission.dateDebut|date("d-M-Y")  }}</td>
+                                                        <td>{{ militaireMission.dateFin|date("d-M-Y")  }}</td>
+                                                        <td>{{ militaireMission.mission.intitule }}</td>
+                                                        <td>{{ militaireMission.mission.lieu}}</td>
+                                                        <td>{{ militaireMission.commentaire }}</td>
+                                                        <td>
+                                                            {% set dureeY = militaireMission.dateFin.diff(date(militaireMission.dateDebut)).y %}
+                                                            {% set dureeM = (dureeY*12)+militaireMission.dateFin.diff(date(militaireMission.dateDebut)).m %}
+                                                            {{ dureeM }} mois
+                                                        </td>
+                                                    </tr>
+                                                {% endfor %}
+
+                                            {% endif %}
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col col-6"></div>
+
+                            <div class="col col-6 mt-4"  style="word-wrap: break-word;">
+
+                                {% for message in app.session.flashbag.get('create_militaireExercice') %}
+                                    <div class="alert alert-success alert-dismissible fade show" role="alert">
+                                        <strong>{{ message }}!</strong>
+                                        <button type="button" class="btn-close"  data-bs-dismiss="alert"  aria-label="Close"></button>
+                                    </div>
+                                {% endfor %}
+
+                                <div class="card ">
+                                    <div class="card-header">
+                                        <div class="d-flex justify-content-between">
+                                            <span class="fw-bold">Exercices</span>
+                                            <span>
+                                                <button type="button"  class="btn btn-outline-primary" data-bs-toggle="modal" data-bs-target="#exerciceModal">
+                                                    <i class="fa fa-plus"></i>
+                                                    Ajouter
+                                                </button>
+                                            </span>
+                                        </div>
+                                    </div>
+                                    <div class="card-body">
+                                        <table class="table text-center table-bordered table-striped table-hover table-responsive">
+                                            <thead>
+                                            <tr>
+                                                <th scope="col">Date</th>
+                                                <th scope="col">Exercice</th>
+                                                <th scope="col">Lieu</th>
+                                                <th scope="col">Commentaires</th>
+                                            </tr>
+                                            </thead>
+                                            <tbody>
+                                            {% if militaireExercices | length == 0 %}
+                                                <p class="text-center">Aucun exercice</p>
+                                            {% else %}
+                                                {% for militaireExercice in militaireExercices %}
+                                                    <tr>
+                                                        <td>{{ militaireExercice.date|date("d-M-Y")  }}</td>
+                                                        <td>{{ militaireExercice.exercice.intitule  }}</td>
+                                                        <td>{{ militaireExercice.exercice.lieu }}</td>
+                                                        <td>{{ militaireExercice.commentaire }}</td>
+                                                    </tr>
+                                                {% endfor %}
+
+                                            {% endif %}
                                             </tbody>
                                         </table>
                                     </div>
