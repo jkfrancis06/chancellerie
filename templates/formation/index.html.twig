@@ -1,0 +1,205 @@
+{% extends 'nav.html.twig' %}
+
+{% block title %}Diplomes et formations{% endblock %}
+
+
+{% block content %}
+
+    <div style="margin-top: 1em">
+        <ul class="nav nav-tabs" id="myTab" role="tablist">
+            <li class="nav-item" role="presentation">
+                <button class="nav-link active" id="formations-tab" data-bs-toggle="tab" data-bs-target="#formations" type="button" role="tab" aria-controls="formations" aria-selected="true">Formations </button>
+            </li>
+            <li class="nav-item" role="presentation">
+                <button class="nav-link" id="diplomes-tab" data-bs-toggle="tab" data-bs-target="#diplomes" type="button" role="tab" aria-controls="diplomes" aria-selected="false">Diplomes</button>
+            </li>
+        </ul>
+        <div class="tab-content" id="myTabContent">
+            <div class="tab-pane fade show active" id="formations" role="tabpanel" aria-labelledby="formations-tab">
+                <div class="row" style="margin-top: 1em">
+
+                    <div class="col col-5">
+
+                        {% for message in app.session.flashbag.get('formation_add') %}
+                            <div class="alert alert-success alert-dismissible fade show" role="alert">
+                                <strong>{{ message }}!</strong>
+                                <button type="button" class="btn-close"  data-bs-dismiss="alert"  aria-label="Close"></button>
+                            </div>
+                        {% endfor %}
+
+                        {{ form_start(formationForm) }}
+
+                        {{ form_errors(formationForm) }}
+
+                        <div class="mb-3">
+                            {{ form_label(formationForm.intitule, "Intitule de la formation : ", {'label_attr': {'class': 'intitule_label'}}) }}
+                            {{ form_widget(formationForm.intitule, {'attr': {'class': 'form-control'}}) }}
+                            <div class="form-error" style="color: red">
+                                {{ form_errors(formationForm.intitule) }}
+                            </div>
+                        </div>
+
+
+                        <div class="mb-3">
+                            {{ form_label(formationForm.type, "Type de la formation : ", {'label_attr': {'class': 'intitule_label'}}) }}
+                            {{ form_widget(formationForm.type, {'attr': {'class': 'form-control'}}) }}
+                            <div class="form-error" style="color: red">
+                                {{ form_errors(formationForm.type) }}
+                            </div>
+                        </div>
+
+                        <div class="mb-3">
+                            {{ form_label(formationForm.description, "Description de la formation : ", {'label_attr': {'class': 'intitule_label'}}) }}
+                            {{ form_widget(formationForm.description, {'attr': {'class': 'form-control'}}) }}
+                            <div class="form-error" style="color: red">
+                                {{ form_errors(formationForm.description) }}
+                            </div>
+                        </div>
+
+                        <hr>
+                        <div class="col col-12">
+                            <div class="row">
+                                <div class="col col-2">
+                                    {{ form_row(formationForm.cancel,{'attr':{'class': 'btn btn-outline-secondary form-btn'}}) }}
+                                </div>
+                                <div class="col col-2">
+                                    {{ form_row(formationForm.submit,{'attr':{'class': 'btn btn-outline-success form-btn'}}) }}
+                                </div>
+                            </div>
+                        </div>
+
+                        {{ form_end(formationForm) }}
+
+                    </div>
+
+                    <div class="col col-5">
+                        <div class="card" >
+                            <div class="card-body">
+                                <h5 class="card-title">Liste des  formations</h5>
+                                <hr>
+                                <table class="table  table-responsive table-bordered table-striped table-hover">
+                                    <thead>
+                                    <tr>
+                                        <th{% if formations.isSorted('Intitule') %} class="sorted"{% endif %}>
+                                            {{ knp_pagination_sortable(formations, 'Intitule', 'Intitule') }}
+                                        </th>
+                                        <th{% if formations.isSorted('Description') %} class="sorted"{% endif %}>
+                                            {{ knp_pagination_sortable(formations, 'Description', 'Description') }}
+                                        </th>
+                                        <th{% if formations.isSorted('Type') %} class="sorted"{% endif %}>
+                                            {{ knp_pagination_sortable(formations, 'Type', 'Type') }}
+                                        </th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    {% if formations | length == 0 %}
+                                        <p class="text-center">Aucune formation n'a été ajoutée pour l'instant</p>
+                                    {% else %}
+                                        {% for formation in formations %}
+                                            <tr>
+                                                <td>{{ formation.intitule }}</td>
+                                                <td>{{ formation.description }}</td>
+                                                <td>{{ formation.type }}</td>
+                                            </tr>
+                                        {% endfor %}
+
+                                    {% endif %}
+                                    </tbody>
+                                </table>
+                            </div>
+                            <div class="card-footer">
+                                <div class="d-flex justify-content-center">
+                                    {{ knp_pagination_render(formations,'/paginator/paginator.html.twig') }}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+            <div class="tab-pane fade" id="diplomes" role="tabpanel" aria-labelledby="diplomes-tab">
+                <div class="row" style="margin-top: 1em">
+                    <div class="col col-5">
+
+                        {% for message in app.session.flashbag.get('diplome_add') %}
+                            <div class="alert alert-success alert-dismissible fade show" role="alert">
+                                <strong>{{ message }}!</strong>
+                                <button type="button" class="btn-close"  data-bs-dismiss="alert"  aria-label="Close"></button>
+                            </div>
+                        {% endfor %}
+
+                        {{ form_start(diplomeForm) }}
+
+                        {{ form_errors(diplomeForm) }}
+
+                        <div class="mb-3">
+                            {{ form_label(diplomeForm.intitule, "Intitule du diplome : ", {'label_attr': {'class': 'intitule_label'}}) }}
+                            {{ form_widget(diplomeForm.intitule, {'attr': {'class': 'form-control'}}) }}
+                            <div class="form-error" style="color: red">
+                                {{ form_errors(diplomeForm.intitule) }}
+                            </div>
+                        </div>
+                        <div class="mb-3">
+                            {{ form_label(diplomeForm.type, "Type du diplome : ", {'label_attr': {'class': 'intitule_label'}}) }}
+                            {{ form_widget(diplomeForm.type, {'attr': {'class': 'form-control'}}) }}
+                            <div class="form-error" style="type: red">
+                                {{ form_errors(diplomeForm.intitule) }}
+                            </div>
+                        </div>
+                        <hr>
+                        <div class="col col-12">
+                            <div class="row">
+                                <div class="col col-2">
+                                    {{ form_row(diplomeForm.cancel,{'attr':{'class': 'btn btn-outline-secondary form-btn'}}) }}
+                                </div>
+                                <div class="col col-2">
+                                    {{ form_row(diplomeForm.submit,{'attr':{'class': 'btn btn-outline-success form-btn'}}) }}
+                                </div>
+                            </div>
+                        </div>
+
+                        {{ form_end(diplomeForm) }}
+
+                    </div>
+
+                    <div class="col col-5">
+                        <div class="card" >
+                            <div class="card-body">
+                                <h5 class="card-title">Liste des diplomes</h5>
+                                <hr>
+                                <table class="table  table-responsive table-bordered table-striped table-hover">
+                                    <thead>
+                                    <tr>
+                                        <th{% if diplomes.isSorted('Intitule') %} class="sorted"{% endif %}>
+                                            {{ knp_pagination_sortable(diplomes, 'Intitule', 'Intitule') }}
+                                        </th>
+
+                                        <th{% if diplomes.isSorted('Type') %} class="sorted"{% endif %}>
+                                            {{ knp_pagination_sortable(diplomes, 'Type', 'Type') }}
+                                        </th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    {% if diplomes | length == 0 %}
+                                        <p class="text-center">Aucun diplome n'a été ajoutée pour l'instant</p>
+                                    {% else %}
+                                        {% for diplome  in diplomes %}
+                                            <tr>
+                                                <td>{{ diplome.intitule }}</td>
+                                                <td>{{ diplome.type }}</td>
+                                            </tr>
+                                        {% endfor %}
+                                    {% endif %}
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+{% endblock %}

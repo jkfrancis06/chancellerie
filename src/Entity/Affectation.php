@@ -4,9 +4,11 @@ namespace App\Entity;
 
 use App\Repository\AffectationRepository;
 use Doctrine\ORM\Mapping as ORM;
+use App\Validator as AppAssert;
 
 /**
  * @ORM\Entity(repositoryClass=AffectationRepository::class)
+ * @AppAssert\DateInterval()
  */
 class Affectation
 {
@@ -32,7 +34,7 @@ class Affectation
     /**
      * @ORM\Column(type="date")
      */
-    private $date;
+    private $dateDebut;
 
     /**
      * @ORM\Column(type="date", nullable=true)
@@ -73,17 +75,6 @@ class Affectation
         return $this;
     }
 
-    public function getDate(): ?\DateTimeInterface
-    {
-        return $this->date;
-    }
-
-    public function setDate(\DateTimeInterface $date): self
-    {
-        $this->date = $date;
-
-        return $this;
-    }
 
     public function getDateFin(): ?\DateTimeInterface
     {
@@ -105,6 +96,18 @@ class Affectation
     public function setFonction(string $fonction): self
     {
         $this->fonction = $fonction;
+
+        return $this;
+    }
+
+    public function getDateDebut(): ?\DateTimeInterface
+    {
+        return $this->dateDebut;
+    }
+
+    public function setDateDebut(\DateTimeInterface $dateDebut): self
+    {
+        $this->dateDebut = $dateDebut;
 
         return $this;
     }

@@ -6,9 +6,12 @@ use App\Repository\FormationRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
 /**
  * @ORM\Entity(repositoryClass=FormationRepository::class)
+ * @UniqueEntity("intitule",message="Cette formation a ete deja cree")
  */
 class Formation
 {
@@ -33,6 +36,11 @@ class Formation
      * @ORM\OneToMany(targetEntity=MilitaireFormation::class, mappedBy="formation", orphanRemoval=true)
      */
     private $militaireFormations;
+
+    /**
+     * @ORM\Column(type="string", length=255)
+     */
+    private $type;
 
     public function __construct()
     {
@@ -94,6 +102,18 @@ class Formation
                 $militaireFormation->setFormation(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getType(): ?string
+    {
+        return $this->type;
+    }
+
+    public function setType(string $type): self
+    {
+        $this->type = $type;
 
         return $this;
     }

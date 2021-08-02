@@ -111,15 +111,22 @@
                     </li>
                     <li class="border-top my-3"></li>
                     <li class="nav-item">
-                        <a href="#" class="nav-link link-dark">
-                            <i style="margin-right: 0.3rem" class="fa fa-school"></i>
-                            Formations
-                        </a>
+                        {% if active == "formation" %}
+                            <a href="{{ path('formation') }}" class="nav-link link-dark active">
+                                <i style="margin-right: 0.3rem" class="fa fa-school"></i>
+                                Formations
+                            </a>
+                        {% else %}
+                            <a href="{{ path('formation') }}" class="nav-link link-dark">
+                                <i style="margin-right: 0.3rem" class="fa fa-school"></i>
+                                Formations
+                            </a>
+                        {% endif %}
                     </li>
                     <li class="border-top my-3"></li>
                     <li class="nav-item">
                         {% if active == "medaille" %}
-                            <a href="{{ path('medaille') }}" class="nav-link link-dark active">
+                            <a href="{{ path('medaille') }}" class="nav-link link-dark active">§
                                 <i style="margin-right: 0.3rem" class="fa fa-medal"></i>
                                 Medailles
                             </a>

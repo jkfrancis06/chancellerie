@@ -40,4 +40,46 @@ $(document).ready(function() {
         maxYear: parseInt(moment().format('YYYY'),10),
         maxDate: moment()
     });
+
+
+    $('.js-datepicker-form').daterangepicker({
+        singleDatePicker: true,
+        showDropdowns: true,
+        minYear: parseInt(moment().format('YYYY'),10),
+        locale: {
+            format: 'DD-MM-YYYY',
+            "firstDay": 1,
+            "applyLabel": "Appliquer",
+            "cancelLabel": "Annuler",
+            "fromLabel": "De",
+            "toLabel": "A",
+            "weekLabel": "W",
+            "daysOfWeek": [
+                "Dim",
+                "Lun",
+                "Mar",
+                "Mer",
+                "Jeu",
+                "Ven",
+                "Sam"
+            ],
+            "monthNames": [
+                "Janvier",
+                "Fevrier",
+                "Mars",
+                "Avril",
+                "Mai",
+                "Juin",
+                "Juillet",
+                "Aout",
+                "Septembre",
+                "Octobre",
+                "Novembre",
+                "Decembre"
+            ],
+
+        },
+        minYear: parseInt(moment().format('YYYY'),10),
+        minDate: moment()
+    });
 });

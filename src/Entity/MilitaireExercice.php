@@ -4,9 +4,11 @@ namespace App\Entity;
 
 use App\Repository\MilitaireExerciceRepository;
 use Doctrine\ORM\Mapping as ORM;
+use App\Validator as AppAssert;
 
 /**
  * @ORM\Entity(repositoryClass=MilitaireExerciceRepository::class)
+ * @AppAssert\DateInterval()
  */
 class MilitaireExercice
 {

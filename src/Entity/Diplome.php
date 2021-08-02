@@ -6,9 +6,12 @@ use App\Repository\DiplomeRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
 /**
  * @ORM\Entity(repositoryClass=DiplomeRepository::class)
+ * @UniqueEntity("intitule",message="Ce diplome a ete deja cree")
  */
 class Diplome
 {

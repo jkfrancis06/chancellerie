@@ -6,10 +6,14 @@ use App\Entity\Affectation;
 use App\Entity\Fichier;
 use App\Entity\Militaire;
 use App\Entity\MilitaireExercice;
+use App\Entity\MilitaireFormation;
+use App\Entity\MilitaireMedaille;
 use App\Entity\MilitaireMission;
 use App\Entity\Telephone;
 use App\Form\AffectationType;
 use App\Form\MilitaireExerciceType;
+use App\Form\MilitaireFormationType;
+use App\Form\MilitaireMedailleType;
 use App\Form\MilitaireMissionType;
 use App\Form\MilitaireType;
 use App\Service\FileUploader;
@@ -125,20 +129,44 @@ class MilitaireController extends AbstractController
         $affectation = new Affectation();
         $militaireMission = new MilitaireMission();
         $militaireExercice = new MilitaireExercice();
+        $militaireMedaille = new MilitaireMedaille();
+        $militaireFormation = new MilitaireFormation();
+        $militaireFormationPlan = new MilitaireFormation();
 
 
         $affectationForm = $this->createForm(AffectationType::class,$affectation);
         $militaireMissionForm = $this->createForm(MilitaireMissionType::class,$militaireMission);
         $militaireExerciceForm = $this->createForm(MilitaireExerciceType::class,$militaireExercice);
+        $militaireMedailleForm = $this->createForm(MilitaireMedailleType::class,$militaireMedaille);
+        $militaireFormationForm = $this->createForm(MilitaireFormationType::class,$militaireFormation);
+        $militaireFormationPlanForm = $this->createForm(MilitaireFormationType::class,$militaireFormationPlan);
 
 
 
         $affectationForm->handleRequest($request);
         $militaireMissionForm->handleRequest($request);
         $militaireExerciceForm->handleRequest($request);
+        $militaireMedailleForm->handleRequest($request);
+        $militaireFormationForm->handleRequest($request);
+        $militaireFormationPlanForm->handleRequest($request);
+
+        $form_error = false;
 
 
         $em = $this->getDoctrine()->getManager();
+
+        if (
+            ($affectationForm->isSubmitted() && !$affectationForm->isValid()) ||
+            ($militaireMissionForm->isSubmitted() && !$militaireMissionForm->isValid()) ||
+            ($militaireExerciceForm->isSubmitted() && !$militaireExerciceForm->isValid()) ||
+            ($militaireMedailleForm->isSubmitted() && !$militaireMedailleForm->isValid()) ||
+            ($militaireFormationForm->isSubmitted() && !$militaireFormationForm->isValid()) ||
+            ($militaireFormationPlanForm->isSubmitted() && !$militaireFormationPlanForm->isValid())
+        ){
+            $form_error = true;
+        }
+
+
 
         if ($affectationForm->isSubmitted() && $affectationForm->isValid()){
             $affectation->setMilitaire($militaire);
@@ -155,12 +183,36 @@ class MilitaireController extends AbstractController
         }
 
         if ($militaireExerciceForm->isSubmitted() && $militaireExerciceForm->isValid()){
-
-
             $militaireExercice->setMilitaire($militaire);
             $em->persist($militaireExercice);
             $em->flush();
             $request->getSession()->getFlashBag()->add('create_militaireExercice', 'Success');
+
+        }
+
+        if ($militaireMedailleForm->isSubmitted() && $militaireMedailleForm->isValid()){
+            $militaireMedaille->setMilitaire($militaire);
+            $em->persist($militaireMedaille);
+            $em->flush();
+            $request->getSession()->getFlashBag()->add('create_militaireMedaille', 'Success');
+
+        }
+
+        if ($militaireFormationForm->isSubmitted() && $militaireFormationForm->isValid()){
+            $militaireFormation->setMilitaire($militaire);
+            $militaireFormation->setStatut(0);
+            $em->persist($militaireFormation);
+            $em->flush();
+            $request->getSession()->getFlashBag()->add('create_militaireFormation', 'Success');
+        }
+
+        if ($militaireFormationPlanForm->isSubmitted() && $militaireFormationPlanForm->isValid()){
+            echo 'non ok';
+            $militaireFormationPlan->setMilitaire($militaire);
+            $militaireFormationPlan->setStatut(1);
+            $em->persist($militaireFormationPlan);
+            $em->flush();
+            $request->getSession()->getFlashBag()->add('create_militaireFormationPlan', 'Success');
 
         }
 
@@ -170,19 +222,29 @@ class MilitaireController extends AbstractController
 
         $militaireExercices = $militaire->getMilitaireExercices();
 
+        $militaireMedailles = $militaire->getMilitaireMedailles();
+
+        $militaireFormations = $militaire->getMilitaireFormations();
+
 
         $user = $this->getUser();
         return $this->render('militaire/details.html.twig', [
             'controller_name' => 'MilitaireController',
             'active' => 'militaire',
             'user' => $user,
+            'error' => $form_error,
             'militaire' => $militaire,
             'militaireMissions' => $militaireMissions,
             'militaireExercices' => $militaireExercices,
+            'militaireMedailles' => $militaireMedailles,
+            'militaireFormations' => $militaireFormations,
             'affectations' => $affectations,
             'affectationForm' => $affectationForm->createView(),
             'militaireMissionForm' => $militaireMissionForm->createView(),
-            'militaireExerciceForm' => $militaireExerciceForm->createView()
+            'militaireExerciceForm' => $militaireExerciceForm->createView(),
+            'militaireFormationForm' => $militaireFormationForm->createView(),
+            'militaireFormationFormPlan' => $militaireFormationPlanForm->createView(),
+            'militaireMedailleForm' => $militaireMedailleForm->createView()
         ]);
     }
 }
