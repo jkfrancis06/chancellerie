@@ -1,0 +1,42 @@
+{% extends 'nav.html.twig' %}
+
+{% block title %}Confirmation{% endblock %}
+
+
+{% block content %}
+
+
+
+    <div class=" h-100 d-flex justify-content-center align-items-center">
+        <div class="card">
+            <div class="card-header">
+                Etes vous sure?
+            </div>
+            <div class="card-body">
+                <h5 class="card-title">Confirmation</h5>
+
+
+                {{ form_start(confirmForm) }}
+
+                {{ form_errors(confirmForm) }}
+
+                <p class="card-text">Vous etes sur le point radier l'element {{ militaire.matricule }}. Veuillez saisir son numero matricule afin de confirmer</p>
+
+                <div class="mb-3">
+                    {{ form_label(confirmForm.numero_matricule, "Numero matricule : ", {'label_attr': {'class': 'intitule_label'}}) }}
+                    {{ form_widget(confirmForm.numero_matricule, {'attr': {'class': 'form-control'}}) }}
+                    <div class="form-error" style="color: red">
+                        {{ form_errors(confirmForm.numero_matricule) }}
+                    </div>
+                </div>
+
+                {{ form_row(confirmForm.submit,{'attr':{'class': 'btn btn-danger form-btn'}}) }}
+                {{ form_end(confirmForm) }}
+            </div>
+        </div>
+    </div>
+
+
+
+
+{% endblock %}

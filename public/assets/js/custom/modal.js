@@ -5,7 +5,11 @@ $(function() {
         console.log('ok')
     });
     let lastModal = localStorage.getItem('lastModal');
+    let lastBtn = localStorage.getItem('lastBtn');
     if (lastModal) {
         $(lastModal).modal('show');
+        if (lastBtn){
+            $('#militaire_formation_statut').val(lastBtn)
+        }
     }
 });

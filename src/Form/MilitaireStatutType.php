@@ -2,26 +2,28 @@
 
 namespace App\Form;
 
-use App\Entity\Formation;
-use App\Entity\MilitaireFormation;
-use Symfony\Bridge\Doctrine\Form\Type\EntityType;
+use App\Entity\MilitaireStatut;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\DateType;
 use Symfony\Component\Form\Extension\Core\Type\ResetType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
-use Symfony\Component\Form\Extension\Core\Type\TextType;
+use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Validator\Constraints\NotBlank;
 
-class MilitaireFormationType extends AbstractType
+class MilitaireStatutType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('dateDebut', DateType::class, [
+            ->add('commentaire', TextareaType::class, [
                 'required' => true,
+
+            ])
+            ->add('dateDebut', DateType::class, [
+                'required' => false,
                 'html5' => false,
                 'widget' => 'single_text',
                 'format' => 'dd-MM-yyyy',
@@ -30,10 +32,6 @@ class MilitaireFormationType extends AbstractType
                     'class' => 'js-datepicker',
                     'placeholder' => 'Selectionner une date'
                 ],
-
-                'constraints' => [
-                    new NotBlank()
-                ]
 
             ])
             ->add('dateFin', DateType::class, [
@@ -47,30 +45,25 @@ class MilitaireFormationType extends AbstractType
                     'placeholder' => 'Selectionner une date'
                 ],
 
+
             ])
             ->add('statut', ChoiceType::class, [
                 'required' => true,
                 'choices'  => [
                     'Selectionner' => null,
-                    'A programmer' => 0,
-                    'Fait' => 1,
+                    'Retraite' => 0,
+                    'Radie' => 1,
+                    'Permission longue-duree' => 2,
+                    'En service' => 3,
+                    'Disponibilite' => 4,
+                    'Detachement' => 5,
+                    'Deserteur' => 6,
+                    'Absence' => 7,
+                    'Arret maladie' => 8,
                 ],
                 'attr' => [
                     'placeholder' => 'Selectionner',
-
                 ],
-            ])
-            ->add('lieu', TextType::class, [
-                'required' => true,
-                'constraints' => [
-                    new NotBlank()
-                ]
-            ])
-            ->add('formation', EntityType::class, [
-                'class' => Formation::class,
-
-                'choice_label' => 'intitule',
-                'placeholder' => 'Choisir une formation'
             ])
             ->add('submit', SubmitType::class, ['label' => 'Enregistrer'])
             ->add('cancel', ResetType::class, ['label' => 'Annuler'])
@@ -80,7 +73,7 @@ class MilitaireFormationType extends AbstractType
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults([
-            'data_class' => MilitaireFormation::class,
+            'data_class' => MilitaireStatut::class,
         ]);
     }
 }

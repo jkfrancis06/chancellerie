@@ -4,9 +4,11 @@ namespace App\Entity;
 
 use App\Repository\MilitaireStatutRepository;
 use Doctrine\ORM\Mapping as ORM;
+use App\Validator as AppAssert;
 
 /**
  * @ORM\Entity(repositoryClass=MilitaireStatutRepository::class)
+ * @AppAssert\DateInterval()
  */
 class MilitaireStatut
 {
@@ -23,8 +25,7 @@ class MilitaireStatut
     private $militaire;
 
     /**
-     * @ORM\ManyToOne(targetEntity=Statut::class, inversedBy="militaireStatuts")
-     * @ORM\JoinColumn(nullable=false)
+     * @ORM\Column(type="integer", nullable=true)
      */
     private $statut;
 
@@ -60,12 +61,12 @@ class MilitaireStatut
         return $this;
     }
 
-    public function getStatut(): ?Statut
+    public function getStatut(): ?int
     {
         return $this->statut;
     }
 
-    public function setStatut(?Statut $statut): self
+    public function setStatut(?int $statut): self
     {
         $this->statut = $statut;
 

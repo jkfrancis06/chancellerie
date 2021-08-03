@@ -6,6 +6,7 @@
     <script  src="{{ asset('/assets/js/datepicker/moment.min.js') }}"></script>
     <script  src="{{ asset('/assets/js/datepicker/daterangepicker.js') }}"></script>
     <script  src="{{ asset('/assets/js/custom/picker.js') }}"></script>
+    <script  src="{{ asset('/assets/js/custom/formation.js') }}"></script>
 
     <script>
         $(function() {
@@ -51,7 +52,7 @@
                     <div class="modal-body">
                         <div class="mb-3">
                             {{ form_label(affectationForm.dateDebut, "Date d'affectation : ", {'label_attr': {'class': 'intitule_label'}}) }}
-                            {{ form_widget(affectationForm.dateDebut, {'attr': {'class': 'form-control js-datepicker'}}) }}
+                            {{ form_widget(affectationForm.dateDebut, {'attr': {'class': 'form-control'}}) }}
                             <div class="form-error" style="color: red">
                                 {{ form_errors(affectationForm.dateDebut) }}
                             </div>
@@ -258,10 +259,18 @@
                   {{ form_errors(militaireFormationForm) }}
                 </span>
                 <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">Ajouter une formation deja effectuee</h5>
+                    <h5 class="modal-title" id="exampleModalLabel">Ajouter une formation</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
+
+                    <div class="mb-3">
+                        {{ form_label(militaireFormationForm.statut, 'Type de la formation : ', {'label_attr': {'class': 'intitule_label'}}) }}
+                        {{ form_widget(militaireFormationForm.statut, {'attr': {'class': 'form-control'}}) }}
+                        <div class="form-error" style="color: red">
+                            {{ form_errors(militaireFormationForm.statut) }}
+                        </div>
+                    </div>
 
                     <div class="mb-3">
                         {{ form_label(militaireFormationForm.formation, "Formation : ", {'label_attr': {'class': 'intitule_label'}}) }}
@@ -273,7 +282,7 @@
 
                     <div class="mb-3">
                         {{ form_label(militaireFormationForm.dateDebut, "Date de debut : ", {'label_attr': {'class': 'intitule_label'}}) }}
-                        {{ form_widget(militaireFormationForm.dateDebut, {'attr': {'class': 'form-control js-datepicker'}}) }}
+                        {{ form_widget(militaireFormationForm.dateDebut, {'attr': {'class': 'form-control js-datepicker-formation'}}) }}
                         <div class="form-error" style="color: red">
                             {{ form_errors(militaireFormationForm.dateDebut) }}
                         </div>
@@ -281,7 +290,7 @@
 
                     <div class="mb-3">
                         {{ form_label(militaireFormationForm.dateFin, "Date de fin : ", {'label_attr': {'class': 'intitule_label'}}) }}
-                        {{ form_widget(militaireFormationForm.dateFin, {'attr': {'class': 'form-control js-datepicker'}}) }}
+                        {{ form_widget(militaireFormationForm.dateFin, {'attr': {'class': 'form-control js-datepicker-formation'}}) }}
                         <div class="form-error" style="color: red">
                             {{ form_errors(militaireFormationForm.dateFin) }}
                         </div>
@@ -309,54 +318,52 @@
     </div>
 
 
-    <div class="modal fade" id="formationPlanModal" tabindex="-1" aria-labelledby="formationPlanModalLabel" aria-hidden="true" data-bs-backdrop="static" data-bs-keyboard="false">
+    <div class="modal fade" id="familleModal" tabindex="-1" aria-labelledby="familleModalLabel" aria-hidden="'true'" data-bs-backdrop="static" data-bs-keyboard="false">
 
         <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
             <div class="modal-content">
-                {{ form_start(militaireFormationFormPlan) }}
+                {{ form_start(familleForm) }}
 
                 <span class="text-danger mt-3">
-                  {{ form_errors(militaireFormationFormPlan) }}
+                  {{ form_errors(familleForm) }}
                 </span>
                 <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">Planifier une formation</h5>
+                    <h5 class="modal-title" id="exampleModalLabel">Ajouter un membre de famille</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
 
                     <div class="mb-3">
-                        {{ form_label(militaireFormationFormPlan.formation, "Formation : ", {'label_attr': {'class': 'intitule_label'}}) }}
-                        {{ form_widget(militaireFormationFormPlan.formation, {'attr': {'class': 'form-control'}}) }}
+                        {{ form_label(familleForm.nom, 'Nom : ', {'label_attr': {'class': 'intitule_label'}}) }}
+                        {{ form_widget(familleForm.nom, {'attr': {'class': 'form-control'}}) }}
                         <div class="form-error" style="color: red">
-                            {{ form_errors(militaireFormationFormPlan.formation) }}
+                            {{ form_errors(familleForm.nom) }}
                         </div>
                     </div>
 
                     <div class="mb-3">
-                        {{ form_label(militaireFormationFormPlan.dateDebut, "Date de debut : ", {'label_attr': {'class': 'intitule_label'}}) }}
-                        {{ form_widget(militaireFormationFormPlan.dateDebut, {'attr': {'class': 'form-control js-datepicker-form'}}) }}
+                        {{ form_label(familleForm.prenom, "Prenoms : ", {'label_attr': {'class': 'intitule_label'}}) }}
+                        {{ form_widget(familleForm.prenom, {'attr': {'class': 'form-control'}}) }}
                         <div class="form-error" style="color: red">
-                            {{ form_errors(militaireFormationFormPlan.dateDebut) }}
+                            {{ form_errors(familleForm.prenom) }}
                         </div>
                     </div>
 
                     <div class="mb-3">
-                        {{ form_label(militaireFormationFormPlan.dateFin, "Date de fin : ", {'label_attr': {'class': 'intitule_label'}}) }}
-                        {{ form_widget(militaireFormationFormPlan.dateFin, {'attr': {'class': 'form-control js-datepicker-form'}}) }}
+                        {{ form_label(familleForm.typeFiliation, "Type de filiation : ", {'label_attr': {'class': 'intitule_label'}}) }}
+                        {{ form_widget(familleForm.typeFiliation, {'attr': {'class': 'form-control'}}) }}
                         <div class="form-error" style="color: red">
-                            {{ form_errors(militaireFormationFormPlan.dateFin) }}
+                            {{ form_errors(familleForm.typeFiliation) }}
                         </div>
                     </div>
 
                     <div class="mb-3">
-                        {{ form_label(militaireFormationFormPlan.lieu, 'Lieu de la formation : ', {'label_attr': {'class': 'intitule_label'}}) }}
-                        {{ form_widget(militaireFormationFormPlan.lieu, {'attr': {'class': 'form-control'}}) }}
+                        {{ form_label(familleForm.commentaire, "Commentaires : ", {'label_attr': {'class': 'intitule_label'}}) }}
+                        {{ form_widget(familleForm.commentaire, {'attr': {'class': 'form-control'}}) }}
                         <div class="form-error" style="color: red">
-                            {{ form_errors(militaireFormationFormPlan.lieu) }}
+                            {{ form_errors(familleForm.commentaire) }}
                         </div>
                     </div>
-
-                    <input type="hidden" value="plan" name="type">
 
 
 
@@ -364,13 +371,80 @@
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fermer</button>
-                    {{ form_row(militaireFormationFormPlan.cancel,{'attr':{'class': 'btn btn-outline-secondary form-btn'}}) }}
-                    {{ form_row(militaireFormationFormPlan.submit,{'attr':{'class': 'btn btn-outline-success form-btn'}}) }}
+                    {{ form_row(familleForm.cancel,{'attr':{'class': 'btn btn-outline-secondary form-btn'}}) }}
+                    {{ form_row(familleForm.submit,{'attr':{'class': 'btn btn-outline-success form-btn'}}) }}
                 </div>
-                {{ form_end(militaireFormationFormPlan) }}
+                {{ form_end(familleForm) }}
             </div>
         </div>
     </div>
+
+
+
+    <div class="modal fade" id="statutModal" tabindex="-1" aria-labelledby="statutModalLabel" aria-hidden="'true'" data-bs-backdrop="static" data-bs-keyboard="false">
+
+        <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+            <div class="modal-content">
+                {{ form_start(militaireStautForm) }}
+
+                <span class="text-danger mt-3">
+                  {{ form_errors(militaireStautForm) }}
+                </span>
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Changer de statut</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+
+                    <div class="mb-3">
+                        {{ form_label(militaireStautForm.statut, 'Nouveau statut : ', {'label_attr': {'class': 'intitule_label'}}) }}
+                        {{ form_widget(militaireStautForm.statut, {'attr': {'class': 'form-control '}}) }}
+                        <div class="form-error" style="color: red">
+                            {{ form_errors(militaireStautForm.statut) }}
+                        </div>
+                    </div>
+
+                    <div class="mb-3">
+                        {{ form_label(militaireStautForm.dateDebut, "Date de debut (laisser vide sinon) : ", {'label_attr': {'class': 'intitule_label'}}) }}
+                        {{ form_widget(militaireStautForm.dateDebut, {'attr': {'class': 'form-control js-datepicker-formation'}}) }}
+                        <div class="form-error" style="color: red">
+                            {{ form_errors(militaireStautForm.dateDebut) }}
+                        </div>
+                    </div>
+
+                    <div class="mb-3">
+                        {{ form_label(militaireStautForm.dateFin, "Date de fin (laisser vide sinon) : ", {'label_attr': {'class': 'intitule_label'}}) }}
+                        {{ form_widget(militaireStautForm.dateFin, {'attr': {'class': 'form-control js-datepicker-formation'}}) }}
+                        <div class="form-error" style="color: red">
+                            {{ form_errors(militaireStautForm.dateFin) }}
+                        </div>
+                    </div>
+
+
+
+                    <div class="mb-3">
+                        {{ form_label(militaireStautForm.commentaire, "Commentaires : ", {'label_attr': {'class': 'intitule_label'}}) }}
+                        {{ form_widget(militaireStautForm.commentaire, {'attr': {'class': 'form-control'}}) }}
+                        <div class="form-error" style="color: red">
+                            {{ form_errors(militaireStautForm.commentaire) }}
+                        </div>
+                    </div>
+
+
+
+
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fermer</button>
+                    {{ form_row(militaireStautForm.cancel,{'attr':{'class': 'btn btn-outline-secondary form-btn'}}) }}
+                    {{ form_row(militaireStautForm.submit,{'attr':{'class': 'btn btn-outline-success form-btn'}}) }}
+                </div>
+                {{ form_end(militaireStautForm) }}
+            </div>
+        </div>
+    </div>
+
+
 
 
 
@@ -494,6 +568,44 @@
                                                 <span class="fw-bold">Statut: </span>
                                                 <span>
 
+                                                    {% if lastStatut != null and lastStatut.statut == 1 %}
+                                                        <span class="text-danger fw-bold">Radie</span>
+                                                    {% endif %}
+
+
+                                                    {% if lastStatut != null and lastStatut.statut == 3 %}
+                                                        <span class="text-success fw-bold">En service</span>
+                                                    {% endif %}
+
+                                                    {% if lastStatut != null and lastStatut.statut == 0 %}
+                                                        <span class="text-warning fw-bold">Retraite</span>
+                                                    {% endif %}
+
+                                                    {% if lastStatut != null and lastStatut.statut == 2 %}
+                                                        <span class="text-success fw-bold">En service</span>
+                                                    {% endif %}
+
+                                                    {% if lastStatut != null and lastStatut.statut == 4 %}
+                                                        <span class="text-success fw-bold">Disponibilite</span>
+                                                    {% endif %}
+
+                                                    {% if lastStatut != null and lastStatut.statut == 5 %}
+                                                        <span class="text-primary fw-bold">Detachement</span>
+                                                    {% endif %}
+
+                                                    {% if lastStatut != null and lastStatut.statut == 6 %}
+                                                        <span class="text-danger fw-bold">Deserteur</span>
+                                                    {% endif %}
+
+                                                    {% if lastStatut != null and lastStatut.statut == 7 %}
+                                                        <span class="text-warning fw-bold">Absence</span>
+                                                    {% endif %}
+
+                                                    {% if lastStatut != null and lastStatut.statut == 8 %}
+                                                        <span class="text-warning fw-bold">Arret maladie</span>
+                                                    {% endif %}
+
+
                                                 </span>
                                             </p>
 
@@ -514,7 +626,7 @@
                     <button class="nav-link active" id="nav-prof-tab" data-bs-toggle="tab" data-bs-target="#nav-prof" type="button" role="tab" aria-controls="nav-prof" aria-selected="false">Cursus professionnel</button>
                     <button class="nav-link" id="nav-formation-tab" data-bs-toggle="tab" data-bs-target="#nav-formation" type="button" role="tab" aria-controls="nav-formation" aria-selected="false">Fiche formation</button>
                     <button class="nav-link" id="nav-filiation-tab" data-bs-toggle="tab" data-bs-target="#nav-filiation" type="button" role="tab" aria-controls="nav-filiation" aria-selected="false">Filiation</button>
-                    <button class="nav-link" id="nav-sante-tab" data-bs-toggle="tab" data-bs-target="#nav-sante" type="button" role="tab" aria-controls="nav-sante" aria-selected="false">Dossier sante</button>
+                    <button class="nav-link" id="nav-statut-tab" data-bs-toggle="tab" data-bs-target="#nav-statut" type="button" role="tab" aria-controls="nav-statut" aria-selected="false">Dossier Statut</button>
                 </div>
             </nav>
             <div class="tab-content" id="nav-tabContent">
@@ -777,7 +889,7 @@
                                         <div class="d-flex justify-content-between">
                                             <span class="fw-bold">Formations effectuees</span>
                                             <span>
-                                                <button type="button" class="btn btn-outline-primary" data-bs-toggle="modal" data-bs-target="#formationModal">
+                                                <button id="formationBtn" type="button" class="btn btn-outline-primary" data-bs-toggle="modal" data-bs-target="#formationModal">
                                                     <i class="fa fa-plus"></i>
                                                     Ajouter une formation deja faite
                                                 </button>
@@ -799,13 +911,13 @@
                                                 <p class="text-center">Aucune formation</p>
                                             {% else %}
                                                 {% for militaireFormation in militaireFormations %}
-                                                    {% if militaireFormation.statut == 0 %}
-                                                    <tr>
-                                                        <td>{{ militaireFormation.dateDebut|date("d-M-Y")  }}</td>
-                                                        <td>{{ militaireFormation.dateFin|date("d-M-Y")  }}</td>
-                                                        <td>{{ militaireFormation.formation.intitule }}</td>
-                                                        <td>{{ militaireFormation.statut }}</td>
-                                                    </tr>
+                                                    {% if militaireFormation.statut == 1 %}
+                                                        <tr>
+                                                            <td>{{ militaireFormation.dateDebut|date("d-M-Y")  }}</td>
+                                                            <td>{{ militaireFormation.dateFin|date("d-M-Y")  }}</td>
+                                                            <td>{{ militaireFormation.formation.intitule }}</td>
+                                                            <td>{{ militaireFormation.lieu }}</td>
+                                                        </tr>
                                                     {% endif %}
                                                 {% endfor %}
 
@@ -833,7 +945,7 @@
                                         <div class="d-flex justify-content-between">
                                             <span class="fw-bold">Formations  planifiees</span>
                                             <span>
-                                                <button type="button" class="btn btn-outline-primary" data-bs-toggle="modal" data-bs-target="#formationPlanModal">
+                                                <button id="formationPlanBtn" type="button" class="btn btn-outline-primary" data-bs-toggle="modal" data-bs-target="#formationModal">
                                                     <i class="fa fa-plus"></i>
                                                     Planifier une formation
                                                 </button>
@@ -855,7 +967,7 @@
                                                 <p class="text-center">Aucune formation planifiee</p>
                                             {% else %}
                                                 {% for militaireFormation in militaireFormations %}
-                                                    {% if militaireFormation.statut == 1 %}
+                                                    {% if militaireFormation.statut == 0 %}
                                                     <tr>
                                                         <td>{{ militaireFormation.dateDebut|date("d-M-Y")  }}</td>
                                                         <td>{{ militaireFormation.dateFin|date("d-M-Y")  }}</td>
@@ -870,22 +982,252 @@
                                     </div>
                                 </div>
                             </div>
-
-
-
                         </div>
+                    </div>
+                </div>
+                
+                <div class="tab-pane fade" id="nav-filiation" role="tabpanel" aria-labelledby="nav-filiation">
 
+
+                    <div class="mt-5" style="margin-left: 1em">
+                        <div class="row">
+
+                            <div class="col col-6 mt-4"  style="word-wrap: break-word;">
+
+                                <p>
+                                    <span class="fw-bold">Situation familiale: </span>
+                                    <span>{{ militaire.situationMatri }}</span>
+                                </p>
+
+                                <p>
+                                    <span class="fw-bold">Nombre d'enfants: </span>
+                                    <span> {{ nbEnfants }} </span>
+                                </p>
+                            </div>
+
+                            <div class="col col-6" style="margin-left: 1em"></div>
+
+
+                            <div class="col col-6 mt-4"  style="word-wrap: break-word;">
+
+                                {% for message in app.session.flashbag.get('create_membreFamille') %}
+                                    <div class="alert alert-success alert-dismissible fade show" role="alert">
+                                        <strong>{{ message }}!</strong>
+                                        <button type="button" class="btn-close"  data-bs-dismiss="alert"  aria-label="Close"></button>
+                                    </div>
+                                {% endfor %}
+
+                                <div class="card ">
+                                    <div class="card-header">
+                                        <div class="d-flex justify-content-between">
+                                            <span class="fw-bold">Membres de famille</span>
+                                            <span>
+                                                <button  type="button" class="btn btn-outline-primary" data-bs-toggle="modal" data-bs-target="#familleModal">
+                                                    <i class="fa fa-plus"></i>
+                                                    Ajouter un membre de la famille
+                                                </button>
+                                            </span>
+                                        </div>
+                                    </div>
+                                    <div class="card-body">
+                                        <table class="table text-center table-bordered table-striped table-hover table-responsive">
+                                            <thead>
+                                            <tr>
+                                                <th scope="col">Lien de filiation</th>
+                                                <th scope="col">Nom</th>
+                                                <th scope="col">Prenom</th>
+                                                <th scope="col">Commentaire</th>
+                                            </tr>
+                                            </thead>
+                                            <tbody>
+                                            {% if militaireFamilles | length == 0 %}
+                                                <p class="text-center">Aucun membre de famille</p>
+                                            {% else %}
+                                                {% for militaireFamille in militaireFamilles %}
+                                                    <tr>
+                                                        <td>
+                                                            {% if militaireFamille.typeFiliation == 0 %}
+                                                                Pere
+                                                            {% endif %}
+
+                                                            {% if militaireFamille.typeFiliation == 1 %}
+                                                                Mere
+                                                            {% endif %}
+
+                                                            {% if militaireFamille.typeFiliation == 2 %}
+                                                                Mari
+                                                            {% endif %}
+
+                                                            {% if militaireFamille.typeFiliation == 3 %}
+                                                                Femme
+                                                            {% endif %}
+
+                                                            {% if militaireFamille.typeFiliation == 4 %}
+                                                                Enfant
+                                                            {% endif %}
+                                                        </td>
+                                                        <td>{{ militaireFamille.nom  }}</td>
+                                                        <td>{{ militaireFamille.prenom }}</td>
+                                                        <td>{{ militaireFamille.commentaire }}</td>
+                                                    </tr>
+                                                {% endfor %}
+                                            {% endif %}
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                     </div>
 
-
-
-
                 </div>
 
+                <div class="tab-pane fade" id="nav-statut" role="tabpanel" aria-labelledby="nav-statut">
 
-                <div class="tab-pane fade" id="nav-filiation" role="tabpanel" aria-labelledby="nav-filiation">...</div>
-                <div class="tab-pane fade" id="nav-sante" role="tabpanel" aria-labelledby="nav-sante">...</div>
+
+                    <div class="mt-5" style="margin-left: 1em">
+                        <div class="row">
+
+                            <div class="col col-6"  style="word-wrap: break-word;">
+
+                                <p>
+                                    <span class="fw-bold">Statut actuel: </span>
+                                    {% if lastStatut != null and lastStatut.statut == 1 %}
+                                        <span class="text-danger fw-bold">Radie</span>
+                                        <p class="mt-1 fw-bold">Motif:  <span class="text-danger" >{{ lastStatut.commentaire }}</span>
+                                </p>
+                                    {% endif %}
+
+
+                                    {% if lastStatut != null and lastStatut.statut == 3 %}
+                                        <span class="text-success fw-bold">En service</span>
+                                    {% endif %}
+
+                                    {% if lastStatut != null and lastStatut.statut == 0 %}
+                                        <span class="text-warning fw-bold">Retraite</span>
+                                    {% endif %}
+
+                                    {% if lastStatut != null and lastStatut.statut == 2 %}
+                                        <span class="text-success fw-bold">En service</span>
+                                    {% endif %}
+
+                                    {% if lastStatut != null and lastStatut.statut == 4 %}
+                                        <span class="text-success fw-bold">Disponibilite</span>
+                                    {% endif %}
+
+                                    {% if lastStatut != null and lastStatut.statut == 5 %}
+                                        <span class="text-primary fw-bold">Detachement</span>
+                                    {% endif %}
+
+                                    {% if lastStatut != null and lastStatut.statut == 6 %}
+                                        <span class="text-danger fw-bold">Deserteur</span>
+                                    {% endif %}
+
+                                    {% if lastStatut != null and lastStatut.statut == 7 %}
+                                        <span class="text-warning fw-bold">Absence</span>
+                                    {% endif %}
+
+                                    {% if lastStatut != null and lastStatut.statut == 8 %}
+                                        <span class="text-warning fw-bold">Arret maladie</span>
+                                    {% endif %}
+                                </p>
+
+                            </div>
+
+                            <div class="col col-6" style="margin-left: 1em"></div>
+
+                            <div class="col col-6" style="margin-left: 1em"></div>
+
+
+                            <div class="col col-6 mt-4"  style="word-wrap: break-word;">
+
+                                {% for message in app.session.flashbag.get('statut') %}
+                                    <div class="alert alert-success alert-dismissible fade show" role="alert">
+                                        <strong>{{ message }}!</strong>
+                                        <button type="button" class="btn-close"  data-bs-dismiss="alert"  aria-label="Close"></button>
+                                    </div>
+                                {% endfor %}
+
+                                <div class="card ">
+                                    <div class="card-header">
+                                        <div class="d-flex justify-content-between">
+                                            <span class="fw-bold">Historique des statuts</span>
+                                            <span>
+                                                <button  type="button" class="btn btn-outline-primary" data-bs-toggle="modal" data-bs-target="#statutModal">
+                                                    <i class="fa fa-plus"></i>
+                                                    Changer de statut
+                                                </button>
+                                            </span>
+                                        </div>
+                                    </div>
+                                    <div class="card-body">
+                                        <table class="table text-center table-bordered table-striped table-hover table-responsive">
+                                            <thead>
+                                            <tr>
+                                                <th scope="col">Statut</th>
+                                                <th scope="col">Commentaire</th>
+                                                <th scope="col">Date</th>
+                                            </tr>
+                                            </thead>
+                                            <tbody>
+                                            {% if militaireStatus | length == 0 %}
+                                                <p class="text-center">Aucun statut</p>
+                                            {% else %}
+                                                {% for statut in militaireStatus %}
+                                                    <tr>
+                                                        <td>
+                                                            {% if statut.statut == 1 %}
+                                                                <span class="text-danger fw-bold">Radie</span>
+                                                            {% endif %}
+
+
+                                                            {% if statut.statut == 3 %}
+                                                                <span class="text-success fw-bold">En service</span>
+                                                            {% endif %}
+
+                                                            {% if statut.statut == 0 %}
+                                                                <span class="text-warning fw-bold">Retraite</span>
+                                                            {% endif %}
+
+                                                            {% if statut.statut == 2 %}
+                                                                <span class="text-success fw-bold">En service</span>
+                                                            {% endif %}
+
+                                                            {% if statut.statut == 4 %}
+                                                                <span class="text-success fw-bold">Disponibilite</span>
+                                                            {% endif %}
+
+                                                            {% if statut.statut == 5 %}
+                                                                <span class="text-primary fw-bold">Detachement</span>
+                                                            {% endif %}
+
+                                                            {% if statut.statut == 6 %}
+                                                                <span class="text-danger fw-bold">Deserteur</span>
+                                                            {% endif %}
+
+                                                            {% if statut.statut == 7 %}
+                                                                <span class="text-warning fw-bold">Absence</span>
+                                                            {% endif %}
+
+                                                            {% if statut.statut == 8 %}
+                                                                <span class="text-warning fw-bold">Arret maladie</span>
+                                                            {% endif %}
+                                                        </td>
+                                                        <td>{{ statut.commentaire }}</td>
+                                                        <td>{{ statut.dateDebut|date("d-M-Y") }}</td>
+
+                                                    </tr>
+                                                {% endfor %}
+                                            {% endif %}
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
             </div>
         </div>
     </div>

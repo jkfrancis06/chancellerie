@@ -145,11 +145,6 @@ class Militaire
     private $militaireFormations;
 
     /**
-     * @ORM\ManyToMany(targetEntity=Famille::class, mappedBy="militaire")
-     */
-    private $familles;
-
-    /**
      * @ORM\Column(type="boolean")
      */
     private $hasChildren;
@@ -159,6 +154,11 @@ class Militaire
      * @ORM\OneToMany(targetEntity=MilitaireExercice::class, mappedBy="militaire", orphanRemoval=true)
      */
     private $militaireExercices;
+
+    /**
+     * @ORM\OneToMany(targetEntity=Famille::class, mappedBy="militaire", orphanRemoval=true)
+     */
+    private $familles;
 
     public function __construct()
     {
@@ -171,8 +171,8 @@ class Militaire
         $this->militaireMedailles = new ArrayCollection();
         $this->militaireDiplomes = new ArrayCollection();
         $this->militaireFormations = new ArrayCollection();
-        $this->familles = new ArrayCollection();
         $this->militaireExercices = new ArrayCollection();
+        $this->familles = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -630,32 +630,6 @@ class Militaire
         return $this;
     }
 
-    /**
-     * @return Collection|Famille[]
-     */
-    public function getFamilles(): Collection
-    {
-        return $this->familles;
-    }
-
-    public function addFamille(Famille $famille): self
-    {
-        if (!$this->familles->contains($famille)) {
-            $this->familles[] = $famille;
-            $famille->addMilitaire($this);
-        }
-
-        return $this;
-    }
-
-    public function removeFamille(Famille $famille): self
-    {
-        if ($this->familles->removeElement($famille)) {
-            $famille->removeMilitaire($this);
-        }
-
-        return $this;
-    }
 
     public function getHasChildren(): ?bool
     {
@@ -694,6 +668,36 @@ class Militaire
             // set the owning side to null (unless already changed)
             if ($militaireExercice->getMilitaire() === $this) {
                 $militaireExercice->setMilitaire(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Famille[]
+     */
+    public function getFamilles(): Collection
+    {
+        return $this->familles;
+    }
+
+    public function addFamille(Famille $famille): self
+    {
+        if (!$this->familles->contains($famille)) {
+            $this->familles[] = $famille;
+            $famille->setMilitaire($this);
+        }
+
+        return $this;
+    }
+
+    public function removeFamille(Famille $famille): self
+    {
+        if ($this->familles->removeElement($famille)) {
+            // set the owning side to null (unless already changed)
+            if ($famille->getMilitaire() === $this) {
+                $famille->setMilitaire(null);
             }
         }
 

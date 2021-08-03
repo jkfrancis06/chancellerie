@@ -10,7 +10,6 @@ class AffectationValidator extends ConstraintValidator
 {
     private $entityManager;
 
-
     public function __construct(EntityManagerInterface $entityManager){
         $this->entityManager = $entityManager;
 

@@ -6,9 +6,11 @@ use App\Repository\FamilleRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use App\Validator as AppAssert;
 
 /**
  * @ORM\Entity(repositoryClass=FamilleRepository::class)
+ * @AppAssert\Famille()
  */
 class Famille
 {
@@ -34,14 +36,20 @@ class Famille
      */
     private $typeFiliation;
 
+
     /**
-     * @ORM\ManyToMany(targetEntity=Militaire::class, inversedBy="familles")
+     * @ORM\Column(type="text", nullable=true)
+     */
+    private $commentaire;
+
+    /**
+     * @ORM\ManyToOne(targetEntity=Militaire::class, inversedBy="familles")
+     * @ORM\JoinColumn(nullable=false)
      */
     private $militaire;
 
     public function __construct()
     {
-        $this->militaire = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -85,26 +93,27 @@ class Famille
         return $this;
     }
 
-    /**
-     * @return Collection|Militaire[]
-     */
-    public function getMilitaire(): Collection
+
+    public function getCommentaire(): ?string
     {
-        return $this->militaire;
+        return $this->commentaire;
     }
 
-    public function addMilitaire(Militaire $militaire): self
+    public function setCommentaire(?string $commentaire): self
     {
-        if (!$this->militaire->contains($militaire)) {
-            $this->militaire[] = $militaire;
-        }
+        $this->commentaire = $commentaire;
 
         return $this;
     }
 
-    public function removeMilitaire(Militaire $militaire): self
+    public function getMilitaire(): ?Militaire
     {
-        $this->militaire->removeElement($militaire);
+        return $this->militaire;
+    }
+
+    public function setMilitaire(?Militaire $militaire): self
+    {
+        $this->militaire = $militaire;
 
         return $this;
     }
