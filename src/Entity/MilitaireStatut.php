@@ -97,7 +97,7 @@ class MilitaireStatut
         return $this;
     }
 
-    public function getDateFin(): ?\DateTimeInterface
+    public function getDateFin(): ?\DateTimeInterface                                             
     {
         return $this->dateFin;
     }

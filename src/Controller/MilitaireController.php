@@ -22,6 +22,8 @@ use App\Form\MilitaireStatutType;
 use App\Form\MilitaireType;
 use App\Form\RadiationConfirmType;
 use App\Service\FileUploader;
+use Knp\Bundle\SnappyBundle\Snappy\Response\PdfResponse;
+use Knp\Snappy\Pdf;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Form\FormError;
 use Symfony\Component\HttpFoundation\Request;
@@ -395,5 +397,98 @@ class MilitaireController extends AbstractController
             'confirmForm' => $confirmForm->createView()
         ]);
     }
+
+    /**
+     * @Route("/print-militaire/{id}", name="print_militaire")
+     */
+    public function printMilitaire($id,Pdf $knpSnappyPdf): Response
+    {
+        $user = $this->getUser();
+
+        $militaire = $this->getDoctrine()->getManager()->getRepository(Militaire::class)->find($id);
+
+        if ($militaire == null){
+            throw new NotFoundHttpException("Element non trouve");
+        }
+
+
+
+        // @var Knp\Snappy\Pdf
+        /* $knpSnappyPdf->generateFromHtml(
+            $this->renderView(
+                'MyBundle:Foo:bar.html.twig',
+                array(
+                    'some'  => $vars
+                )
+            ),
+            '/path/to/the/file.pdf'
+        ); */
+
+        $affectations = $militaire->getAffectations();
+
+        $militaireMissions = $militaire->getMilitaireMissions();
+
+        $militaireExercices = $militaire->getMilitaireExercices();
+
+        $militaireMedailles = $militaire->getMilitaireMedailles();
+
+        $militaireFormations = $militaire->getMilitaireFormations();
+
+        $militaireFamilles = $militaire->getFamilles();
+
+
+        $militaireStatus = $this->getDoctrine()->getManager()->getRepository(MilitaireStatut::class)->findBy([   // verifier si le dernier statut n'est pas radiation pour ne pas superposer les radiations
+            'militaire'=> $militaire
+        ],
+            [
+                'id' => 'DESC'
+            ]);
+
+        $lastStatut = null;
+
+
+        if (sizeof($militaireStatus) > 0){
+            $lastStatut = $militaireStatus[0];
+        }
+
+
+
+        $nbEnfants = 0;
+
+        foreach ($militaireFamilles as $item) {
+
+            if ($item->getTypeFiliation() == 4) {
+                $nbEnfants++;
+            }
+        }
+
+
+
+
+
+
+        $html =  $this->renderView('militaire/print.html.twig', [
+            'user' => $user,
+            'militaire' => $militaire,
+            'active' => '',
+            'nbEnfants' => $nbEnfants,
+            'lastStatut' => $lastStatut,
+            'militaireMissions' => $militaireMissions,
+            'militaireExercices' => $militaireExercices,
+            'militaireMedailles' => $militaireMedailles,
+            'militaireFormations' => $militaireFormations,
+            'militaireStatus' => $militaireStatus,
+            'affectations' => $affectations,
+            'militaireFamilles' => $militaireFamilles,
+        ]);
+
+        return new PdfResponse(
+            $knpSnappyPdf->getOutputFromHtml($html),
+            'file.pdf'
+        );
+    }
+
+
+
 
 }

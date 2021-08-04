@@ -1,0 +1,490 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>{% block title %}Welcome!{% endblock %}</title>
+    <link rel="icon" href="{{ absolute_url(asset('/assets/img/favicon.ico')) }}" />
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link rel="stylesheet" href="{{ absolute_url(asset('/assets/css/bootstrap/bootstrap3.css')) }}" />
+    <link rel="stylesheet" href="{{ absolute_url(asset('/assets/css/fa/all.css')) }}" />
+    <script  src="{{ absolute_url(asset('/assets/js/bootstrap/jquery.js')) }}"></script>
+    <script  src="{{ absolute_url(asset('/assets/js/bootstrap/bootstrap3.js')) }}"></script>
+    <script  src="{{ absolute_url(asset('/assets/js/custom/tab.js')) }}"></script>
+    <style>
+        body{
+            margin: 0;
+            font-family: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", "Liberation Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji" !important;
+        }
+    </style>
+
+
+</head>
+<body>
+
+
+    <div class="container mt-4">
+
+
+        <div class="row">
+            <div class="mt-4 mb-4">
+                <div style="color: #3d8e33" class="d-flex justify-content-center">
+                    <div class="row text-center">
+                        <div class="col col-12">
+                            <p class="fs-4 text-uppercase">UNION DES COMORES</p>
+                        </div>
+                        <div class="col col-12">
+                            <p class="fs-6 ">Union - Solidarite - Developpement</p>
+                        </div>
+                        <div class="col col-12">
+                            <p class="fs-6 text-uppercase">Armee nationale de developpement</p>
+                        </div>
+                        <div class="col col-12">
+                            <img height="150" width="150" src="{{ absolute_url(asset('/assets/img/and.jpeg')) }}">
+                        </div>
+                    </div>
+
+                </div>
+                <div class="mt-5 d-flex justify-content-center">
+                    <span class="fs-4 fw-bold text-uppercase">dossier militaire</span>
+                </div>
+                <hr>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col col-xs-2">
+                <img style="height: 12em;width: 12em" src="{{ absolute_url(asset('/elements/')) }}{{ militaire.fichiers[0].nom }}" class="img-thumbnail" alt="...">
+            </div>
+            <div class="col col-xs-10">
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col col-xs-3" style="word-wrap: break-word;">
+                            <p>
+                                <span class="fw-bold">Matricule: </span>
+                                <span>{{ militaire.matricule }}</span>
+                            </p>
+                            <p>
+                                <span class="fw-bold">Grade: </span>
+                                <span>{{ militaire.grade.intitule }}</span>
+                            </p>
+                            <p>
+                                <span class="fw-bold">Nom: </span>
+                                <span>{{ militaire.nom }}</span>
+                            </p>
+                            <p>
+                                <span class="fw-bold">Prenoms: </span>
+                                <span>{{ militaire.prenoms }}</span>
+                            </p>
+                            <p>
+                                <span class="fw-bold">Date de naissance: </span>
+                                <span>{{ militaire.dateNaissance|date("d-M-Y")  }}</span>
+                            </p>
+
+                        </div>
+
+                        <div class="col col-xs-3" style="word-wrap: break-word;">
+                            <p>
+                                <span class="fw-bold">Age: </span>
+                                {% set age = date().diff(date(militaire.dateNaissance)).y %}
+                                <span>{{ age }} ans</span>
+                            </p>
+                            <p>
+                                <span class="fw-bold">Sexe: </span>
+                                <span>
+                                            {% if militaire.sexe == 'f' %}
+                                                Femme
+                                            {% else %}
+                                                Homme
+                                            {% endif %}
+                                        </span>
+                            </p>
+                            <p>
+                                <span class="fw-bold">Taille: </span>
+                                <span>{{ militaire.taille }} m</span>
+                            </p>
+                            <p>
+                                <span class="fw-bold">Couleur des yeux: </span>
+                                <span>{{ militaire.couleurYeux }}</span>
+                            </p>
+
+                            <p>
+                                <span class="fw-bold">Situation matrimoniale: </span>
+                                <span>{{ militaire.situationMatri }}</span>
+                            </p>
+
+                        </div>
+
+                        <div class="col col-xs-3" style="word-wrap: break-word;">
+                            <p>
+                                <span class="fw-bold">Adresse: </span>
+                                <span>{{ militaire.adresse }}</span>
+                            </p>
+                            <p>
+                                <span class="fw-bold">Numeros de telephones: </span>
+                                <span>
+                                            {% for telephone in militaire.telephone %}
+                                                {{ telephone.numero }}
+                                            {% endfor %}
+                                        </span>
+                            </p>
+                            <p>
+                                <span class="fw-bold">Origine de recrutement : </span>
+                                <span>  {{ militaire.origineRecrutement.intitule }} </span>
+                            </p>
+                            <p>
+                                <span class="fw-bold">Grade actuel / Categorie : </span>
+                                <span>  {{ militaire.grade.intitule }} / {{ militaire.grade.gradeCategorie.intitule }}  </span>
+                            </p>
+                            <p>
+                                <span class="fw-bold">Profession anterieure : </span>
+                                <span>  {{ militaire.professionAnt }}   </span>
+                            </p>
+
+                        </div>
+
+                        <div class="col col-xs-3" style="word-wrap: break-word;">
+                            <p>
+                                <span class="fw-bold">Date d'incorporation: </span>
+                                <span>{{ militaire.dateIncorp|date("d-M-Y")  }}</span>
+                            </p>
+                            <p>
+                                <span class="fw-bold">Annees de service: </span>
+                                <span>
+                                            {% set srv = date().diff(date(militaire.dateIncorp)).y %}
+                                    {{ srv }} ans
+                                        </span>
+                            </p>
+
+                            <p>
+                                <span class="fw-bold">Statut: </span>
+                                <span>
+
+                                            {% if lastStatut != null and lastStatut.statut == 1 %}
+                                                <span class="text-danger fw-bold">Radie</span>
+                                            {% endif %}
+
+                                    {% if lastStatut != null and lastStatut.statut == 3 %}
+                                        <span class="text-success fw-bold">En service</span>
+                                    {% endif %}
+
+                                    {% if lastStatut != null and lastStatut.statut == 0 %}
+                                        <span class="text-warning fw-bold">Retraite</span>
+                                    {% endif %}
+
+                                    {% if lastStatut != null and lastStatut.statut == 2 %}
+                                        <span class="text-success fw-bold">En service</span>
+                                    {% endif %}
+
+                                    {% if lastStatut != null and lastStatut.statut == 4 %}
+                                        <span class="text-success fw-bold">Disponibilite</span>
+                                    {% endif %}
+
+                                    {% if lastStatut != null and lastStatut.statut == 5 %}
+                                        <span class="text-primary fw-bold">Detachement</span>
+                                    {% endif %}
+
+                                    {% if lastStatut != null and lastStatut.statut == 6 %}
+                                        <span class="text-danger fw-bold">Deserteur</span>
+                                    {% endif %}
+
+                                    {% if lastStatut != null and lastStatut.statut == 7 %}
+                                        <span class="text-warning fw-bold">Absence</span>
+                                    {% endif %}
+
+                                    {% if lastStatut != null and lastStatut.statut == 8 %}
+                                        <span class="text-warning fw-bold">Arret maladie</span>
+                                    {% endif %}
+
+                                        </span>
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <h4>Cursus professionel</h4>
+        </div>
+        <hr>
+        <div class="row g-0">
+            <div class="col col-xs-12">
+                <div class="card-header">
+                    <div class="d-flex justify-content-between">
+                        <span class="fw-bold">Affectations</span>
+                    </div>
+                </div>
+                <div class="card ">
+                    <div class="card-body">
+                        <table class="table text-center table-bordered table-striped table-hover table-responsive">
+                            <thead>
+                            <tr>
+                                <th scope="col">Date de debut</th>
+                                <th scope="col">Date de fin</th>
+                                <th scope="col">Unite</th>
+                                <th scope="col">Corps</th>
+                                <th scope="col">Poste</th>
+                                <th scope="col">Duree</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            {% if affectations | length == 0 %}
+                                <p class="text-center">Aucune affectation</p>
+                            {% else %}
+                                {% for affectation in affectations %}
+                                    <tr>
+                                        <td>{{ affectation.dateDebut|date("d-M-Y")  }}</td>
+                                        <td>{{ affectation.dateFin|date("d-M-Y")  }}</td>
+                                        <td>{{ affectation.unite.intitule }}</td>
+                                        <td>{{ affectation.unite.corps.intitule }}</td>
+                                        <td>{{ affectation.fonction }}</td>
+                                        <td>
+                                            {% if affectation.dateFin != null %}
+                                                {% set dureeY = affectation.dateFin.diff(date(affectation.dateDebut)).y %}
+                                                {% set dureeM = (dureeY*12)+affectation.dateFin.diff(date(affectation.dateDebut)).m %}
+                                                {{ dureeM }} mois
+                                            {% endif %}
+                                        </td>
+                                    </tr>
+                                {% endfor %}
+
+                            {% endif %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+
+            <div class="col-xs-12 mt-4">
+
+                <div class="card ">
+                    <div class="card-header">
+                        <div class="d-flex justify-content-between">
+                            <span class="fw-bold">Missions</span>
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <table class="table text-center table-bordered table-striped table-hover table-responsive">
+                            <thead>
+                            <tr>
+                                <th scope="col">Date de debut</th>
+                                <th scope="col">Date de fin</th>
+                                <th scope="col">Mission</th>
+                                <th scope="col">Lieu</th>
+                                <th scope="col">Commentaires</th>
+                                <th scope="col">Duree</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            {% if militaireMissions | length == 0 %}
+                                <p class="text-center">Aucune mission</p>
+                            {% else %}
+                                {% for militaireMission in militaireMissions %}
+                                    <tr>
+                                        <td>{{ militaireMission.dateDebut|date("d-M-Y")  }}</td>
+                                        <td>{{ militaireMission.dateFin|date("d-M-Y")  }}</td>
+                                        <td>{{ militaireMission.mission.intitule }}</td>
+                                        <td>{{ militaireMission.mission.lieu}}</td>
+                                        <td>{{ militaireMission.commentaire }}</td>
+                                        <td>
+                                            {% set dureeY = militaireMission.dateFin.diff(date(militaireMission.dateDebut)).y %}
+                                            {% set dureeM = (dureeY*12)+militaireMission.dateFin.diff(date(militaireMission.dateDebut)).m %}
+                                            {{ dureeM }} mois
+                                        </td>
+                                    </tr>
+                                {% endfor %}
+
+                            {% endif %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+
+            <div class="col-xs-12 mt-4">
+
+                <div class="card ">
+                    <div class="card-header">
+                        <div class="d-flex justify-content-between">
+                            <span class="fw-bold">Exercices</span>
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <table class="table text-center table-bordered table-striped table-hover table-responsive">
+                            <thead>
+                            <tr>
+                                <th scope="col">Date</th>
+                                <th scope="col">Exercice</th>
+                                <th scope="col">Lieu</th>
+                                <th scope="col">Commentaires</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            {% if militaireExercices | length == 0 %}
+                                <p class="text-center">Aucun exercice</p>
+                            {% else %}
+                                {% for militaireExercice in militaireExercices %}
+                                    <tr>
+                                        <td>{{ militaireExercice.date|date("d-M-Y")  }}</td>
+                                        <td>{{ militaireExercice.exercice.intitule  }}</td>
+                                        <td>{{ militaireExercice.exercice.lieu }}</td>
+                                        <td>{{ militaireExercice.commentaire }}</td>
+                                    </tr>
+                                {% endfor %}
+
+                            {% endif %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+            </div>
+
+
+            <div class="col-xs-12 mt-4">
+                <div class="card ">
+                    <div class="card-header">
+                        <div class="d-flex justify-content-between">
+                            <span class="fw-bold">Medailles ou distinction obtenues</span>
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <table class="table text-center table-bordered table-striped table-hover table-responsive">
+                            <thead>
+                            <tr>
+                                <th scope="col">Date</th>
+                                <th scope="col">Medaille ou distinction</th>
+                                <th scope="col">Commentaires</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            {% if militaireMedailles | length == 0 %}
+                                <p class="text-center">Aucun exercice</p>
+                            {% else %}
+                                {% for militaireMedaille in militaireMedailles %}
+                                    <tr>
+                                        <td>{{ militaireMedaille.date|date("d-M-Y")  }}</td>
+                                        <td>{{ militaireMedaille.medaille.designation  }}</td>
+                                        <td>{{ militaireMedaille.commentaire }}</td>
+                                    </tr>
+                                {% endfor %}
+
+                            {% endif %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+
+            <div class="col-xs-12 mt-4">
+                <h4>Fiche de formation</h4>
+                <hr>
+            </div>
+
+            <hr>
+            <div class="row g-0">
+
+                <div class="col col-12 mt-4">
+                    <div class="card ">
+                        <div class="card-header">
+                            <div class="d-flex justify-content-between">
+                                <span class="fw-bold">Formations effectuees</span>
+                            </div>
+                        </div>
+                        <div class="card-body">
+                            <table class="table text-center table-bordered table-striped table-hover table-responsive">
+                                <thead>
+                                <tr>
+                                    <th scope="col">Date de debut</th>
+                                    <th scope="col">Date de fin</th>
+                                    <th scope="col">Formation</th>
+                                    <th scope="col">Lieu</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                {% if militaireFormations | length == 0 %}
+                                    <p class="text-center">Aucune formation</p>
+                                {% else %}
+                                    {% for militaireFormation in militaireFormations %}
+                                        {% if militaireFormation.statut == 1 %}
+                                            <tr>
+                                                <td>{{ militaireFormation.dateDebut|date("d-M-Y")  }}</td>
+                                                <td>{{ militaireFormation.dateFin|date("d-M-Y")  }}</td>
+                                                <td>{{ militaireFormation.formation.intitule }}</td>
+                                                <td>{{ militaireFormation.lieu }}</td>
+                                            </tr>
+                                        {% endif %}
+                                    {% endfor %}
+
+                                {% endif %}
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col col-12 mt-4">
+                    <div class="card ">
+                        <div class="card-header">
+                            <div class="d-flex justify-content-between">
+                                <span class="fw-bold">Formations  planifiees</span>
+                            </div>
+                        </div>
+                        <div class="card-body">
+                            <table class="table text-center table-bordered table-striped table-hover table-responsive">
+                                <thead>
+                                <tr>
+                                    <th scope="col">Date de debut</th>
+                                    <th scope="col">Date de fin</th>
+                                    <th scope="col">Formation</th>
+                                    <th scope="col">Lieu</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                {% if militaireFormations | length == 0 %}
+                                    <p class="text-center">Aucune formation planifiee</p>
+                                {% else %}
+                                    {% for militaireFormation in militaireFormations %}
+                                        {% if militaireFormation.statut == 0 %}
+                                            <tr>
+                                                <td>{{ militaireFormation.dateDebut|date("d-M-Y")  }}</td>
+                                                <td>{{ militaireFormation.dateFin|date("d-M-Y")  }}</td>
+                                                <td>{{ militaireFormation.formation.intitule }}</td>
+                                                <td>{{ militaireFormation.lieu }}</td>
+                                            </tr>
+                                        {% endif %}
+                                    {% endfor %}
+                                {% endif %}
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+                <div class="col col-12 mt-4"></div>
+                <div class="col col-12 mt-4"></div>
+
+            </div>
+
+
+
+        </div>
+
+    </div>
+
+
+
+
+
+
+
+
+
+</body>
+</html>
+
+
+
+
