@@ -120,27 +120,27 @@ class Militaire
     private $militaireFonctions;
 
     /**
-     * @ORM\OneToMany(targetEntity=MilitaireStatut::class, mappedBy="militaire")
+     * @ORM\OneToMany(targetEntity=MilitaireStatut::class, mappedBy="militaire", cascade={"persist", "remove"})
      */
     private $militaireStatuts;
 
     /**
-     * @ORM\OneToMany(targetEntity=MilitaireMission::class, mappedBy="militaire", orphanRemoval=true)
+     * @ORM\OneToMany(targetEntity=MilitaireMission::class, mappedBy="militaire", orphanRemoval=true, cascade={"persist", "remove"})
      */
     private $militaireMissions;
 
     /**
-     * @ORM\OneToMany(targetEntity=MilitaireMedaille::class, mappedBy="militaire", orphanRemoval=true)
+     * @ORM\OneToMany(targetEntity=MilitaireMedaille::class, mappedBy="militaire", orphanRemoval=true, cascade={"persist", "remove"})
      */
     private $militaireMedailles;
 
     /**
-     * @ORM\OneToMany(targetEntity=MilitaireDiplome::class, mappedBy="militaire", orphanRemoval=true)
+     * @ORM\OneToMany(targetEntity=MilitaireDiplome::class, mappedBy="militaire", orphanRemoval=true, cascade={"persist", "remove"})
      */
     private $militaireDiplomes;
 
     /**
-     * @ORM\OneToMany(targetEntity=MilitaireFormation::class, mappedBy="militaire")
+     * @ORM\OneToMany(targetEntity=MilitaireFormation::class, mappedBy="militaire", cascade={"persist", "remove"})
      */
     private $militaireFormations;
 
@@ -151,12 +151,12 @@ class Militaire
 
 
     /**
-     * @ORM\OneToMany(targetEntity=MilitaireExercice::class, mappedBy="militaire", orphanRemoval=true)
+     * @ORM\OneToMany(targetEntity=MilitaireExercice::class, mappedBy="militaire", orphanRemoval=true, cascade={"persist", "remove"})
      */
     private $militaireExercices;
 
     /**
-     * @ORM\OneToMany(targetEntity=Famille::class, mappedBy="militaire", orphanRemoval=true)
+     * @ORM\OneToMany(targetEntity=Famille::class, mappedBy="militaire", orphanRemoval=true, cascade={"persist", "remove"})
      */
     private $familles;
 

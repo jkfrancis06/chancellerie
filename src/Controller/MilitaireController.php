@@ -122,7 +122,7 @@ class MilitaireController extends AbstractController
 
 
     /**
-     * @Route("/militaire/{id}", name="militaire_details")
+     * @Route("/militaire/d/{id}", name="militaire_details")
      */
     public function details(int $id, Request $request): Response
     {
@@ -349,7 +349,7 @@ class MilitaireController extends AbstractController
 
 
     /**
-     * @Route("/militaire-radiation/{id}/{status}", name="militaire_radiation")
+     * @Route("/militaire/r/{status}", name="militaire_radiation")
      */
     public function confirmStatus($id, $status,Request $request): Response
     {
@@ -399,7 +399,7 @@ class MilitaireController extends AbstractController
     }
 
     /**
-     * @Route("/print-militaire/{id}", name="print_militaire")
+     * @Route("/militaire/p/{id}", name="print_militaire")
      */
     public function printMilitaire($id,Pdf $knpSnappyPdf): Response
     {
@@ -484,8 +484,23 @@ class MilitaireController extends AbstractController
 
         return new PdfResponse(
             $knpSnappyPdf->getOutputFromHtml($html),
-            'file.pdf'
+            'Dossier-'.$militaire->getMatricule().'.pdf'
         );
+    }
+
+
+    /**
+     * @Route("/militaires", name="all_militaires")
+     */
+    public function allMilitaires(): Response
+    {
+        $user = $this->getUser();
+
+        return $this->render('militaire/all.html.twig', [
+            'controller_name' => 'DashboardController',
+            'active' => 'militaire',
+            'user' => $user
+        ]);
     }
 
 
