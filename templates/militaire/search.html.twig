@@ -1,10 +1,122 @@
 {% extends 'nav.html.twig' %}
 
-{% block title %}Tableau de bord{% endblock %}
+{% block title %}Rechercher un element{% endblock %}
+
+
+{% block javascripts %}
+
+    <script  src="{{ asset('/assets/js/datepicker/moment.min.js') }}"></script>
+    <script  src="{{ asset('/assets/js/datepicker/daterangepicker.js') }}"></script>
+    <script  src="{{ asset('/assets/js/custom/picker.js') }}"></script>
+    <script type="module"  src="{{ asset('/assets/js/custom/custom.js') }}"></script>
+
+{% endblock %}
+
+{% block stylesheets %}
+    <link rel="stylesheet" href="{{ asset('/assets/css/datepicker/daterangepicker.css') }}" />
+
+
+{% endblock %}
 
 
 {% block content %}
 
+
+   <div class="container-fluid mt-4">
+       <ul class="nav nav-tabs" id="myTab" role="tablist">
+           <li class="nav-item" role="presentation">
+               <button class="nav-link active" id="home-tab" data-bs-toggle="tab" data-bs-target="#home" type="button" role="tab" aria-controls="home" aria-selected="true">Rechercher un element</button>
+           </li>
+       </ul>
+       <div class="tab-content" id="myTabContent">
+           <div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">
+               {{ form_start(searchForm) }}
+
+               {{ form_errors(searchForm) }}
+
+
+               <div class="row mt-5">
+
+
+                   <div class="col col-4 mb-3">
+                       {{ form_label(searchForm.matricule, "Matricule contenant: ", {'label_attr': {'class': 'c_image_name_input_label'}}) }}
+                       <div class="input-group">
+                           {{ form_widget(searchForm.matricule, {'attr': {'class': 'form-control'}}) }}
+                       </div>
+                       <div class="form-error" style="color: red">
+                           {{ form_errors(searchForm.matricule) }}
+                       </div>
+                   </div>
+
+                   <div class="col col-4 mb-3">
+                       {{ form_label(searchForm.nom, "Nom contenant: ", {'label_attr': {'class': 'c_image_name_input_label'}}) }}
+                       <div class="input-group">
+                           {{ form_widget(searchForm.nom, {'attr': {'class': 'form-control'}}) }}
+                       </div>
+                       <div class="form-error" style="color: red">
+                           {{ form_errors(searchForm.nom) }}
+                       </div>
+                   </div>
+
+                   <div class="col col-4 mb-3">
+                       {{ form_label(searchForm.prenoms, "Prenoms contenant : ", {'label_attr': {'class': 'c_image_name_input_label'}}) }}
+                       <div class="input-group">
+                           {{ form_widget(searchForm.prenoms, {'attr': {'class': 'form-control'}}) }}
+                       </div>
+                       <div class="form-error" style="color: red">
+                           {{ form_errors(searchForm.prenoms) }}
+                       </div>
+                   </div>
+
+
+                   <div class="col col-4  mb-3">
+                       {{ form_label(searchForm.dateNaissance, "Date de naissance entre : ", {'label_attr': {'class': 'c_image_name_input_label'}}) }}
+                       <div class="input-group">
+                           {{ form_widget(searchForm.dateNaissance, {'attr': {'class': 'search-picker form-control'}}) }}
+                       </div>
+                       <div class="form-error" style="color: red">
+                           {{ form_errors(searchForm.dateNaissance) }}
+                       </div>
+                   </div>
+
+                   <div class="col col-4 mb-3">
+                       {{ form_label(searchForm.sexe, "Sexe : ", {'label_attr': {'class': 'c_image_name_input_label'}}) }}
+                       <div class="input-group">
+                           {{ form_widget(searchForm.sexe, {'attr': {'class': 'form-control'}}) }}
+                       </div>
+                       <div class="form-error" style="color: red">
+                           {{ form_errors(searchForm.sexe) }}
+                       </div>
+                   </div>
+
+                   <div class="col col-4 mb-3">
+                       {{ form_label(searchForm.taille, "Taille entre : ", {'label_attr': {'class': 'c_image_name_input_label'}}) }}
+                       <div class="input-group">
+                           {{ form_widget(searchForm.taille, {'attr': {'class': 'form-range','step': 0.1}}) }}
+                       </div>
+                       <div class="form-error" style="color: red">
+                           {{ form_errors(searchForm.taille) }}
+                       </div>
+                   </div>
+
+
+               </div>
+
+
+
+
+
+
+               <div class="multi-range-slider"></div>
+
+
+
+
+               {{ form_end(searchForm) }}
+           </div>
+       </div>
+
+   </div>
 
 
 {% endblock %}

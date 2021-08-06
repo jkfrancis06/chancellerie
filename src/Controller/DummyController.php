@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Entity\Affectation;
 use App\Entity\Diplome;
 use App\Entity\Exercice;
 use App\Entity\Fichier;
@@ -9,6 +10,9 @@ use App\Entity\Formation;
 use App\Entity\Grade;
 use App\Entity\Medaille;
 use App\Entity\Militaire;
+use App\Entity\MilitaireDiplome;
+use App\Entity\MilitaireExercice;
+use App\Entity\MilitaireFormation;
 use App\Entity\MilitaireMedaille;
 use App\Entity\MilitaireMission;
 use App\Entity\MilitaireStatut;
@@ -16,6 +20,7 @@ use App\Entity\Mission;
 use App\Entity\OrigineRecrutement;
 use App\Entity\Specialite;
 use App\Entity\Telephone;
+use App\Entity\Unite;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -151,56 +156,271 @@ class DummyController extends AbstractController
 
     }
 
-    function test(){
-        /* $min = 0;
-        $max = 8;
-        $rand_num = rand($min, $max);
 
-        $prv = null;
-        for ($i = 0; $i <= $rand_num ; $i++){
-            $militaireStatut = new MilitaireStatut();
-            $militaireStatut->setStatut($i);
-            $militaireStatut->setMilitaire($militaire);
-            $date = $this->pickDate($prv);
-            $prv = $date;
-            $militaireStatut->setDateDebut(date('Y-m-d',$date));
-            $militaire->addMilitaireStatut($militaireStatut);
+    /**
+     * @Route("/dummy/test", name="dummy_test")
+     */
+
+    function test1(): Response {
+
+
+        $unites = $this->getDoctrine()->getManager()->getRepository(Unite::class)->findAll();
+
+        $militaires = $this->getDoctrine()->getManager()->getRepository(Militaire::class)->findAll();
+
+        foreach ($militaires as $militaire){
+
+            $array = [];
+
+            $rand_aff = rand(1, sizeof($unites)-1);
+
+            $j = 0;
+            while ($j < $rand_aff){
+                array_push($array,$j);
+                $j++;
+            }
+
+            for ($i = 0; $i <= $rand_aff ; $i++){
+
+                $militaireAffectation = new Affectation();
+
+                $militaireAffectation->setMilitaire($militaire);
+
+
+                $prv = null;
+
+                $date = $this->pickDate($prv);
+                $prv = $date;
+                $newformat = date('Y-m-d',$date);
+                $militaireAffectation->setDateDebut( new \DateTime($newformat));
+
+                $date = $this->pickDate($prv);
+                $prv = $date;
+                $newformat = date('Y-m-d',$date);
+
+                $militaireAffectation->setDateFin(new \DateTime($newformat));
+
+                $randomElement = $array[array_rand($array,1)];
+
+                if (sizeof($array) > 1){
+                    unset($array[$randomElement]);
+                }
+
+                $militaireAffectation->setUnite($unites[$randomElement]);
+
+                $militaireAffectation->setFonction($unites[$randomElement]->getDescription().'  '.$unites[$randomElement]->getCorps()->getIntitule());
+
+                $militaire->addAffectation($militaireAffectation);
+
+            }
+            $em = $this->getDoctrine()->getManager();
+            echo 'ok';
+
+            $em->flush();
         }
 
-        $rand_num = rand(0, sizeof($missions));
 
-        $prv = null;
-        for ($i = 0; $i <= $rand_num ; $i++){
+        /* $i = 0;
+        $array = [];
 
-            $militairemissions = new MilitaireMission();
-            $militairemissions->setMission($missions[$i]);
-            $militairemissions->setMilitaire($militaire);
-            $militairemissions->setCommentaire('Commentaire');
-            $date = $this->pickDate($prv);
-            $prv = $date;
-            $militairemissions->setDateDebut(date('Y-m-d',$date));
-            $dateFin = $this->pickDate($militairemissions->getDateDebut());
-            $militairemissions->setDateFin(date('Y-m-d',$dateFin));
-            $militaire->addMilitaireMission($militairemissions);
+        while ($i < 1000){
+            array_push($array,$i);
+            $i++;
+        }
+
+        $des_array = [];
+
+        for ($j = 0; $j<30 ;$j++){
+            $randomElement = $array[array_rand($array, 1)];
+            array_push($des_array,$randomElement);
+            unset($array[$randomElement]);
+        }
+
+        
+
+        var_dump($des_array);
+        var_dump(sizeof($array)); */
+
+
+        return new Response('ok');
+    }
+
+    /**
+     * @Route("/dummy/fn", name="dummy_fn")
+     */
+    function test(): Response{
+
+        $missions = $this->getDoctrine()->getManager()->getRepository(Mission::class)->findAll();
+        $exercices = $this->getDoctrine()->getManager()->getRepository(Exercice::class)->findAll();
+        $medailles = $this->getDoctrine()->getManager()->getRepository(Medaille::class)->findAll();
+        $diplomes = $this->getDoctrine()->getManager()->getRepository(Diplome::class)->findAll();
+        $formations = $this->getDoctrine()->getManager()->getRepository(Formation::class)->findAll();
+        $militaires = $this->getDoctrine()->getManager()->getRepository(Militaire::class)->findAll();
+
+
+
+        foreach ($militaires as $militaire){
+            $min = 0;
+            $max = 8;
+            $rand_num = rand($min, $max);
+
+            $prv = null;
+
+            $ran = array(2,3,4,5,7,8);
+            $randomElement = $ran[array_rand($ran, 1)];
+
+
+            for ($i = 0; $i <= $rand_num ; $i++){
+                $militaireStatut = new MilitaireStatut();
+                $militaireStatut->setStatut($i);
+                $militaireStatut->setMilitaire($militaire);
+                $date = $this->pickDate($prv);
+                $prv = $date;
+                $newformat = date('Y-m-d',$date);
+                $militaireStatut->setDateDebut( new \DateTime($newformat));
+                $militaire->addMilitaireStatut($militaireStatut);
+            }
+
+            $rand_num = rand(0, sizeof($missions)-1);
+
+            $prv = null;
+            for ($i = 0; $i <= $rand_num ; $i++){
+
+                $militairemissions = new MilitaireMission();
+                $militairemissions->setMission($missions[$i]);
+                $militairemissions->setMilitaire($militaire);
+                $militairemissions->setCommentaire('Commentaire');
+                $date = $this->pickDate($prv);
+                $prv = $date;
+                $newformat = date('Y-m-d',$date);
+                $militairemissions->setDateDebut(new \DateTime($newformat));
+
+                $d = $militairemissions->getDateDebut();
+                $dateFin = $this->pickDate($d->format('Y-m-d'));
+
+
+
+                $newformat = date('Y-m-d',$dateFin);
+                $militairemissions->setDateFin(new \DateTime($newformat));
+                $militaire->addMilitaireMission($militairemissions);
+
+            }
+
+
+            $rand_med = rand(0, sizeof($medailles)-1);
+
+            for ($i = 0; $i <= $rand_med ; $i++){
+
+                $militaireMedaille = new MilitaireMedaille();
+                $militaireMedaille->setMilitaire($militaire);
+                $militaireMedaille->setCommentaire('Commentaire');
+
+
+                $incor_date = $militaire->getDateIncorp();
+                $st_date = $incor_date->format('Y-m-d');
+                $date = rand(strtotime($st_date),strtotime('2021-06-02'));
+
+
+                $newformat = date('Y-m-d',$date);
+                $militaireMedaille->setDate(new \DateTime($newformat));
+                $militaireMedaille->setMedaille($medailles[$i]);
+                $militaire->addMilitaireMedaille($militaireMedaille);
+
+            }
+
+
+            $rand_dip = rand(0, sizeof($diplomes)-1);
+
+            for ($i = 0; $i <= $rand_dip ; $i++){
+
+                $militaireDiplome = new MilitaireDiplome();
+                $militaireDiplome->setMilitaire($militaire);
+                $militaireDiplome->setCommentaire('Commentaire');
+
+                $naiss_date = $militaire->getDateNaissance();
+                $st_date = $naiss_date->format('Y-m-d');
+                $date = rand(strtotime($st_date),strtotime('2021-06-02'));
+
+
+
+                $newformat = date('Y-m-d',$date);
+                $militaireDiplome->setDateObtention(new \DateTime($newformat));
+
+                $militaireDiplome->setDiplome($diplomes[$i]);
+                $militaire->addMilitaireDiplome($militaireDiplome);
+
+            }
+
+
+            $rand_form = rand(0, sizeof($formations)-1);
+
+            for ($i = 0; $i <= $rand_form ; $i++){
+
+                $militaireFormation = new MilitaireFormation();
+                $militaireFormation->setMilitaire($militaire);
+
+                $incor_date = $militaire->getDateIncorp();
+                $st_date = $incor_date->format('Y-m-d');
+                $date = rand(strtotime($st_date),strtotime('2021-06-02'));
+
+                $newformat = date('Y-m-d',$date);
+                $militaireFormation->setDateDebut(new \DateTime($newformat));
+
+
+                $date = $this->pickDate($st_date);
+
+
+
+                $newformat = date('Y-m-d',$date);
+                $militaireFormation->setDateFin(new \DateTime($newformat));
+
+
+                $militaireFormation->setStatut(1);
+
+                $militaireFormation->setFormation($formations[$i]);
+
+                $militaireFormation->setLieu('Comores');
+
+                $militaire->addMilitaireFormation($militaireFormation);
+
+            }
+
+
+
+
+            $rand_ex = rand(0, sizeof($exercices)-1);
+
+            for ($i = 0; $i <= $rand_ex ; $i++){
+
+                $militaireExercice = new MilitaireExercice();
+
+                $militaireExercice->setExercice($exercices[$i]);
+
+                $militaireExercice->setCommentaire('Commentaire');
+
+                $militaireExercice->setMilitaire($militaire);
+
+                $incor_date = $militaire->getDateIncorp();
+                $st_date = $incor_date->format('Y-m-d');
+                $date = rand(strtotime($st_date),strtotime('2021-06-02'));
+
+
+                $newformat = date('Y-m-d',$date);
+
+                $militaireExercice->setDate(new \DateTime($newformat));
+
+                $militaire->addMilitaireExercice($militaireExercice);
+
+            }
+
+            $em = $this->getDoctrine()->getManager();
+            echo 'ok';
+
+            $em->flush();
+
 
         }
 
-
-        $rand_med = rand(0, sizeof($medailles));
-
-        $prv = null;
-        for ($i = 0; $i <= $rand_med ; $i++){
-
-            $militaireMedaille = new MilitaireMedaille();
-            $militaireMedaille->setMission($missions[$i]);
-            $militairemissions->setCommentaire('Commentaire');
-            $date = $this->pickDate($prv);
-            $prv = $date;
-            $militairemissions->setDateDebut(date('Y-m-d',$date));
-            $dateFin = $this->pickDate($militairemissions->getDateDebut());
-            $militairemissions->setDateFin(date('Y-m-d',$dateFin));
-            $militaire->addMilitaireMission($militairemissions);
-
-        } */
+        return new Response('ok');
     }
 }

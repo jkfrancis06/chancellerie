@@ -5,10 +5,14 @@
         <title>{% block title %}Welcome!{% endblock %}</title>
         <link rel="icon" href="{{ asset('/assets/img/favicon.ico') }}" />
         <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-        <link rel="stylesheet" href="{{ asset('/assets/css/bootstrap/bootstrap.css') }}" />
+        <link rel="stylesheet" href="{{ asset('/assets/css/bootstrap/mdb.min.css') }}" />
+        <link rel="stylesheet" href="{{ asset('/assets/css/datatables/datatables.css') }}" />
         <link rel="stylesheet" href="{{ asset('/assets/css/fa/all.css') }}" />
         <script  src="{{ asset('/assets/js/bootstrap/jquery.js') }}"></script>
         <script  src="{{ asset('/assets/js/custom/tab.js') }}"></script>
+        <script  src="{{ asset('/assets/js/datatables/datatables.js') }}"></script>
+        <script  src="{{ asset('/assets/js/custom/tables.js') }}"></script>
+
 
 
         {% block javascripts %}
@@ -25,7 +29,7 @@
     </head>
     <body>
         {% block body %}{% endblock %}
-        <script  src="{{ asset('/assets/js/bootstrap/bootstrap.bundle.js') }}"></script>
+        <script  src="{{ asset('/assets/js/bootstrap/mdb.min.js') }}"></script>
 
 
         {% block botton_javascripts %}

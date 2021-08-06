@@ -10,9 +10,9 @@
 
     <script>
         $(function() {
-            $('button[data-bs-toggle="modal"]').on('click', function (e) {
+            $('button[data-mdb-toggle="modal"]').on('click', function (e) {
                 // save the latest tab; use cookies if you like 'em better:
-                localStorage.setItem('lastModal', $(this).attr('data-bs-target'));
+                localStorage.setItem('lastModal', $(this).attr('data-mdb-target'));
                 console.log('ok')
             });
             let lastModal = localStorage.getItem('lastModal');
@@ -39,7 +39,7 @@
 
     <!-- Formulaire Affectation -->
 
-    <div class="modal fade" id="affectationModal" tabindex="-1" aria-labelledby="affectationModalLabel" aria-hidden="true" data-bs-backdrop="static" data-bs-keyboard="false">
+    <div class="modal fade" id="affectationModal" tabindex="-1" aria-labelledby="affectationModalLabel" aria-hidden="true" data-mdb-backdrop="static" data-mdb-keyboard="false">
         <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
                 <div class="modal-content">
                     {{ form_start(affectationForm) }}
@@ -49,12 +49,12 @@
                     </span>
                     <div class="modal-header">
                         <h5 class="modal-title" id="exampleModalLabel">Affecter</h5>
-                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        <button type="button" class="btn-close" data-mdb-dismiss="modal" aria-label="Close"></button>
                     </div>
                     <div class="modal-body">
                         <div class="mb-3">
                             {{ form_label(affectationForm.dateDebut, "Date d'affectation : ", {'label_attr': {'class': 'intitule_label'}}) }}
-                            {{ form_widget(affectationForm.dateDebut, {'attr': {'class': 'form-control'}}) }}
+                            {{ form_widget(affectationForm.dateDebut, {'attr': {'class': 'form-control js-datepicker'}}) }}
                             <div class="form-error" style="color: red">
                                 {{ form_errors(affectationForm.dateDebut) }}
                             </div>
@@ -82,7 +82,7 @@
                         </div>
                     </div>
                     <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fermer</button>
+                        <button type="button" class="btn btn-secondary" data-mdb-dismiss="modal">Fermer</button>
                         {{ form_row(affectationForm.cancel,{'attr':{'class': 'btn btn-outline-secondary form-btn'}}) }}
                         {{ form_row(affectationForm.submit,{'attr':{'class': 'btn btn-outline-success form-btn'}}) }}
                     </div>
@@ -94,7 +94,7 @@
 
     <!-- Formulaire Mission -->
 
-    <div class="modal fade" id="missionModal" tabindex="-1" aria-labelledby="missionModalLabel" aria-hidden="true" data-bs-backdrop="static" data-bs-keyboard="false">
+    <div class="modal fade" id="missionModal" tabindex="-1" aria-labelledby="missionModalLabel" aria-hidden="true" data-mdb-backdrop="static" data-mdb-keyboard="false">
         <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
             <div class="modal-content">
                 {{ form_start(militaireMissionForm) }}
@@ -105,7 +105,7 @@
 
                 <div class="modal-header">
                     <h5 class="modal-title" id="exampleModalLabel">Ajouter une mission effectuee</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    <button type="button" class="btn-close" data-mdb-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
 
@@ -141,7 +141,7 @@
 
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fermer</button>
+                    <button type="button" class="btn btn-secondary" data-mdb-dismiss="modal">Fermer</button>
                     {{ form_row(militaireMissionForm.cancel,{'attr':{'class': 'btn btn-outline-secondary form-btn'}}) }}
                     {{ form_row(militaireMissionForm.submit,{'attr':{'class': 'btn btn-outline-success form-btn'}}) }}
                 </div>
@@ -153,7 +153,7 @@
 
     <!-- Formulaire Exercices -->
 
-    <div class="modal fade" id="exerciceModal" tabindex="-1" aria-labelledby="exerciceModalLabel" aria-hidden="true" data-bs-backdrop="static" data-bs-keyboard="false">
+    <div class="modal fade" id="exerciceModal" tabindex="-1" aria-labelledby="exerciceModalLabel" aria-hidden="true" data-mdb-backdrop="static" data-mdb-keyboard="false">
         <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
             <div class="modal-content">
                 {{ form_start(militaireExerciceForm) }}
@@ -163,7 +163,7 @@
                 </span>
                 <div class="modal-header">
                     <h5 class="modal-title" id="exampleModalLabel">Ajouter un exercice effectue</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    <button type="button" class="btn-close" data-mdb-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
 
@@ -194,7 +194,7 @@
 
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fermer</button>
+                    <button type="button" class="btn btn-secondary" data-mdb-dismiss="modal">Fermer</button>
                     {{ form_row(militaireExerciceForm.cancel,{'attr':{'class': 'btn btn-outline-secondary form-btn'}}) }}
                     {{ form_row(militaireExerciceForm.submit,{'attr':{'class': 'btn btn-outline-success form-btn'}}) }}
                 </div>
@@ -205,7 +205,7 @@
 
     <!-- Formulaire Medaille -->
 
-    <div class="modal fade" id="medailleModal" tabindex="-1" aria-labelledby="medailleModalLabel" aria-hidden="true" data-bs-backdrop="static" data-bs-keyboard="false">
+    <div class="modal fade" id="medailleModal" tabindex="-1" aria-labelledby="medailleModalLabel" aria-hidden="true" data-mdb-backdrop="static" data-mdb-keyboard="false">
         <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
             <div class="modal-content">
                 {{ form_start(militaireMedailleForm) }}
@@ -215,7 +215,7 @@
                 </span>
                 <div class="modal-header">
                     <h5 class="modal-title" id="exampleModalLabel">Ajouter une medaille ou une distinction</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    <button type="button" class="btn-close" data-mdb-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
 
@@ -246,7 +246,7 @@
 
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fermer</button>
+                    <button type="button" class="btn btn-secondary" data-mdb-dismiss="modal">Fermer</button>
                     {{ form_row(militaireMedailleForm.cancel,{'attr':{'class': 'btn btn-outline-secondary form-btn'}}) }}
                     {{ form_row(militaireMedailleForm.submit,{'attr':{'class': 'btn btn-outline-success form-btn'}}) }}
                 </div>
@@ -256,7 +256,7 @@
     </div>
 
     <!-- Formulaire Formation -->
-    <div class="modal fade" id="formationModal" tabindex="-1" aria-labelledby="formationModalLabel" aria-hidden="true" data-bs-backdrop="static" data-bs-keyboard="false">
+    <div class="modal fade" id="formationModal" tabindex="-1" aria-labelledby="formationModalLabel" aria-hidden="true" data-mdb-backdrop="static" data-mdb-keyboard="false">
 
         <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
             <div class="modal-content">
@@ -267,7 +267,7 @@
                 </span>
                 <div class="modal-header">
                     <h5 class="modal-title" id="exampleModalLabel">Ajouter une formation</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    <button type="button" class="btn-close" data-mdb-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
 
@@ -315,7 +315,7 @@
 
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fermer</button>
+                    <button type="button" class="btn btn-secondary" data-mdb-dismiss="modal">Fermer</button>
                     {{ form_row(militaireFormationForm.cancel,{'attr':{'class': 'btn btn-outline-secondary form-btn'}}) }}
                     {{ form_row(militaireFormationForm.submit,{'attr':{'class': 'btn btn-outline-success form-btn'}}) }}
                 </div>
@@ -325,7 +325,7 @@
     </div>
 
     <!-- Formulaire famille -->
-    <div class="modal fade" id="familleModal" tabindex="-1" aria-labelledby="familleModalLabel" aria-hidden="'true'" data-bs-backdrop="static" data-bs-keyboard="false">
+    <div class="modal fade" id="familleModal" tabindex="-1" aria-labelledby="familleModalLabel" aria-hidden="'true'" data-mdb-backdrop="static" data-mdb-keyboard="false">
 
         <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
             <div class="modal-content">
@@ -336,7 +336,7 @@
                 </span>
                 <div class="modal-header">
                     <h5 class="modal-title" id="exampleModalLabel">Ajouter un membre de famille</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    <button type="button" class="btn-close" data-mdb-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
 
@@ -377,7 +377,7 @@
 
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fermer</button>
+                    <button type="button" class="btn btn-secondary" data-mdb-dismiss="modal">Fermer</button>
                     {{ form_row(familleForm.cancel,{'attr':{'class': 'btn btn-outline-secondary form-btn'}}) }}
                     {{ form_row(familleForm.submit,{'attr':{'class': 'btn btn-outline-success form-btn'}}) }}
                 </div>
@@ -388,7 +388,7 @@
 
     <!-- Formulaire Statut -->
 
-    <div class="modal fade" id="statutModal" tabindex="-1" aria-labelledby="statutModalLabel" aria-hidden="'true'" data-bs-backdrop="static" data-bs-keyboard="false">
+    <div class="modal fade" id="statutModal" tabindex="-1" aria-labelledby="statutModalLabel" aria-hidden="'true'" data-mdb-backdrop="static" data-mdb-keyboard="false">
 
         <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
             <div class="modal-content">
@@ -399,7 +399,7 @@
                 </span>
                 <div class="modal-header">
                     <h5 class="modal-title" id="exampleModalLabel">Changer de statut</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    <button type="button" class="btn-close" data-mdb-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
 
@@ -442,7 +442,7 @@
 
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fermer</button>
+                    <button type="button" class="btn btn-secondary" data-mdb-dismiss="modal">Fermer</button>
                     {{ form_row(militaireStautForm.cancel,{'attr':{'class': 'btn btn-outline-secondary form-btn'}}) }}
                     {{ form_row(militaireStautForm.submit,{'attr':{'class': 'btn btn-outline-success form-btn'}}) }}
                 </div>
@@ -459,7 +459,7 @@
         {% for message in app.session.flashbag.get('create_militaire') %}
             <div class="alert alert-success alert-dismissible fade show" role="alert">
                 <strong>{{ message }}!</strong>
-                <button type="button" class="btn-close"  data-bs-dismiss="alert"  aria-label="Close"></button>
+                <button type="button" class="btn-close"  data-mdb-dismiss="alert"  aria-label="Close"></button>
             </div>
         {% endfor %}
 
@@ -638,10 +638,10 @@
         <div style="margin-left: 1em" class="mt-5">
             <nav>
                 <div class="nav nav-tabs" id="nav-tab" role="tablist">
-                    <button class="nav-link active" id="nav-prof-tab" data-bs-toggle="tab" data-bs-target="#nav-prof" type="button" role="tab" aria-controls="nav-prof" aria-selected="false">Cursus professionnel</button>
-                    <button class="nav-link" id="nav-formation-tab" data-bs-toggle="tab" data-bs-target="#nav-formation" type="button" role="tab" aria-controls="nav-formation" aria-selected="false">Fiche formation</button>
-                    <button class="nav-link" id="nav-filiation-tab" data-bs-toggle="tab" data-bs-target="#nav-filiation" type="button" role="tab" aria-controls="nav-filiation" aria-selected="false">Filiation</button>
-                    <button class="nav-link" id="nav-statut-tab" data-bs-toggle="tab" data-bs-target="#nav-statut" type="button" role="tab" aria-controls="nav-statut" aria-selected="false">Dossier Statut</button>
+                    <a class="nav-link active" id="nav-prof-tab" data-mdb-toggle="tab" href="#nav-prof" type="button" role="tab" aria-controls="nav-prof" aria-selected="false">Cursus professionnel</a>
+                    <a class="nav-link" id="nav-formation-tab" data-mdb-toggle="tab" href="#nav-formation" type="button" role="tab" aria-controls="nav-formation" aria-selected="false">Fiche formation</a>
+                    <a class="nav-link" id="nav-filiation-tab" data-mdb-toggle="tab" href="#nav-filiation" type="button" role="tab" aria-controls="nav-filiation" aria-selected="false">Filiation</a>
+                    <a class="nav-link" id="nav-statut-tab" data-mdb-toggle="tab" href="#nav-statut" type="button" role="tab" aria-controls="nav-statut" aria-selected="false">Dossier Statut</a>
                 </div>
             </nav>
             <div class="tab-content" id="nav-tabContent">
@@ -654,7 +654,7 @@
                                 {% for message in app.session.flashbag.get('create_affectation') %}
                                     <div class="alert alert-success alert-dismissible fade show" role="alert">
                                         <strong>{{ message }}!</strong>
-                                        <button type="button" class="btn-close"  data-bs-dismiss="alert"  aria-label="Close"></button>
+                                        <button type="button" class="btn-close"  data-mdb-dismiss="alert"  aria-label="Close"></button>
                                     </div>
                                 {% endfor %}
 
@@ -663,7 +663,7 @@
                                         <div class="d-flex justify-content-between">
                                             <span class="fw-bold">Unites d'affectation</span>
                                             <span>
-                                                <button type="button" class="btn btn-outline-primary" data-bs-toggle="modal" data-bs-target="#affectationModal">
+                                                <button type="button" class="btn btn-outline-primary" data-mdb-toggle="modal" data-mdb-target="#affectationModal">
                                                     <i class="fa fa-plus"></i>
                                                     Changer d'affectation
                                                 </button>
@@ -717,7 +717,7 @@
                                 {% for message in app.session.flashbag.get('create_militaireMission') %}
                                     <div class="alert alert-success alert-dismissible fade show" role="alert">
                                         <strong>{{ message }}!</strong>
-                                        <button type="button" class="btn-close"  data-bs-dismiss="alert"  aria-label="Close"></button>
+                                        <button type="button" class="btn-close"  data-mdb-dismiss="alert"  aria-label="Close"></button>
                                     </div>
                                 {% endfor %}
 
@@ -726,7 +726,7 @@
                                         <div class="d-flex justify-content-between">
                                             <span class="fw-bold">Missions effectues</span>
                                             <span>
-                                                <button type="button" class="btn btn-outline-primary" data-bs-toggle="modal" data-bs-target="#missionModal">
+                                                <button type="button" class="btn btn-outline-primary" data-mdb-toggle="modal" data-mdb-target="#missionModal">
                                                     <i class="fa fa-plus"></i>
                                                     Ajouter
                                                 </button>
@@ -782,7 +782,7 @@
                                 {% for message in app.session.flashbag.get('create_militaireExercice') %}
                                     <div class="alert alert-success alert-dismissible fade show" role="alert">
                                         <strong>{{ message }}!</strong>
-                                        <button type="button" class="btn-close"  data-bs-dismiss="alert"  aria-label="Close"></button>
+                                        <button type="button" class="btn-close"  data-mdb-dismiss="alert"  aria-label="Close"></button>
                                     </div>
                                 {% endfor %}
 
@@ -791,7 +791,7 @@
                                         <div class="d-flex justify-content-between">
                                             <span class="fw-bold">Exercices</span>
                                             <span>
-                                                <button type="button"  class="btn btn-outline-primary" data-bs-toggle="modal" data-bs-target="#exerciceModal">
+                                                <button type="button"  class="btn btn-outline-primary" data-mdb-toggle="modal" data-mdb-target="#exerciceModal">
                                                     <i class="fa fa-plus"></i>
                                                     Ajouter
                                                 </button>
@@ -835,7 +835,7 @@
                                 {% for message in app.session.flashbag.get('create_militaireMedaille') %}
                                     <div class="alert alert-success alert-dismissible fade show" role="alert">
                                         <strong>{{ message }}!</strong>
-                                        <button type="button" class="btn-close"  data-bs-dismiss="alert"  aria-label="Close"></button>
+                                        <button type="button" class="btn-close"  data-mdb-dismiss="alert"  aria-label="Close"></button>
                                     </div>
                                 {% endfor %}
 
@@ -844,7 +844,7 @@
                                         <div class="d-flex justify-content-between">
                                             <span class="fw-bold">Medailles ou distinction obtenues</span>
                                             <span>
-                                                <button type="button"  class="btn btn-outline-primary" data-bs-toggle="modal" data-bs-target="#medailleModal">
+                                                <button type="button"  class="btn btn-outline-primary" data-mdb-toggle="modal" data-mdb-target="#medailleModal">
                                                     <i class="fa fa-plus"></i>
                                                     Ajouter
                                                 </button>
@@ -894,7 +894,7 @@
                                 {% for message in app.session.flashbag.get('create_militaireFormation') %}
                                     <div class="alert alert-success alert-dismissible fade show" role="alert">
                                         <strong>{{ message }}!</strong>
-                                        <button type="button" class="btn-close"  data-bs-dismiss="alert"  aria-label="Close"></button>
+                                        <button type="button" class="btn-close"  data-mdb-dismiss="alert"  aria-label="Close"></button>
                                     </div>
                                 {% endfor %}
 
@@ -904,7 +904,7 @@
                                         <div class="d-flex justify-content-between">
                                             <span class="fw-bold">Formations effectuees</span>
                                             <span>
-                                                <button id="formationBtn" type="button" class="btn btn-outline-primary" data-bs-toggle="modal" data-bs-target="#formationModal">
+                                                <button id="formationBtn" type="button" class="btn btn-outline-primary" data-mdb-toggle="modal" data-mdb-target="#formationModal">
                                                     <i class="fa fa-plus"></i>
                                                     Ajouter une formation deja faite
                                                 </button>
@@ -951,7 +951,7 @@
                                 {% for message in app.session.flashbag.get('create_militaireFormationPlan') %}
                                     <div class="alert alert-success alert-dismissible fade show" role="alert">
                                         <strong>{{ message }}!</strong>
-                                        <button type="button" class="btn-close"  data-bs-dismiss="alert"  aria-label="Close"></button>
+                                        <button type="button" class="btn-close"  data-mdb-dismiss="alert"  aria-label="Close"></button>
                                     </div>
                                 {% endfor %}
 
@@ -960,7 +960,7 @@
                                         <div class="d-flex justify-content-between">
                                             <span class="fw-bold">Formations  planifiees</span>
                                             <span>
-                                                <button id="formationPlanBtn" type="button" class="btn btn-outline-primary" data-bs-toggle="modal" data-bs-target="#formationModal">
+                                                <button id="formationPlanBtn" type="button" class="btn btn-outline-primary" data-mdb-toggle="modal" data-mdb-target="#formationModal">
                                                     <i class="fa fa-plus"></i>
                                                     Planifier une formation
                                                 </button>
@@ -1028,7 +1028,7 @@
                                 {% for message in app.session.flashbag.get('create_membreFamille') %}
                                     <div class="alert alert-success alert-dismissible fade show" role="alert">
                                         <strong>{{ message }}!</strong>
-                                        <button type="button" class="btn-close"  data-bs-dismiss="alert"  aria-label="Close"></button>
+                                        <button type="button" class="btn-close"  data-mdb-dismiss="alert"  aria-label="Close"></button>
                                     </div>
                                 {% endfor %}
 
@@ -1037,7 +1037,7 @@
                                         <div class="d-flex justify-content-between">
                                             <span class="fw-bold">Membres de famille</span>
                                             <span>
-                                                <button  type="button" class="btn btn-outline-primary" data-bs-toggle="modal" data-bs-target="#familleModal">
+                                                <button  type="button" class="btn btn-outline-primary" data-mdb-toggle="modal" data-mdb-target="#familleModal">
                                                     <i class="fa fa-plus"></i>
                                                     Ajouter un membre de la famille
                                                 </button>
@@ -1159,7 +1159,7 @@
                                 {% for message in app.session.flashbag.get('statut') %}
                                     <div class="alert alert-success alert-dismissible fade show" role="alert">
                                         <strong>{{ message }}!</strong>
-                                        <button type="button" class="btn-close"  data-bs-dismiss="alert"  aria-label="Close"></button>
+                                        <button type="button" class="btn-close"  data-mdb-dismiss="alert"  aria-label="Close"></button>
                                     </div>
                                 {% endfor %}
 
@@ -1168,7 +1168,7 @@
                                         <div class="d-flex justify-content-between">
                                             <span class="fw-bold">Historique des statuts</span>
                                             <span>
-                                                <button  type="button" class="btn btn-outline-primary" data-bs-toggle="modal" data-bs-target="#statutModal">
+                                                <button  type="button" class="btn btn-outline-primary" data-mdb-toggle="modal" data-mdb-target="#statutModal">
                                                     <i class="fa fa-plus"></i>
                                                     Changer de statut
                                                 </button>

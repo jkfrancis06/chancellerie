@@ -110,7 +110,7 @@ class Militaire
     private $logement;
 
     /**
-     * @ORM\OneToMany(targetEntity=Affectation::class, mappedBy="militaire")
+     * @ORM\OneToMany(targetEntity=Affectation::class, mappedBy="militaire",cascade={"persist", "remove"})
      */
     private $affectations;
 

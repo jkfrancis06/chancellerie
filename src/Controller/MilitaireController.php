@@ -21,6 +21,7 @@ use App\Form\MilitaireMissionType;
 use App\Form\MilitaireStatutType;
 use App\Form\MilitaireType;
 use App\Form\RadiationConfirmType;
+use App\Form\SearchMilitaireType;
 use App\Service\FileUploader;
 use Knp\Bundle\SnappyBundle\Snappy\Response\PdfResponse;
 use Knp\Snappy\Pdf;
@@ -108,17 +109,7 @@ class MilitaireController extends AbstractController
         ]);
     }
 
-    /**
-     * @Route("/militaire/recherche", name="search_militaire")
-     */
-    public function searchMilitaire(): Response
-    {
-        $user = $this->getUser();
-        return $this->render('militaire/search.html.twig', [
-            'controller_name' => 'search_militaire',
-            'user' => $user
-        ]);
-    }
+
 
 
     /**
@@ -496,10 +487,46 @@ class MilitaireController extends AbstractController
     {
         $user = $this->getUser();
 
+        $elements = [];
+
+        $militaires =  $this->getDoctrine()->getManager()->getRepository(Militaire::class)->findBy(array(), array('matricule' => 'ASC'));
+
+
+        foreach ($militaires as $militaire){
+            $militaire_item = [];
+            $militaire_item['militaire'] = $militaire;
+            $militaire_item['d_naiss'] = date('Y-m-d',$militaire->getDateNaissance()->getTimestamp());
+            $militaire_item['d_incor'] = date('Y-m-d',$militaire->getDateIncorp()->getTimestamp());
+            array_push($elements,$militaire_item);
+        }
+
         return $this->render('militaire/all.html.twig', [
             'controller_name' => 'DashboardController',
             'active' => 'militaire',
-            'user' => $user
+            'user' => $user,
+            'militaires' => $elements
+        ]);
+    }
+
+
+    /**
+     * @Route("/militaires/s", name="search_militaire")
+     */
+    public function searchMilitaires(Request $request): Response
+    {
+        $user = $this->getUser();
+
+        $searchForm = $this->createForm(SearchMilitaireType::class);
+
+
+
+
+
+        return $this->render('militaire/search.html.twig', [
+            'controller_name' => 'DashboardController',
+            'active' => 'militaire',
+            'user' => $user,
+            'searchForm' => $searchForm->createView(),
         ]);
     }
 

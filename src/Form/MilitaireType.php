@@ -76,7 +76,7 @@ class MilitaireType extends AbstractType
                 // adds a class that can be selected in JavaScript
                 'attr' => [
                     'class' => 'js-datepicker',
-                    'placeholder' => 'Selectionner une date'
+                    'placeholder' => 'Selectionner un interval de date'
                 ],
 
                 'constraints' => [

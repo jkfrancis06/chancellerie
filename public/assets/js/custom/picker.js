@@ -125,4 +125,42 @@ $(document).ready(function() {
     $('.js-datepicker-formation').val('')
     $('.js-datepicker-form').val('')
     $('.js-datepicker').val('')
+
+    $('.search-picker').daterangepicker({
+        opens: 'left',
+        locale: {
+            format: 'DD/MM/YYYY',
+            "firstDay": 1,
+            "applyLabel": "Appliquer",
+            "cancelLabel": "Annuler",
+            "fromLabel": "De",
+            "toLabel": "A",
+            "weekLabel": "W",
+            "daysOfWeek": [
+                "Dim",
+                "Lun",
+                "Mar",
+                "Mer",
+                "Jeu",
+                "Ven",
+                "Sam"
+            ],
+            "monthNames": [
+                "Janvier",
+                "Fevrier",
+                "Mars",
+                "Avril",
+                "Mai",
+                "Juin",
+                "Juillet",
+                "Aout",
+                "Septembre",
+                "Octobre",
+                "Novembre",
+                "Decembre"
+            ],
+
+        }
+    });
+
 });

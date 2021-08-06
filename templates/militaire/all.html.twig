@@ -2,9 +2,181 @@
 
 {% block title %}Tous les elements{% endblock %}
 
+{% block javascripts %}
+
+
+    <script  src="{{ asset('/assets/js/datatables/dataTables.buttons.js') }}"></script>
+    <script  src="{{ asset('/assets/js/datatables/buttons.print.js') }}"></script>
+    <script  src="{{ asset('/assets/js/datatables/buttons.bootstrap5.min.js') }}"></script>
+
+{% endblock %}
+
+ {% block stylesheets %}
+
+     <link rel="stylesheet" href="{{ asset('/assets/css/datatables/buttons.dataTables.css') }}" />
+     <link rel="stylesheet" href="{{ asset('/assets/css/datatables/buttons.bootstrap5.css') }}" />
+
+     <style>
+         .dt-buttons{
+             margin-bottom: 1em!important;
+         }
+         #tab-content{
+             display: none;
+         }
+         #loader{
+             display: block;
+         }
+         #loading {
+             background: url('{{ asset('/assets/img/loader.gif') }}') no-repeat center center;
+             position: absolute;
+             top: 0;
+             left: 0;
+             height: 100%;
+             width: 100%;
+             z-index: 9999999;
+         }
+     </style>
+ {% endblock %}
+
 
 {% block content %}
 
+
+    <div id='loader'>
+        <div id="loading"></div>
+    </div>
+
+
+
+    <div class="container-fluid mt-5">
+        <ul class="nav nav-tabs" id="myTab" role="tablist">
+            <li class="nav-item" role="presentation">
+                <button class="nav-link active" id="home-tab" data-bs-toggle="tab" data-bs-target="#home" type="button" role="tab" aria-controls="home" aria-selected="true">Tous les elements</button>
+            </li>
+
+        </ul>
+        <div class="tab-content" id="myTabContent">
+            <div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">
+                <div id="tab-content" class="row mt-4" style="margin-left: 2em; margin-right: 2em">
+
+                    <table id="elements" class="table  table-responsive table-bordered table-striped table-hover text-center">
+                        <thead>
+                        <tr>
+                            <th>Photo</th>
+                            <th>Matricule</th>
+                            <th>Nom</th>
+                            <th>Prenoms</th>
+                            <th>Grade</th>
+                            <th>Date de naissance</th>
+                            <th>Sexe</th>
+                            <th>Numeros de telephones</th>
+                            <th>Adresse</th>
+                            <th>Date d'incorporation</th>
+                            <th>Annees de service</th>
+                            <th>Fonction</th>
+                            <th>Unite d'affectation</th>
+                            <th>Corps d'affectation</th>
+                            <th>Statut</th>
+                            <th></th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        {% if militaires | length == 0 %}
+                            <p class="text-center">Aucun element n'a été ajouté pour l'instant</p>
+                        {% else %}
+                            {% for militaire in militaires%}
+                                <tr>
+                                    <td>
+                                        <img height="50" width="50" src="{{ asset('/elements/') }}{{ militaire.militaire.fichiers[0].nom }}" class="img-thumbnail" alt="...">
+                                    </td>
+                                    <td>{{ militaire.militaire.matricule }}</td>
+                                    <td>{{ militaire.militaire.nom }}</td>
+                                    <td>{{ militaire.militaire.prenoms }}</td>
+                                    <td>{{ militaire.militaire.grade.intitule }}</td>
+                                    <td data-sort="{{ militaire.d_naiss }}">{{ militaire.militaire.dateNaissance|date("d-m-Y")  }}</td>
+                                    <td>
+                                        {% if militaire.militaire.sexe == 'f' %}
+                                            Femme
+                                        {% else %}
+                                            Homme
+                                        {% endif %}
+                                    </td>
+                                    <td>
+                                        {% for telephone in militaire.militaire.telephone %}
+                                            {{ telephone.numero }} <br>
+                                        {% endfor %}
+                                    </td>
+                                    <td>{{ militaire.militaire.adresse }}</td>
+                                    <td data-sort="{{ militaire.d_incor }}">{{ militaire.militaire.dateIncorp|date("d-m-Y")  }}</td>
+                                    <td>
+                                        {% set srv = date().diff(date(militaire.militaire.dateIncorp)).y %}
+                                        {{ srv }}
+                                    </td>
+                                    <td>
+                                        {% set size = militaire.militaire.affectations|length -1 %}
+                                        {{ militaire.militaire.affectations[size].fonction }}
+                                    </td>
+                                    <td>{{  militaire.militaire.affectations[size].unite.intitule }}</td>
+                                    <td>{{  militaire.militaire.affectations[size].unite.corps.intitule }}</td>
+                                    <td>
+                                        {% set key = militaire.militaire.militaireStatuts|length -1 %}
+                                        {% set lastStatut =  militaire.militaire.militaireStatuts[key] %}
+
+                                        {% if lastStatut != null and lastStatut.statut == 1 %}
+                                            <span class="text-danger fw-bold">Radie</span>
+                                        {% endif %}
+
+
+                                        {% if lastStatut != null and lastStatut.statut == 3 %}
+                                            <span class="text-success fw-bold">En service</span>
+                                        {% endif %}
+
+                                        {% if lastStatut != null and lastStatut.statut == 0 %}
+                                            <span class="text-warning fw-bold">Retraite</span>
+                                        {% endif %}
+
+                                        {% if lastStatut != null and lastStatut.statut == 2 %}
+                                            <span class="text-success fw-bold">En service</span>
+                                        {% endif %}
+
+                                        {% if lastStatut != null and lastStatut.statut == 4 %}
+                                            <span class="text-success fw-bold">Disponibilite</span>
+                                        {% endif %}
+
+                                        {% if lastStatut != null and lastStatut.statut == 5 %}
+                                            <span class="text-primary fw-bold">Detachement</span>
+                                        {% endif %}
+
+                                        {% if lastStatut != null and lastStatut.statut == 6 %}
+                                            <span class="text-danger fw-bold">Deserteur</span>
+                                        {% endif %}
+
+                                        {% if lastStatut != null and lastStatut.statut == 7 %}
+                                            <span class="text-warning fw-bold">Absence</span>
+                                        {% endif %}
+
+                                        {% if lastStatut != null and lastStatut.statut == 8 %}
+                                            <span class="text-warning fw-bold">Arret maladie</span>
+                                        {% endif %}
+                                    </td>
+
+                                    <td>
+                                        <a target="_blank" rel="noopener noreferrer" href="{{ path('militaire_details', { 'id': militaire.militaire.id }) }}" type="button" class="btn btn-primary">
+                                            <i class="fa fa-eye"></i>
+                                        </a>
+                                    </td>
+
+                                </tr>
+                            {% endfor %}
+
+                        {% endif %}
+                        </tbody>
+                    </table>
+
+                </div>
+            </div>
+        </div>
+    </div>
 
 
 {% endblock %}
