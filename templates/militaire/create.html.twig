@@ -19,7 +19,7 @@
 
 
     <div style="margin-top: 1em; margin-bottom: 5em;">
-        <ul class="nav nav-tabs" id="myTab" role="tablist">
+        <ul class="nav nav-tabs md-tabs" id="myTab" role="tablist">
             <li class="nav-item" role="presentation">
                 <button class="nav-link active" id="create-tab" data-bs-toggle="tab" data-bs-target="#create" type="button" role="tab" aria-controls="home" aria-selected="true">Creer un element</button>
             </li>
@@ -33,7 +33,7 @@
                         {% for message in app.session.flashbag.get('grade_add') %}
                             <div class="alert alert-success alert-dismissible fade show" role="alert">
                                 <strong>{{ message }}!</strong>
-                                <button type="button" class="btn-close"  data-bs-dismiss="alert"  aria-label="Close"></button>
+                                <button type="button" class="btn-close"  data-mdb-dismiss="alert"  aria-label="Close"></button>
                             </div>
                         {% endfor %}
 
@@ -41,10 +41,15 @@
 
                         {{ form_errors(militaireForm) }}
 
-                        <div class="mb-3">
-                            {{ form_label(militaireForm.fichiers, "Photos d'identite", {'label_attr': {'class': 'c_image_name_input_label'}}) }}
-                            <div class="input-group">
-                                {{ form_widget(militaireForm.fichiers, {'attr': {'class': 'form-control'}}) }}
+                        <div class="md-form mb-3">
+                            <div class="file-field">
+                                <div class="btn blue-gradient btn-sm float-left">
+                                    <span><i class="fas fa-cloud-upload-alt mr-2" aria-hidden="true"></i>Choisir un fichier</span>
+                                    {{ form_widget(militaireForm.fichiers, {'attr': {'class': 'form-control'}}) }}
+                                </div>
+                                <div class="file-path-wrapper">
+                                    <input class="file-path validate" readonly type="text" placeholder="Uploader des photos">
+                                </div>
                             </div>
                             <div class="form-error" style="color: red">
                                 {{ form_errors(militaireForm.fichiers) }}
@@ -86,7 +91,7 @@
 
                         <div class="mb-3">
                             {{ form_label(militaireForm.sexe,'', {'label_attr': {'class': 'intitule_label'}}) }}
-                            {{ form_widget(militaireForm.sexe, {'attr': {'class': 'form-control'}}) }}
+                            {{ form_widget(militaireForm.sexe, {'attr': {'class': 'mdb-select md-form colorful-select dropdown-ins'}}) }}
                             <div class="form-error" style="color: red">
                                 {{ form_errors(militaireForm.sexe) }}
                             </div>
@@ -111,7 +116,7 @@
 
                         <div class="mb-3">
                             {{ form_label(militaireForm.situationMatri, '', {'label_attr': {'class': 'intitule_label'}}) }}
-                            {{ form_widget(militaireForm.situationMatri, {'attr': {'class': 'form-control'}}) }}
+                            {{ form_widget(militaireForm.situationMatri, {'attr': {'class': 'mdb-select md-form colorful-select dropdown-ins'}}) }}
                             <div class="form-error" style="color: red">
                                 {{ form_errors(militaireForm.situationMatri) }}
                             </div>
@@ -119,7 +124,7 @@
 
                         <div class="mb-3">
                             {{ form_label(militaireForm.hasChildren, '', {'label_attr': {'class': 'intitule_label'}}) }}
-                            {{ form_widget(militaireForm.hasChildren, {'attr': {'class': 'form-control'}}) }}
+                            {{ form_widget(militaireForm.hasChildren, {'attr': {'class': 'mdb-select md-form colorful-select dropdown-ins'}}) }}
                             <div class="form-error" style="color: red">
                                 {{ form_errors(militaireForm.hasChildren) }}
                             </div>
@@ -160,7 +165,7 @@
 
                         <div class="mb-3">
                             {{ form_label(militaireForm.grade, '', {'label_attr': {'class': 'intitule_label'}}) }}
-                            {{ form_widget(militaireForm.grade, {'attr': {'class': 'form-control'}}) }}
+                            {{ form_widget(militaireForm.grade, {'attr': {'class': 'mdb-select md-form colorful-select dropdown-ins','searchable':'Rechercher un grade'}}) }}
                             <div class="form-error" style="color: red">
                                 {{ form_errors(militaireForm.grade) }}
                             </div>
@@ -168,7 +173,7 @@
 
                         <div class="mb-3">
                             {{ form_label(militaireForm.specialite, '', {'label_attr': {'class': 'intitule_label'}}) }}
-                            {{ form_widget(militaireForm.specialite, {'attr': {'class': 'form-control'}}) }}
+                            {{ form_widget(militaireForm.specialite, {'attr': {'class': 'mdb-select md-form colorful-select dropdown-ins','searchable':'Rechercher une specialite'}}) }}
                             <div class="form-error" style="color: red">
                                 {{ form_errors(militaireForm.specialite) }}
                             </div>
@@ -176,7 +181,7 @@
 
                         <div class="mb-3">
                             {{ form_label(militaireForm.origineRecrutement, '', {'label_attr': {'class': 'intitule_label'}}) }}
-                            {{ form_widget(militaireForm.origineRecrutement, {'attr': {'class': 'form-control'}}) }}
+                            {{ form_widget(militaireForm.origineRecrutement, {'attr': {'class': 'mdb-select md-form colorful-select dropdown-ins','searchable':'Rechercher'}}) }}
                             <div class="form-error" style="color: red">
                                 {{ form_errors(militaireForm.origineRecrutement) }}
                             </div>

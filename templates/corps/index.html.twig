@@ -7,18 +7,18 @@
 
     <div style="margin-top: 1em">
 
-        <ul class="nav nav-tabs" id="myTab" role="tablist">
+        <ul class="nav nav-tabs md-tabs" id="myTab" role="tablist">
             <li class="nav-item" role="presentation">
-                <a class="nav-link active" id="home-tab" data-mdb-toggle="tab" href="#unites" type="button" role="tab" aria-controls="unites" aria-selected="true">Unites</a>
+                <a class="nav-link active" id="home-tab" data-toggle="tab" href="#unites" type="button" role="tab" aria-controls="unites" aria-selected="true">Unites</a>
             </li>
             <li class="nav-item" role="presentation">
-                <a class="nav-link" id="profile-tab" data-mdb-toggle="tab" href="#corps" type="button" role="tab" aria-controls="corps" aria-selected="false">Corps</a>
+                <a class="nav-link" id="profile-tab" data-toggle="tab" href="#corps" type="button" role="tab" aria-controls="corps" aria-selected="false">Corps</a>
             </li>
             <li class="nav-item" role="presentation">
-                <a class="nav-link" id="contact-tab" data-mdb-toggle="tab" href="#specialites" type="button" role="tab" aria-controls="specialites" aria-selected="false">Specialites</a>
+                <a class="nav-link" id="contact-tab" data-toggle="tab" href="#specialites" type="button" role="tab" aria-controls="specialites" aria-selected="false">Specialites</a>
             </li>
             <li class="nav-item" role="presentation">
-                <a class="nav-link" id="origin-tab" data-mdb-toggle="tab" href="#origin" type="button" role="tab" aria-controls="origin" aria-selected="false">Origine de recrutement</a>
+                <a class="nav-link" id="origin-tab" data-toggle="tab" href="#origin" type="button" role="tab" aria-controls="origin" aria-selected="false">Origine de recrutement</a>
             </li>
         </ul>
         <div class="tab-content" id="myTabContent">
@@ -29,7 +29,9 @@
                         {% for message in app.session.flashbag.get('unite_add') %}
                             <div class="alert alert-success alert-dismissible fade show" role="alert">
                                 <strong>{{ message }}!</strong>
-                                <button type="button" class="btn-close"  data-bs-dismiss="alert"  aria-label="Close"></button>
+                                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
                             </div>
                         {% endfor %}
 
@@ -56,23 +58,19 @@
                         </div>
 
                         <div class="mb-3">
-                            {{ form_label(uniteForm.corps, "Corps : ", {'label_attr': {'class': 'intitule_label'}}) }}
-                            {{ form_widget(uniteForm.corps, {'attr': {'class': 'form-control'}}) }}
+
+                            {{ form_widget(uniteForm.corps, {'attr': {'class': 'mdb-select  md-form colorful-select dropdown-ins','searchable': 'Rechercher un corps'}}) }}
+                            {{ form_label(uniteForm.corps, "Corps : ", {'label_attr': {'class': ''}}) }}
                             <div class="form-error" style="color: red">
                                 {{ form_errors(uniteForm.corps) }}
                             </div>
                         </div>
 
                         <hr>
-                        <div class="col col-12">
-                            <div class="row">
-                                <div class="col col-2">
-                                    {{ form_row(uniteForm.cancel,{'attr':{'class': 'btn btn-outline-secondary form-btn'}}) }}
-                                </div>
-                                <div class="col col-2">
-                                    {{ form_row(uniteForm.submit,{'attr':{'class': 'btn btn-outline-success form-btn'}}) }}
-                                </div>
-                            </div>
+                        <div class="d-flex justify-content-center">
+                            {{ form_row(uniteForm.cancel,{'attr':{'class': 'btn btn-outline-secondary form-btn'}}) }}
+                            {{ form_row(uniteForm.submit,{'attr':{'class': 'btn btn-outline-success form-btn'}}) }}
+
                         </div>
 
                         {{ form_end(uniteForm) }}
@@ -83,7 +81,7 @@
                             <div class="card-body">
                                 <h5 class="card-title">Liste des  unites</h5>
                                 <hr>
-                                <table class="table table-responsive table-bordered table-striped table-hover text-center">
+                                <table class="table table-bordered table-striped table-hover text-center">
                                     <thead>
                                     <tr>
                                         <th{% if db_unites.isSorted('Intitule') %} class="sorted"{% endif %}>
@@ -131,7 +129,9 @@
                         {% for message in app.session.flashbag.get('corps_add') %}
                             <div class="alert alert-success alert-dismissible fade show" role="alert">
                                 <strong>{{ message }}!</strong>
-                                <button type="button" class="btn-close"  data-bs-dismiss="alert"  aria-label="Close"></button>
+                                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
                             </div>
                         {% endfor %}
 
@@ -155,14 +155,21 @@
                             </div>
                         </div>
 
-                        <div class="col col-12">
-                            {{ form_label(corpsForm.fichiers, "Logos", {'label_attr': {'class': 'c_image_name_input_label'}}) }}
-                            <div class="input-group">
-                                {{ form_widget(corpsForm.fichiers, {'attr': {'class': 'form-control'}}) }}
+                        <div class="md-form">
+                            <div class="file-field">
+                                <div class="btn blue-gradient btn-sm float-left">
+                                    <span><i class="fas fa-cloud-upload-alt mr-2" aria-hidden="true"></i>Choisir un fichier</span>
+                                    {{ form_widget(corpsForm.fichiers, {'attr': {'class': 'form-control'}}) }}
+                                </div>
+                                <div class="file-path-wrapper">
+                                    <input class="file-path validate" readonly type="text" placeholder="Uploader une image">
+                                </div>
                             </div>
                             <div class="form-error" style="color: red">
                                 {{ form_errors(corpsForm.fichiers) }}
                             </div>
+
+
                         </div>
 
                         <hr>
@@ -186,7 +193,7 @@
                             <div class="card-body">
                                 <h5 class="card-title">Liste des  corps</h5>
                                 <hr>
-                                <table class="table table-responsive table-bordered table-striped table-hover text-center">
+                                <table class="table table-bordered table-striped table-hover text-center">
                                     <thead>
                                     <tr>
                                         <th></th>
@@ -233,7 +240,9 @@
                         {% for message in app.session.flashbag.get('specialite_add') %}
                             <div class="alert alert-success alert-dismissible fade show" role="alert">
                                 <strong>{{ message }}!</strong>
-                                <button type="button" class="btn-close"  data-bs-dismiss="alert"  aria-label="Close"></button>
+                                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
                             </div>
                         {% endfor %}
 
@@ -257,15 +266,10 @@
                             </div>
                         </div>
                         <hr>
-                        <div class="col col-12">
-                            <div class="row">
-                                <div class="col col-2">
-                                    {{ form_row(specialiteForm.cancel,{'attr':{'class': 'btn btn-outline-secondary form-btn'}}) }}
-                                </div>
-                                <div class="col col-2">
-                                    {{ form_row(specialiteForm.submit,{'attr':{'class': 'btn btn-outline-success form-btn'}}) }}
-                                </div>
-                            </div>
+                        <div class="d-flex justify-content-center">
+                            {{ form_row(specialiteForm.cancel,{'attr':{'class': 'btn btn-outline-secondary form-btn'}}) }}
+                            {{ form_row(specialiteForm.submit,{'attr':{'class': 'btn btn-outline-success form-btn'}}) }}
+
                         </div>
 
                         {{ form_end(specialiteForm) }}
@@ -322,7 +326,9 @@
                         {% for message in app.session.flashbag.get('origin_add') %}
                             <div class="alert alert-success alert-dismissible fade show" role="alert">
                                 <strong>{{ message }}!</strong>
-                                <button type="button" class="btn-close"  data-bs-dismiss="alert"  aria-label="Close"></button>
+                                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
                             </div>
                         {% endfor %}
 
@@ -347,15 +353,9 @@
                         </div>
 
                         <hr>
-                        <div class="col col-12">
-                            <div class="row">
-                                <div class="col col-2">
-                                    {{ form_row(originForm.cancel,{'attr':{'class': 'btn btn-outline-secondary form-btn'}}) }}
-                                </div>
-                                <div class="col col-2">
-                                    {{ form_row(originForm.submit,{'attr':{'class': 'btn btn-outline-success form-btn'}}) }}
-                                </div>
-                            </div>
+                        <div class="d-flex justify-content-center">
+                            {{ form_row(originForm.cancel,{'attr':{'class': 'btn btn-outline-secondary form-btn'}}) }}
+                            {{ form_row(originForm.submit,{'attr':{'class': 'btn btn-outline-success form-btn'}}) }}
                         </div>
 
                         {{ form_end(originForm) }}

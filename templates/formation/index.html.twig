@@ -6,12 +6,12 @@
 {% block content %}
 
     <div style="margin-top: 1em">
-        <ul class="nav nav-tabs" id="myTab" role="tablist">
+        <ul class="nav nav-tabs md-tabs" id="myTab" role="tablist">
             <li class="nav-item" role="presentation">
-                <a class="nav-link active" id="formations-tab" data-mdb-toggle="tab" href="#formations" type="button" role="tab" aria-controls="formations" aria-selected="true">Formations </a>
+                <a class="nav-link active" id="formations-tab" data-toggle="tab" href="#formations" type="button" role="tab" aria-controls="formations" aria-selected="true">Formations </a>
             </li>
             <li class="nav-item" role="presentation">
-                <a class="nav-link" id="diplomes-tab" data-mdb-toggle="tab" href="#diplomes" type="button" role="tab" aria-controls="diplomes" aria-selected="false">Diplomes</a>
+                <a class="nav-link" id="diplomes-tab" data-toggle="tab" href="#diplomes" type="button" role="tab" aria-controls="diplomes" aria-selected="false">Diplomes</a>
             </li>
         </ul>
         <div class="tab-content" id="myTabContent">
@@ -23,7 +23,9 @@
                         {% for message in app.session.flashbag.get('formation_add') %}
                             <div class="alert alert-success alert-dismissible fade show" role="alert">
                                 <strong>{{ message }}!</strong>
-                                <button type="button" class="btn-close"  data-bs-dismiss="alert"  aria-label="Close"></button>
+                                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
                             </div>
                         {% endfor %}
 
@@ -42,7 +44,7 @@
 
                         <div class="mb-3">
                             {{ form_label(formationForm.type, "Type de la formation : ", {'label_attr': {'class': 'intitule_label'}}) }}
-                            {{ form_widget(formationForm.type, {'attr': {'class': 'form-control'}}) }}
+                            {{ form_widget(formationForm.type, {'attr': {'class': ' mdb-select md-form colorful-select dropdown-ins'}}) }}
                             <div class="form-error" style="color: red">
                                 {{ form_errors(formationForm.type) }}
                             </div>
@@ -57,15 +59,9 @@
                         </div>
 
                         <hr>
-                        <div class="col col-12">
-                            <div class="row">
-                                <div class="col col-2">
-                                    {{ form_row(formationForm.cancel,{'attr':{'class': 'btn btn-outline-secondary form-btn'}}) }}
-                                </div>
-                                <div class="col col-2">
-                                    {{ form_row(formationForm.submit,{'attr':{'class': 'btn btn-outline-success form-btn'}}) }}
-                                </div>
-                            </div>
+                        <div class="d-flex justify-content-center">
+                            {{ form_row(formationForm.cancel,{'attr':{'class': 'btn btn-outline-secondary form-btn'}}) }}
+                            {{ form_row(formationForm.submit,{'attr':{'class': 'btn btn-outline-success form-btn'}}) }}
                         </div>
 
                         {{ form_end(formationForm) }}
@@ -77,7 +73,7 @@
                             <div class="card-body">
                                 <h5 class="card-title">Liste des  formations</h5>
                                 <hr>
-                                <table class="table  table-responsive table-bordered table-striped table-hover">
+                                <table class="table table-bordered table-striped table-hover">
                                     <thead>
                                     <tr>
                                         <th{% if formations.isSorted('Intitule') %} class="sorted"{% endif %}>
@@ -125,7 +121,9 @@
                         {% for message in app.session.flashbag.get('diplome_add') %}
                             <div class="alert alert-success alert-dismissible fade show" role="alert">
                                 <strong>{{ message }}!</strong>
-                                <button type="button" class="btn-close"  data-bs-dismiss="alert"  aria-label="Close"></button>
+                                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
                             </div>
                         {% endfor %}
 
@@ -142,21 +140,15 @@
                         </div>
                         <div class="mb-3">
                             {{ form_label(diplomeForm.type, "Type du diplome : ", {'label_attr': {'class': 'intitule_label'}}) }}
-                            {{ form_widget(diplomeForm.type, {'attr': {'class': 'form-control'}}) }}
+                            {{ form_widget(diplomeForm.type, {'attr': {'class': 'mdb-select md-form colorful-select dropdown-ins'}}) }}
                             <div class="form-error" style="type: red">
                                 {{ form_errors(diplomeForm.intitule) }}
                             </div>
                         </div>
                         <hr>
-                        <div class="col col-12">
-                            <div class="row">
-                                <div class="col col-2">
-                                    {{ form_row(diplomeForm.cancel,{'attr':{'class': 'btn btn-outline-secondary form-btn'}}) }}
-                                </div>
-                                <div class="col col-2">
-                                    {{ form_row(diplomeForm.submit,{'attr':{'class': 'btn btn-outline-success form-btn'}}) }}
-                                </div>
-                            </div>
+                        <div class="d-flex justify-content-center">
+                            {{ form_row(diplomeForm.cancel,{'attr':{'class': 'btn btn-outline-secondary form-btn'}}) }}
+                            {{ form_row(diplomeForm.submit,{'attr':{'class': 'btn btn-outline-success form-btn'}}) }}
                         </div>
 
                         {{ form_end(diplomeForm) }}
@@ -168,7 +160,7 @@
                             <div class="card-body">
                                 <h5 class="card-title">Liste des diplomes</h5>
                                 <hr>
-                                <table class="table  table-responsive table-bordered table-striped table-hover">
+                                <table class="table  table-bordered table-striped table-hover">
                                     <thead>
                                     <tr>
                                         <th{% if diplomes.isSorted('Intitule') %} class="sorted"{% endif %}>

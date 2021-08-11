@@ -10,9 +10,9 @@
 
     <script>
         $(function() {
-            $('button[data-mdb-toggle="modal"]').on('click', function (e) {
+            $('button[data-toggle="modal"]').on('click', function (e) {
                 // save the latest tab; use cookies if you like 'em better:
-                localStorage.setItem('lastModal', $(this).attr('data-mdb-target'));
+                localStorage.setItem('lastModal', $(this).attr('data-target'));
                 console.log('ok')
             });
             let lastModal = localStorage.getItem('lastModal');
@@ -39,7 +39,7 @@
 
     <!-- Formulaire Affectation -->
 
-    <div class="modal fade" id="affectationModal" tabindex="-1" aria-labelledby="affectationModalLabel" aria-hidden="true" data-mdb-backdrop="static" data-mdb-keyboard="false">
+    <div class="modal fade" id="affectationModal" tabindex="-1" aria-labelledby="affectationModalLabel" aria-hidden="true" data-backdrop="static" data-keyboard="false">
         <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
                 <div class="modal-content">
                     {{ form_start(affectationForm) }}
@@ -49,7 +49,9 @@
                     </span>
                     <div class="modal-header">
                         <h5 class="modal-title" id="exampleModalLabel">Affecter</h5>
-                        <button type="button" class="btn-close" data-mdb-dismiss="modal" aria-label="Close"></button>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
                     </div>
                     <div class="modal-body">
                         <div class="mb-3">
@@ -75,14 +77,14 @@
                         </div>
                         <div class="mb-3">
                             {{ form_label(affectationForm.unite, "Unite : ", {'label_attr': {'class': 'intitule_label'}}) }}
-                            {{ form_widget(affectationForm.unite, {'attr': {'class': 'form-control'}}) }}
+                            {{ form_widget(affectationForm.unite, {'attr': {'class': 'mdb-select md-form colorful-select dropdown-ins','searchable':'Rechercher'}}) }}
                             <div class="form-error" style="color: red">
                                 {{ form_errors(affectationForm.unite) }}
                             </div>
                         </div>
                     </div>
                     <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-mdb-dismiss="modal">Fermer</button>
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Fermer</button>
                         {{ form_row(affectationForm.cancel,{'attr':{'class': 'btn btn-outline-secondary form-btn'}}) }}
                         {{ form_row(affectationForm.submit,{'attr':{'class': 'btn btn-outline-success form-btn'}}) }}
                     </div>
@@ -94,7 +96,7 @@
 
     <!-- Formulaire Mission -->
 
-    <div class="modal fade" id="missionModal" tabindex="-1" aria-labelledby="missionModalLabel" aria-hidden="true" data-mdb-backdrop="static" data-mdb-keyboard="false">
+    <div class="modal fade" id="missionModal" tabindex="-1" aria-labelledby="missionModalLabel" aria-hidden="true" data-backdrop="static" data-keyboard="false">
         <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
             <div class="modal-content">
                 {{ form_start(militaireMissionForm) }}
@@ -105,7 +107,7 @@
 
                 <div class="modal-header">
                     <h5 class="modal-title" id="exampleModalLabel">Ajouter une mission effectuee</h5>
-                    <button type="button" class="btn-close" data-mdb-dismiss="modal" aria-label="Close"></button>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
 
@@ -132,7 +134,7 @@
                     </div>
                     <div class="mb-3">
                         {{ form_label(militaireMissionForm.mission, "Mission : ", {'label_attr': {'class': 'intitule_label'}}) }}
-                        {{ form_widget(militaireMissionForm.mission, {'attr': {'class': 'form-control'}}) }}
+                        {{ form_widget(militaireMissionForm.mission, {'attr': {'class': 'mdb-select md-form colorful-select dropdown-ins','searchable':'Rechercher'}}) }}
                         <div class="form-error" style="color: red">
                             {{ form_errors(militaireMissionForm.mission) }}
                         </div>
@@ -141,7 +143,7 @@
 
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-mdb-dismiss="modal">Fermer</button>
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Fermer</button>
                     {{ form_row(militaireMissionForm.cancel,{'attr':{'class': 'btn btn-outline-secondary form-btn'}}) }}
                     {{ form_row(militaireMissionForm.submit,{'attr':{'class': 'btn btn-outline-success form-btn'}}) }}
                 </div>
@@ -153,7 +155,7 @@
 
     <!-- Formulaire Exercices -->
 
-    <div class="modal fade" id="exerciceModal" tabindex="-1" aria-labelledby="exerciceModalLabel" aria-hidden="true" data-mdb-backdrop="static" data-mdb-keyboard="false">
+    <div class="modal fade" id="exerciceModal" tabindex="-1" aria-labelledby="exerciceModalLabel" aria-hidden="true" data-backdrop="static" data-keyboard="false">
         <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
             <div class="modal-content">
                 {{ form_start(militaireExerciceForm) }}
@@ -163,13 +165,13 @@
                 </span>
                 <div class="modal-header">
                     <h5 class="modal-title" id="exampleModalLabel">Ajouter un exercice effectue</h5>
-                    <button type="button" class="btn-close" data-mdb-dismiss="modal" aria-label="Close"></button>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
 
                     <div class="mb-3">
                         {{ form_label(militaireExerciceForm.exercice, "Exercice : ", {'label_attr': {'class': 'intitule_label'}}) }}
-                        {{ form_widget(militaireExerciceForm.exercice, {'attr': {'class': 'form-control'}}) }}
+                        {{ form_widget(militaireExerciceForm.exercice, {'attr': {'class': 'mdb-select md-form colorful-select dropdown-ins','searchable':'Rechercher'}}) }}
                         <div class="form-error" style="color: red">
                             {{ form_errors(militaireExerciceForm.exercice) }}
                         </div>
@@ -194,7 +196,7 @@
 
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-mdb-dismiss="modal">Fermer</button>
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Fermer</button>
                     {{ form_row(militaireExerciceForm.cancel,{'attr':{'class': 'btn btn-outline-secondary form-btn'}}) }}
                     {{ form_row(militaireExerciceForm.submit,{'attr':{'class': 'btn btn-outline-success form-btn'}}) }}
                 </div>
@@ -205,7 +207,7 @@
 
     <!-- Formulaire Medaille -->
 
-    <div class="modal fade" id="medailleModal" tabindex="-1" aria-labelledby="medailleModalLabel" aria-hidden="true" data-mdb-backdrop="static" data-mdb-keyboard="false">
+    <div class="modal fade" id="medailleModal" tabindex="-1" aria-labelledby="medailleModalLabel" aria-hidden="true" data-backdrop="static" data-keyboard="false">
         <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
             <div class="modal-content">
                 {{ form_start(militaireMedailleForm) }}
@@ -215,13 +217,13 @@
                 </span>
                 <div class="modal-header">
                     <h5 class="modal-title" id="exampleModalLabel">Ajouter une medaille ou une distinction</h5>
-                    <button type="button" class="btn-close" data-mdb-dismiss="modal" aria-label="Close"></button>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
 
                     <div class="mb-3">
                         {{ form_label(militaireMedailleForm.medaille, "Medaille ou distinctions : ", {'label_attr': {'class': 'intitule_label'}}) }}
-                        {{ form_widget(militaireMedailleForm.medaille, {'attr': {'class': 'form-control'}}) }}
+                        {{ form_widget(militaireMedailleForm.medaille, {'attr': {'class': 'mdb-select md-form colorful-select dropdown-ins','searchable':'Rechercher'}}) }}
                         <div class="form-error" style="color: red">
                             {{ form_errors(militaireMedailleForm.medaille) }}
                         </div>
@@ -246,7 +248,7 @@
 
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-mdb-dismiss="modal">Fermer</button>
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Fermer</button>
                     {{ form_row(militaireMedailleForm.cancel,{'attr':{'class': 'btn btn-outline-secondary form-btn'}}) }}
                     {{ form_row(militaireMedailleForm.submit,{'attr':{'class': 'btn btn-outline-success form-btn'}}) }}
                 </div>
@@ -256,7 +258,7 @@
     </div>
 
     <!-- Formulaire Formation -->
-    <div class="modal fade" id="formationModal" tabindex="-1" aria-labelledby="formationModalLabel" aria-hidden="true" data-mdb-backdrop="static" data-mdb-keyboard="false">
+    <div class="modal fade" id="formationModal" tabindex="-1" aria-labelledby="formationModalLabel" aria-hidden="true" data-backdrop="static" data-keyboard="false">
 
         <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
             <div class="modal-content">
@@ -267,7 +269,9 @@
                 </span>
                 <div class="modal-header">
                     <h5 class="modal-title" id="exampleModalLabel">Ajouter une formation</h5>
-                    <button type="button" class="btn-close" data-mdb-dismiss="modal" aria-label="Close"></button>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
                 </div>
                 <div class="modal-body">
 
@@ -281,7 +285,7 @@
 
                     <div class="mb-3">
                         {{ form_label(militaireFormationForm.formation, "Formation : ", {'label_attr': {'class': 'intitule_label'}}) }}
-                        {{ form_widget(militaireFormationForm.formation, {'attr': {'class': 'form-control'}}) }}
+                        {{ form_widget(militaireFormationForm.formation, {'attr': {'class': 'mdb-select md-form colorful-select dropdown-ins','searchable':'Rechercher'}}) }}
                         <div class="form-error" style="color: red">
                             {{ form_errors(militaireFormationForm.formation) }}
                         </div>
@@ -315,7 +319,7 @@
 
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-mdb-dismiss="modal">Fermer</button>
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Fermer</button>
                     {{ form_row(militaireFormationForm.cancel,{'attr':{'class': 'btn btn-outline-secondary form-btn'}}) }}
                     {{ form_row(militaireFormationForm.submit,{'attr':{'class': 'btn btn-outline-success form-btn'}}) }}
                 </div>
@@ -325,7 +329,7 @@
     </div>
 
     <!-- Formulaire famille -->
-    <div class="modal fade" id="familleModal" tabindex="-1" aria-labelledby="familleModalLabel" aria-hidden="'true'" data-mdb-backdrop="static" data-mdb-keyboard="false">
+    <div class="modal fade" id="familleModal" tabindex="-1" aria-labelledby="familleModalLabel" aria-hidden="'true'" data-backdrop="static" data-keyboard="false">
 
         <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
             <div class="modal-content">
@@ -336,7 +340,9 @@
                 </span>
                 <div class="modal-header">
                     <h5 class="modal-title" id="exampleModalLabel">Ajouter un membre de famille</h5>
-                    <button type="button" class="btn-close" data-mdb-dismiss="modal" aria-label="Close"></button>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
                 </div>
                 <div class="modal-body">
 
@@ -358,7 +364,7 @@
 
                     <div class="mb-3">
                         {{ form_label(familleForm.typeFiliation, "Type de filiation : ", {'label_attr': {'class': 'intitule_label'}}) }}
-                        {{ form_widget(familleForm.typeFiliation, {'attr': {'class': 'form-control'}}) }}
+                        {{ form_widget(familleForm.typeFiliation, {'attr': {'class': 'mdb-select md-form colorful-select dropdown-ins','searchable':'Rechercher'}}) }}
                         <div class="form-error" style="color: red">
                             {{ form_errors(familleForm.typeFiliation) }}
                         </div>
@@ -377,7 +383,7 @@
 
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-mdb-dismiss="modal">Fermer</button>
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Fermer</button>
                     {{ form_row(familleForm.cancel,{'attr':{'class': 'btn btn-outline-secondary form-btn'}}) }}
                     {{ form_row(familleForm.submit,{'attr':{'class': 'btn btn-outline-success form-btn'}}) }}
                 </div>
@@ -388,7 +394,7 @@
 
     <!-- Formulaire Statut -->
 
-    <div class="modal fade" id="statutModal" tabindex="-1" aria-labelledby="statutModalLabel" aria-hidden="'true'" data-mdb-backdrop="static" data-mdb-keyboard="false">
+    <div class="modal fade" id="statutModal" tabindex="-1" aria-labelledby="statutModalLabel" aria-hidden="'true'" data-backdrop="static" data-keyboard="false">
 
         <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
             <div class="modal-content">
@@ -399,13 +405,15 @@
                 </span>
                 <div class="modal-header">
                     <h5 class="modal-title" id="exampleModalLabel">Changer de statut</h5>
-                    <button type="button" class="btn-close" data-mdb-dismiss="modal" aria-label="Close"></button>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
                 </div>
                 <div class="modal-body">
 
                     <div class="mb-3">
                         {{ form_label(militaireStautForm.statut, 'Nouveau statut : ', {'label_attr': {'class': 'intitule_label'}}) }}
-                        {{ form_widget(militaireStautForm.statut, {'attr': {'class': 'form-control '}}) }}
+                        {{ form_widget(militaireStautForm.statut, {'attr': {'class': 'mdb-select md-form colorful-select dropdown-ins','searchable':'Rechercher'}}) }}
                         <div class="form-error" style="color: red">
                             {{ form_errors(militaireStautForm.statut) }}
                         </div>
@@ -442,7 +450,7 @@
 
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-mdb-dismiss="modal">Fermer</button>
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Fermer</button>
                     {{ form_row(militaireStautForm.cancel,{'attr':{'class': 'btn btn-outline-secondary form-btn'}}) }}
                     {{ form_row(militaireStautForm.submit,{'attr':{'class': 'btn btn-outline-success form-btn'}}) }}
                 </div>
@@ -459,7 +467,9 @@
         {% for message in app.session.flashbag.get('create_militaire') %}
             <div class="alert alert-success alert-dismissible fade show" role="alert">
                 <strong>{{ message }}!</strong>
-                <button type="button" class="btn-close"  data-mdb-dismiss="alert"  aria-label="Close"></button>
+                <button type="button" class="close"  data-dismiss="alert"  aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
             </div>
         {% endfor %}
 
@@ -637,11 +647,11 @@
 
         <div style="margin-left: 1em" class="mt-5">
             <nav>
-                <div class="nav nav-tabs" id="nav-tab" role="tablist">
-                    <a class="nav-link active" id="nav-prof-tab" data-mdb-toggle="tab" href="#nav-prof" type="button" role="tab" aria-controls="nav-prof" aria-selected="false">Cursus professionnel</a>
-                    <a class="nav-link" id="nav-formation-tab" data-mdb-toggle="tab" href="#nav-formation" type="button" role="tab" aria-controls="nav-formation" aria-selected="false">Fiche formation</a>
-                    <a class="nav-link" id="nav-filiation-tab" data-mdb-toggle="tab" href="#nav-filiation" type="button" role="tab" aria-controls="nav-filiation" aria-selected="false">Filiation</a>
-                    <a class="nav-link" id="nav-statut-tab" data-mdb-toggle="tab" href="#nav-statut" type="button" role="tab" aria-controls="nav-statut" aria-selected="false">Dossier Statut</a>
+                <div class="nav nav-tabs md-tabs" id="nav-tab" role="tablist">
+                    <a class="nav-link active" id="nav-prof-tab" data-toggle="tab" href="#nav-prof" type="button" role="tab" aria-controls="nav-prof" aria-selected="false">Cursus professionnel</a>
+                    <a class="nav-link" id="nav-formation-tab" data-toggle="tab" href="#nav-formation" type="button" role="tab" aria-controls="nav-formation" aria-selected="false">Fiche formation</a>
+                    <a class="nav-link" id="nav-filiation-tab" data-toggle="tab" href="#nav-filiation" type="button" role="tab" aria-controls="nav-filiation" aria-selected="false">Filiation</a>
+                    <a class="nav-link" id="nav-statut-tab" data-toggle="tab" href="#nav-statut" type="button" role="tab" aria-controls="nav-statut" aria-selected="false">Dossier Statut</a>
                 </div>
             </nav>
             <div class="tab-content" id="nav-tabContent">
@@ -654,7 +664,9 @@
                                 {% for message in app.session.flashbag.get('create_affectation') %}
                                     <div class="alert alert-success alert-dismissible fade show" role="alert">
                                         <strong>{{ message }}!</strong>
-                                        <button type="button" class="btn-close"  data-mdb-dismiss="alert"  aria-label="Close"></button>
+                                        <button type="button" class="close"  data-dismiss="alert"  aria-label="Close">
+                                            <span aria-hidden="true">&times;</span>
+                                        </button>
                                     </div>
                                 {% endfor %}
 
@@ -663,7 +675,7 @@
                                         <div class="d-flex justify-content-between">
                                             <span class="fw-bold">Unites d'affectation</span>
                                             <span>
-                                                <button type="button" class="btn btn-outline-primary" data-mdb-toggle="modal" data-mdb-target="#affectationModal">
+                                                <button type="button" class="btn btn-outline-primary" data-toggle="modal" data-target="#affectationModal">
                                                     <i class="fa fa-plus"></i>
                                                     Changer d'affectation
                                                 </button>
@@ -671,7 +683,7 @@
                                         </div>
                                     </div>
                                     <div class="card-body">
-                                        <table class="table text-center table-bordered table-striped table-hover table-responsive">
+                                        <table class="table text-center table-bordered table-striped table-hover">
                                             <thead>
                                                 <tr>
                                                     <th scope="col">Date de debut</th>
@@ -717,7 +729,9 @@
                                 {% for message in app.session.flashbag.get('create_militaireMission') %}
                                     <div class="alert alert-success alert-dismissible fade show" role="alert">
                                         <strong>{{ message }}!</strong>
-                                        <button type="button" class="btn-close"  data-mdb-dismiss="alert"  aria-label="Close"></button>
+                                        <button type="button" class="close"  data-dismiss="alert"  aria-label="Close">
+                                            <span aria-hidden="true">&times;</span>
+                                        </button>
                                     </div>
                                 {% endfor %}
 
@@ -726,7 +740,7 @@
                                         <div class="d-flex justify-content-between">
                                             <span class="fw-bold">Missions effectues</span>
                                             <span>
-                                                <button type="button" class="btn btn-outline-primary" data-mdb-toggle="modal" data-mdb-target="#missionModal">
+                                                <button type="button" class="btn btn-outline-primary" data-toggle="modal" data-target="#missionModal">
                                                     <i class="fa fa-plus"></i>
                                                     Ajouter
                                                 </button>
@@ -734,7 +748,7 @@
                                         </div>
                                     </div>
                                     <div class="card-body">
-                                        <table class="table text-center table-bordered table-striped table-hover table-responsive">
+                                        <table class="table text-center table-bordered table-striped table-hover">
                                             <thead>
                                             <tr>
                                                 <th scope="col"></th>
@@ -782,7 +796,9 @@
                                 {% for message in app.session.flashbag.get('create_militaireExercice') %}
                                     <div class="alert alert-success alert-dismissible fade show" role="alert">
                                         <strong>{{ message }}!</strong>
-                                        <button type="button" class="btn-close"  data-mdb-dismiss="alert"  aria-label="Close"></button>
+                                        <button type="button" class="close"  data-dismiss="alert"  aria-label="Close">
+                                            <span aria-hidden="true">&times;</span>
+                                        </button>
                                     </div>
                                 {% endfor %}
 
@@ -791,7 +807,7 @@
                                         <div class="d-flex justify-content-between">
                                             <span class="fw-bold">Exercices</span>
                                             <span>
-                                                <button type="button"  class="btn btn-outline-primary" data-mdb-toggle="modal" data-mdb-target="#exerciceModal">
+                                                <button type="button"  class="btn btn-outline-primary" data-toggle="modal" data-target="#exerciceModal">
                                                     <i class="fa fa-plus"></i>
                                                     Ajouter
                                                 </button>
@@ -799,7 +815,7 @@
                                         </div>
                                     </div>
                                     <div class="card-body">
-                                        <table class="table text-center table-bordered table-striped table-hover table-responsive">
+                                        <table class="table text-center table-bordered table-striped table-hover">
                                             <thead>
                                             <tr>
                                                 <th scope="col">Date</th>
@@ -835,7 +851,9 @@
                                 {% for message in app.session.flashbag.get('create_militaireMedaille') %}
                                     <div class="alert alert-success alert-dismissible fade show" role="alert">
                                         <strong>{{ message }}!</strong>
-                                        <button type="button" class="btn-close"  data-mdb-dismiss="alert"  aria-label="Close"></button>
+                                        <button type="button" class="close"  data-dismiss="alert"  aria-label="Close">
+                                            <span aria-hidden="true">&times;</span>
+                                        </button>
                                     </div>
                                 {% endfor %}
 
@@ -844,7 +862,7 @@
                                         <div class="d-flex justify-content-between">
                                             <span class="fw-bold">Medailles ou distinction obtenues</span>
                                             <span>
-                                                <button type="button"  class="btn btn-outline-primary" data-mdb-toggle="modal" data-mdb-target="#medailleModal">
+                                                <button type="button"  class="btn btn-outline-primary" data-toggle="modal" data-target="#medailleModal">
                                                     <i class="fa fa-plus"></i>
                                                     Ajouter
                                                 </button>
@@ -852,7 +870,7 @@
                                         </div>
                                     </div>
                                     <div class="card-body">
-                                        <table class="table text-center table-bordered table-striped table-hover table-responsive">
+                                        <table class="table text-center table-bordered table-striped table-hover">
                                             <thead>
                                             <tr>
                                                 <th scope="col">Date</th>
@@ -894,7 +912,9 @@
                                 {% for message in app.session.flashbag.get('create_militaireFormation') %}
                                     <div class="alert alert-success alert-dismissible fade show" role="alert">
                                         <strong>{{ message }}!</strong>
-                                        <button type="button" class="btn-close"  data-mdb-dismiss="alert"  aria-label="Close"></button>
+                                        <button type="button" class="close"  data-dismiss="alert"  aria-label="Close">
+                                            <span aria-hidden="true">&times;</span>
+                                        </button>
                                     </div>
                                 {% endfor %}
 
@@ -904,7 +924,7 @@
                                         <div class="d-flex justify-content-between">
                                             <span class="fw-bold">Formations effectuees</span>
                                             <span>
-                                                <button id="formationBtn" type="button" class="btn btn-outline-primary" data-mdb-toggle="modal" data-mdb-target="#formationModal">
+                                                <button id="formationBtn" type="button" class="btn btn-outline-primary" data-toggle="modal" data-target="#formationModal">
                                                     <i class="fa fa-plus"></i>
                                                     Ajouter une formation deja faite
                                                 </button>
@@ -912,7 +932,7 @@
                                         </div>
                                     </div>
                                     <div class="card-body">
-                                        <table class="table text-center table-bordered table-striped table-hover table-responsive">
+                                        <table class="table text-center table-bordered table-striped table-hover">
                                             <thead>
                                             <tr>
                                                 <th scope="col">Date de debut</th>
@@ -951,7 +971,9 @@
                                 {% for message in app.session.flashbag.get('create_militaireFormationPlan') %}
                                     <div class="alert alert-success alert-dismissible fade show" role="alert">
                                         <strong>{{ message }}!</strong>
-                                        <button type="button" class="btn-close"  data-mdb-dismiss="alert"  aria-label="Close"></button>
+                                        <button type="button" class="close"  data-dismiss="alert"  aria-label="Close">
+                                            <span aria-hidden="true">&times;</span>
+                                        </button>
                                     </div>
                                 {% endfor %}
 
@@ -960,7 +982,7 @@
                                         <div class="d-flex justify-content-between">
                                             <span class="fw-bold">Formations  planifiees</span>
                                             <span>
-                                                <button id="formationPlanBtn" type="button" class="btn btn-outline-primary" data-mdb-toggle="modal" data-mdb-target="#formationModal">
+                                                <button id="formationPlanBtn" type="button" class="btn btn-outline-primary" data-toggle="modal" data-target="#formationModal">
                                                     <i class="fa fa-plus"></i>
                                                     Planifier une formation
                                                 </button>
@@ -968,7 +990,7 @@
                                         </div>
                                     </div>
                                     <div class="card-body">
-                                        <table class="table text-center table-bordered table-striped table-hover table-responsive">
+                                        <table class="table text-center table-bordered table-striped table-hover">
                                             <thead>
                                             <tr>
                                                 <th scope="col">Date de debut</th>
@@ -1028,7 +1050,9 @@
                                 {% for message in app.session.flashbag.get('create_membreFamille') %}
                                     <div class="alert alert-success alert-dismissible fade show" role="alert">
                                         <strong>{{ message }}!</strong>
-                                        <button type="button" class="btn-close"  data-mdb-dismiss="alert"  aria-label="Close"></button>
+                                        <button type="button" class="close"  data-dismiss="alert"  aria-label="Close">
+                                            <span aria-hidden="true">&times;</span>
+                                        </button>
                                     </div>
                                 {% endfor %}
 
@@ -1037,7 +1061,7 @@
                                         <div class="d-flex justify-content-between">
                                             <span class="fw-bold">Membres de famille</span>
                                             <span>
-                                                <button  type="button" class="btn btn-outline-primary" data-mdb-toggle="modal" data-mdb-target="#familleModal">
+                                                <button  type="button" class="btn btn-outline-primary" data-toggle="modal" data-target="#familleModal">
                                                     <i class="fa fa-plus"></i>
                                                     Ajouter un membre de la famille
                                                 </button>
@@ -1045,7 +1069,7 @@
                                         </div>
                                     </div>
                                     <div class="card-body">
-                                        <table class="table text-center table-bordered table-striped table-hover table-responsive">
+                                        <table class="table text-center table-bordered table-striped table-hover">
                                             <thead>
                                             <tr>
                                                 <th scope="col">Lien de filiation</th>
@@ -1159,7 +1183,9 @@
                                 {% for message in app.session.flashbag.get('statut') %}
                                     <div class="alert alert-success alert-dismissible fade show" role="alert">
                                         <strong>{{ message }}!</strong>
-                                        <button type="button" class="btn-close"  data-mdb-dismiss="alert"  aria-label="Close"></button>
+                                        <button type="button" class="close"  data-dismiss="alert"  aria-label="Close">
+                                            <span aria-hidden="true">&times;</span>
+                                        </button>
                                     </div>
                                 {% endfor %}
 
@@ -1168,7 +1194,7 @@
                                         <div class="d-flex justify-content-between">
                                             <span class="fw-bold">Historique des statuts</span>
                                             <span>
-                                                <button  type="button" class="btn btn-outline-primary" data-mdb-toggle="modal" data-mdb-target="#statutModal">
+                                                <button  type="button" class="btn btn-outline-primary" data-toggle="modal" data-target="#statutModal">
                                                     <i class="fa fa-plus"></i>
                                                     Changer de statut
                                                 </button>
@@ -1176,7 +1202,7 @@
                                         </div>
                                     </div>
                                     <div class="card-body">
-                                        <table class="table text-center table-bordered table-striped table-hover table-responsive">
+                                        <table class="table text-center table-bordered table-striped table-hover">
                                             <thead>
                                             <tr>
                                                 <th scope="col">Statut</th>

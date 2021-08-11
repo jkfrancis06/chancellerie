@@ -18,12 +18,12 @@
 {% block content %}
 
     <div style="margin-top: 1em; margin-bottom: 5em;">
-        <ul class="nav nav-tabs" id="myTab" role="tablist">
+        <ul class="nav nav-tabs md-tabs" id="myTab" role="tablist">
             <li class="nav-item" role="presentation">
-                <a class="nav-link active" id="mission-tab" data-mdb-toggle="tab" href="#mission" type="button" role="tab" aria-controls="home" aria-selected="true">Creer une mission</a>
+                <a class="nav-link active" id="mission-tab" data-toggle="tab" href="#mission" type="button" role="tab" aria-controls="home" aria-selected="true">Creer une mission</a>
             </li>
             <li class="nav-item" role="presentation">
-                <a class="nav-link" id="exercice-tab" data-mdb-toggle="tab" href="#exercice" type="button" role="tab" aria-controls="corps" aria-selected="false">Exercices</a>
+                <a class="nav-link" id="exercice-tab" data-toggle="tab" href="#exercice" type="button" role="tab" aria-controls="corps" aria-selected="false">Exercices</a>
             </li>
         </ul>
         <div class="tab-content" id="myTabContent">
@@ -35,7 +35,9 @@
                         {% for message in app.session.flashbag.get('mission_add') %}
                             <div class="alert alert-success alert-dismissible fade show" role="alert">
                                 <strong>{{ message }}!</strong>
-                                <button type="button" class="btn-close"  data-bs-dismiss="alert"  aria-label="Close"></button>
+                                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
                             </div>
                         {% endfor %}
 
@@ -55,8 +57,8 @@
 
                         <div class="mb-3">
                             {{ form_label(missionForm.type, "Type de mission: ", {'label_attr': {'class': 'c_image_name_input_label'}}) }}
-                            <div class="input-group">
-                                {{ form_widget(missionForm.type, {'attr': {'class': 'form-control'}}) }}
+                            <div>
+                                {{ form_widget(missionForm.type, {'attr': {'class': 'mdb-select md-form colorful-select dropdown-ins'}}) }}
                             </div>
                             <div class="form-error" style="color: red">
                                 {{ form_errors(missionForm.type) }}
@@ -83,10 +85,16 @@
                             </div>
                         </div>
 
-                        <div class="mb-3">
-                            {{ form_label(missionForm.logo, "Photo : ", {'label_attr': {'class': 'c_image_name_input_label'}}) }}
-                            <div class="input-group">
-                                {{ form_widget(missionForm.logo, {'attr': {'class': 'form-control'}}) }}
+                        <div class="md-form">
+
+                            <div class="file-field">
+                                <div class="btn blue-gradient btn-sm float-left">
+                                    <span><i class="fas fa-cloud-upload-alt mr-2" aria-hidden="true"></i>Choisir un fichier</span>
+                                    {{ form_widget(missionForm.logo, {'attr': {'class': ''}}) }}
+                                </div>
+                                <div class="file-path-wrapper">
+                                    <input class="file-path validate" readonly type="text" placeholder="Uploader un logo">
+                                </div>
                             </div>
                             <div class="form-error" style="color: red">
                                 {{ form_errors(missionForm.logo) }}
@@ -94,15 +102,9 @@
                         </div>
 
                         <hr>
-                        <div class="col col-12">
-                            <div class="row">
-                                <div class="col col-2">
-                                    {{ form_row(missionForm.cancel,{'attr':{'class': 'btn btn-outline-secondary form-btn'}}) }}
-                                </div>
-                                <div class="col col-2">
-                                    {{ form_row(missionForm.submit,{'attr':{'class': 'btn btn-outline-success form-btn'}}) }}
-                                </div>
-                            </div>
+                        <div class="d-flex justify-content-center">
+                            {{ form_row(missionForm.cancel,{'attr':{'class': 'btn btn-outline-secondary form-btn'}}) }}
+                            {{ form_row(missionForm.submit,{'attr':{'class': 'btn btn-outline-success form-btn'}}) }}
                         </div>
 
                         {{ form_end(missionForm) }}
@@ -115,7 +117,7 @@
                             <div class="card-body">
                                 <h5 class="card-title">Liste des  missions</h5>
                                 <hr>
-                                <table class="table table-responsive table-bordered table-striped table-hover text-center">
+                                <table class="table table-bordered table-striped table-hover text-center">
                                     <thead>
                                     <tr>
                                         <th></th>
@@ -177,7 +179,9 @@
                         {% for message in app.session.flashbag.get('exercice_add') %}
                             <div class="alert alert-success alert-dismissible fade show" role="alert">
                                 <strong>{{ message }}!</strong>
-                                <button type="button" class="btn-close"  data-bs-dismiss="alert"  aria-label="Close"></button>
+                                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
                             </div>
                         {% endfor %}
 
@@ -201,7 +205,7 @@
                             </div>
                         </div>
 
-                        <div class="col col-12">
+                        <div class="mb-3">
                             {{ form_label(exerciceForm.commentaire, "Commentaire", {'label_attr': {'class': 'c_image_name_input_label'}}) }}
                             <div class="input-group">
                                 {{ form_widget(exerciceForm.commentaire, {'attr': {'class': 'form-control'}}) }}
@@ -212,15 +216,9 @@
                         </div>
 
                         <hr>
-                        <div class="col col-12">
-                            <div class="row">
-                                <div class="col col-2">
-                                    {{ form_row(exerciceForm.cancel,{'attr':{'class': 'btn btn-outline-secondary form-btn'}}) }}
-                                </div>
-                                <div class="col col-2">
-                                    {{ form_row(exerciceForm.submit,{'attr':{'class': 'btn btn-outline-success form-btn'}}) }}
-                                </div>
-                            </div>
+                        <div class="d-flex justify-content-center">
+                            {{ form_row(exerciceForm.cancel,{'attr':{'class': 'btn btn-outline-secondary form-btn'}}) }}
+                            {{ form_row(exerciceForm.submit,{'attr':{'class': 'btn btn-outline-success form-btn'}}) }}
                         </div>
 
                         {{ form_end(exerciceForm) }}
@@ -232,7 +230,7 @@
                             <div class="card-body">
                                 <h5 class="card-title">Liste des  exercices</h5>
                                 <hr>
-                                <table class="table table-responsive table-bordered table-striped table-hover text-center">
+                                <table class="table table-bordered table-striped table-hover text-center">
                                     <thead>
                                     <tr>
                                         <th{% if exercices.isSorted('Intitule') %} class="sorted"{% endif %}>

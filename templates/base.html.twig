@@ -5,13 +5,23 @@
         <title>{% block title %}Welcome!{% endblock %}</title>
         <link rel="icon" href="{{ asset('/assets/img/favicon.ico') }}" />
         <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-        <link rel="stylesheet" href="{{ asset('/assets/css/bootstrap/mdb.min.css') }}" />
+
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap">
+
+        <link rel="stylesheet" href="{{ asset('/assets/css/pro/bootstrap.css') }}" />
+        <link rel="stylesheet" href="{{ asset('/assets/css/pro/mdb.css') }}" />
+        <link rel="stylesheet" href="{{ asset('/assets/css/pro/style.css') }}" />
         <link rel="stylesheet" href="{{ asset('/assets/css/datatables/datatables.css') }}" />
         <link rel="stylesheet" href="{{ asset('/assets/css/fa/all.css') }}" />
-        <script  src="{{ asset('/assets/js/bootstrap/jquery.js') }}"></script>
-        <script  src="{{ asset('/assets/js/custom/tab.js') }}"></script>
-        <script  src="{{ asset('/assets/js/datatables/datatables.js') }}"></script>
-        <script  src="{{ asset('/assets/js/custom/tables.js') }}"></script>
+        <script  src="{{ asset('/assets/js/pro/jquery.js') }}"></script>
+
+
+        <style>
+            .md-tabs {
+                background-color: #3d8e33!important;
+            }
+        </style>
+
 
 
 
@@ -27,9 +37,42 @@
 
 
     </head>
-    <body>
-        {% block body %}{% endblock %}
-        <script  src="{{ asset('/assets/js/bootstrap/mdb.min.js') }}"></script>
+    <body class="fixed-sn white-skin">
+        <div class="container-fluid">
+            {% block body %}{% endblock %}
+        </div>
+
+
+
+
+
+
+
+        <script  src="{{ asset('/assets/js/pro/popper.js') }}"></script>
+        <script  src="{{ asset('/assets/js/pro/bootstrap.js') }}"></script>
+        <script  src="{{ asset('/assets/js/pro/mdb.js') }}"></script>
+        <script  src="{{ asset('/assets/js/custom/tab.js') }}"></script>
+        <script  src="{{ asset('/assets/js/datatables/datatables.js') }}"></script>
+        <script  src="{{ asset('/assets/js/custom/tables.js') }}"></script>
+
+        <script>
+            // SideNav Initialization
+            $(document).ready(function() {
+                $(".button-collapse").sideNav();
+
+                var container = document.querySelector('.custom-scrollbar');
+                var ps = new PerfectScrollbar(container, {
+                    wheelSpeed: 2,
+                    wheelPropagation: true,
+                    minScrollbarLength: 20
+                });
+
+                //popup buttons
+                $('#btnTopLeft').on('click', );
+            });
+
+
+        </script>
 
 
         {% block botton_javascripts %}

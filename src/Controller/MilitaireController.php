@@ -340,9 +340,9 @@ class MilitaireController extends AbstractController
 
 
     /**
-     * @Route("/militaire/r/{status}", name="militaire_radiation")
+     * @Route("/militaire/r/{id}/{status}", name="militaire_radiation")
      */
-    public function confirmStatus($id, $status,Request $request): Response
+    public function confirmStatus($id,$status,Request $request): Response
     {
         $user = $this->getUser();
 
@@ -524,7 +524,7 @@ class MilitaireController extends AbstractController
 
         return $this->render('militaire/search.html.twig', [
             'controller_name' => 'DashboardController',
-            'active' => 'militaire',
+            'active' => 'search_militaire',
             'user' => $user,
             'searchForm' => $searchForm->createView(),
         ]);

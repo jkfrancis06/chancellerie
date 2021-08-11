@@ -1,3 +1,6 @@
+
+
+
 {% extends 'base.html.twig' %}
 
 {% block title %}{% endblock %}
@@ -12,182 +15,241 @@
 
 {% block body %}
 
-    <div class="d-flex flex-xxl-row">
-        <div class="bd-highlight">
-            <div class="d-flex flex-column flex-shrink-0 p-3 bg-light" style="width: 280px;height: 100vh;overflow-y: hidden">
-                <div class="d-flex justify-content-center">
-                    <a href="{{ path('dashboard') }}" class="link-dark text-decoration-none">
-                        <img height="80" width="80" src="{{ asset('/assets/img/and_bg.png') }}">
-                        <br>
-                        <span style="font-weight: bold">Chancellerie</span>
-                    </a>
-                </div>
 
-                <hr>
-                <ul class="nav nav-pills flex-column mb-auto">
-                    <li class="nav-item">
+
+    <header>
+
+        <!-- Sidebar navigation -->
+        <div id="slide-out" class="side-nav sn-bg-4 fixed">
+            <ul class="custom-scrollbar">
+
+                <li>
+                    <div class="logo-wrapper waves-light">
+                        <a href="{{ path('dashboard') }}">
+                            <img style="margin-left: 1em" src="{{ asset('/assets/img/and_bg_1.png') }}"
+                                         class="flex-center">
+                        </a>
+                    </div>
+                </li>
+
+                <!--/.Search Form-->
+                <!-- Side navigation links -->
+                <li>
+                    <ul class="collapsible collapsible-accordion">
+
+
                         {% if active == "dashboard" %}
-                            <a href="{{ path('dashboard') }}" class="nav-link active" aria-current="page">
-                                <i style="margin-right: 0.3rem" class="fa fa-home"></i>
-                                Tableau de bord
-                            </a>
+                            <li>
+                                <a class="waves-effect active">
+                                    <i class="fas fa-home"></i>
+                                    Tableau de bord</a>
+                            </li>
                         {% else %}
-                            <a href="{{ path('dashboard') }}" class="nav-link link-dark" aria-current="page">
-                                <i style="margin-right: 0.3rem" class="fa fa-home"></i>
-                                Tableau de bord
-                            </a>
+                            <li>
+                                <a class="waves-effect">
+                                    <i class="fas fa-home"></i>
+                                    Tableau de bord</a>
+                            </li>
                         {% endif %}
 
-                    </li>
-                    <li class="border-top my-3"></li>
-                    <li class="mb-1">
-                        <button class="btn btn-toggle align-items-center rounded collapsed" data-bs-toggle="collapse" data-bs-target="#elements-collapse" aria-expanded="false">
-                            <span style="margin-left: 0.9rem">Elements</span>
-                        </button>
-                        {% if active == 'militaire' or  active == 'create_militaire' or  active == 'search_militaire' %}
-                        <div class="collapse show" id="elements-collapse">
-                            {% else %}
-                            <div class="collapse" id="elements-collapse">
-                                {% endif %}
-                                <ul class="btn-toggle-nav list-unstyled fw-normal pb-1 small">
+
+                        <li><a class="collapsible-header waves-effect
+                         {% if active == 'militaire' or  active == 'create_militaire' or  active == 'search_militaire' %}
+                         active
+                         {% endif %} arrow-r">
+                                <i class="fas fa fa-user"></i>
+                                Elements
+                                <i class="fas fa-angle-down rotate-icon"></i></a>
+                            <div class="collapsible-body">
+                                <ul>
                                     {% if active == 'militaire'%}
-                                        <li><a href="{{ path('all_militaires') }}" class="nav-link link-dark active rounded">Toutes les donnees</a></li>
+                                        <li><a href="{{ path('all_militaires') }}" class="waves-effect active">Toutes les donnees</a></li>
                                     {% else %}
-                                        <li><a href="{{ path('all_militaires') }}" class="nav-link link-dark rounded">Toutes les donnees</a></li>
+                                        <li><a href="{{ path('all_militaires') }}" class="waves-effect">Toutes les donnees</a></li>
                                     {% endif %}
 
                                     {% if active == 'create_militaire'%}
-                                        <li><a href="{{ path('create_militaire') }}" class="nav-link link-dark active rounded">Creer</a></li>
+                                        <li><a href="{{ path('create_militaire') }}" class="waves-effect active">Creer</a></li>
                                     {% else %}
-                                        <li><a href="{{ path('create_militaire') }}" class="nav-link link-dark rounded">Creer</a></li>
+                                        <li><a href="{{ path('create_militaire') }}" class="waves-effect">Creer</a></li>
                                     {% endif %}
 
                                     {% if active == 'search_militaire'%}
-                                        <li><a href="{{ path('search_militaire') }}" class="nav-link link-dark active rounded">Rechercher</a></li>
+                                        <li><a href="{{ path('search_militaire') }}" class="waves-effect active">Recherche avancee</a></li>
                                     {% else %}
-                                        <li><a href="{{ path('search_militaire') }}" class="nav-link link-dark rounded">Rechercher</a></li>
+                                        <li><a href="{{ path('search_militaire') }}" class="waves-effect">Recherche avancee</a></li>
                                     {% endif %}
-
                                 </ul>
                             </div>
-                    </li>
-                    <li class="border-top my-3"></li>
-                    <li class="nav-item">
-                        <a href="#" class="nav-link link-dark">
-                            <i style="margin-right: 0.3rem" class="fa fa-chart-line"></i>
-                            Statistiques et statuts
-                        </a>
-                    </li>
-                    <li class="border-top my-3"></li>
-                    <li class="nav-item">
+                        </li>
+
+
+
+                        <li>
+                            <a class="waves-effect">
+                                <i class="fas fa-chart-line"></i>
+                                Statistiques et statuts</a>
+                        </li>
+
+
                         {% if active == "corps" %}
-                            <a href="{{ path('corps') }}" class="nav-link link-dark active">
-                                <i style="margin-right: 0.3rem" class="fa fa-users"></i>
-                                Unites et corps
-                            </a>
+                            <li>
+                                <a  href="{{ path('corps') }}"  class="waves-effect active">
+                                    <i class="fas fa-users"></i>
+                                    Unites et corps</a>
+                            </li>
                         {% else %}
-                            <a href="{{ path('corps') }}" class="nav-link link-dark">
-                                <i style="margin-right: 0.3rem" class="fa fa-users"></i>
-                                Unites et corps
-                            </a>
+                            <li>
+                                <a  href="{{ path('corps') }}"  class="waves-effect">
+                                    <i class="fas fa-users"></i>
+                                    Unites et corps</a>
+                            </li>
                         {% endif %}
 
-                    </li>
-                    <li class="border-top my-3"></li>
-                    <li class="nav-item">
 
                         {% if active == "mission" %}
-                            <a href="{{ path('mission') }}" class="nav-link link-dark active">
-                                <i style="margin-right: 0.3rem" class="fa fa-plane-departure"></i>
-                                Missions et exercices
-                            </a>
+                            <li>
+                                <a  href="{{ path('mission') }}"  class="waves-effect active">
+                                    <i class="fas fa-plane-departure"></i>
+                                    Missions et exercices</a>
+                            </li>
                         {% else %}
-                            <a href="{{ path('mission') }}" class="nav-link link-dark">
-                                <i style="margin-right: 0.3rem" class="fa fa-plane-departure"></i>
-                                Missions et exercices
-                            </a>
+                            <li>
+                                <a  href="{{ path('mission') }}"  class="waves-effect">
+                                    <i class="fas fa-plane-departure"></i>
+                                    Missions et exercices</a>
+                            </li>
                         {% endif %}
 
-                    </li>
-                    <li class="border-top my-3"></li>
-                    <li class="nav-item">
+
                         {% if active == "formation" %}
-                            <a href="{{ path('formation') }}" class="nav-link link-dark active">
-                                <i style="margin-right: 0.3rem" class="fa fa-school"></i>
-                                Formations
-                            </a>
+                            <li>
+                                <a  href="{{ path('formation') }}"  class="waves-effect active">
+                                    <i class="fas fa-school"></i>
+                                    Formations</a>
+                            </li>
                         {% else %}
-                            <a href="{{ path('formation') }}" class="nav-link link-dark">
-                                <i style="margin-right: 0.3rem" class="fa fa-school"></i>
-                                Formations
-                            </a>
+                            <li>
+                                <a  href="{{ path('formation') }}"  class="waves-effect">
+                                    <i class="fas fa-school"></i>
+                                    Formations</a>
+                            </li>
                         {% endif %}
-                    </li>
-                    <li class="border-top my-3"></li>
-                    <li class="nav-item">
+
+
                         {% if active == "medaille" %}
-                            <a href="{{ path('medaille') }}" class="nav-link link-dark active">§
-                                <i style="margin-right: 0.3rem" class="fa fa-medal"></i>
-                                Medailles
-                            </a>
+                            <li>
+                                <a  href="{{ path('medaille') }}"  class="waves-effect active">
+                                    <i class="fas fa-medal"></i>
+                                    Medailles</a>
+                            </li>
                         {% else %}
-                            <a href="{{ path('medaille') }}" class="nav-link link-dark">
-                                <i style="margin-right: 0.3rem" class="fa fa-medal"></i>
-                                Medailles
-                            </a>
+                            <li>
+                                <a  href="{{ path('medaille') }}"  class="waves-effect">
+                                    <i class="fas fa-medal"></i>
+                                    Medailles</a>
+                            </li>
                         {% endif %}
-                    </li>
-                    <li class="border-top my-3"></li>
-                    <li class="nav-item">
+
+
                         {% if active == "grade_categorie" %}
-                            <a href="{{ path('grade_categorie') }}" class="nav-link link-dark active">
-                                <i style="margin-right: 0.3rem" class="fa fa-level-up-alt"></i>
-                                Grades et categories
-                            </a>
+                            <li>
+                                <a  href="{{ path('grade_categorie') }}"  class="waves-effect active">
+                                    <i class="fas fa-level-up-alt"></i>
+                                    Grades et categories</a>
+                            </li>
                         {% else %}
-                            <a href="{{ path('grade_categorie') }}" class="nav-link link-dark">
-                                <i style="margin-right: 0.3rem" class="fa fa-level-up-alt"></i>
-                                Grades et categories
-                            </a>
+                            <li>
+                                <a  href="{{ path('grade_categorie') }}"  class="waves-effect">
+                                    <i class="fas fa-level-up-alt"></i>
+                                    Grades et categories</a>
+                            </li>
                         {% endif %}
 
-                    </li>
-                </ul>
-
-                <hr>
-                <div class="dropdown">
-                    <a href="#" class="d-flex align-items-center link-dark text-decoration-none dropdown-toggle" id="dropdownUser2" data-bs-toggle="dropdown" aria-expanded="false">
-                        <img src="{{ asset('/assets/img/user.png') }}" alt="" width="32" height="32" class="rounded-circle me-2">
-                        <strong>{{ user.name }}</strong>
-                    </a>
-                    <ul class="dropdown-menu text-small shadow" aria-labelledby="dropdownUser2">
-                        <li><a class="dropdown-item" href="#">Parametres</a></li>
-                        <li><hr class="dropdown-divider"></li>
-                        <li><a class="dropdown-item" href="{{ path('app_logout') }}">Deconnexion</a></li>
                     </ul>
-                </div>
-            </div>
+                </li>
+                <!--/. Side navigation links -->
+            </ul>
+            <div class="sidenav-bg"></div>
         </div>
-        <div class="flex-grow-1  bd-highlight">
-            <div class="container-fluid" style="overflow-y: scroll; height: 100vh; width: 100%">
+        <!-- Sidebar navigation -->
 
+        <!-- Navbar -->
+        <nav class="navbar fixed-top navbar-expand-lg scrolling-navbar double-nav">
 
-                {% block content %}
-
-                {% endblock %}
-
-
+            <!-- SideNav slide-out button -->
+            <div class="float-left">
+                <a href="#" data-activates="slide-out" class="button-collapse"><i class="fas fa-bars"></i></a>
             </div>
-        </div>
-    </div>
+
+            <!-- Breadcrumb -->
+            <div class="breadcrumb-dn mr-auto">
+                <p>Alerts</p>
+            </div>
+
+            <!-- Navbar links -->
+            <ul class="nav navbar-nav nav-flex-icons ml-auto">
+
+                <!-- Dropdown -->
+                <li class="nav-item dropdown notifications-nav">
+                    <a class="nav-link dropdown-toggle waves-effect" id="navbarDropdownMenuLink" data-toggle="dropdown"
+                       aria-haspopup="true" aria-expanded="false">
+                        <span class="badge red">3</span> <i class="fas fa-bell"></i>
+                        <span class="d-none d-md-inline-block">Notifications</span>
+                    </a>
+                    <div class="dropdown-menu dropdown-primary" aria-labelledby="navbarDropdownMenuLink">
+                        <a class="dropdown-item" href="#">
+                            <i class="far fa-money-bill-alt mr-2" aria-hidden="true"></i>
+                            <span>New order received</span>
+                            <span class="float-right"><i class="far fa-clock" aria-hidden="true"></i> 13 min</span>
+                        </a>
+                        <a class="dropdown-item" href="#">
+                            <i class="far fa-money-bill-alt mr-2" aria-hidden="true"></i>
+                            <span>New order received</span>
+                            <span class="float-right"><i class="far fa-clock" aria-hidden="true"></i> 33 min</span>
+                        </a>
+                        <a class="dropdown-item" href="#">
+                            <i class="fas fa-chart-line mr-2" aria-hidden="true"></i>
+                            <span>Your campaign is about to end</span>
+                            <span class="float-right"><i class="far fa-clock" aria-hidden="true"></i> 53 min</span>
+                        </a>
+                    </div>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link waves-effect"><i class="fas fa-envelope"></i> <span class="clearfix d-none d-sm-inline-block">Contact</span></a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link waves-effect"><i class="far fa-comments"></i> <span class="clearfix d-none d-sm-inline-block">Support</span></a>
+                </li>
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle waves-effect" href="#" id="userDropdown" data-toggle="dropdown"
+                       aria-haspopup="true" aria-expanded="false">
+                        <i class="fas fa-user"></i> <span class="clearfix d-none d-sm-inline-block">Profile</span>
+                    </a>
+                    <div class="dropdown-menu dropdown-menu-right" aria-labelledby="userDropdown">
+                        <a class="dropdown-item" href="#">Log Out</a>
+                        <a class="dropdown-item" href="#">My account</a>
+                    </div>
+                </li>
+
+            </ul>
+            <!-- Navbar links -->
+
+        </nav>
+        <!-- Navbar -->
+
+    </header>
+
+    <main>
+        {% block content %}
+
+        {% endblock %}
+    </main>
+
+    <!--/Main layout-->
 
 
 
 
-
-
-    {% block botton_javascripts %}
-        <script  src="{{ asset('/assets/js/custom/sidebars.js') }}"></script>
-    {% endblock %}
 
 {% endblock %}

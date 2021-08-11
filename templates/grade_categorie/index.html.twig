@@ -7,15 +7,15 @@
 
 
     <div style="margin-top: 1em">
-        <ul class="nav nav-tabs" id="myTab" role="tablist">
+        <ul class="nav nav-tabs md-tabs" id="myTab" role="tablist">
             <li class="nav-item" role="presentation">
-                <a class="nav-link active" id="home-tab" data-mdb-toggle="tab" href="#grades" type="button" role="tab" aria-controls="home" aria-selected="true">Grades</a>
+                <a class="nav-link active" id="home-tab" data-toggle="tab" href="#grades" type="button" role="tab" aria-controls="home" aria-selected="true">Grades</a>
             </li>
             <li class="nav-item" role="presentation">
-                <a class="nav-link" id="profile-tab" data-mdb-toggle="tab" href="#categories" type="button" role="tab" aria-controls="profile" aria-selected="false">Categories</a>
+                <a class="nav-link" id="profile-tab" data-toggle="tab" href="#categories" type="button" role="tab" aria-controls="profile" aria-selected="false">Categories</a>
             </li>
         </ul>
-        <div class="tab-content" id="myTabContent">
+        <div class="tab-content card pt-5" id="myTabContent">
             <div class="tab-pane fade show active" id="grades" role="tabpanel" aria-labelledby="grades-tab">
                 <div class="row" style="margin-top: 1em">
 
@@ -24,7 +24,9 @@
                         {% for message in app.session.flashbag.get('grade_add') %}
                             <div class="alert alert-success alert-dismissible fade show" role="alert">
                                 <strong>{{ message }}!</strong>
-                                <button type="button" class="btn-close"  data-bs-dismiss="alert"  aria-label="Close"></button>
+                                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
                             </div>
                         {% endfor %}
 
@@ -49,28 +51,24 @@
                         </div>
 
                         <div class="mb-3">
-                            {{ form_label(gradeForm.gradeCategorie, "Categorie du grade : ", {'label_attr': {'class': 'intitule_label'}}) }}
-                            {{ form_widget(gradeForm.gradeCategorie, {'attr': {'class': 'form-control'}}) }}
+                            {{ form_label(gradeForm.gradeCategorie, "Categorie du grade : ", {'label_attr': {'class': ' intitule_label'}}) }}
+                            {{ form_widget(gradeForm.gradeCategorie, {'attr': {'class': 'mdb-select md-form colorful-select dropdown-ins'}}) }}
                             <div class="form-error" style="color: red">
                                 {{ form_errors(gradeForm.gradeCategorie) }}
                             </div>
                         </div>
 
                         <hr>
-                        <div class="col col-12">
-                            <div class="row">
-                                <div class="col col-2">
-                                    {{ form_row(gradeForm.cancel,{'attr':{'class': 'btn btn-outline-secondary form-btn'}}) }}
-                                </div>
-                                <div class="col col-2">
-                                    {{ form_row(gradeForm.submit,{'attr':{'class': 'btn btn-outline-success form-btn'}}) }}
-                                </div>
-                            </div>
+                        <div class="d-flex justify-content-center">
+                            {{ form_row(gradeForm.cancel,{'attr':{'class': 'btn btn-outline-secondary form-btn'}}) }}
+                            {{ form_row(gradeForm.submit,{'attr':{'class': 'btn btn-outline-success form-btn'}}) }}
                         </div>
 
                         {{ form_end(gradeForm) }}
 
                     </div>
+
+                    <div class="col col-2"></div>
 
                     <div class="col col-5">
                         <div class="card" >
@@ -125,7 +123,9 @@
                         {% for message in app.session.flashbag.get('categorie_add') %}
                             <div class="alert alert-success alert-dismissible fade show" role="alert">
                                 <strong>{{ message }}!</strong>
-                                <button type="button" class="btn-close"  data-bs-dismiss="alert"  aria-label="Close"></button>
+                                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
                             </div>
                         {% endfor %}
 
@@ -141,19 +141,17 @@
                             </div>
                         </div>
                         <hr>
-                        <div class="col col-12">
-                            <div class="row">
-                                <div class="col col-2">
-                                    {{ form_row(gradeCategoriesForm.cancel,{'attr':{'class': 'btn btn-outline-secondary form-btn'}}) }}
-                                </div>
-                                <div class="col col-2">
-                                    {{ form_row(gradeCategoriesForm.submit,{'attr':{'class': 'btn btn-outline-success form-btn'}}) }}
-                                </div>
-                            </div>
+                        <div class="d-flex justify-content-center">
+                            {{ form_row(gradeCategoriesForm.cancel,{'attr':{'class': 'btn btn-outline-secondary form-btn'}}) }}
+                            {{ form_row(gradeCategoriesForm.submit,{'attr':{'class': 'btn btn-outline-success form-btn'}}) }}
                         </div>
+
 
                         {{ form_end(gradeCategoriesForm) }}
 
+                    </div>
+
+                    <div class="col col-2">
                     </div>
 
                     <div class="col col-5">
@@ -161,7 +159,7 @@
                             <div class="card-body">
                                 <h5 class="card-title">Liste des categories de grade</h5>
                                 <hr>
-                                <table class="table  table-responsive table-bordered table-striped table-hover">
+                                <table class="table table-bordered table-striped table-hover">
                                     <thead>
                                     <tr>
                                         <th></th>

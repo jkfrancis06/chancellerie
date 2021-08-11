@@ -8,12 +8,31 @@
     <script  src="{{ asset('/assets/js/datepicker/moment.min.js') }}"></script>
     <script  src="{{ asset('/assets/js/datepicker/daterangepicker.js') }}"></script>
     <script  src="{{ asset('/assets/js/custom/picker.js') }}"></script>
+    <script  src="{{ asset('/assets/js/jqueryUi/jquery-ui.js') }}"></script>
     <script type="module"  src="{{ asset('/assets/js/custom/custom.js') }}"></script>
+
+    <script>
+        $( function() {
+            $( "#slider-range" ).slider({
+                range: true,
+                min: 0.9,
+                max: 3.1,
+                step: 0.1,
+                values: [ 0.9, 3.1 ],
+                slide: function( event, ui ) {
+                    $( "#search_militaire_taille" ).val(ui.values[ 0 ] + " - " + ui.values[ 1 ] );
+                }
+            });
+            $( "#search_militaire_taille" ).val($( "#slider-range" ).slider( "values", 0 ) +
+                " - " + $( "#slider-range" ).slider( "values", 1 ) );
+        } );
+    </script>
 
 {% endblock %}
 
 {% block stylesheets %}
     <link rel="stylesheet" href="{{ asset('/assets/css/datepicker/daterangepicker.css') }}" />
+    <link rel="stylesheet" href="{{ asset('/assets/css/jqueryUi/jquery-ui.css') }}" />
 
 
 {% endblock %}
@@ -39,7 +58,7 @@
 
 
                    <div class="col col-4 mb-3">
-                       {{ form_label(searchForm.matricule, "Matricule contenant: ", {'label_attr': {'class': 'c_image_name_input_label'}}) }}
+                       {{ form_label(searchForm.matricule, "Matricule contenant: ", {'label_attr': {'class': 'form-label'}}) }}
                        <div class="input-group">
                            {{ form_widget(searchForm.matricule, {'attr': {'class': 'form-control'}}) }}
                        </div>
@@ -90,14 +109,79 @@
                    </div>
 
                    <div class="col col-4 mb-3">
-                       {{ form_label(searchForm.taille, "Taille entre : ", {'label_attr': {'class': 'c_image_name_input_label'}}) }}
-                       <div class="input-group">
-                           {{ form_widget(searchForm.taille, {'attr': {'class': 'form-range','step': 0.1}}) }}
-                       </div>
+                       <p>
+                           {{ form_label(searchForm.taille, "Taille en (m) entre : ", {'label_attr': {'class': 'c_image_name_input_label'}}) }}
+                           {{ form_widget(searchForm.taille, {'attr': {'class': 'form-control'}}) }}
+                       </p>
+                       <div id="slider-range"></div>
                        <div class="form-error" style="color: red">
                            {{ form_errors(searchForm.taille) }}
                        </div>
                    </div>
+
+                   <div class="col col-3 mb-3">
+                       {{ form_label(searchForm.couleurYeux, "Couleur des yeux : ", {'label_attr': {'class': 'c_image_name_input_label'}}) }}
+                       <div class="input-group">
+                           {{ form_widget(searchForm.couleurYeux, {'attr': {'class': 'form-control'}}) }}
+                       </div>
+                       <div class="form-error" style="color: red">
+                           {{ form_errors(searchForm.couleurYeux) }}
+                       </div>
+                   </div>
+
+                   <div class="col col-3 mb-3">
+                       {{ form_label(searchForm.situationMatri, "Situation Matrimoniale : ", {'label_attr': {'class': 'c_image_name_input_label'}}) }}
+                       <div class="input-group">
+                           {{ form_widget(searchForm.situationMatri, {'attr': {'class': 'form-select'}}) }}
+                       </div>
+                       <div class="form-error" style="color: red">
+                           {{ form_errors(searchForm.situationMatri) }}
+                       </div>
+                   </div>
+
+                   <div class="col col-3 mb-3">
+                       {{ form_label(searchForm.hasChildren, "Situation familiale : ", {'label_attr': {'class': 'c_image_name_input_label'}}) }}
+                       <div class="input-group">
+                           {{ form_widget(searchForm.hasChildren, {'attr': {'class': 'form-control'}}) }}
+                       </div>
+                       <div class="form-error" style="color: red">
+                           {{ form_errors(searchForm.hasChildren) }}
+                       </div>
+                   </div>
+
+
+                   <div class="col col-3 mb-3">
+                       {{ form_label(searchForm.adresse, "Adresse : ", {'label_attr': {'class': 'c_image_name_input_label'}}) }}
+                       <div class="input-group">
+                           {{ form_widget(searchForm.adresse, {'attr': {'class': 'form-control'}}) }}
+                       </div>
+                       <div class="form-error" style="color: red">
+                           {{ form_errors(searchForm.adresse) }}
+                       </div>
+                   </div>
+
+                   <div class="col col-3 mb-3">
+                       {{ form_label(searchForm.telephone, "Telephone : ", {'label_attr': {'class': 'c_image_name_input_label'}}) }}
+                       <div class="input-group">
+                           {{ form_widget(searchForm.telephone, {'attr': {'class': 'form-control'}}) }}
+                       </div>
+                       <div class="form-error" style="color: red">
+                           {{ form_errors(searchForm.telephone) }}
+                       </div>
+                   </div>
+
+                   <div class="col col-3 mb-3">
+                       {{ form_label(searchForm.dateIncorp, "Date d'incorporation : ", {'label_attr': {'class': 'c_image_name_input_label'}}) }}
+                       <div class="input-group">
+                           {{ form_widget(searchForm.dateIncorp, {'attr': {'class': 'form-control'}}) }}
+                       </div>
+                       <div class="form-error" style="color: red">
+                           {{ form_errors(searchForm.dateIncorp) }}
+                       </div>
+                   </div>
+
+
+
 
 
                </div>
@@ -112,11 +196,11 @@
 
 
 
+
                {{ form_end(searchForm) }}
            </div>
        </div>
 
    </div>
-
 
 {% endblock %}

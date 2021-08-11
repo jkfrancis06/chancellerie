@@ -47,10 +47,59 @@ class SearchMilitaireType extends AbstractType
                     'placeholder' => 'Selectionner'
                 ],
             ])
-            ->add('taille', RangeType::class, [
+            ->add('taille', TextType::class, [
                 'attr' => [
-                    'min' => 1,
-                    'max' => 3
+                    'readonly' => true,
+                ]
+            ])
+            ->add('couleurYeux', TextType::class, [
+                'label' => 'Couleur des yeux : ',
+            ])
+            ->add('situationMatri', ChoiceType::class, [
+                'label' => 'Situation matrimoniale : ',
+                'choices'  => [
+                    'Selectionner' => null,
+                    'Celibataire' => 'Celibataire',
+                    'Marie' => 'Marie',
+                    'Divorce' => 'Divorce',
+                ],
+                'constraints' => [
+                    new NotBlank()
+                ],
+            ])
+            ->add('hasChildren', ChoiceType::class, [
+                'label' => 'Situation familiale : ',
+                'choices'  => [
+                    'Selectionner' => null,
+                    'Sans enfant' => false,
+                    'Avec enfant' => true,
+                ],
+                'attr' => [
+                    'placeholder' => 'Selectionner'
+                ],
+            ])
+
+            ->add('adresse', TextType::class, [
+                'label' => 'Adresse : ',
+            ])
+
+            ->add('telephone', TextType::class, [
+                'label' => 'Numeros de telephones : ',
+                'attr' => [
+                    'placeholder' => 'Saisir plusieurs numeros de telephones separes par des point-virgules'
+                ],
+
+            ])
+
+            ->add('dateIncorp', DateType::class, [
+                'widget' => 'single_text',
+                'label' => 'Date d\'incorporation : ',
+                'html5' => false,
+                'format' => 'dd-MM-yyyy',
+                // adds a class that can be selected in JavaScript
+                'attr' => [
+                    'class' => 'js-datepicker',
+                    'placeholder' => 'Selectionner une date'
                 ]
             ])
         ;
