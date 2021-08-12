@@ -1,13 +1,9 @@
 
-
-
 {% extends 'base.html.twig' %}
 
 {% block title %}{% endblock %}
 
-{% block stylesheets %}
-    <link rel="stylesheet" href="{{ asset('/assets/css/custom/sidebar.css') }}" />
-{% endblock %}
+
 
 {% block javascripts %}
     {#{{ encore_entry_script_tags('app') }}#}
@@ -184,7 +180,7 @@
 
             <!-- Breadcrumb -->
             <div class="breadcrumb-dn mr-auto">
-                <p>Alerts</p>
+                <p class="fw-bold text-uppercase">chancellerie</p>
             </div>
 
             <!-- Navbar links -->
@@ -215,20 +211,14 @@
                         </a>
                     </div>
                 </li>
-                <li class="nav-item">
-                    <a class="nav-link waves-effect"><i class="fas fa-envelope"></i> <span class="clearfix d-none d-sm-inline-block">Contact</span></a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link waves-effect"><i class="far fa-comments"></i> <span class="clearfix d-none d-sm-inline-block">Support</span></a>
-                </li>
                 <li class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle waves-effect" href="#" id="userDropdown" data-toggle="dropdown"
                        aria-haspopup="true" aria-expanded="false">
-                        <i class="fas fa-user"></i> <span class="clearfix d-none d-sm-inline-block">Profile</span>
+                        <i class="fas fa-user"></i> <span class="clearfix d-none d-sm-inline-block">{{ user.name }}</span>
                     </a>
                     <div class="dropdown-menu dropdown-menu-right" aria-labelledby="userDropdown">
-                        <a class="dropdown-item" href="#">Log Out</a>
-                        <a class="dropdown-item" href="#">My account</a>
+                        <a class="dropdown-item" href="{{ path('app_logout') }}">Deconnexion</a>
+                        <a class="dropdown-item" href="#">Parametres</a>
                     </div>
                 </li>
 
@@ -241,9 +231,12 @@
     </header>
 
     <main>
-        {% block content %}
+        <div style="width: 100%!important;">
+            {% block content %}
 
-        {% endblock %}
+            {% endblock %}
+        </div>
+
     </main>
 
     <!--/Main layout-->
