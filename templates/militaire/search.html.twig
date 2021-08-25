@@ -57,18 +57,24 @@
                <div class="row mt-5">
 
 
-                   <div class="col col-4 mb-3">
-                       {{ form_label(searchForm.matricule, "Matricule contenant: ", {'label_attr': {'class': 'form-label'}}) }}
+                   <div class="col col-12 mb-3">
+                       {{ form_label(searchForm.matricule, "Matricule: ", {'label_attr': {'class': 'form-label'}}) }}
                        <div class="input-group">
                            {{ form_widget(searchForm.matricule, {'attr': {'class': 'form-control'}}) }}
                        </div>
                        <div class="form-error" style="color: red">
                            {{ form_errors(searchForm.matricule) }}
                        </div>
+
+                   </div>
+
+                   <div class="col col-12 mt-4">
+                       <h5 class="font-weight-bold">Recherche avancée</h5>
+                       <hr>
                    </div>
 
                    <div class="col col-4 mb-3">
-                       {{ form_label(searchForm.nom, "Nom contenant: ", {'label_attr': {'class': 'c_image_name_input_label'}}) }}
+                       {{ form_label(searchForm.nom, "Nom: ", {'label_attr': {'class': 'c_image_name_input_label'}}) }}
                        <div class="input-group">
                            {{ form_widget(searchForm.nom, {'attr': {'class': 'form-control'}}) }}
                        </div>
@@ -78,7 +84,7 @@
                    </div>
 
                    <div class="col col-4 mb-3">
-                       {{ form_label(searchForm.prenoms, "Prenoms contenant : ", {'label_attr': {'class': 'c_image_name_input_label'}}) }}
+                       {{ form_label(searchForm.prenoms, "Prenoms : ", {'label_attr': {'class': 'c_image_name_input_label'}}) }}
                        <div class="input-group">
                            {{ form_widget(searchForm.prenoms, {'attr': {'class': 'form-control'}}) }}
                        </div>
@@ -101,7 +107,7 @@
                    <div class="col col-4 mb-3">
                        {{ form_label(searchForm.sexe, "Sexe : ", {'label_attr': {'class': 'c_image_name_input_label'}}) }}
                        <div class="input-group">
-                           {{ form_widget(searchForm.sexe, {'attr': {'class': 'form-control'}}) }}
+                           {{ form_widget(searchForm.sexe, {'attr': {'class': 'mdb-select md-form colorful-select dropdown-primary'}}) }}
                        </div>
                        <div class="form-error" style="color: red">
                            {{ form_errors(searchForm.sexe) }}
@@ -132,7 +138,7 @@
                    <div class="col col-3 mb-3">
                        {{ form_label(searchForm.situationMatri, "Situation Matrimoniale : ", {'label_attr': {'class': 'c_image_name_input_label'}}) }}
                        <div class="input-group">
-                           {{ form_widget(searchForm.situationMatri, {'attr': {'class': 'form-select'}}) }}
+                           {{ form_widget(searchForm.situationMatri, {'attr': {'class': 'mdb-select md-form colorful-select dropdown-primary'}}) }}
                        </div>
                        <div class="form-error" style="color: red">
                            {{ form_errors(searchForm.situationMatri) }}
@@ -142,7 +148,7 @@
                    <div class="col col-3 mb-3">
                        {{ form_label(searchForm.hasChildren, "Situation familiale : ", {'label_attr': {'class': 'c_image_name_input_label'}}) }}
                        <div class="input-group">
-                           {{ form_widget(searchForm.hasChildren, {'attr': {'class': 'form-control'}}) }}
+                           {{ form_widget(searchForm.hasChildren, {'attr': {'class': 'mdb-select md-form colorful-select dropdown-primary'}}) }}
                        </div>
                        <div class="form-error" style="color: red">
                            {{ form_errors(searchForm.hasChildren) }}
@@ -173,13 +179,55 @@
                    <div class="col col-3 mb-3">
                        {{ form_label(searchForm.dateIncorp, "Date d'incorporation : ", {'label_attr': {'class': 'c_image_name_input_label'}}) }}
                        <div class="input-group">
-                           {{ form_widget(searchForm.dateIncorp, {'attr': {'class': 'form-control'}}) }}
+                           {{ form_widget(searchForm.dateIncorp, {'attr': {'class': 'search-picker form-control'}}) }}
                        </div>
                        <div class="form-error" style="color: red">
                            {{ form_errors(searchForm.dateIncorp) }}
                        </div>
                    </div>
 
+
+                   <div class="col col-3 mb-3">
+                       {{ form_label(searchForm.professionAnt, "Profession anterieure : ", {'label_attr': {'class': 'c_image_name_input_label'}}) }}
+                       <div class="input-group">
+                           {{ form_widget(searchForm.professionAnt, {'attr': {'class': 'form-control'}}) }}
+                       </div>
+                       <div class="form-error" style="color: red">
+                           {{ form_errors(searchForm.professionAnt) }}
+                       </div>
+                   </div>
+
+                   <div class="col col-3 mb-3">
+                       {{ form_label(searchForm.grade, "Grade : ", {'label_attr': {'class': 'c_image_name_input_label'}}) }}
+                       <div class="input-group">
+                           {{ form_widget(searchForm.grade, {'attr': {'class': 'mdb-select md-form colorful-select dropdown-primary'}}) }}
+                       </div>
+                       <div class="form-error" style="color: red">
+                           {{ form_errors(searchForm.grade) }}
+                       </div>
+                   </div>
+
+                   <div class="col col-3 mb-3">
+                       {{ form_label(searchForm.specialite, "Specialite : ", {'label_attr': {'class': 'c_image_name_input_label'}}) }}
+                       <div class="input-group">
+                           {{ form_widget(searchForm.specialite, {'attr': {'class': 'mdb-select md-form colorful-select dropdown-primary'}}) }}
+                       </div>
+                       <div class="form-error" style="color: red">
+                           {{ form_errors(searchForm.specialite) }}
+                       </div>
+                   </div>
+
+
+
+                   <div class="col col-3 mb-3">
+                       {{ form_label(searchForm.origineRecrutement, "Origine de recrutement : ", {'label_attr': {'class': 'c_image_name_input_label'}}) }}
+                       <div class="input-group">
+                           {{ form_widget(searchForm.origineRecrutement, {'attr': {'class': 'mdb-select md-form colorful-select dropdown-primary'}}) }}
+                       </div>
+                       <div class="form-error" style="color: red">
+                           {{ form_errors(searchForm.origineRecrutement) }}
+                       </div>
+                   </div>
 
 
 

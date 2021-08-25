@@ -2,11 +2,17 @@
 
 namespace App\Form;
 
+use App\Entity\Grade;
+use App\Entity\OrigineRecrutement;
+use App\Entity\Specialite;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\DateType;
 use Symfony\Component\Form\Extension\Core\Type\NumberType;
 use Symfony\Component\Form\Extension\Core\Type\RangeType;
+use Symfony\Component\Form\Extension\Core\Type\ResetType;
+use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
@@ -39,7 +45,7 @@ class SearchMilitaireType extends AbstractType
                 'required' => true,
                 'label' => 'Sexe : ',
                 'choices'  => [
-                    'Tous' => null,
+                    'Selectionner' => null,
                     'Homme' => 'h',
                     'Femme' => 'f',
                 ],
@@ -57,6 +63,7 @@ class SearchMilitaireType extends AbstractType
             ])
             ->add('situationMatri', ChoiceType::class, [
                 'label' => 'Situation matrimoniale : ',
+                'multiple' => true,
                 'choices'  => [
                     'Selectionner' => null,
                     'Celibataire' => 'Celibataire',
@@ -102,6 +109,41 @@ class SearchMilitaireType extends AbstractType
                     'placeholder' => 'Selectionner une date'
                 ]
             ])
+
+            ->add('professionAnt', TextType::class, [
+                'label' => 'Profession anterieure : ',
+            ])
+
+
+            ->add('grade', EntityType::class, [
+                'class' => Grade::class,
+                'multiple' => true,
+                'label' => 'Grade : ',
+                'choice_label' => 'intitule',
+                'placeholder' => 'Choisir un grade'
+            ])
+
+
+            ->add('specialite', EntityType::class, [
+                'class' => Specialite::class,
+                'multiple' => true,
+                'label' => 'Specialite : ',
+                'choice_label' => 'intitule',
+                'placeholder' => 'Choisir une specialite'
+            ])
+
+
+            ->add('origineRecrutement', EntityType::class, [
+                'class' => OrigineRecrutement::class,
+                'multiple' => true,
+                'data' => null,
+                'label' => 'Origine de recrutement: ',
+                'choice_label' => 'intitule',
+                'placeholder' => 'Choisir une origine de recrutement'
+            ])
+
+            ->add('submit', SubmitType::class, ['label' => 'Enregistrer'])
+            ->add('cancel', ResetType::class, ['label' => 'Annuler'])
         ;
     }
 
