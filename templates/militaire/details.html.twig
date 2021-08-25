@@ -473,18 +473,18 @@
             </div>
         {% endfor %}
 
-        <div class="container-fluid mt-4">
+        <div class="mt-4">
             <div class="row">
                 <div class="col col-12">
                     <div class="card mb-3">
                         <div class="row g-0">
                             <div class="col col-2">
-                                <img style="height: 14em;width: 14em" src="{{ asset('/elements/') }}{{ militaire.fichiers[0].nom }}" class="img-thumbnail" alt="...">
+                                <img style="margin-top:1em;height: 10em;width: 10em" src="{{ asset('/elements/') }}{{ militaire.fichiers[0].nom }}" class="img-thumbnail" alt="...">
                             </div>
                             <div class="col col-10">
                                 <div class="card-body">
                                     <div class="row">
-                                        <div class="col col-2" style="word-wrap: break-word;">
+                                        <div class="col col-3" style="word-wrap: break-word;">
                                             <p>
                                                 <span class="fw-bold">Matricule: </span>
                                                 <span>{{ militaire.matricule }}</span>
@@ -508,7 +508,7 @@
 
                                         </div>
 
-                                        <div class="col col-2" style="word-wrap: break-word;">
+                                        <div class="col col-3" style="word-wrap: break-word;">
                                             <p>
                                                 <span class="fw-bold">Age: </span>
                                                 {% set age = date().diff(date(militaire.dateNaissance)).y %}
@@ -627,11 +627,9 @@
                                             </p>
 
                                             <p>
-                                                <span>
-                                                    <a href="{{ path('print_militaire', { 'id': militaire.id }) }}" type="button" class="btn btn-primary">
-                                                        <i class="fa fa-download"> Telecharger le dossier</i>
-                                                    </a>
-                                                </span>
+                                                <a href="{{ path('print_militaire', { 'id': militaire.id }) }}" type="button" class="btn btn-outline-primary">
+                                                    <i class="fa fa-download"> Telecharger le dossier</i>
+                                                </a>
                                             </p>
 
                                         </div>
@@ -659,7 +657,7 @@
                     <div class="mt-5" style="margin-left: 1em">
                         <div class="row">
 
-                            <div class="col col-xs-12 mt-4"  style="word-wrap: break-word;">
+                            <div class="col col-12 mt-4"  style="word-wrap: break-word;">
 
                                 {% for message in app.session.flashbag.get('create_affectation') %}
                                     <div class="alert alert-success alert-dismissible fade show" role="alert">
@@ -724,7 +722,7 @@
 
                             <div class="col col-6"></div>
 
-                            <div class="col col-xs-12 mt-4"  style="word-wrap: break-word;">
+                            <div class="col col-12 mt-4"  style="word-wrap: break-word;">
 
                                 {% for message in app.session.flashbag.get('create_militaireMission') %}
                                     <div class="alert alert-success alert-dismissible fade show" role="alert">
