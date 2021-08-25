@@ -60,7 +60,7 @@
             <div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">
                 <div id="tab-content" class="row mt-4" style="margin-left: 2em; margin-right: 2em">
 
-                    <table id="elements" class="table table-bordered table-striped table-hover text-center">
+                    <table id="elements" class="table table-responsive table-bordered table-striped table-hover text-center">
                         <thead>
                         <tr>
                             <th>Photo</th>
@@ -88,7 +88,9 @@
                             {% for militaire in militaires%}
                                 <tr>
                                     <td>
-                                        <img height="50" width="50" src="{{ asset('/elements/') }}{{ militaire.militaire.fichiers[0].nom }}" class="img-thumbnail" alt="...">
+                                        {% if militaire.militaire.fichiers is not null and militaire.militaire.fichiers|length > 0 %}
+                                            <img height="50" width="50" src="{{ asset('/elements/') }}{{ militaire.militaire.fichiers[0].nom }}" class="img-thumbnail" alt="...">
+                                        {% endif %}
                                     </td>
                                     <td>{{ militaire.militaire.matricule }}</td>
                                     <td>{{ militaire.militaire.nom }}</td>
@@ -114,51 +116,67 @@
                                         {{ srv }}
                                     </td>
                                     <td>
+
                                         {% set size = militaire.militaire.affectations|length -1 %}
-                                        {{ militaire.militaire.affectations[size].fonction }}
+                                        {% if size >= 0 %}
+                                            {{ militaire.militaire.affectations[size].fonction }}
+                                        {% endif %}
                                     </td>
-                                    <td>{{  militaire.militaire.affectations[size].unite.intitule }}</td>
-                                    <td>{{  militaire.militaire.affectations[size].unite.corps.intitule }}</td>
                                     <td>
+                                        {% if size >= 0 %}
+                                            {{  militaire.militaire.affectations[size].unite.intitule }}
+                                        {% endif %}
+                                    </td>
+                                    <td>
+                                        {% if size >= 0 %}
+                                            {{  militaire.militaire.affectations[size].unite.corps.intitule }}
+                                        {% endif %}
+                                    </td>
+                                    <td>
+
                                         {% set key = militaire.militaire.militaireStatuts|length -1 %}
-                                        {% set lastStatut =  militaire.militaire.militaireStatuts[key] %}
 
-                                        {% if lastStatut != null and lastStatut.statut == 1 %}
-                                            <span class="text-danger fw-bold">Radie</span>
+                                        {% if key >= 0 %}
+                                            {% set lastStatut =  militaire.militaire.militaireStatuts[key] %}
+
+                                            {% if lastStatut != null and lastStatut.statut == 1 %}
+                                                <span class="text-danger fw-bold">Radie</span>
+                                            {% endif %}
+
+
+                                            {% if lastStatut != null and lastStatut.statut == 3 %}
+                                                <span class="text-success fw-bold">En service</span>
+                                            {% endif %}
+
+                                            {% if lastStatut != null and lastStatut.statut == 0 %}
+                                                <span class="text-warning fw-bold">Retraite</span>
+                                            {% endif %}
+
+                                            {% if lastStatut != null and lastStatut.statut == 2 %}
+                                                <span class="text-success fw-bold">En service</span>
+                                            {% endif %}
+
+                                            {% if lastStatut != null and lastStatut.statut == 4 %}
+                                                <span class="text-success fw-bold">Disponibilite</span>
+                                            {% endif %}
+
+                                            {% if lastStatut != null and lastStatut.statut == 5 %}
+                                                <span class="text-primary fw-bold">Detachement</span>
+                                            {% endif %}
+
+                                            {% if lastStatut != null and lastStatut.statut == 6 %}
+                                                <span class="text-danger fw-bold">Deserteur</span>
+                                            {% endif %}
+
+                                            {% if lastStatut != null and lastStatut.statut == 7 %}
+                                                <span class="text-warning fw-bold">Absence</span>
+                                            {% endif %}
+
+                                            {% if lastStatut != null and lastStatut.statut == 8 %}
+                                                <span class="text-warning fw-bold">Arret maladie</span>
+                                            {% endif %}
                                         {% endif %}
 
-
-                                        {% if lastStatut != null and lastStatut.statut == 3 %}
-                                            <span class="text-success fw-bold">En service</span>
-                                        {% endif %}
-
-                                        {% if lastStatut != null and lastStatut.statut == 0 %}
-                                            <span class="text-warning fw-bold">Retraite</span>
-                                        {% endif %}
-
-                                        {% if lastStatut != null and lastStatut.statut == 2 %}
-                                            <span class="text-success fw-bold">En service</span>
-                                        {% endif %}
-
-                                        {% if lastStatut != null and lastStatut.statut == 4 %}
-                                            <span class="text-success fw-bold">Disponibilite</span>
-                                        {% endif %}
-
-                                        {% if lastStatut != null and lastStatut.statut == 5 %}
-                                            <span class="text-primary fw-bold">Detachement</span>
-                                        {% endif %}
-
-                                        {% if lastStatut != null and lastStatut.statut == 6 %}
-                                            <span class="text-danger fw-bold">Deserteur</span>
-                                        {% endif %}
-
-                                        {% if lastStatut != null and lastStatut.statut == 7 %}
-                                            <span class="text-warning fw-bold">Absence</span>
-                                        {% endif %}
-
-                                        {% if lastStatut != null and lastStatut.statut == 8 %}
-                                            <span class="text-warning fw-bold">Arret maladie</span>
-                                        {% endif %}
                                     </td>
 
                                     <td>
