@@ -518,6 +518,17 @@ class MilitaireController extends AbstractController
 
         $searchForm = $this->createForm(SearchMilitaireType::class);
 
+        $searchForm->handleRequest($request);
+
+        $qr_result = [];
+
+        if ($searchForm->isSubmitted() && $searchForm->isValid()){
+
+
+            $qr_result = $this->getDoctrine()->getRepository(Militaire::class)->searchMilitaire($searchForm);
+
+
+        }
 
 
 
@@ -526,6 +537,7 @@ class MilitaireController extends AbstractController
             'controller_name' => 'DashboardController',
             'active' => 'search_militaire',
             'user' => $user,
+            'qr_result' => $qr_result,
             'searchForm' => $searchForm->createView(),
         ]);
     }

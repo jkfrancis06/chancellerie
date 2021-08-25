@@ -26,12 +26,18 @@ class SearchMilitaireType extends AbstractType
         $builder
             ->add('nom', TextType::class, [
                 'label' => 'Nom : ',
+                'required' => false,
+
             ])
             ->add('prenoms', TextType::class, [
-                'label' => 'Prenoms : '
+                'label' => 'Prenoms : ',
+                'required' => false,
+
             ])
             ->add('dateNaissance', TextType::class, [
                 // adds a class that can be selected in JavaScript
+                'required' => false,
+
                 'attr' => [
                     'class' => 'js-datepicker',
                     'placeholder' => 'Selectionner une date'
@@ -39,10 +45,13 @@ class SearchMilitaireType extends AbstractType
 
             ])
             ->add('matricule', TextType::class, [
+                'required' => false,
+
                 'label' => 'Matricule : '
             ])
             ->add('sexe', ChoiceType::class, [
-                'required' => true,
+
+                'required' => false,
                 'label' => 'Sexe : ',
                 'choices'  => [
                     'Selectionner' => null,
@@ -54,14 +63,17 @@ class SearchMilitaireType extends AbstractType
                 ],
             ])
             ->add('taille', TextType::class, [
+                'required' => false,
                 'attr' => [
                     'readonly' => true,
                 ]
             ])
             ->add('couleurYeux', TextType::class, [
+                'required' => false,
                 'label' => 'Couleur des yeux : ',
             ])
             ->add('situationMatri', ChoiceType::class, [
+                'required' => false,
                 'label' => 'Situation matrimoniale : ',
                 'multiple' => true,
                 'choices'  => [
@@ -69,12 +81,10 @@ class SearchMilitaireType extends AbstractType
                     'Celibataire' => 'Celibataire',
                     'Marie' => 'Marie',
                     'Divorce' => 'Divorce',
-                ],
-                'constraints' => [
-                    new NotBlank()
-                ],
+                ]
             ])
             ->add('hasChildren', ChoiceType::class, [
+                'required' => false,
                 'label' => 'Situation familiale : ',
                 'choices'  => [
                     'Selectionner' => null,
@@ -87,10 +97,12 @@ class SearchMilitaireType extends AbstractType
             ])
 
             ->add('adresse', TextType::class, [
+                'required' => false,
                 'label' => 'Adresse : ',
             ])
 
             ->add('telephone', TextType::class, [
+                'required' => false,
                 'label' => 'Numeros de telephones : ',
                 'attr' => [
                     'placeholder' => 'Saisir plusieurs numeros de telephones separes par des point-virgules'
@@ -98,24 +110,25 @@ class SearchMilitaireType extends AbstractType
 
             ])
 
-            ->add('dateIncorp', DateType::class, [
-                'widget' => 'single_text',
-                'label' => 'Date d\'incorporation : ',
-                'html5' => false,
-                'format' => 'dd-MM-yyyy',
+            ->add('dateIncorp', TextType::class, [
                 // adds a class that can be selected in JavaScript
+                'required' => false,
+
                 'attr' => [
                     'class' => 'js-datepicker',
                     'placeholder' => 'Selectionner une date'
-                ]
+                ],
+
             ])
 
             ->add('professionAnt', TextType::class, [
+                'required' => false,
                 'label' => 'Profession anterieure : ',
             ])
 
 
             ->add('grade', EntityType::class, [
+                'required' => false,
                 'class' => Grade::class,
                 'multiple' => true,
                 'label' => 'Grade : ',
@@ -125,6 +138,7 @@ class SearchMilitaireType extends AbstractType
 
 
             ->add('specialite', EntityType::class, [
+                'required' => false,
                 'class' => Specialite::class,
                 'multiple' => true,
                 'label' => 'Specialite : ',
@@ -134,6 +148,7 @@ class SearchMilitaireType extends AbstractType
 
 
             ->add('origineRecrutement', EntityType::class, [
+                'required' => false,
                 'class' => OrigineRecrutement::class,
                 'multiple' => true,
                 'data' => null,
@@ -142,8 +157,7 @@ class SearchMilitaireType extends AbstractType
                 'placeholder' => 'Choisir une origine de recrutement'
             ])
 
-            ->add('submit', SubmitType::class, ['label' => 'Enregistrer'])
-            ->add('cancel', ResetType::class, ['label' => 'Annuler'])
+            ->add('submit', SubmitType::class, ['label' => 'Rechercher'])
         ;
     }
 

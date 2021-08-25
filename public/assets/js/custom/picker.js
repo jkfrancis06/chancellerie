@@ -127,6 +127,8 @@ $(document).ready(function() {
     $('.js-datepicker').val('')
 
     $('.search-picker').daterangepicker({
+        autoUpdateInput: false,
+
         opens: 'left',
         locale: {
             format: 'DD/MM/YYYY',
@@ -161,6 +163,14 @@ $(document).ready(function() {
             ],
 
         }
+    });
+
+    $('.search-picker').on('apply.daterangepicker', function(ev, picker) {
+        $(this).val(picker.startDate.format('DD/MM/YYYY') + ' - ' + picker.endDate.format('DD/MM/YYYY'));
+    });
+
+    $('.search-picker').on('cancel.daterangepicker', function(ev, picker) {
+        $(this).val('');
     });
 
 });
