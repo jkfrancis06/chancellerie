@@ -66,14 +66,17 @@ class MilitaireRepository extends ServiceEntityRepository
         $ddnarray = $form->get('dateNaissance')->getData();
         if ($ddnarray != null){
             $dates = explode("-", $ddnarray);
+
             //echo $dates[0]; // piece1
             //echo $dates[1]; // piece2
-            if ($this->isValidateDate(trim($dates[0])) && $this->isValidateDate(trim($dates[1]))) {   // if date is valid
-                $qb->andWhere("m.dateNaissance BETWEEN :startddn AND :endddn");
-                $ddnqr = true;
-                $qb->setParameter('startddn', trim($dates[0]));
-                $qb->setParameter('endddn', trim($dates[1]));
-            }
+            $qb->andWhere("m.dateNaissance BETWEEN :startddn AND :endddn");
+
+
+            $stdate = strtotime(str_replace('/', '.', $dates[0]));
+            $endate = strtotime(str_replace('/', '.', $dates[1]));
+
+            $qb->setParameter('startddn', date('Y-m-d', $stdate));
+            $qb->setParameter('endddn', date('Y-m-d', $endate));
 
         }
 
@@ -90,6 +93,7 @@ class MilitaireRepository extends ServiceEntityRepository
         if ($taillearray != null){
             $tailles = explode("-", $taillearray);
             $qb->andWhere("m.taille BETWEEN :starttaille AND :endtaille");
+
             $qb->setParameter('starttaille', floatval($tailles[0]));
             $qb->setParameter('endtaille', floatval($tailles[1]));
         }
@@ -141,11 +145,13 @@ class MilitaireRepository extends ServiceEntityRepository
         $dateIncorparray = $form->get('dateIncorp')->getData();
         if ($dateIncorparray != null){
             $dates = explode("-", $dateIncorparray);
-            if ($this->isValidateDate(trim($dates[0])) && $this->isValidateDate(trim($dates[1]))) {   // if date is valid
-                $qb->andWhere("m.dateIncorp BETWEEN :startddn AND :endddn");
-                $qb->setParameter('startddn', trim($dates[0]));
-                $qb->setParameter('endddn', trim($dates[1]));
-            }
+            $qb->andWhere("m.dateIncorp BETWEEN :startddn AND :endddn");
+
+            $stdate = strtotime(str_replace('/', '.', $dates[0]));
+            $endate = strtotime(str_replace('/', '.', $dates[1]));
+
+            $qb->setParameter('startddn', date('Y-m-d', $stdate));
+            $qb->setParameter('endddn', date('Y-m-d', $endate));
 
         }
 
@@ -194,6 +200,7 @@ class MilitaireRepository extends ServiceEntityRepository
     {
         $d = \DateTime::createFromFormat($format, $date);
         // The Y ( 4 digits year ) returns TRUE for any integer with any number of digits so changing the comparison from == to === fixes the issue.
+        echo $d && $d->format($format) === $date;
         return $d && $d->format($format) === $date;
     }
 

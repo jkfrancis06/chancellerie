@@ -128,10 +128,10 @@ $(document).ready(function() {
 
     $('.search-picker').daterangepicker({
         autoUpdateInput: false,
-
+        showDropdowns: true,
         opens: 'left',
         locale: {
-            format: 'DD/MM/YYYY',
+            format: 'DD-MM-YYYY',
             "firstDay": 1,
             "applyLabel": "Appliquer",
             "cancelLabel": "Annuler",
@@ -166,6 +166,8 @@ $(document).ready(function() {
     });
 
     $('.search-picker').on('apply.daterangepicker', function(ev, picker) {
+        console.log(picker.startDate)
+        console.log(picker.endDate)
         $(this).val(picker.startDate.format('DD/MM/YYYY') + ' - ' + picker.endDate.format('DD/MM/YYYY'));
     });
 

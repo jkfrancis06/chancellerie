@@ -44,9 +44,17 @@ class Grade
      */
     private $militaires;
 
+    /**
+     * @ORM\ManyToMany(targetEntity=Indice::class, mappedBy="grade")
+     */
+    private $indices;
+
+
+
     public function __construct()
     {
         $this->militaires = new ArrayCollection();
+        $this->indices = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -119,4 +127,32 @@ class Grade
 
         return $this;
     }
+
+    /**
+     * @return Collection|Indice[]
+     */
+    public function getIndices(): Collection
+    {
+        return $this->indices;
+    }
+
+    public function addIndex(Indice $index): self
+    {
+        if (!$this->indices->contains($index)) {
+            $this->indices[] = $index;
+            $index->addGrade($this);
+        }
+
+        return $this;
+    }
+
+    public function removeIndex(Indice $index): self
+    {
+        if ($this->indices->removeElement($index)) {
+            $index->removeGrade($this);
+        }
+
+        return $this;
+    }
+
 }

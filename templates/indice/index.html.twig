@@ -1,0 +1,181 @@
+{% extends 'nav.html.twig' %}
+
+{% block title %}Indices{% endblock %}
+
+
+{% block content %}
+
+    <div style="margin-top: 1em">
+
+        <ul class="nav nav-tabs md-tabs" id="myTab" role="tablist">
+            <li class="nav-item" role="presentation">
+                <a class="nav-link active" id="indice-tab" data-toggle="tab" href="#indice" type="button" role="tab" aria-controls="indice" aria-selected="true">Indices</a>
+            </li>
+
+        </ul>
+        <div class="tab-content card pt-5" id="myTabContent">
+            <div class="tab-pane fade show active" id="indice" role="tabpanel" aria-labelledby="indice-tab">
+                <div class="row" style="margin-top: 2em">
+                    <div class="col col-6">
+
+                        {% for message in app.session.flashbag.get('indice_add') %}
+                            <div class="alert alert-success alert-dismissible fade show" role="alert">
+                                <strong>{{ message }}!</strong>
+                                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                            </div>
+                        {% endfor %}
+
+                        {{ form_start(indiceForm) }}
+
+                        <div class="text-danger">
+                            {{ form_errors(indiceForm) }}
+                        </div>
+
+                        <div class="mb-3">
+                            {{ form_label(indiceForm.grade, "Grade : ", {'label_attr': {'class': 'intitule_label'}}) }}
+                            {{ form_widget(indiceForm.grade, {'attr': {'class': 'mdb-select md-form colorful-select dropdown-primary','searchable':'Rechercher..'}}) }}
+                            <div class="form-error" style="color: red">
+                                {{ form_errors(indiceForm.grade) }}
+                            </div>
+                        </div>
+
+                        <div class="mb-3">
+                            {{ form_label(indiceForm.echelon, "Echelon : ", {'label_attr': {'class': 'intitule_label'}}) }}
+                            {{ form_widget(indiceForm.echelon, {'attr': {'class': 'form-control'}}) }}
+                            <div class="form-error" style="color: red">
+                                {{ form_errors(indiceForm.echelon) }}
+                            </div>
+                        </div>
+
+                        <div class="mb-3">
+                            {{ form_label(indiceForm.indice, "Indice : ", {'label_attr': {'class': 'intitule_label'}}) }}
+                            {{ form_widget(indiceForm.indice, {'attr': {'class': 'form-control'}}) }}
+                            <div class="form-error" style="color: red">
+                                {{ form_errors(indiceForm.indice) }}
+                            </div>
+                        </div>
+
+                        <div class="mb-3">
+                            {{ form_label(indiceForm.periodeAnciennete, "Anciennete en annees : ", {'label_attr': {'class': 'intitule_label'}}) }}
+                            <div class="row">
+                                <div class="col col-2">
+                                    {{ form_widget(indiceForm.periodeAnciennete, {'attr': {'class': 'form-control'}}) }}
+                                    <div class="form-error" style="color: red">
+                                        {{ form_errors(indiceForm.periodeAnciennete) }}
+                                    </div>
+                                </div>
+                                <div class="col col-10">
+                                    {{ form_widget(indiceForm.anciennete, {'attr': {'class': 'form-control'}}) }}
+                                    <div class="form-error" style="color: red">
+                                        {{ form_errors(indiceForm.anciennete) }}
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+
+
+                        <div class="mb-3">
+                            {{ form_label(indiceForm.prerequation, "Prerequation en % : ", {'label_attr': {'class': 'intitule_label'}}) }}
+                            {{ form_widget(indiceForm.prerequation, {'attr': {'class': 'form-control'}}) }}
+                            <div class="form-error" style="color: red">
+                                {{ form_errors(indiceForm.prerequation) }}
+                            </div>
+                        </div>
+
+
+                        <hr>
+                        <div class="d-flex justify-content-center">
+                            {{ form_row(indiceForm.cancel,{'attr':{'class': 'btn btn-outline-secondary form-btn'}}) }}
+                            {{ form_row(indiceForm.submit,{'attr':{'class': 'btn btn-outline-success form-btn'}}) }}
+                        </div>
+
+                        {{ form_end(indiceForm) }}
+                    </div>
+
+                    <div class="col col-6">
+                        <div class="card" >
+                            <div class="card-body">
+                                <h5 class="card-title">Liste des indice</h5>
+                                <hr>
+                                <table class="table table-responsive table-bordered table-striped table-hover text-center">
+                                    <thead>
+                                    <tr>
+
+                                        <th{% if indices.isSorted('IndiceGrade.Intitule') %} class="sorted"{% endif %}>
+                                            {{ knp_pagination_sortable(indices, 'Grade', 'IndiceGrade.Intitule') }}
+                                        </th>
+
+                                        <th{% if indices.isSorted('echelon') %} class="sorted"{% endif %}>
+                                            {{ knp_pagination_sortable(indices, 'Echelon', 'echelon') }}
+                                        </th>
+
+                                        <th{% if indices.isSorted('indice') %} class="sorted"{% endif %}>
+                                            {{ knp_pagination_sortable(indices, 'Indice', 'indice') }}
+                                        </th>
+
+                                        <th{% if indices.isSorted('anciennete') %} class="sorted"{% endif %}>
+                                            {{ knp_pagination_sortable(indices, 'Anciennete de service', 'anciennete') }}
+                                        </th>
+
+                                        <th{% if indices.isSorted('prerequation') %} class="sorted"{% endif %}>
+                                            {{ knp_pagination_sortable(indices, 'Prerequation', 'prerequation') }}
+                                        </th>
+                                        <th></th>
+
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    {% if indices | length == 0 %}
+                                        <tr>
+                                            <td colspan="6">Aucun indice n'a été ajouté pour l'instant</td>
+                                        </tr>
+                                    {% else %}
+                                        {% for indice in indices %}
+                                            <tr>
+                                                <td>
+                                                    {% for grade in indice.grade  %}
+                                                        {{ grade.description }} ({{ grade.intitule }}) /
+                                                    {% endfor %}
+                                                </td>
+                                                <td>{{ indice.echelon }}</td>
+                                                <td>{{ indice.indice }}</td>
+                                                <td>
+                                                    {% if indice.periodeAnciennete == constant('ANCIENNETE_AVANT', indice) %}
+                                                        Avant
+                                                    {% endif %}
+                                                    {% if indice.periodeAnciennete == constant('ANCIENNETE_APRES', indice) %}
+                                                        Apres
+                                                    {% endif %}
+                                                    {{ indice.anciennete }} ans
+                                                </td>
+                                                <td>{{ indice.prerequation }} %</td>
+                                                <td></td>
+                                            </tr>
+                                        {% endfor %}
+
+                                    {% endif %}
+                                    </tbody>
+                                </table>
+                            </div>
+                            <div class="card-footer">
+                                <div class="d-flex justify-content-center">
+                                    {{ knp_pagination_render(indices,'/paginator/paginator.html.twig') }}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+
+
+
+
+
+{% endblock %}
