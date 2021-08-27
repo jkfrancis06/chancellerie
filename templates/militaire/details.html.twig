@@ -478,10 +478,12 @@
                 <div class="col col-12">
                     <div class="card mb-3">
                         <div class="row g-0">
-                            <div class="col col-2">
-                                <img style="margin-top:1em;height: 10em;width: 10em" src="{{ asset('/elements/') }}{{ militaire.fichiers[0].nom }}" class="img-thumbnail" alt="...">
+                            <div class="col col-12">
+                                <div class="d-flex justify-content-center">
+                                    <img style="margin-top:1em;height: 10em;width: 10em" src="{{ asset('/elements/') }}{{ militaire.fichiers[0].nom }}" class="img-thumbnail" alt="...">
+                                </div>
                             </div>
-                            <div class="col col-10">
+                            <div class="col col-12 mt-3">
                                 <div class="card-body">
                                     <div class="row">
                                         <div class="col col-3" style="word-wrap: break-word;">
@@ -490,9 +492,6 @@
                                                 <span>{{ militaire.matricule }}</span>
                                             </p>
                                             <p>
-                                                <span class="fw-bold">Grade: </span>
-                                                <span>{{ militaire.grade.intitule }}</span>
-                                            </p>
                                             <p>
                                                 <span class="fw-bold">Nom: </span>
                                                 <span>{{ militaire.nom }}</span>
@@ -501,14 +500,57 @@
                                                 <span class="fw-bold">Prenoms: </span>
                                                 <span>{{ militaire.prenoms }}</span>
                                             </p>
+
+                                                <span class="fw-bold">Grade: </span>
+                                                <span>{{ militaire.grade.intitule }}</span>
+                                            </p>
+
+                                            {% set indice = IndiceCalculator.calculateIndice(militaire.id) %}
+
+
+                                            <p>
+                                                <span class="fw-bold">Echelon: </span>
+                                                <span>
+                                                    {% if indice is not null %}
+                                                        {{ indice.echelon }}
+                                                    {% endif %}
+                                                </span>
+                                            </p>
+
+                                            <p>
+                                                <span class="fw-bold">Indice: </span>
+                                                <span>
+                                                    {% if indice is not null %}
+                                                        {{ indice.indice }}
+                                                    {% endif %}
+                                                </span>
+                                            </p>
+
+                                            <p>
+                                                <span class="fw-bold">Annees de service: </span>
+                                                <span>
+                                                    {% set srv = date().diff(date(militaire.dateIncorp)).y %}
+                                                    {{ srv }} ans
+                                                </span>
+                                            </p>
+
+
+
+
+                                        </div>
+
+                                        <div class="col col-3" style="word-wrap: break-word;">
+
                                             <p>
                                                 <span class="fw-bold">Date de naissance: </span>
                                                 <span>{{ militaire.dateNaissance|date("d-M-Y")  }}</span>
                                             </p>
 
-                                        </div>
+                                            <p>
+                                                <span class="fw-bold">Date d'incorporation: </span>
+                                                <span>{{ militaire.dateIncorp|date("d-M-Y")  }}</span>
+                                            </p>
 
-                                        <div class="col col-3" style="word-wrap: break-word;">
                                             <p>
                                                 <span class="fw-bold">Age: </span>
                                                 {% set age = date().diff(date(militaire.dateNaissance)).y %}
@@ -569,17 +611,6 @@
                                         </div>
 
                                         <div class="col col-3" style="word-wrap: break-word;">
-                                            <p>
-                                                <span class="fw-bold">Date d'incorporation: </span>
-                                                <span>{{ militaire.dateIncorp|date("d-M-Y")  }}</span>
-                                            </p>
-                                            <p>
-                                                <span class="fw-bold">Annees de service: </span>
-                                                <span>
-                                                    {% set srv = date().diff(date(militaire.dateIncorp)).y %}
-                                                    {{ srv }} ans
-                                                </span>
-                                            </p>
 
                                             <p>
                                                 <span class="fw-bold">Statut: </span>
@@ -656,6 +687,7 @@
                 <div class="tab-pane fade show active" id="nav-prof" role="tabpanel" aria-labelledby="nav-prof">
                     <div class="mt-5" style="margin-left: 1em">
                         <div class="row">
+
 
                             <div class="col col-12 mt-4"  style="word-wrap: break-word;">
 

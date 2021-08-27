@@ -36,13 +36,13 @@
 
                         {% if active == "dashboard" %}
                             <li>
-                                <a class="waves-effect active">
+                                <a href="{{ path('dashboard') }}"  class="waves-effect active">
                                     <i class="fas fa-home"></i>
                                     Tableau de bord</a>
                             </li>
                         {% else %}
                             <li>
-                                <a class="waves-effect">
+                                <a href="{{ path('dashboard') }}" class="waves-effect">
                                     <i class="fas fa-home"></i>
                                     Tableau de bord</a>
                             </li>
@@ -81,11 +81,11 @@
 
 
 
-                        <li>
+                        <!--<li>
                             <a class="waves-effect">
                                 <i class="fas fa-chart-line"></i>
                                 Statistiques et statuts</a>
-                        </li>
+                        </li> -->
 
 
                         {% if active == "indices" %}

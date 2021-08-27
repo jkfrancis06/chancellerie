@@ -49,6 +49,11 @@ class Grade
      */
     private $indices;
 
+    /**
+     * @ORM\Column(type="integer", nullable=true)
+     */
+    private $limiteAge;
+
 
 
     public function __construct()
@@ -151,6 +156,18 @@ class Grade
         if ($this->indices->removeElement($index)) {
             $index->removeGrade($this);
         }
+
+        return $this;
+    }
+
+    public function getLimiteAge(): ?int
+    {
+        return $this->limiteAge;
+    }
+
+    public function setLimiteAge(?int $limiteAge): self
+    {
+        $this->limiteAge = $limiteAge;
 
         return $this;
     }

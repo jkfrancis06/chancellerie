@@ -22,19 +22,18 @@ class IndiceRepository extends ServiceEntityRepository
     // /**
     //  * @return Indice[] Returns an array of Indice objects
     //  */
-    /*
-    public function findByExampleField($value)
+
+    public function findIncides($grades)
     {
-        return $this->createQueryBuilder('i')
-            ->andWhere('i.exampleField = :val')
-            ->setParameter('val', $value)
-            ->orderBy('i.id', 'ASC')
-            ->setMaxResults(10)
-            ->getQuery()
+       $qb =  $this->createQueryBuilder('e');
+            $qb->leftJoin('e.grade', 'telephone');
+            $qb->andWhere($qb->expr()->in('telephone.numero', ':telephones'));
+            $qb->setParameter('category', $category);
+            $qb->orderBy('e.name', 'ASC');
+            return $qb->getQuery()
             ->getResult()
-        ;
+            ;
     }
-    */
 
     /*
     public function findOneBySomeField($value): ?Indice

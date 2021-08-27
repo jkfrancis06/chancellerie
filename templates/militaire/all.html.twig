@@ -68,12 +68,14 @@
                             <th>Nom</th>
                             <th>Prenoms</th>
                             <th>Grade</th>
+                            <th>Echelon</th>
+                            <th>Indice</th>
+                            <th>Date d'incorporation</th>
+                            <th>Annees de service</th>
                             <th>Date de naissance</th>
                             <th>Sexe</th>
                             <th>Numeros de telephones</th>
                             <th>Adresse</th>
-                            <th>Date d'incorporation</th>
-                            <th>Annees de service</th>
                             <th>Fonction</th>
                             <th>Unite d'affectation</th>
                             <th>Corps d'affectation</th>
@@ -96,6 +98,22 @@
                                     <td>{{ militaire.militaire.nom }}</td>
                                     <td>{{ militaire.militaire.prenoms }}</td>
                                     <td>{{ militaire.militaire.grade.intitule }}</td>
+                                    {% set indice = IndiceCalculator.calculateIndice(militaire.militaire.id) %}
+                                    <td>
+                                        {% if indice is not null %}
+                                            {{ indice.echelon }}
+                                        {% endif %}
+                                    </td>
+                                    <td>
+                                        {% if indice is not null %}
+                                            {{ indice.indice }}
+                                        {% endif %}
+                                    </td>
+                                    <td data-sort="{{ militaire.d_incor }}">{{ militaire.militaire.dateIncorp|date("d-m-Y")  }}</td>
+                                    <td>
+                                        {% set srv = date().diff(date(militaire.militaire.dateIncorp)).y %}
+                                        {{ srv }}
+                                    </td>
                                     <td data-sort="{{ militaire.d_naiss }}">{{ militaire.militaire.dateNaissance|date("d-m-Y")  }}</td>
                                     <td>
                                         {% if militaire.militaire.sexe == 'f' %}
@@ -110,11 +128,6 @@
                                         {% endfor %}
                                     </td>
                                     <td>{{ militaire.militaire.adresse }}</td>
-                                    <td data-sort="{{ militaire.d_incor }}">{{ militaire.militaire.dateIncorp|date("d-m-Y")  }}</td>
-                                    <td>
-                                        {% set srv = date().diff(date(militaire.militaire.dateIncorp)).y %}
-                                        {{ srv }}
-                                    </td>
                                     <td>
 
                                         {% set size = militaire.militaire.affectations|length -1 %}

@@ -283,28 +283,6 @@ class DummyController extends AbstractController
 
             $rand_num = rand(0, sizeof($missions)-1);
 
-            $prv = null;
-            for ($i = 0; $i <= $rand_num ; $i++){
-
-                $militairemissions = new MilitaireMission();
-                $militairemissions->setMission($missions[$i]);
-                $militairemissions->setMilitaire($militaire);
-                $militairemissions->setCommentaire('Commentaire');
-                $date = $this->pickDate($prv);
-                $prv = $date;
-                $newformat = date('Y-m-d',$date);
-                $militairemissions->setDateDebut(new \DateTime($newformat));
-
-                $d = $militairemissions->getDateDebut();
-                $dateFin = $this->pickDate($d->format('Y-m-d'));
-
-
-
-                $newformat = date('Y-m-d',$dateFin);
-                $militairemissions->setDateFin(new \DateTime($newformat));
-                $militaire->addMilitaireMission($militairemissions);
-
-            }
 
 
             $rand_med = rand(0, sizeof($medailles)-1);
