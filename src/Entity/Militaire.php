@@ -78,7 +78,7 @@ class Militaire
     private $professionAnt;
 
     /**
-     * @ORM\OneToMany(targetEntity=Fichier::class, mappedBy="militaire",cascade={"persist"})
+     * @ORM\OneToMany(targetEntity=Fichier::class, mappedBy="militaire", cascade={"persist", "remove"})
      */
     private $fichiers;
 

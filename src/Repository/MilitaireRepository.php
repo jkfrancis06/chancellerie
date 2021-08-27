@@ -180,7 +180,7 @@ class MilitaireRepository extends ServiceEntityRepository
 
         // origineRecrutement
         $origineRecrutement = $form->get('origineRecrutement')->getData();
-        if (sizeof($specialite) > 0){
+        if (sizeof($origineRecrutement) > 0){
             $qb->andWhere($qb->expr()->in('m.origineRecrutement', ':origineRecrutement'));
             $qb->setParameter('origineRecrutement', $origineRecrutement);
         }

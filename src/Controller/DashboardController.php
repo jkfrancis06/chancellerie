@@ -62,7 +62,7 @@ class DashboardController extends AbstractController
                  if ($affectation != null){
                      foreach ($corp_array as &$corp){
                          if ($affectation[sizeof($affectation)-1]->getUnite()->getCorps() == $corp["corps"]){
-                             $corp["corps"]++;
+                             $corp["effectif"]++;
                          }
                      }
                  }

@@ -8,6 +8,7 @@ use App\Entity\Exercice;
 use App\Entity\Fichier;
 use App\Entity\Formation;
 use App\Entity\Grade;
+use App\Entity\Indice;
 use App\Entity\Medaille;
 use App\Entity\Militaire;
 use App\Entity\MilitaireDiplome;
@@ -23,10 +24,31 @@ use App\Entity\Telephone;
 use App\Entity\Unite;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\Routing\Annotation\Route;
 
 class DummyController extends AbstractController
 {
+    /**
+     * @Route("/d/{id}", name="de")
+     */
+    public function remove($id): Response
+    {
+        $indice  = $this->getDoctrine()->getManager()->getRepository(Militaire::class)->find($id);
+
+        if ($indice == null){
+            throw new NotFoundHttpException('non trouve');
+        }
+
+
+        $em = $this->getDoctrine()->getManager();
+
+        $em->remove($indice);
+        $em->flush();
+
+        return new Response('ok');
+    }
+
     /**
      * @Route("/dummy", name="dummy")
      */
