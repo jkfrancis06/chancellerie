@@ -138,4 +138,11 @@ class Corps
         return $this;
     }
 
+
+    function stringToColorCode() {
+        $code = dechex(crc32($this->intitule));
+        return substr($code, 0, 6);
+    }
+
+
 }

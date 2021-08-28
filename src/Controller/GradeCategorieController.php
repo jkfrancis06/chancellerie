@@ -17,13 +17,23 @@ use Symfony\Component\Routing\Annotation\Route;
 class GradeCategorieController extends AbstractController
 {
     /**
-     * @Route("/grade/categorie", name="grade_categorie")
+     * @Route("/grade/categorie/{id}", name="grade_categorie")
      */
-    public function index(Request $request, PaginatorInterface $paginator): Response
+    public function index($id = null , Request $request, PaginatorInterface $paginator): Response
     {
         $user = $this->getUser();
+        $db_grade = null;
 
-        $grade = new Grade();
+        if ($id == null){
+            $grade = new Grade();
+        }else{
+            $db_grade = $this->getDoctrine()->getManager()->getRepository(Grade::class)->find($id);
+            if ($db_grade == null){
+                $grade = new Grade();
+            }else{
+                $grade = $db_grade;
+            }
+        }
         $gradeCategories = new GradeCategorie();
 
         $gradeForm = $this->createForm(GradeType::class,$grade);
@@ -35,9 +45,16 @@ class GradeCategorieController extends AbstractController
         $em = $this->getDoctrine()->getManager();
 
         if ($gradeForm->isSubmitted() && $gradeForm->isValid()) { // traitement du formulaire
-            $em->persist($grade);
-            $em->flush();
-            $request->getSession()->getFlashBag()->add('grade_add', 'Le grade a été crée avec succès');
+            if ($db_grade != null){
+                $em->flush();
+                $request->getSession()->getFlashBag()->add('grade_add', 'Le grade a été modifie avec succès');
+
+            }else{
+                $em->persist($grade);
+                $em->flush();
+                $request->getSession()->getFlashBag()->add('grade_add', 'Le grade a été crée avec succès');
+
+            }
             return $this->redirectToRoute('grade_categorie');
         }
 
