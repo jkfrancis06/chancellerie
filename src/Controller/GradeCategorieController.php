@@ -69,18 +69,13 @@ class GradeCategorieController extends AbstractController
         $grades = $this->getDoctrine()->getManager()->getRepository(Grade::class)->findAll();
         $gradesCategories = $this->getDoctrine()->getManager()->getRepository(GradeCategorie::class)->findAll();
 
-        $db_grade_page = $paginator->paginate(
-            $grades,
-            $request->query->getInt('page_com_db_grade', 1)/*page number*/,
-            10/*limit per page*/,
-            ['pageParameterName' => 'page_com_db_grade']
-        );
+
 
         return $this->render('grade_categorie/index.html.twig', [
             'controller_name' => 'GradeCategorieController',
             'active' => 'grade_categorie',
             'user' => $user,
-            'grades' => $db_grade_page,
+            'grades' => $grades,
             'gradesCategories' => $gradesCategories,
             'gradeForm' => $gradeForm->createView(),
             'gradeCategoriesForm' => $gradeCategoriesForm->createView(),

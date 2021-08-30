@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Entity\Corps;
 use App\Entity\Militaire;
+use App\Service\LimiteAgeCalculator;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -13,7 +14,7 @@ class DashboardController extends AbstractController
     /**
      * @Route("/", name="dashboard")
      */
-    public function index(): Response
+    public function index(LimiteAgeCalculator $limiteAgeCalculator): Response
     {
         $user = $this->getUser();
 
@@ -28,6 +29,8 @@ class DashboardController extends AbstractController
         $corps = $this->getDoctrine()->getManager()->getRepository(Corps::class)->findAll();
 
         $corp_array = [];
+
+        $militaires_limit = [];
 
         foreach ($corps as $corp){
             $item = [];
@@ -67,9 +70,23 @@ class DashboardController extends AbstractController
                      }
                  }
 
+                 if ($limiteAgeCalculator->calculate($militaire, 6)){
+                     $item = [];
+                     $date = new \DateTime();
+                     $item['limit'] = $date->diff($militaire->getDateNaissance())->m;
+                     $dt = new \DateTime();
+                     $dt->setTimestamp($militaire->addDate($militaire->getGrade()->getLimiteAge()));
+                     $item['limit_date'] = $dt;
+                     $item['militaire'] = $militaire;
+                     array_push($militaires_limit, $item);
+                 }
+
             }
 
+
         }
+
+
         return $this->render('dashboard/index.html.twig', [
             'controller_name' => 'DashboardController',
             'active' => 'dashboard',
@@ -77,6 +94,7 @@ class DashboardController extends AbstractController
             'militaire_service' => $militaire_service,
             'militaire_retraite' => $militaire_retraite,
             'militaire_radie' => $militaire_radie,
+            'militaires_limit' => $militaires_limit,
             'militaire_disponibilite' => $militaire_disponibilite,
             'corp_array' => $corp_array,
         ]);

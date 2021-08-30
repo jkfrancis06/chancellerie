@@ -111,8 +111,8 @@
                                     </td>
                                     <td data-sort="{{ militaire.d_incor }}">{{ militaire.militaire.dateIncorp|date("d-m-Y")  }}</td>
                                     <td>
-                                        {% set srv = date().diff(date(militaire.militaire.dateIncorp)).y %}
-                                        {{ srv }}
+                                        {% set incorp = date().diff(date(militaire.militaire.dateIncorp)).y %}
+                                        {{ incorp }}
                                     </td>
                                     <td data-sort="{{ militaire.d_naiss }}">{{ militaire.militaire.dateNaissance|date("d-m-Y")  }}</td>
                                     <td>

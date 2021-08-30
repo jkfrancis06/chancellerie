@@ -208,6 +208,15 @@
                            </div>
                        </div>
 
+                        <div class="col col-3 mb-3">
+                           {{ form_label(searchForm.limiteAge, "Limite d'age : ", {'label_attr': {'class': 'c_image_name_input_label'}}) }}
+                           {{ form_widget(searchForm.limiteAge, {'attr': {'class': 'form-control', 'min':0}}) }}
+                           <small class="help-block">{{ form_help(searchForm.limiteAge) }}</small>
+                           <div class="form-error" style="color: red">
+                               {{ form_errors(searchForm.limiteAge) }}
+                           </div>
+                       </div>
+
                    </div>
 
                    <div class="d-flex justify-content-center">

@@ -30,21 +30,33 @@ use Symfony\Component\Routing\Annotation\Route;
 class DummyController extends AbstractController
 {
     /**
-     * @Route("/d/{id}", name="de")
+     * @Route("/d/", name="de")
      */
-    public function remove($id): Response
+    public function remove(): Response
     {
-        $indice  = $this->getDoctrine()->getManager()->getRepository(Militaire::class)->find($id);
+        $militaires  = $this->getDoctrine()->getManager()->getRepository(Militaire::class)->findAll();
 
-        if ($indice == null){
-            throw new NotFoundHttpException('non trouve');
+        //19593
+
+        foreach($militaires as $militaire) {
+            $affectations = $militaire->getAffectations();
+            $i = 0;
+            foreach ($affectations as $affectation) {   
+                if($affectation->getIsActive() == null){
+                    if($i == sizeof($affectations) -1 ){
+                        $affectation->setIsActive(true);
+                    }else{
+                        $affectation->setIsActive(false);
+                    }
+                    $i++;
+                    $em = $this->getDoctrine()->getManager();
+                    $em->flush();
+                }
+            }
         }
 
 
-        $em = $this->getDoctrine()->getManager();
-
-        $em->remove($indice);
-        $em->flush();
+        
 
         return new Response('ok');
     }

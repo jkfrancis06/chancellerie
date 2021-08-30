@@ -79,28 +79,27 @@
 
                     </div>
 
-                    <div class="col col-2"></div>
+                    <div class="col col-1"></div>
 
-                    <div class="col col-5">
+                    <div class="col col-6">
                         <div class="card" >
                             <div class="card-body">
                                 <h5 class="card-title">Liste des  grades</h5>
                                 <hr>
-                                <table class="table  table-responsive table-bordered table-striped table-hover">
+                                <table id="grade_data" class="table table-responsive table-bordered table-striped table-hover">
                                     <thead>
                                     <tr>
-                                        <th></th>
-                                        <th{% if grades.isSorted('Intitule') %} class="sorted"{% endif %}>
-                                            {{ knp_pagination_sortable(grades, 'Intitule', 'Intitule') }}
+                                        <th>
+                                            Categorie
                                         </th>
-                                        <th{% if grades.isSorted('Description') %} class="sorted"{% endif %}>
-                                            {{ knp_pagination_sortable(grades, 'Description', 'Description') }}
+                                        <th>
+                                            Intitule
                                         </th>
-                                        <th{% if grades.isSorted('GradeCategorie.Intitule') %} class="sorted"{% endif %}>
-                                            {{ knp_pagination_sortable(grades, 'Categorie', 'GradeCategorie.Intitule') }}
+                                        <th>
+                                            Description
                                         </th>
-                                        <th{% if grades.isSorted('LimiteAge') %} class="sorted"{% endif %}>
-                                            {{ knp_pagination_sortable(grades, 'Limite d\'age', 'LimiteAge') }}
+                                        <th>
+                                            Limite d'age
                                         </th>
                                         <th>
                                             Actions
@@ -113,10 +112,9 @@
                                     {% else %}
                                         {% for grade in grades%}
                                             <tr>
-                                                <td></td>
+                                                <td>{{ grade.gradeCategorie.intitule }}</td>
                                                 <td>{{ grade.intitule }}</td>
                                                 <td>{{ grade.description }}</td>
-                                                <td>{{ grade.gradeCategorie.intitule }}</td>
                                                 <td>{{ grade.limiteAge }}</td>
                                                 <td>
                                                     <a class="btn btn-sm btn-outline-deep-purple" href="{{ path('grade_categorie',{ id : grade.id }) }}">
@@ -129,11 +127,6 @@
                                     {% endif %}
                                     </tbody>
                                 </table>
-                            </div>
-                            <div class="card-footer">
-                                <div class="d-flex justify-content-center">
-                                    {{ knp_pagination_render(grades,'/paginator/paginator.html.twig') }}
-                                </div>
                             </div>
                         </div>
                     </div>
@@ -211,5 +204,45 @@
         </div>
     </div>
 
+
+{% endblock %}
+
+
+{% block botton_javascripts %}
+
+    <script>
+        $(document).ready(function() {
+            $('#grade_data').DataTable( {
+                order: [[0, 'asc']],
+                rowGroup: {
+                    dataSrc: 0
+                },
+                
+                "order": [[ 1, "asc" ]],
+                "language": {
+                    "sProcessing":     "Traitement en cours...",
+                    "sSearch":         "Rechercher&nbsp;:",
+                    "sLengthMenu":     "Afficher _MENU_ &eacute;l&eacute;ments",
+                    "sInfo":           "Affichage de l'&eacute;lement _START_ &agrave; _END_ sur _TOTAL_ &eacute;l&eacute;ments",
+                    "sInfoEmpty":      "Affichage de l'&eacute;lement 0 &agrave; 0 sur 0 &eacute;l&eacute;ments",
+                    "sInfoFiltered":   "(filtr&eacute; de _MAX_ &eacute;l&eacute;ments au total)",
+                    "sInfoPostFix":    "",
+                    "sLoadingRecords": "Chargement en cours...",
+                    "sZeroRecords":    "Aucun &eacute;l&eacute;ment &agrave; afficher",
+                    "sEmptyTable":     "Aucune donn&eacute;e disponible dans le tableau",
+                    "oPaginate": {
+                        "sFirst":      "Premier",
+                        "sPrevious":   "Pr&eacute;c&eacute;dent",
+                        "sNext":       "Suivant",
+                        "sLast":       "Dernier"
+                    },
+                    "oAria": {
+                        "sSortAscending":  ": activer pour trier la colonne par ordre croissant",
+                        "sSortDescending": ": activer pour trier la colonne par ordre d&eacute;croissant"
+                    }
+                }
+            } );
+        } );
+    </script>
 
 {% endblock %}

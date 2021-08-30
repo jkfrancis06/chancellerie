@@ -199,6 +199,73 @@
 
     </section>
 
+    <div class="row">
+        <div class="col col-6">
+            <section>
+                <!-- Panel -->
+                <div class="card mb-lg-0 mb-4">
+
+                    <div class="card-header white-text primary-color">
+                        <h5 class="font-weight-500 my-1">Elements ayant atteints la limite d'age</h5>
+                    </div>
+
+                    <div class="card-body">
+
+                        <div class="table-responsive">
+                            <table id="limit_data" class="table table-responsive table-bordered table-striped text-center">
+                                <thead>
+                                <tr>
+                                    <th class="font-weight-bold ">Photo</th>
+                                    <th class="font-weight-bold ">Matricule</th>
+                                    <th class="font-weight-bold ">Nom et Prenoms</th>
+                                    <th class="font-weight-bold ">Age</th>
+                                    <th class="font-weight-bold ">Grade</th>
+                                    <th class="font-weight-bold ">Date theorique de depart en retraite</th>
+                                    <th class="font-weight-bold "></th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                {% for limited in militaires_limit %}
+                                    <tr>
+                                        <td>
+                                            <img height="50" width="50" src="{{ asset('/elements/') }}{{ limited.militaire.fichiers[0].nom }}" class="img-thumbnail" alt="...">
+                                        </td>
+                                        <td>
+                                            {{ limited.militaire.matricule }}
+                                        </td>
+                                        <td class="text-uppercase">
+                                            {{ limited.militaire.nom }} &nbsp; {{ limited.militaire.prenoms }}
+                                        </td>
+                                        <td>
+                                            {% set age = date().diff(date(limited.militaire.dateNaissance)).y %}
+                                            {{ age }} ans
+                                        </td>
+                                        <td>
+                                            {{ limited.militaire.grade.description }} ({{ limited.militaire.grade.intitule }})
+                                        </td>
+                                        <td>
+                                            {{ limited.limit_date|date('d-m-Y') }}
+                                        </td>
+                                        <td>
+                                            <a target="_blank" rel="noopener noreferrer" href="{{ path('militaire_details', { 'id': limited.militaire.id }) }}" type="button" class="btn btn-rounded btn-primary btn-sm">
+                                                <i class="fa fa-eye"></i>
+                                            </a>
+                                        </td>
+                                    </tr>
+                                {% endfor %}
+
+                                </tbody>
+                            </table>
+                        </div>
+
+                    </div>
+
+                </div>
+                <!-- Panel -->
+            </section>
+        </div>
+    </div>
+
 
 
 
@@ -209,10 +276,39 @@
     <script>
 
         $(document).ready(function () {
+
+
+            $('#limit_data').DataTable( {
+
+                dom: 'Bfrtip',
+                "language": {
+                    "sProcessing":     "Traitement en cours...",
+                    "sSearch":         "Rechercher&nbsp;:",
+                    "sLengthMenu":     "Afficher _MENU_ &eacute;l&eacute;ments",
+                    "sInfo":           "Affichage de l'&eacute;lement _START_ &agrave; _END_ sur _TOTAL_ &eacute;l&eacute;ments",
+                    "sInfoEmpty":      "Affichage de l'&eacute;lement 0 &agrave; 0 sur 0 &eacute;l&eacute;ments",
+                    "sInfoFiltered":   "(filtr&eacute; de _MAX_ &eacute;l&eacute;ments au total)",
+                    "sInfoPostFix":    "",
+                    "sLoadingRecords": "Chargement en cours...",
+                    "sZeroRecords":    "Aucun &eacute;l&eacute;ment &agrave; afficher",
+                    "sEmptyTable":     "Aucune donn&eacute;e disponible dans le tableau",
+                    "oPaginate": {
+                        "sFirst":      "Premier",
+                        "sPrevious":   "Pr&eacute;c&eacute;dent",
+                        "sNext":       "Suivant",
+                        "sLast":       "Dernier"
+                    },
+                    "oAria": {
+                        "sSortAscending":  ": activer pour trier la colonne par ordre croissant",
+                        "sSortDescending": ": activer pour trier la colonne par ordre d&eacute;croissant"
+                    }
+                }
+            } );
+
             //bar
             var ctxB = document.getElementById("barChart").getContext('2d');
             var myBarChart = new Chart(ctxB, {
-                type: 'bar',
+                type: 'horizontalBar',
                 data: {
                     labels: [
                         {% for corp in corp_array %}
@@ -241,10 +337,13 @@
                 },
                 options: {
                     scales: {
-                        yAxes: [{
+                        xAxes: [{
                             ticks: {
-                                beginAtZero: true
+                                min: 0 // Edit the value according to what you need
                             }
+                        }],
+                        yAxes: [{
+                            stacked: true
                         }]
                     }
                 }

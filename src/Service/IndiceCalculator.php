@@ -49,7 +49,7 @@ class IndiceCalculator
         $i = 0;
         foreach ($temp_indices as $indice){
             if ($i == 0) {  // si c'est l'indice le plus faible
-                if ($indice->getPeriodeAnciennete() == Indice::ANCIENNETE_AVANT) {  // si c'est avant
+                if ($indice->getPeriodeAnciennete() == Indice::ANCIENNETE_AVANT) {  // si c'est avant la periode 
                     if ($annees_service < $indice->getAnciennete()) {
                         return $indice;
                     }

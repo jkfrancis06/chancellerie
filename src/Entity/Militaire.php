@@ -705,5 +705,12 @@ class Militaire
     }
 
 
+    public function addDate($interval){
+        $timestamp = $this->dateNaissance->getTimestamp();
+
+        return strtotime('+'.$interval.' year', $timestamp);
+    }
+
+
 
 }

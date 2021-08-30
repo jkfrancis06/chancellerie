@@ -9,6 +9,7 @@ use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\DateType;
+use Symfony\Component\Form\Extension\Core\Type\IntegerType;
 use Symfony\Component\Form\Extension\Core\Type\NumberType;
 use Symfony\Component\Form\Extension\Core\Type\RangeType;
 use Symfony\Component\Form\Extension\Core\Type\ResetType;
@@ -155,6 +156,12 @@ class SearchMilitaireType extends AbstractType
                 'label' => 'Origine de recrutement: ',
                 'choice_label' => 'intitule',
                 'placeholder' => 'Choisir une origine de recrutement'
+            ])
+
+            ->add('limiteAge', IntegerType::class, [
+                'required' => false,
+                'help' => "Nombre de mois restant avant limite d'age",
+                'label' => 'Limite d\'age : ',
             ])
 
             ->add('submit', SubmitType::class, ['label' => 'Rechercher'])
