@@ -24,7 +24,7 @@ class CorpsController extends AbstractController
     /**
      * @Route("/corps", name="corps")
      */
-    public function index(Request $request,FileUploader $fileUploader,PaginatorInterface $paginator): Response
+    public function index( Request $request,FileUploader $fileUploader,PaginatorInterface $paginator): Response
     {
         $user = $this->getUser();
 

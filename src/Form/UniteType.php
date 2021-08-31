@@ -3,6 +3,7 @@
 namespace App\Form;
 
 use App\Entity\Corps;
+use App\Entity\Militaire;
 use App\Entity\Unite;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
@@ -34,6 +35,14 @@ class UniteType extends AbstractType
                 'class' => Corps::class,
                 'choice_label' => 'intitule',
                 'placeholder' => 'Choisir un corps'
+            ])
+            ->add('chefFormation', EntityType::class, [
+                'class' => Militaire::class,
+                'placeholder' => 'Choisir un chef de formation',
+                'choice_label' => function (Militaire $militaire) {
+                    return $militaire->getMatricule().' - '.$militaire->getNom() . ' ' . $militaire->getPrenoms();
+
+                },
             ])
             ->add('submit', SubmitType::class, ['label' => 'Enregistrer'])
             ->add('cancel', ResetType::class, ['label' => 'Annuler'])

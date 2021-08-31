@@ -44,6 +44,11 @@ class Unite
      */
     private $affectations;
 
+    /**
+     * @ORM\ManyToOne(targetEntity=Militaire::class, inversedBy="formationDirected")
+     */
+    private $chefFormation;
+
     public function __construct()
     {
         $this->affectations = new ArrayCollection();
@@ -116,6 +121,18 @@ class Unite
                 $affectation->setUnite(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getChefFormation(): ?Militaire
+    {
+        return $this->chefFormation;
+    }
+
+    public function setChefFormation(?Militaire $chefFormation): self
+    {
+        $this->chefFormation = $chefFormation;
 
         return $this;
     }

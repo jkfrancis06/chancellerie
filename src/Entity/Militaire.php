@@ -160,6 +160,11 @@ class Militaire
      */
     private $familles;
 
+    /**
+     * @ORM\OneToMany(targetEntity=Unite::class, mappedBy="chefFormation")
+     */
+    private $formationDirected;
+
     public function __construct()
     {
         $this->fichiers = new ArrayCollection();
@@ -173,6 +178,7 @@ class Militaire
         $this->militaireFormations = new ArrayCollection();
         $this->militaireExercices = new ArrayCollection();
         $this->familles = new ArrayCollection();
+        $this->formationDirected = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -709,6 +715,36 @@ class Militaire
         $timestamp = $this->dateNaissance->getTimestamp();
 
         return strtotime('+'.$interval.' year', $timestamp);
+    }
+
+    /**
+     * @return Collection|Unite[]
+     */
+    public function getFormationDirected(): Collection
+    {
+        return $this->formationDirected;
+    }
+
+    public function addFormationDirected(Unite $formationDirected): self
+    {
+        if (!$this->formationDirected->contains($formationDirected)) {
+            $this->formationDirected[] = $formationDirected;
+            $formationDirected->setChefFormation($this);
+        }
+
+        return $this;
+    }
+
+    public function removeFormationDirected(Unite $formationDirected): self
+    {
+        if ($this->formationDirected->removeElement($formationDirected)) {
+            // set the owning side to null (unless already changed)
+            if ($formationDirected->getChefFormation() === $this) {
+                $formationDirected->setChefFormation(null);
+            }
+        }
+
+        return $this;
     }
 
 

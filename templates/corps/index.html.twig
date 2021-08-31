@@ -66,6 +66,16 @@
                             </div>
                         </div>
 
+
+                        <div class="mb-3">
+
+                            {{ form_widget(uniteForm.chefFormation, {'attr': {'class': 'mdb-select  md-form colorful-select dropdown-ins','searchable': 'Rechercher un militaire'}}) }}
+                            {{ form_label(uniteForm.chefFormation, "Chef de formation : ", {'label_attr': {'class': ''}}) }}
+                            <div class="form-error" style="color: red">
+                                {{ form_errors(uniteForm.chefFormation) }}
+                            </div>
+                        </div>
+
                         <hr>
                         <div class="d-flex justify-content-center">
                             {{ form_row(uniteForm.cancel,{'attr':{'class': 'btn btn-outline-secondary form-btn'}}) }}
@@ -93,6 +103,9 @@
                                         <th{% if db_unites.isSorted('Corps.Intitule') %} class="sorted"{% endif %}>
                                             {{ knp_pagination_sortable(db_corps, 'Corps', 'Corps.Intitule') }}
                                         </th>
+                                        <th>
+                                            Chef de formation
+                                        </th>
                                     </tr>
                                     </thead>
                                     <tbody>
@@ -104,6 +117,16 @@
                                                 <td>{{ unite.intitule }}</td>
                                                 <td>{{ unite.description }}</td>
                                                 <td>{{ unite.corps.intitule }}</td>
+                                                <td>
+                                                    {% if unite.chefFormation is not null %}
+                                                        {{ unite.chefFormation.matricule }}&nbsp; - &nbsp;{{ unite.chefFormation.nom }}&nbsp;{{ unite.chefFormation.prenoms }}
+                                                    {% endif %}
+                                                </td>
+                                                <td>
+                                                    <a class="btn btn-sm btn-outline-deep-purple" href="{{ path('unite_edit',{ unite_id : unite.id }) }}">
+                                                        Modifier
+                                                    </a>
+                                                </td>
                                             </tr>
                                         {% endfor %}
 
