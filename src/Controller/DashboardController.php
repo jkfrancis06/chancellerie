@@ -44,31 +44,35 @@ class DashboardController extends AbstractController
 
             if ($militaire->getMilitaireStatuts() != null) {
 
-                if ($militaire->getMilitaireStatuts()[sizeof($militaire->getMilitaireStatuts())-1]->getStatut() != null && $militaire->getMilitaireStatuts()[sizeof($militaire->getMilitaireStatuts())-1]->getStatut() == 0) {
-                     array_push($militaire_retraite, $militaire);
-                 }
+                if ($militaire->getMilitaireStatuts()[sizeof($militaire->getMilitaireStatuts())-1] != null){
+                    if ($militaire->getMilitaireStatuts()[sizeof($militaire->getMilitaireStatuts())-1]->getStatut() == 0) {
+                        array_push($militaire_retraite, $militaire);
+                    }
 
-                if ($militaire->getMilitaireStatuts()[sizeof($militaire->getMilitaireStatuts())-1]->getStatut() != null && $militaire->getMilitaireStatuts()[sizeof($militaire->getMilitaireStatuts())-1]->getStatut() == 3) {
-                    array_push($militaire_service, $militaire);
+                    if ($militaire->getMilitaireStatuts()[sizeof($militaire->getMilitaireStatuts())-1]->getStatut() == 3) {
+                        array_push($militaire_service, $militaire);
+                    }
+                    if ($militaire->getMilitaireStatuts()[sizeof($militaire->getMilitaireStatuts())-1]->getStatut() == 1 ||
+                        $militaire->getMilitaireStatuts()[sizeof($militaire->getMilitaireStatuts())-1]->getStatut() == 6) {
+                        array_push($militaire_radie, $militaire);
+                    }
+
+                    if (in_array($militaire->getMilitaireStatuts()[sizeof($militaire->getMilitaireStatuts())-1]->getStatut(),$array)) {
+                        array_push($militaire_disponibilite, $militaire);
+                    }
+
+                    $affectation = $militaire->getAffectations();
+
+                    if ($affectation != null){
+                        foreach ($corp_array as &$corp){
+                            if ($affectation[sizeof($affectation)-1]->getUnite()->getCorps() == $corp["corps"]){
+                                $corp["effectif"]++;
+                            }
+                        }
+                    }
                 }
-                 if ($militaire->getMilitaireStatuts()[sizeof($militaire->getMilitaireStatuts())-1]->getStatut() != null && ($militaire->getMilitaireStatuts()[sizeof($militaire->getMilitaireStatuts())-1]->getStatut() == 1 ||
-                     $militaire->getMilitaireStatuts()[sizeof($militaire->getMilitaireStatuts())-1]->getStatut() == 6)) {
-                     array_push($militaire_radie, $militaire);
-                 }
 
-                 if (in_array($militaire->getMilitaireStatuts()[sizeof($militaire->getMilitaireStatuts())-1]->getStatut(),$array)) {
-                     array_push($militaire_disponibilite, $militaire);
-                 }
 
-                 $affectation = $militaire->getAffectations();
-
-                 if ($affectation != null){
-                     foreach ($corp_array as &$corp){
-                         if ($affectation[sizeof($affectation)-1]->getUnite()->getCorps() == $corp["corps"]){
-                             $corp["effectif"]++;
-                         }
-                     }
-                 }
 
                  if ($limiteAgeCalculator->calculate($militaire, 6)){
                      $item = [];
