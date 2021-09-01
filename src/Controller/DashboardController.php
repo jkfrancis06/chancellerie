@@ -44,15 +44,15 @@ class DashboardController extends AbstractController
 
             if ($militaire->getMilitaireStatuts() != null) {
 
-                if ($militaire->getMilitaireStatuts()[sizeof($militaire->getMilitaireStatuts())-1]->getStatut() == 0) {
+                if ($militaire->getMilitaireStatuts()[sizeof($militaire->getMilitaireStatuts())-1]->getStatut() != null && $militaire->getMilitaireStatuts()[sizeof($militaire->getMilitaireStatuts())-1]->getStatut() == 0) {
                      array_push($militaire_retraite, $militaire);
                  }
 
-                if ($militaire->getMilitaireStatuts()[sizeof($militaire->getMilitaireStatuts())-1]->getStatut() == 3) {
+                if ($militaire->getMilitaireStatuts()[sizeof($militaire->getMilitaireStatuts())-1]->getStatut() != null && $militaire->getMilitaireStatuts()[sizeof($militaire->getMilitaireStatuts())-1]->getStatut() == 3) {
                     array_push($militaire_service, $militaire);
                 }
-                 if ($militaire->getMilitaireStatuts()[sizeof($militaire->getMilitaireStatuts())-1]->getStatut() == 1 ||
-                     $militaire->getMilitaireStatuts()[sizeof($militaire->getMilitaireStatuts())-1]->getStatut() == 6) {
+                 if ($militaire->getMilitaireStatuts()[sizeof($militaire->getMilitaireStatuts())-1]->getStatut() != null && ($militaire->getMilitaireStatuts()[sizeof($militaire->getMilitaireStatuts())-1]->getStatut() == 1 ||
+                     $militaire->getMilitaireStatuts()[sizeof($militaire->getMilitaireStatuts())-1]->getStatut() == 6)) {
                      array_push($militaire_radie, $militaire);
                  }
 
