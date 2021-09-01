@@ -170,6 +170,21 @@ class Militaire
      */
         private $groupeSanguin;
 
+        /**
+         * @ORM\Column(type="string", length=255, nullable=true)
+         */
+        private $mainPicture;
+
+        /**
+         * @ORM\OneToMany(targetEntity=MilitaireSpa::class, mappedBy="militaire", orphanRemoval=true)
+         */
+        private $militaireSpas;
+
+        /**
+         * @ORM\OneToMany(targetEntity=Spa::class, mappedBy="createdBy")
+         */
+        private $spas;
+
     public function __construct()
     {
         $this->fichiers = new ArrayCollection();
@@ -184,6 +199,8 @@ class Militaire
         $this->militaireExercices = new ArrayCollection();
         $this->familles = new ArrayCollection();
         $this->formationDirected = new ArrayCollection();
+        $this->militaireSpas = new ArrayCollection();
+        $this->spas = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -191,12 +208,12 @@ class Militaire
         return $this->id;
     }
 
-    public function getMatricule(): ?int
+    public function getMatricule(): ?string
     {
         return $this->matricule;
     }
 
-    public function setMatricule(int $matricule): self
+    public function setMatricule(string $matricule): self
     {
         $this->matricule = $matricule;
 
@@ -766,6 +783,78 @@ class Militaire
     public function setGroupeSanguin(?string $groupeSanguin): self
     {
         $this->groupeSanguin = $groupeSanguin;
+
+        return $this;
+    }
+
+    public function getMainPicture(): ?string
+    {
+        return $this->mainPicture;
+    }
+
+    public function setMainPicture(?string $mainPicture): self
+    {
+        $this->mainPicture = $mainPicture;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|MilitaireSpa[]
+     */
+    public function getMilitaireSpas(): Collection
+    {
+        return $this->militaireSpas;
+    }
+
+    public function addMilitaireSpa(MilitaireSpa $militaireSpa): self
+    {
+        if (!$this->militaireSpas->contains($militaireSpa)) {
+            $this->militaireSpas[] = $militaireSpa;
+            $militaireSpa->setMilitaire($this);
+        }
+
+        return $this;
+    }
+
+    public function removeMilitaireSpa(MilitaireSpa $militaireSpa): self
+    {
+        if ($this->militaireSpas->removeElement($militaireSpa)) {
+            // set the owning side to null (unless already changed)
+            if ($militaireSpa->getMilitaire() === $this) {
+                $militaireSpa->setMilitaire(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Spa[]
+     */
+    public function getSpas(): Collection
+    {
+        return $this->spas;
+    }
+
+    public function addSpa(Spa $spa): self
+    {
+        if (!$this->spas->contains($spa)) {
+            $this->spas[] = $spa;
+            $spa->setCreatedBy($this);
+        }
+
+        return $this;
+    }
+
+    public function removeSpa(Spa $spa): self
+    {
+        if ($this->spas->removeElement($spa)) {
+            // set the owning side to null (unless already changed)
+            if ($spa->getCreatedBy() === $this) {
+                $spa->setCreatedBy(null);
+            }
+        }
 
         return $this;
     }

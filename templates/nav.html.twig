@@ -81,23 +81,39 @@
 
 
 
+
+
                         <!--<li>
                             <a class="waves-effect">
                                 <i class="fas fa-chart-line"></i>
                                 Statistiques et statuts</a>
                         </li> -->
 
+                        {% if active == "unite" %}
+                            <li>
+                                <a  href="{{ path('unite_index') }}"  class="waves-effect active">
+                                    <i class="fa fa-user-edit mr-2"></i>
+                                    Unites</a>
+                            </li>
+                        {% else %}
+                            <li>
+                                <a  href="{{ path('unite_index') }}"  class="waves-effect">
+                                    <i class="fa fa-user-edit mr-2"></i>
+                                    Unites</a>
+                            </li>
+                        {% endif %}
+
 
                         {% if active == "indices" %}
                             <li>
                                 <a  href="{{ path('indices') }}"  class="waves-effect active">
-                                    <i class="fas fa-arrow-up"></i>
+                                    <i class="fas fa-arrow-up mr-2"></i>
                                     Indices</a>
                             </li>
                         {% else %}
                             <li>
                                 <a  href="{{ path('indices') }}"  class="waves-effect">
-                                    <i class="fas fa-arrow-up"></i>
+                                    <i class="fas fa-arrow-up mr-2"></i>
                                     Indices</a>
                             </li>
                         {% endif %}
@@ -106,13 +122,13 @@
                         {% if active == "corps" %}
                             <li>
                                 <a  href="{{ path('corps') }}"  class="waves-effect active">
-                                    <i class="fas fa-users"></i>
+                                    <i class="fas fa-users mr-2"></i>
                                     Unites et corps</a>
                             </li>
                         {% else %}
                             <li>
                                 <a  href="{{ path('corps') }}"  class="waves-effect">
-                                    <i class="fas fa-users"></i>
+                                    <i class="fas fa-users mr-2"></i>
                                     Unites et corps</a>
                             </li>
                         {% endif %}
@@ -121,13 +137,13 @@
                         {% if active == "mission" %}
                             <li>
                                 <a  href="{{ path('mission') }}"  class="waves-effect active">
-                                    <i class="fas fa-plane-departure"></i>
+                                    <i class="fas fa-plane-departure mr-2"></i>
                                     Missions et exercices</a>
                             </li>
                         {% else %}
                             <li>
                                 <a  href="{{ path('mission') }}"  class="waves-effect">
-                                    <i class="fas fa-plane-departure"></i>
+                                    <i class="fas fa-plane-departure mr-2"></i>
                                     Missions et exercices</a>
                             </li>
                         {% endif %}
@@ -136,13 +152,13 @@
                         {% if active == "formation" %}
                             <li>
                                 <a  href="{{ path('formation') }}"  class="waves-effect active">
-                                    <i class="fas fa-school"></i>
+                                    <i class="fas fa-school mr-2"></i>
                                     Formations</a>
                             </li>
                         {% else %}
                             <li>
                                 <a  href="{{ path('formation') }}"  class="waves-effect">
-                                    <i class="fas fa-school"></i>
+                                    <i class="fas fa-school mr-2"></i>
                                     Formations</a>
                             </li>
                         {% endif %}
@@ -151,13 +167,13 @@
                         {% if active == "medaille" %}
                             <li>
                                 <a  href="{{ path('medaille') }}"  class="waves-effect active">
-                                    <i class="fas fa-medal"></i>
+                                    <i class="fas fa-medal mr-2"></i>
                                     Medailles</a>
                             </li>
                         {% else %}
                             <li>
                                 <a  href="{{ path('medaille') }}"  class="waves-effect">
-                                    <i class="fas fa-medal"></i>
+                                    <i class="fas fa-medal mr-2"></i>
                                     Medailles</a>
                             </li>
                         {% endif %}
@@ -166,16 +182,19 @@
                         {% if active == "grade_categorie" %}
                             <li>
                                 <a  href="{{ path('grade_categorie') }}"  class="waves-effect active">
-                                    <i class="fas fa-level-up-alt"></i>
+                                    <i class="fas fa-level-up-alt mr-2"></i>
                                     Grades et categories</a>
                             </li>
                         {% else %}
                             <li>
                                 <a  href="{{ path('grade_categorie') }}"  class="waves-effect">
-                                    <i class="fas fa-level-up-alt"></i>
+                                    <i class="fas fa-level-up-alt mr-2"></i>
                                     Grades et categories</a>
                             </li>
                         {% endif %}
+
+
+
 
                     </ul>
                 </li>

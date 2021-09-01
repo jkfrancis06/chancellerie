@@ -63,10 +63,17 @@ class MilitaireController extends AbstractController
 
         if ($militaireForm->isSubmitted()){
             $corpsLogos = $militaireForm->get('fichiers')->getData();
-            if (sizeof($corpsLogos) < 1){
+            $mainPicture = $militaireForm->get('mainPicture')->getData();
+
+            if ($mainPicture == null){
+                $fileError = new FormError("Envoyer au moins un photo d'identite");
+                $militaireForm->get('mainPicture')->addError($fileError);
+            }
+
+            /*if (sizeof($corpsLogos) < 1){
                 $fileError = new FormError("Envoyer au moins une image");
                 $militaireForm->get('fichiers')->addError($fileError);
-            }
+            }*/
         }
 
         $em = $this->getDoctrine()->getManager();
@@ -78,19 +85,31 @@ class MilitaireController extends AbstractController
 
             $telephones = explode(";",$form_telephones);
 
+            $mainPicture = $militaireForm->get('mainPicture')->getData();
+
+            if ($mainPicture == null){
+                $fileName = $fileUploader->upload($mainPicture,$this->getParameter('elemetsDirectory'));
+                $militaire->setMainPicture($fileName);
+            }
+
             foreach ($telephones as $item){
                 $telephone = new Telephone();
                 $telephone->setNumero($item);
                 $militaire->addTelephone($telephone);
             }
+
             $corpsLogos = $militaireForm->get('fichiers')->getData();
-            foreach ($corpsLogos as $corpsLogo){
-                $fileName = $fileUploader->upload($corpsLogo,$this->getParameter('elemetsDirectory'));
-                $fichier = new Fichier();
-                $fichier->setNom($fileName);
-                $fichier->setType('image');
-                $militaire->addFichier($fichier);
+
+            if ($corpsLogos != null){
+                foreach ($corpsLogos as $corpsLogo){
+                    $fileName = $fileUploader->upload($corpsLogo,$this->getParameter('elemetsDirectory'));
+                    $fichier = new Fichier();
+                    $fichier->setNom($fileName);
+                    $fichier->setType('image');
+                    $militaire->addFichier($fichier);
+                }
             }
+
 
             $em->persist($militaire);
             $em->flush();

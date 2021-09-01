@@ -1,13 +1,33 @@
-{% extends 'base.html.twig' %}
 
-{% block title %}Edit Unite{% endblock %}
 
-{% block body %}
-    <h1>Edit Unite</h1>
 
-    {{ include('unite/_form.html.twig', {'button_label': 'Update'}) }}
+{% extends 'nav.html.twig' %}
 
-    <a href="{{ path('unite_index') }}">back to list</a>
+{% block title %}Modifier {{ unite.intitule }}{% endblock %}
 
-    {{ include('unite/_delete_form.html.twig') }}
+
+
+{% block content %}
+
+
+    <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="{{ path('unite_index') }}">Liste des unites</a></li>
+            <li class="breadcrumb-item"><a href="{{ path('unite_show', {'id': unite.id}) }}">{{ unite.intitule }}</a></li>
+            <li class="breadcrumb-item active">Modifier</li>
+        </ol>
+    </nav>
+
+
+
+    <div class="d-flex justify-content-start">
+        {{ include('unite/_form.html.twig', {'button_label': 'Update'}) }}
+    </div>
+
+
+
+
+{% endblock %}
+
+{% block botton_javascripts %}
 {% endblock %}

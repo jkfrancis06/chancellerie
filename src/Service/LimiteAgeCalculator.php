@@ -20,16 +20,16 @@ class LimiteAgeCalculator
 
     public function calculate(Militaire $militaire, $range){
 
-        $limit = ($militaire->getGrade()->getLimiteAge())*12;
+        if ($militaire->getGrade()->getLimiteAge() == null){
+            return false;
+        }else{
+            $limit = ($militaire->getGrade()->getLimiteAge())*12;
 
+            $date = new \DateTime();
+            $difference = $this->nb_mois($militaire->getDateNaissance(),$date);
 
-        $date = new \DateTime();
-        $difference = $this->nb_mois($militaire->getDateNaissance(),$date);
-
-
-
-       return ($difference) >= ($limit-$range);
-
+            return ($difference) >= ($limit-$range);
+        }
 
     }
 

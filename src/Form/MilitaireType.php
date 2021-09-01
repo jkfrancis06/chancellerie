@@ -46,6 +46,26 @@ class MilitaireType extends AbstractType
                 ],
 
             ])
+            ->add('mainPicture',FileType::class, [
+                'label' => 'Photo principale',
+
+                // unmapped means that this field is not associated to any entity property
+                'mapped' => false,
+
+                'multiple' => false,
+
+                // make it optional so you don't have to re-upload the  file
+                // every time you edit details
+                'required' => false,
+
+                'attr'     => [
+                    'accept' => 'image/*',
+                    'multiple' => 'multiple',
+                    'mimeTypesMessage' => "Veuillez uploader un fichier image valide",
+                    'maxSizeMessage' => "Taille maximum de 1M",
+                ],
+
+            ])
             ->add('matricule', TextType::class, [
                 'required' => true,
                 'label' => 'Matricule : ',

@@ -1,4 +1,62 @@
-{{ form_start(form) }}
-    {{ form_widget(form) }}
-    <button class="btn">{{ button_label|default('Save') }}</button>
-{{ form_end(form) }}
+
+
+
+<div class="col col-6">
+
+    {% for message in app.session.flashbag.get('unite_add') %}
+        <div class="alert alert-success alert-dismissible fade show" role="alert">
+            <strong>{{ message }}!</strong>
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+    {% endfor %}
+
+    {{ form_start(form) }}
+
+    <div class="text-danger">
+        {{ form_errors(form) }}
+    </div>
+
+    <div class="mb-3">
+        {{ form_label(form.intitule, "Nom  de l'unite : ", {'label_attr': {'class': 'intitule_label'}}) }}
+        {{ form_widget(form.intitule, {'attr': {'class': 'form-control'}}) }}
+        <div class="form-error" style="color: red">
+            {{ form_errors(form.intitule) }}
+        </div>
+    </div>
+
+    <div class="mb-3">
+        {{ form_label(form.description, "Description de l'unite : ", {'label_attr': {'class': 'intitule_label'}}) }}
+        {{ form_widget(form.description, {'attr': {'class': 'form-control'}}) }}
+        <div class="form-error" style="color: red">
+            {{ form_errors(form.description) }}
+        </div>
+    </div>
+
+    <div class="mb-3">
+
+        {{ form_widget(form.corps, {'attr': {'class': 'mdb-select  md-form colorful-select dropdown-ins','searchable': 'Rechercher un corps'}}) }}
+        {{ form_label(form.corps, "Corps : ", {'label_attr': {'class': ''}}) }}
+        <div class="form-error" style="color: red">
+            {{ form_errors(form.corps) }}
+        </div>
+    </div>
+
+
+    <div class="mb-3">
+
+        {{ form_widget(form.chefFormation, {'attr': {'class': 'mdb-select  md-form colorful-select dropdown-ins','searchable': 'Rechercher un militaire'}}) }}
+        {{ form_label(form.chefFormation, "Chef de formation : ", {'label_attr': {'class': ''}}) }}
+        <div class="form-error" style="color: red">
+            {{ form_errors(form.chefFormation) }}
+        </div>
+    </div>
+
+    <hr>
+    <div class="d-flex justify-content-start">
+        {{ form_row(form.save,{'attr':{'class': 'btn btn-outline-secondary form-btn'}}) }}
+    </div>
+
+    {{ form_end(form) }}
+</div>

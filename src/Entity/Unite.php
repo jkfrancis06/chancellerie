@@ -12,7 +12,6 @@ use App\Validator as AppAssert;
 
 /**
  * @ORM\Entity(repositoryClass=UniteRepository::class)
- * @AppAssert\Unite()
  */
 class Unite
 {
@@ -49,9 +48,15 @@ class Unite
      */
     private $chefFormation;
 
+    /**
+     * @ORM\OneToMany(targetEntity=Spa::class, mappedBy="unite", orphanRemoval=true)
+     */
+    private $spas;
+
     public function __construct()
     {
         $this->affectations = new ArrayCollection();
+        $this->spas = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -133,6 +138,36 @@ class Unite
     public function setChefFormation(?Militaire $chefFormation): self
     {
         $this->chefFormation = $chefFormation;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Spa[]
+     */
+    public function getSpas(): Collection
+    {
+        return $this->spas;
+    }
+
+    public function addSpa(Spa $spa): self
+    {
+        if (!$this->spas->contains($spa)) {
+            $this->spas[] = $spa;
+            $spa->setUnite($this);
+        }
+
+        return $this;
+    }
+
+    public function removeSpa(Spa $spa): self
+    {
+        if ($this->spas->removeElement($spa)) {
+            // set the owning side to null (unless already changed)
+            if ($spa->getUnite() === $this) {
+                $spa->setUnite(null);
+            }
+        }
 
         return $this;
     }

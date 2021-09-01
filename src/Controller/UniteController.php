@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Entity\Affectation;
 use App\Entity\Unite;
 use App\Form\Unite1Type;
 use App\Repository\UniteRepository;
@@ -18,6 +19,7 @@ class UniteController extends AbstractController
     {
         return $this->render('unite/index.html.twig', [
             'unites' => $uniteRepository->findAll(),
+            'active' => 'unite_index',
         ]);
     }
 
@@ -39,14 +41,23 @@ class UniteController extends AbstractController
         return $this->renderForm('unite/new.html.twig', [
             'unite' => $unite,
             'form' => $form,
+            'active' => 'unite_index',
         ]);
     }
 
     #[Route('/{id}', name: 'unite_show', methods: ['GET'])]
     public function show(Unite $unite): Response
     {
+
+        $affectations = $this->getDoctrine()->getManager()->getRepository(Affectation::class)->findBy([
+            'unite' => $unite,
+            'isActive' => true
+        ]);
+
         return $this->render('unite/show.html.twig', [
             'unite' => $unite,
+            'affectations' => $affectations,
+            'active' => 'unite_index',
         ]);
     }
 
@@ -65,6 +76,7 @@ class UniteController extends AbstractController
         return $this->renderForm('unite/edit.html.twig', [
             'unite' => $unite,
             'form' => $form,
+            'active' => 'unite_index',
         ]);
     }
 
