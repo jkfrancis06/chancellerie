@@ -95,6 +95,24 @@ class MilitaireType extends AbstractType
                     'placeholder' => 'Selectionner'
                 ],
             ])
+            ->add('groupeSanguin', ChoiceType::class, [
+                'required' => true,
+                'label' => 'Groupe Sanguin : ',
+                'choices'  => [
+                    'Selectionner' => null,
+                    'O+' => 'O+',
+                    'O-' => 'O-',
+                    'A+' => 'A+',
+                    'A-' => 'A-',
+                    'B+' => 'B+',
+                    'B-' => 'O-',
+                    'AB+' => 'AB+',
+                    'AB-' => 'AB-',
+                ],
+                'attr' => [
+                    'placeholder' => 'Selectionner'
+                ],
+            ])
             ->add('taille',NumberType::class,[
                 'required' => true,
                 'label' => 'Taille : ',

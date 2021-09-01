@@ -165,6 +165,11 @@ class Militaire
      */
     private $formationDirected;
 
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+        private $groupeSanguin;
+
     public function __construct()
     {
         $this->fichiers = new ArrayCollection();
@@ -743,6 +748,24 @@ class Militaire
                 $formationDirected->setChefFormation(null);
             }
         }
+
+        return $this;
+    }
+
+
+    public function __toString()
+    {
+        return $this->getMatricule().' - '.$this->getNom().' '.$this->getPrenoms();
+    }
+
+    public function getGroupeSanguin(): ?string
+    {
+        return $this->groupeSanguin;
+    }
+
+    public function setGroupeSanguin(?string $groupeSanguin): self
+    {
+        $this->groupeSanguin = $groupeSanguin;
 
         return $this;
     }

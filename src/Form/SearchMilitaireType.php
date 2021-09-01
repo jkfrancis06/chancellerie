@@ -63,6 +63,26 @@ class SearchMilitaireType extends AbstractType
                     'placeholder' => 'Selectionner'
                 ],
             ])
+
+            ->add('groupeSanguin', ChoiceType::class, [
+                'required' => false,
+                'multiple' => true,
+                'label' => 'Groupe Sanguin : ',
+                'choices'  => [
+                    'Selectionner' => null,
+                    'O+' => 'O+',
+                    'O-' => 'O-',
+                    'A+' => 'A+',
+                    'A-' => 'A-',
+                    'B+' => 'B+',
+                    'B-' => 'O-',
+                    'AB+' => 'AB+',
+                    'AB-' => 'AB-',
+                ],
+                'attr' => [
+                    'placeholder' => 'Selectionner'
+                ],
+            ])
             ->add('taille', TextType::class, [
                 'required' => false,
                 'attr' => [

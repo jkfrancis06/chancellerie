@@ -145,4 +145,10 @@ class Corps
     }
 
 
+    public function __toString()
+    {
+        return $this->getIntitule();
+    }
+
+
 }

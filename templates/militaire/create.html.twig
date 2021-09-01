@@ -97,6 +97,14 @@
                             </div>
                         </div>
 
+                        <div class="mb-3">
+                            {{ form_label(militaireForm.groupeSanguin,'', {'label_attr': {'class': 'intitule_label'}}) }}
+                            {{ form_widget(militaireForm.groupeSanguin, {'attr': {'class': 'mdb-select md-form colorful-select dropdown-ins'}}) }}
+                            <div class="form-error" style="color: red">
+                                {{ form_errors(militaireForm.groupeSanguin) }}
+                            </div>
+                        </div>
+
 
                         <div class="mb-3">
                             {{ form_label(militaireForm.taille, '', {'label_attr': {'class': 'intitule_label'}}) }}

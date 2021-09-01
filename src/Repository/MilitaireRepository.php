@@ -87,6 +87,13 @@ class MilitaireRepository extends ServiceEntityRepository
             $qb->setParameter('sexe', $sexe);
         }
 
+        // Groupe sanguin
+        $groupeSanguin = $form->get('groupeSanguin')->getData();
+        if ($groupeSanguin != null){
+            $qb->andWhere($qb->expr()->in('m.groupeSanguin', ':groupeSanguin'));
+            $qb->setParameter('groupeSanguin', $groupeSanguin);
+        }
+
 
         // taille
         $taillearray = $form->get('taille')->getData();
@@ -110,7 +117,7 @@ class MilitaireRepository extends ServiceEntityRepository
         // situationMatrimoniale
         $situationMatrimoniale = $form->get('situationMatri')->getData();
         if ($situationMatrimoniale != null){
-            $qb->andWhere("m.situationMatri = :sitMatri");
+            $qb->andWhere($qb->expr()->in('m.situationMatri', ':sitMatri'));
             $qb->setParameter('sitMatri', $situationMatrimoniale);
         }
 

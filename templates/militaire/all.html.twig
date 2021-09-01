@@ -74,6 +74,7 @@
                             <th>Annees de service</th>
                             <th>Date de naissance</th>
                             <th>Sexe</th>
+                            <th>Groupe sanguin</th>
                             <th>Numeros de telephones</th>
                             <th>Adresse</th>
                             <th>Fonction</th>
@@ -122,6 +123,7 @@
                                             Homme
                                         {% endif %}
                                     </td>
+                                    <td>{{ militaire.militaire.groupeSanguin }}</td>
                                     <td>
                                         {% for telephone in militaire.militaire.telephone %}
                                             {{ telephone.numero }} <br>

@@ -113,6 +113,15 @@
                            </div>
                        </div>
 
+
+                       <div class="col col-3 mb-3">
+                           {{ form_label(searchForm.groupeSanguin, "Groupe Sanguin : ", {'label_attr': {'class': 'c_image_name_input_label'}}) }}
+                           {{ form_widget(searchForm.groupeSanguin, {'attr': {'class': 'mdb-select md-form colorful-select dropdown-primary'}}) }}
+                           <div class="form-error" style="color: red">
+                               {{ form_errors(searchForm.groupeSanguin) }}
+                           </div>
+                       </div>
+
                        <div class="col col-4 mb-3">
                            <p>
                                {{ form_label(searchForm.taille, "Taille en (m) entre : ", {'label_attr': {'class': 'c_image_name_input_label'}}) }}
@@ -251,6 +260,7 @@
                                        <th>Grade</th>
                                        <th>Date de naissance</th>
                                        <th>Sexe</th>
+                                       <th>Groupe Sanguin</th>
                                        <th>Numeros de telephones</th>
                                        <th>Adresse</th>
                                        <th>Date d'incorporation</th>
@@ -285,6 +295,7 @@
                                                        Homme
                                                    {% endif %}
                                                </td>
+                                               <td>{{ militaire.groupeSanguin }}</td>
                                                <td>
                                                    {% for telephone in militaire.telephone %}
                                                        {{ telephone.numero }} <br>
