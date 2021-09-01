@@ -61,7 +61,12 @@ class DashboardController extends AbstractController
                         array_push($militaire_disponibilite, $militaire);
                     }
 
-                    $affectation = $militaire->getAffectations();
+                }
+
+                $affectation = $militaire->getAffectations();
+
+
+                if ($affectation[sizeof($affectation)-1] != null){
 
                     if ($affectation != null){
                         foreach ($corp_array as &$corp){
@@ -71,7 +76,6 @@ class DashboardController extends AbstractController
                         }
                     }
                 }
-
 
 
                  if ($limiteAgeCalculator->calculate($militaire, 6)){
