@@ -67,7 +67,8 @@
                     <!-- Card content -->
                     <div class="card-body card-body-cascade">
                         <div class="progress mb-3">
-                            {% if militaires|length == 0 %}
+                            {% if militaires|length != 0 %}
+                                {% set en_servie  = (militaire_service|length / militaires|length)*100 %}
                             {% else %}
                                 {% set en_servie  = 0 %}
                             {% endif %}
@@ -101,7 +102,8 @@
                     <!-- Card content -->
                     <div class="card-body card-body-cascade">
                         <div class="progress mb-3">
-                            {% if militaires|length == 0 %}
+                            {% if militaires|length != 0 %}
+                                {% set retraite  = (militaire_retraite|length / militaires|length)*100 %}
                             {% else %}
                                 {% set retraite  = 0 %}
                             {% endif %}
@@ -136,7 +138,8 @@
                     <div class="card-body card-body-cascade">
 
                         <div class="progress mb-3">
-                            {% if militaires|length == 0 %}
+                            {% if militaires|length != 0 %}
+                                {% set radie  = (militaire_radie|length / militaires|length) * 100 %}
                             {% else %}
                                 {% set radie  = 0 %}
                             {% endif %}
@@ -171,7 +174,8 @@
                     <!-- Card content -->
                     <div class="card-body card-body-cascade">
                         <div class="progress mb-3">
-                            {% if militaires|length == 0 %}
+                            {% if militaires|length != 0 %}
+                                {% set dispo  = (militaire_disponibilite|length / militaires|length)*100 %}
                             {% else %}
                                 {% set dispo  = 0 %}
                             {% endif %}
