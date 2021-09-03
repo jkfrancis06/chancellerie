@@ -44,7 +44,7 @@ class IndiceController extends AbstractController
 
         $categories_array = [];
 
-        $indices = null;
+        $indices = $this->getDoctrine()->getManager()->getRepository(Indice::class)->findAll();
 
         if ($categories != null){
             foreach ($categories as $category){
@@ -54,8 +54,6 @@ class IndiceController extends AbstractController
                 $grades = $this->getDoctrine()->getManager()->getRepository(Grade::class)->findBy([
                     'gradeCategorie' => $category
                 ]);
-
-                $indices = $this->getDoctrine()->getManager()->getRepository(Indice::class)->findAll();
 
                 if ($indices != null){
                     $item["indices"] = $indices;
