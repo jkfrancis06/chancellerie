@@ -44,6 +44,8 @@ class IndiceController extends AbstractController
 
         $categories_array = [];
 
+        $indices = null;
+
         if ($categories != null){
             foreach ($categories as $category){
                 $item = [];
