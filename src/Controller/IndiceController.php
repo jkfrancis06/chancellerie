@@ -55,6 +55,7 @@ class IndiceController extends AbstractController
                     'gradeCategorie' => $category
                 ]);
 
+
                 if ($indices != null){
                     $item["indices"] = $indices;
                 }

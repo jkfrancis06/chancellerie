@@ -98,6 +98,15 @@ class MilitaireController extends AbstractController
                 $militaire->addTelephone($telephone);
             }
 
+            foreach ($militaire->getCompteBanqMilitaires() as $compteBanqMilitaire){
+                $compteBanqMilitaire->setMilitaire($militaire);
+            }
+
+            if ($militaire->getPersonnePrev() != null){
+                $personnePrev = $militaire->getPersonnePrev();
+                $personnePrev->setMilitaire($militaire);
+            }
+
             $corpsLogos = $militaireForm->get('fichiers')->getData();
 
             if ($corpsLogos != null){

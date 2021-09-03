@@ -10,6 +10,7 @@ use App\Entity\Specialite;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
+use Symfony\Component\Form\Extension\Core\Type\CollectionType;
 use Symfony\Component\Form\Extension\Core\Type\DateType;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Form\Extension\Core\Type\NumberType;
@@ -96,7 +97,7 @@ class MilitaireType extends AbstractType
                 // adds a class that can be selected in JavaScript
                 'attr' => [
                     'class' => 'js-datepicker',
-                    'placeholder' => 'Selectionner un interval de date'
+                    'placeholder' => 'Selectionner une date'
                 ],
 
                 'constraints' => [
@@ -104,6 +105,11 @@ class MilitaireType extends AbstractType
                 ]
 
             ])
+
+            ->add('lieuNaissance', TextType::class, [
+                'label' => 'Lieu de naissance : ',
+            ])
+
             ->add('sexe', ChoiceType::class, [
                 'required' => true,
                 'label' => 'Sexe : ',
@@ -216,6 +222,7 @@ class MilitaireType extends AbstractType
 
 
             ->add('professionAnt', TextType::class, [
+                'required' => false,
                 'label' => 'Profession anterieure : ',
             ])
 
@@ -236,12 +243,95 @@ class MilitaireType extends AbstractType
             ])
 
 
+
             ->add('origineRecrutement', EntityType::class, [
                 'class' => OrigineRecrutement::class,
                 'label' => 'Origine de recrutement: ',
                 'choice_label' => 'intitule',
                 'placeholder' => 'Choisir une origine de recrutement'
             ])
+
+            ->add('surnom', TextType::class, [
+                'required' => false,
+                'label' => 'Surnom : ',
+            ])
+
+            ->add('quartier', TextType::class, [
+                'required' => false,
+                'label' => 'Quartier : ',
+            ])
+
+            ->add('numCarte', TextType::class, [
+                'required' => false,
+                'label' => 'Numero de carte d\'identite : ',
+            ])
+
+            ->add('numPassport', TextType::class, [
+                'required' => false,
+                'label' => 'Numero de passport : ',
+            ])
+
+            ->add('permisConduireCiv', TextType::class, [
+                'required' => false,
+                'label' => 'Permis de conduire civil : ',
+            ])
+
+            ->add('permisConduireMil', TextType::class, [
+                'required' => false,
+                'label' => 'Permis de conduire militaire : ',
+            ])
+
+            ->add('nivInstruGen', TextType::class, [
+                'required' => false,
+                'label' => 'Niveau d\'instruction general : ',
+            ])
+
+            ->add('formTech', TextType::class, [
+                'required' => false,
+                'label' => 'Formation technique : ',
+            ])
+
+            ->add('languePar', TextType::class, [
+                'required' => false,
+                'label' => 'Langues parlees : ',
+            ])
+
+            ->add('langueEcr', TextType::class, [
+                'required' => false,
+                'label' => 'Langues ecrites : ',
+            ])
+
+            ->add('sports', TextType::class, [
+                'required' => false,
+                'label' => 'Sports partiques : ',
+            ])
+
+            ->add('lieuPermission', TextType::class, [
+                'required' => false,
+                'label' => 'Lieu de permission : ',
+            ])
+
+            ->add('compteBanqMilitaires', CollectionType::class, [
+                'required' => false,
+                'entry_type' => CompteBanqMilType::class,
+                'block_name' => 'compte_lists',
+                'entry_options' => ['label' => false],
+                'by_reference' => false,
+                'allow_add' => true,
+                'allow_delete' => true,
+            ])
+            ->add('sousDossiers', CollectionType::class, [
+                'required' => false,
+                'entry_type' => SousDossierType::class,
+                'block_name' => 'sousDossiers_lists',
+                'entry_options' => ['label' => false],
+                'by_reference' => false,
+                'allow_add' => true,
+                'allow_delete' => true,
+            ])
+
+            ->add('personnePrev', PersonnePrevType::class)
+
 
             ->add('submit', SubmitType::class, ['label' => 'Enregistrer'])
             ->add('cancel', ResetType::class, ['label' => 'Annuler'])

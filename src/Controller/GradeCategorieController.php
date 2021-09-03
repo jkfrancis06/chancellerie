@@ -19,7 +19,7 @@ class GradeCategorieController extends AbstractController
     /**
      * @Route("/grade/categorie/{id}", name="grade_categorie")
      */
-    public function index($id = null , Request $request, PaginatorInterface $paginator): Response
+    public function index(Request $request, PaginatorInterface $paginator,$id = null): Response
     {
         $user = $this->getUser();
         $db_grade = null;

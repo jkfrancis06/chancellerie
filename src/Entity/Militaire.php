@@ -185,6 +185,86 @@ class Militaire
          */
         private $spas;
 
+        /**
+         * @ORM\Column(type="string", length=255, nullable=true)
+         */
+        private $surnom;
+
+        /**
+         * @ORM\Column(type="string", length=255, nullable=true)
+         */
+        private $quartier;
+
+        /**
+         * @ORM\Column(type="string", length=255, nullable=true)
+         */
+        private $numCarte;
+
+        /**
+         * @ORM\Column(type="string", length=255, nullable=true)
+         */
+        private $numPassport;
+
+        /**
+         * @ORM\Column(type="string", length=255, nullable=true)
+         */
+        private $permisConduireCiv;
+
+        /**
+         * @ORM\Column(type="string", length=255, nullable=true)
+         */
+        private $permisConduireMil;
+
+        /**
+         * @ORM\Column(type="string", length=255, nullable=true)
+         */
+        private $nivInstruGen;
+
+        /**
+         * @ORM\Column(type="string", length=255, nullable=true)
+         */
+        private $formTech;
+
+        /**
+         * @ORM\Column(type="string", length=255, nullable=true)
+         */
+        private $languePar;
+
+        /**
+         * @ORM\Column(type="string", length=255, nullable=true)
+         */
+        private $langueEcr;
+
+        /**
+         * @ORM\Column(type="string", length=255, nullable=true)
+         */
+        private $sports;
+
+        /**
+         * @ORM\Column(type="string", length=255, nullable=true)
+         */
+        private $lieuNaissance;
+
+        /**
+         * @ORM\OneToMany(targetEntity=CompteBanqMilitaire::class, mappedBy="militaire", cascade={"persist", "remove"})
+         */
+        private $compteBanqMilitaires;
+
+        /**
+         * @ORM\OneToOne(targetEntity=PersonnePrev::class, mappedBy="militaire", cascade={"persist", "remove"})
+         */
+        private $personnePrev;
+
+        /**
+         * @ORM\Column(type="string", length=255, nullable=true)
+         */
+        private $lieuPermission;
+
+        /**
+         * @ORM\OneToMany(targetEntity=SousDossier::class, mappedBy="militaire", cascade={"persist", "remove"})
+         */
+        private $sousDossiers;
+
     public function __construct()
     {
         $this->fichiers = new ArrayCollection();
@@ -201,6 +281,8 @@ class Militaire
         $this->formationDirected = new ArrayCollection();
         $this->militaireSpas = new ArrayCollection();
         $this->spas = new ArrayCollection();
+        $this->compteBanqMilitaires = new ArrayCollection();
+        $this->sousDossiers = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -853,6 +935,239 @@ class Militaire
             // set the owning side to null (unless already changed)
             if ($spa->getCreatedBy() === $this) {
                 $spa->setCreatedBy(null);
+            }
+        }
+
+        return $this;
+    }
+
+    public function getSurnom(): ?string
+    {
+        return $this->surnom;
+    }
+
+    public function setSurnom(?string $surnom): self
+    {
+        $this->surnom = $surnom;
+
+        return $this;
+    }
+
+    public function getQuartier(): ?string
+    {
+        return $this->quartier;
+    }
+
+    public function setQuartier(?string $quartier): self
+    {
+        $this->quartier = $quartier;
+
+        return $this;
+    }
+
+    public function getNumCarte(): ?string
+    {
+        return $this->numCarte;
+    }
+
+    public function setNumCarte(?string $numCarte): self
+    {
+        $this->numCarte = $numCarte;
+
+        return $this;
+    }
+
+    public function getNumPassport(): ?string
+    {
+        return $this->numPassport;
+    }
+
+    public function setNumPassport(?string $numPassport): self
+    {
+        $this->numPassport = $numPassport;
+
+        return $this;
+    }
+
+    public function getPermisConduireCiv(): ?string
+    {
+        return $this->permisConduireCiv;
+    }
+
+    public function setPermisConduireCiv(?string $permisConduireCiv): self
+    {
+        $this->permisConduireCiv = $permisConduireCiv;
+
+        return $this;
+    }
+
+    public function getPermisConduireMil(): ?string
+    {
+        return $this->permisConduireMil;
+    }
+
+    public function setPermisConduireMil(?string $permisConduireMil): self
+    {
+        $this->permisConduireMil = $permisConduireMil;
+
+        return $this;
+    }
+
+    public function getNivInstruGen(): ?string
+    {
+        return $this->nivInstruGen;
+    }
+
+    public function setNivInstruGen(?string $nivInstruGen): self
+    {
+        $this->nivInstruGen = $nivInstruGen;
+
+        return $this;
+    }
+
+    public function getFormTech(): ?string
+    {
+        return $this->formTech;
+    }
+
+    public function setFormTech(?string $formTech): self
+    {
+        $this->formTech = $formTech;
+
+        return $this;
+    }
+
+    public function getLanguePar(): ?string
+    {
+        return $this->languePar;
+    }
+
+    public function setLanguePar(?string $languePar): self
+    {
+        $this->languePar = $languePar;
+
+        return $this;
+    }
+
+    public function getLangueEcr(): ?string
+    {
+        return $this->langueEcr;
+    }
+
+    public function setLangueEcr(?string $langueEcr): self
+    {
+        $this->langueEcr = $langueEcr;
+
+        return $this;
+    }
+
+    public function getSports(): ?string
+    {
+        return $this->sports;
+    }
+
+    public function setSports(?string $sports): self
+    {
+        $this->sports = $sports;
+
+        return $this;
+    }
+
+    public function getLieuNaissance(): ?string
+    {
+        return $this->lieuNaissance;
+    }
+
+    public function setLieuNaissance(?string $lieuNaissance): self
+    {
+        $this->lieuNaissance = $lieuNaissance;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|CompteBanqMilitaire[]
+     */
+    public function getCompteBanqMilitaires(): Collection
+    {
+        return $this->compteBanqMilitaires;
+    }
+
+    public function addCompteBanqMilitaire(CompteBanqMilitaire $compteBanqMilitaire): self
+    {
+        if (!$this->compteBanqMilitaires->contains($compteBanqMilitaire)) {
+            $this->compteBanqMilitaires[] = $compteBanqMilitaire;
+            $compteBanqMilitaire->setMilitaire($this);
+        }
+
+        return $this;
+    }
+
+    public function removeCompteBanqMilitaire(CompteBanqMilitaire $compteBanqMilitaire): self
+    {
+        if ($this->compteBanqMilitaires->removeElement($compteBanqMilitaire)) {
+            // set the owning side to null (unless already changed)
+            if ($compteBanqMilitaire->getMilitaire() === $this) {
+                $compteBanqMilitaire->setMilitaire(null);
+            }
+        }
+
+        return $this;
+    }
+
+    public function getPersonnePrev(): ?PersonnePrev
+    {
+        return $this->personnePrev;
+    }
+
+    public function setPersonnePrev(PersonnePrev $personnePrev): self
+    {
+        // set the owning side of the relation if necessary
+        if ($personnePrev->getMilitaire() !== $this) {
+            $personnePrev->setMilitaire($this);
+        }
+
+        $this->personnePrev = $personnePrev;
+
+        return $this;
+    }
+
+    public function getLieuPermission(): ?string
+    {
+        return $this->lieuPermission;
+    }
+
+    public function setLieuPermission(?string $lieuPermission): self
+    {
+        $this->lieuPermission = $lieuPermission;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|SousDossier[]
+     */
+    public function getSousDossiers(): Collection
+    {
+        return $this->sousDossiers;
+    }
+
+    public function addSousDossier(SousDossier $sousDossier): self
+    {
+        if (!$this->sousDossiers->contains($sousDossier)) {
+            $this->sousDossiers[] = $sousDossier;
+            $sousDossier->setMilitaire($this);
+        }
+
+        return $this;
+    }
+
+    public function removeSousDossier(SousDossier $sousDossier): self
+    {
+        if ($this->sousDossiers->removeElement($sousDossier)) {
+            // set the owning side to null (unless already changed)
+            if ($sousDossier->getMilitaire() === $this) {
+                $sousDossier->setMilitaire(null);
             }
         }
 

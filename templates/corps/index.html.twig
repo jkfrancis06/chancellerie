@@ -227,10 +227,12 @@
                                     </tr>
                                     </thead>
                                     <tbody>
+
                                     {% if db_corps | length == 0 %}
                                         <p class="text-center">Aucun corps n'a été ajoutée pour l'instant</p>
                                     {% else %}
                                         {% for corps in db_corps %}
+
                                             <tr>
                                                 <td class="d-flex justify-content-center">
                                                     <img height="50" width="50" src="{{ asset('/logos/') }}{{ corps.fichiers[0].nom }}" class="img-thumbnail" alt="...">

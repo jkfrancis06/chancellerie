@@ -49,6 +49,140 @@
 {% block content %}
 
 
+
+    {% import _self as formMacros %}
+
+
+
+    {% macro printCompteRow(CompteBanquaire) %}
+        <div class="row js-militaire-compte-item">
+            <div class="col col-5">
+                <div class="mb-3">
+                    {{ form_label(CompteBanquaire.institution, "Nom de la banque / institution : ", {'label_attr': {'class': 'intitule_label'}}) }}
+                    {{ form_widget(CompteBanquaire.institution, {'attr': {'class': 'form-control'}}) }}
+                    <div class="form-error" style="color: red">
+                        {{ form_errors(CompteBanquaire.institution) }}
+                    </div>
+                </div>
+            </div>
+
+            <div class="col col-5">
+                <div class="mb-3">
+                    {{ form_label(CompteBanquaire.numeroCompte, "Numero de compte : ", {'label_attr': {'class': 'intitule_label'}}) }}
+                    {{ form_widget(CompteBanquaire.numeroCompte, {'attr': {'class': 'form-control'}}) }}
+                    <div class="form-error" style="color: red">
+                        {{ form_errors(CompteBanquaire.numeroCompte) }}
+                    </div>
+                </div>
+            </div>
+            <div class="col col-2">
+                <div style="margin-top: 1.2em" class="">
+                    <a href="#" class="btn btn-outline-danger js-remove-compte">
+                        <span class="fa fa-trash"></span>
+                    </a>
+                </div>
+            </div>
+        </div>
+    {% endmacro %}
+
+
+    {% macro printSousDossier(sousDossier) %}
+
+        {% import _self as formMacros %}
+
+
+        <div class="row js-soudossier-item">
+            <div class="col col-2">
+                <div style="margin-top: 1.2em" class="">
+                    <a href="#" class="btn btn-outline-danger js-remove-sousdossier">
+                        <span class="fa fa-trash"></span>
+                    </a>
+                </div>
+            </div>
+
+            <div class="col col-5">
+                <div class="mb-3">
+                    {{ form_label(sousDossier.type, "Type de sous dossier: ", {'label_attr': {'class': 'intitule_label'}}) }}
+                    {{ form_widget(sousDossier.type, {'attr': {'class': 'form-control'}}) }}
+                    <div class="form-error" style="color: red">
+                        {{ form_errors(sousDossier.type) }}
+                    </div>
+                </div>
+            </div>
+
+            <table class="table table-hover table-bordered table-striped table-responsive">
+
+                <thead>
+                    <tr>
+                        <th>Fichier</th>
+                        <th>Date des pieces</th>
+                        <th>Analyse sommaire</th>
+                        <th></th>
+                    </tr>
+                </thead>
+
+                <div class="js-pieces-wrapper" data-index="{{ sousDossier.pieces|length > 0 ? sousDossier.pieces|last.vars.name + 1 : 0 }}"
+                       data-prototype="{{ formMacros.printPiece(sousDossier.pieces.vars.prototype)|e('html_attr') }}">
+
+
+                        <button type="button" class="add_item_link btn blue-gradient js-piece-add" data-collection-holder-class="piece">
+                            <span class="fa fa-plus-circle"></span>
+                            Ajouter une piece</button>
+
+                        {% for piece in sousDossier.pieces %}
+
+                            {{ formMacros.printPiece(piece) }}
+
+                        {% endfor %}
+                </div>
+
+            </table>
+
+        </div>
+    {% endmacro %}
+
+
+
+
+    {% macro printPiece(piece) %}
+        <tr class="js-piece-item">
+            <td>
+                <div class="col col-4 md-form">
+                    <div class="file-field">
+                        <a class="btn-floating purple-gradient mt-0 float-left">
+                            <i class="fas fa-camera" aria-hidden="true"></i>
+                            {{ form_widget(piece.filename,{'attr': {'class': ''}}) }}
+                        </a>
+                        <div class="file-path-wrapper">
+                            <input class="file-path validate" type="text" placeholder="Selectioner une photo">
+                        </div>
+                    </div>
+                </div>
+            </td>
+
+            <td>
+                {{ form_label(piece.datePiece, '', {'label_attr': {'class': 'intitule_label'}}) }}
+                {{ form_widget(piece.datePiece, {'attr': {'class': 'form-control js-datepicker'}}) }}
+                <div class="form-error" style="color: red">
+                    {{ form_errors(piece.datePiece) }}
+                </div>
+            </td>
+            <td>
+                {{ form_label(piece.description, '', {'label_attr': {'class': 'intitule_label'}}) }}
+                {{ form_widget(piece.description, {'attr': {'class': 'form-control'}}) }}
+                <div class="form-error" style="color: red">
+                    {{ form_errors(piece.description) }}
+                </div>
+            </td>
+            <td>
+                <a href="#" class="btn btn-outline-danger js-remove-piece">
+                    <span class="fa fa-trash"></span>
+                </a>
+            </td>
+        </tr>
+    {% endmacro %}
+
+
     <div style="margin-top: 1em; margin-bottom: 5em;">
         <ul class="nav nav-tabs md-tabs" id="myTab" role="tablist">
             <li class="nav-item" role="presentation">
@@ -57,9 +191,12 @@
         </ul>
         <div class="tab-content card pt-5" id="myTabContent">
             <div class="tab-pane fade show active" id="create" role="tabpanel" aria-labelledby="create-tab">
-                <div class="row" style="margin-top: 1em">
+                <div style="margin-top: 1em">
 
-                    <div class="col col-12">
+
+                    {{ form_start(militaireForm) }}
+
+                    <div class="row">
 
                         {% for message in app.session.flashbag.get('grade_add') %}
                             <div class="alert alert-success alert-dismissible fade show" role="alert">
@@ -68,176 +205,468 @@
                             </div>
                         {% endfor %}
 
-                        {{ form_start(militaireForm) }}
-
                         {{ form_errors(militaireForm) }}
 
 
-                        <div class="mb-3">
-                            <div class="kv-avatar">
-                                <div class="file-loading">
-                                    {{ form_widget(militaireForm.mainPicture,{'id':'mainPicture'},{'attr': {'class': ''}}) }}
+
+
+                        <div class="col col-4 md-form">
+                            <div class="file-field">
+                                <a class="btn-floating purple-gradient mt-0 float-left">
+                                    <i class="fas fa-camera" aria-hidden="true"></i>
+                                    {{ form_widget(militaireForm.mainPicture,{'attr': {'class': ''}}) }}
+                                </a>
+                                <div class="file-path-wrapper">
+                                    <input class="file-path validate" type="text" placeholder="Selectioner une photo">
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col col-8"></div>
+
+                        <div class="col col-12">
+                            <div class="mb-3">
+                                {{ form_label(militaireForm.matricule, '', {'label_attr': {'class': 'intitule_label'}}) }}
+                                {{ form_widget(militaireForm.matricule, {'attr': {'class': 'form-control'}}) }}
+                                <div class="form-error" style="color: red">
+                                    {{ form_errors(militaireForm.matricule) }}
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col col-4">
+                            <div class="mb-3">
+                                {{ form_label(militaireForm.nom, '', {'label_attr': {'class': 'intitule_label'}}) }}
+                                {{ form_widget(militaireForm.nom, {'attr': {'class': 'form-control'}}) }}
+                                <div class="form-error" style="color: red">
+                                    {{ form_errors(militaireForm.nom) }}
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col col-4">
+                            <div class="mb-3">
+                                {{ form_label(militaireForm.prenoms, '', {'label_attr': {'class': 'intitule_label'}}) }}
+                                {{ form_widget(militaireForm.prenoms, {'attr': {'class': 'form-control'}}) }}
+                                <div class="form-error" style="color: red">
+                                    {{ form_errors(militaireForm.prenoms) }}
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col col-4">
+                            <div class="mb-3">
+                                {{ form_label(militaireForm.surnom, '', {'label_attr': {'class': 'intitule_label'}}) }}
+                                {{ form_widget(militaireForm.surnom, {'attr': {'class': 'form-control'}}) }}
+                                <div class="form-error" style="color: red">
+                                    {{ form_errors(militaireForm.surnom) }}
+                                </div>
+                            </div>
+                        </div>
+
+
+                        <div class="col col-4">
+                            <div class="mb-3">
+                                {{ form_label(militaireForm.dateNaissance, '', {'label_attr': {'class': 'intitule_label'}}) }}
+                                {{ form_widget(militaireForm.dateNaissance, {'attr': {'class': 'form-control js-datepicker'}}) }}
+                                <div class="form-error" style="color: red">
+                                    {{ form_errors(militaireForm.dateNaissance) }}
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col col-4">
+                            <div class="mb-3">
+                                {{ form_label(militaireForm.quartier, '', {'label_attr': {'class': 'intitule_label'}}) }}
+                                {{ form_widget(militaireForm.quartier, {'attr': {'class': 'form-control'}}) }}
+                                <div class="form-error" style="color: red">
+                                    {{ form_errors(militaireForm.quartier) }}
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col col-4">
+                            <div class="mb-3">
+                                {{ form_label(militaireForm.lieuNaissance, '', {'label_attr': {'class': 'intitule_label'}}) }}
+                                {{ form_widget(militaireForm.lieuNaissance, {'attr': {'class': 'form-control'}}) }}
+                                <div class="form-error" style="color: red">
+                                    {{ form_errors(militaireForm.lieuNaissance) }}
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col col-3">
+                            <div class="mb-3">
+                                {{ form_label(militaireForm.sexe,'', {'label_attr': {'class': 'intitule_label'}}) }}
+                                {{ form_widget(militaireForm.sexe, {'attr': {'class': 'mdb-select md-form colorful-select dropdown-ins'}}) }}
+                                <div class="form-error" style="color: red">
+                                    {{ form_errors(militaireForm.sexe) }}
+                                </div>
+                            </div>
+                        </div>
+
+
+                        <div class="col col-3">
+                            <div class="mb-3">
+                                {{ form_label(militaireForm.groupeSanguin,'', {'label_attr': {'class': 'intitule_label'}}) }}
+                                {{ form_widget(militaireForm.groupeSanguin, {'attr': {'class': 'mdb-select md-form colorful-select dropdown-ins'}}) }}
+                                <div class="form-error" style="color: red">
+                                    {{ form_errors(militaireForm.groupeSanguin) }}
+                                </div>
+                            </div>
+                        </div>
+
+
+                        <div class="col col-3">
+                            <div class="mb-3">
+                                {{ form_label(militaireForm.taille, '', {'label_attr': {'class': 'intitule_label'}}) }}
+                                {{ form_widget(militaireForm.taille, {'attr': {'class': 'form-control'}}) }}
+                                <div class="form-error" style="color: red">
+                                    {{ form_errors(militaireForm.taille) }}
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col col-3">
+                            <div class="mb-3">
+                                {{ form_label(militaireForm.couleurYeux, '', {'label_attr': {'class': 'intitule_label'}}) }}
+                                {{ form_widget(militaireForm.couleurYeux, {'attr': {'class': 'form-control'}}) }}
+                                <div class="form-error" style="color: red">
+                                    {{ form_errors(militaireForm.couleurYeux) }}
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col col-6">
+                            <div class="mb-3">
+                                {{ form_label(militaireForm.situationMatri, '', {'label_attr': {'class': 'intitule_label'}}) }}
+                                {{ form_widget(militaireForm.situationMatri, {'attr': {'class': 'mdb-select md-form colorful-select dropdown-ins'}}) }}
+                                <div class="form-error" style="color: red">
+                                    {{ form_errors(militaireForm.situationMatri) }}
+                                </div>
+                            </div>
+                        </div>
+
+
+                        <div class="col col-6">
+                            <div class="mb-3">
+                                {{ form_label(militaireForm.hasChildren, '', {'label_attr': {'class': 'intitule_label'}}) }}
+                                {{ form_widget(militaireForm.hasChildren, {'attr': {'class': 'mdb-select md-form colorful-select dropdown-ins'}}) }}
+                                <div class="form-error" style="color: red">
+                                    {{ form_errors(militaireForm.hasChildren) }}
                                 </div>
                             </div>
 
-                            <div id="kv-avatar-errors-2" class="center-block" style="width:800px;display:none"></div>
+                        </div>
 
-                            <div class="form-error" style="color: red">
-                                {{ form_errors(militaireForm.mainPicture) }}
+                        <div class="col col-6">
+                            <div class="mb-3">
+                                {{ form_label(militaireForm.adresse, '', {'label_attr': {'class': 'intitule_label'}}) }}
+                                {{ form_widget(militaireForm.adresse, {'attr': {'class': 'form-control'}}) }}
+                                <div class="form-error" style="color: red">
+                                    {{ form_errors(militaireForm.adresse) }}
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col col-6">
+                            <div class="mb-3">
+                                {{ form_label(militaireForm.telephone, '', {'label_attr': {'class': 'intitule_label'}}) }}
+                                {{ form_widget(militaireForm.telephone, {'attr': {'class': 'form-control'}}) }}
+                                <div class="form-error" style="color: red">
+                                    {{ form_errors(militaireForm.telephone) }}
+                                </div>
                             </div>
                         </div>
 
 
-                        <div class="mb-3">
-                            {{ form_label(militaireForm.matricule, '', {'label_attr': {'class': 'intitule_label'}}) }}
-                            {{ form_widget(militaireForm.matricule, {'attr': {'class': 'form-control'}}) }}
-                            <div class="form-error" style="color: red">
-                                {{ form_errors(militaireForm.matricule) }}
+                        <div class="col col-6">
+                            <div class="mb-3">
+                                {{ form_label(militaireForm.numPassport, '', {'label_attr': {'class': 'intitule_label'}}) }}
+                                {{ form_widget(militaireForm.numPassport, {'attr': {'class': 'form-control'}}) }}
+                                <div class="form-error" style="color: red">
+                                    {{ form_errors(militaireForm.numPassport) }}
+                                </div>
                             </div>
                         </div>
 
-                        <div class="mb-3">
-                            {{ form_label(militaireForm.nom, '', {'label_attr': {'class': 'intitule_label'}}) }}
-                            {{ form_widget(militaireForm.nom, {'attr': {'class': 'form-control'}}) }}
-                            <div class="form-error" style="color: red">
-                                {{ form_errors(militaireForm.nom) }}
-                            </div>
-                        </div>
-
-                        <div class="mb-3">
-                            {{ form_label(militaireForm.prenoms, '', {'label_attr': {'class': 'intitule_label'}}) }}
-                            {{ form_widget(militaireForm.prenoms, {'attr': {'class': 'form-control'}}) }}
-                            <div class="form-error" style="color: red">
-                                {{ form_errors(militaireForm.prenoms) }}
-                            </div>
-                        </div>
-
-                        <div class="mb-3">
-                            {{ form_label(militaireForm.dateNaissance, '', {'label_attr': {'class': 'intitule_label'}}) }}
-                            {{ form_widget(militaireForm.dateNaissance, {'attr': {'class': 'form-control js-datepicker'}}) }}
-                            <div class="form-error" style="color: red">
-                                {{ form_errors(militaireForm.dateNaissance) }}
+                        <div class="col col-6">
+                            <div class="mb-3">
+                                {{ form_label(militaireForm.numCarte, '', {'label_attr': {'class': 'intitule_label'}}) }}
+                                {{ form_widget(militaireForm.numCarte, {'attr': {'class': 'form-control'}}) }}
+                                <div class="form-error" style="color: red">
+                                    {{ form_errors(militaireForm.numCarte) }}
+                                </div>
                             </div>
                         </div>
 
 
-                        <div class="mb-3">
-                            {{ form_label(militaireForm.sexe,'', {'label_attr': {'class': 'intitule_label'}}) }}
-                            {{ form_widget(militaireForm.sexe, {'attr': {'class': 'mdb-select md-form colorful-select dropdown-ins'}}) }}
-                            <div class="form-error" style="color: red">
-                                {{ form_errors(militaireForm.sexe) }}
+                        <div class="col col-12 mb-3">
+                            <div class="card">
+
+                                <div class="card-header font-weight-bold">Comptes banquaires</div>
+                                <!-- Card content -->
+                                <div class="card-body">
+
+                                    <div class="telephone row js-militaire-compte-wrapper" data-index="{{ militaireForm.compteBanqMilitaires|length > 0 ? militaireForm.compteBanqMilitaires|last.vars.name + 1 : 0 }}"
+                                         data-prototype="{{ formMacros.printCompteRow(militaireForm.compteBanqMilitaires.vars.prototype)|e('html_attr') }}">
+
+                                        <div class="col col-12">
+                                            <button type="button" class="add_item_link btn blue-gradient js-militaire-compte-add" data-collection-holder-class="compte">
+                                                <span class="fa fa-plus-circle"></span>
+                                                Ajouter un compte</button>
+                                        </div>
+
+                                        <div class="col col-12">
+                                            {% for compte in militaireForm.compteBanqMilitaires %}
+
+                                                {{ formMacros.printCompteRow(compte) }}
+
+                                            {% endfor %}
+                                        </div>
+
+
+                                    </div>
+
+                                </div>
+
                             </div>
                         </div>
 
-                        <div class="mb-3">
-                            {{ form_label(militaireForm.groupeSanguin,'', {'label_attr': {'class': 'intitule_label'}}) }}
-                            {{ form_widget(militaireForm.groupeSanguin, {'attr': {'class': 'mdb-select md-form colorful-select dropdown-ins'}}) }}
-                            <div class="form-error" style="color: red">
-                                {{ form_errors(militaireForm.groupeSanguin) }}
+                        <div class="col col-6">
+                            <div class="mb-3">
+                                {{ form_label(militaireForm.dateIncorp, '', {'label_attr': {'class': 'intitule_label'}}) }}
+                                {{ form_widget(militaireForm.dateIncorp, {'attr':{'class': 'form-control js-datepicker'}}) }}
+                                <div class="form-error" style="color: red">
+                                    {{ form_errors(militaireForm.dateIncorp) }}
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col col-6">
+                            <div class="mb-3">
+                                {{ form_label(militaireForm.grade, '', {'label_attr': {'class': 'intitule_label'}}) }}
+                                {{ form_widget(militaireForm.grade, {'attr': {'class': 'mdb-select md-form colorful-select dropdown-ins','searchable':'Rechercher un grade'}}) }}
+                                <div class="form-error" style="color: red">
+                                    {{ form_errors(militaireForm.grade) }}
+                                </div>
                             </div>
                         </div>
 
 
-                        <div class="mb-3">
-                            {{ form_label(militaireForm.taille, '', {'label_attr': {'class': 'intitule_label'}}) }}
-                            {{ form_widget(militaireForm.taille, {'attr': {'class': 'form-control'}}) }}
-                            <div class="form-error" style="color: red">
-                                {{ form_errors(militaireForm.taille) }}
-                            </div>
-                        </div>
 
-                        <div class="mb-3">
-                            {{ form_label(militaireForm.couleurYeux, '', {'label_attr': {'class': 'intitule_label'}}) }}
-                            {{ form_widget(militaireForm.couleurYeux, {'attr': {'class': 'form-control'}}) }}
-                            <div class="form-error" style="color: red">
-                                {{ form_errors(militaireForm.couleurYeux) }}
-                            </div>
-                        </div>
 
-                        <div class="mb-3">
-                            {{ form_label(militaireForm.situationMatri, '', {'label_attr': {'class': 'intitule_label'}}) }}
-                            {{ form_widget(militaireForm.situationMatri, {'attr': {'class': 'mdb-select md-form colorful-select dropdown-ins'}}) }}
-                            <div class="form-error" style="color: red">
-                                {{ form_errors(militaireForm.situationMatri) }}
-                            </div>
-                        </div>
-
-                        <div class="mb-3">
-                            {{ form_label(militaireForm.hasChildren, '', {'label_attr': {'class': 'intitule_label'}}) }}
-                            {{ form_widget(militaireForm.hasChildren, {'attr': {'class': 'mdb-select md-form colorful-select dropdown-ins'}}) }}
-                            <div class="form-error" style="color: red">
-                                {{ form_errors(militaireForm.hasChildren) }}
+                        <div class="col col-6">
+                            <div class="mb-3">
+                                {{ form_label(militaireForm.specialite, '', {'label_attr': {'class': 'intitule_label'}}) }}
+                                {{ form_widget(militaireForm.specialite, {'attr': {'class': 'mdb-select md-form colorful-select dropdown-ins','searchable':'Rechercher une specialite'}}) }}
+                                <div class="form-error" style="color: red">
+                                    {{ form_errors(militaireForm.specialite) }}
+                                </div>
                             </div>
                         </div>
 
 
-                        <div class="mb-3">
-                            {{ form_label(militaireForm.adresse, '', {'label_attr': {'class': 'intitule_label'}}) }}
-                            {{ form_widget(militaireForm.adresse, {'attr': {'class': 'form-control'}}) }}
-                            <div class="form-error" style="color: red">
-                                {{ form_errors(militaireForm.adresse) }}
+                        <div class="col col-6">
+                            <div class="mb-3">
+                                {{ form_label(militaireForm.origineRecrutement, '', {'label_attr': {'class': 'intitule_label'}}) }}
+                                {{ form_widget(militaireForm.origineRecrutement, {'attr': {'class': 'mdb-select md-form colorful-select dropdown-ins','searchable':'Rechercher'}}) }}
+                                <div class="form-error" style="color: red">
+                                    {{ form_errors(militaireForm.origineRecrutement) }}
+                                </div>
                             </div>
                         </div>
 
-                        <div class="mb-3">
-                            {{ form_label(militaireForm.telephone, '', {'label_attr': {'class': 'intitule_label'}}) }}
-                            {{ form_widget(militaireForm.telephone, {'attr': {'class': 'form-control'}}) }}
-                            <div class="form-error" style="color: red">
-                                {{ form_errors(militaireForm.telephone) }}
+
+                        <div class="col col-6">
+                            <div class="mb-3">
+                                {{ form_label(militaireForm.professionAnt, '', {'label_attr': {'class': 'intitule_label'}}) }}
+                                {{ form_widget(militaireForm.professionAnt, {'attr': {'class': 'form-control'}}) }}
+                                <div class="form-error" style="color: red">
+                                    {{ form_errors(militaireForm.professionAnt) }}
+                                </div>
                             </div>
                         </div>
 
-                        <div class="mb-3">
-                            {{ form_label(militaireForm.dateIncorp, '', {'label_attr': {'class': 'intitule_label'}}) }}
-                            {{ form_widget(militaireForm.dateIncorp, {'attr':{'class': 'form-control js-datepicker'}}) }}
-                            <div class="form-error" style="color: red">
-                                {{ form_errors(militaireForm.dateIncorp) }}
+
+
+
+                        <div class="col col-6">
+                            <div class="mb-3">
+                                {{ form_label(militaireForm.permisConduireCiv, '', {'label_attr': {'class': 'intitule_label'}}) }}
+                                {{ form_widget(militaireForm.permisConduireCiv, {'attr': {'class': 'form-control'}}) }}
+                                <div class="form-error" style="color: red">
+                                    {{ form_errors(militaireForm.permisConduireCiv) }}
+                                </div>
                             </div>
                         </div>
 
-                        <div class="mb-3">
-                            {{ form_label(militaireForm.professionAnt, '', {'label_attr': {'class': 'intitule_label'}}) }}
-                            {{ form_widget(militaireForm.professionAnt, {'attr': {'class': 'form-control'}}) }}
-                            <div class="form-error" style="color: red">
-                                {{ form_errors(militaireForm.professionAnt) }}
+                        <div class="col col-6">
+                            <div class="mb-3">
+                                {{ form_label(militaireForm.permisConduireMil, '', {'label_attr': {'class': 'intitule_label'}}) }}
+                                {{ form_widget(militaireForm.permisConduireMil, {'attr': {'class': 'form-control'}}) }}
+                                <div class="form-error" style="color: red">
+                                    {{ form_errors(militaireForm.permisConduireMil) }}
+                                </div>
                             </div>
                         </div>
 
-                        <div class="mb-3">
-                            {{ form_label(militaireForm.grade, '', {'label_attr': {'class': 'intitule_label'}}) }}
-                            {{ form_widget(militaireForm.grade, {'attr': {'class': 'mdb-select md-form colorful-select dropdown-ins','searchable':'Rechercher un grade'}}) }}
-                            <div class="form-error" style="color: red">
-                                {{ form_errors(militaireForm.grade) }}
+                        <div class="col col-6">
+                            <div class="mb-3">
+                                {{ form_label(militaireForm.lieuPermission, '', {'label_attr': {'class': 'intitule_label'}}) }}
+                                {{ form_widget(militaireForm.lieuPermission, {'attr': {'class': 'form-control'}}) }}
+                                <div class="form-error" style="color: red">
+                                    {{ form_errors(militaireForm.lieuPermission) }}
+                                </div>
                             </div>
                         </div>
 
-                        <div class="mb-3">
-                            {{ form_label(militaireForm.specialite, '', {'label_attr': {'class': 'intitule_label'}}) }}
-                            {{ form_widget(militaireForm.specialite, {'attr': {'class': 'mdb-select md-form colorful-select dropdown-ins','searchable':'Rechercher une specialite'}}) }}
-                            <div class="form-error" style="color: red">
-                                {{ form_errors(militaireForm.specialite) }}
+
+                        <div class="col col-12 mb-3">
+                            <div class="card">
+
+                                <div class="card-header font-weight-bold">Personne a prevenir</div>
+                                <!-- Card content -->
+                                <div class="card-body">
+
+                                    <div class="row">
+                                        <div class="col col-12">
+                                            <div class="mb-3">
+                                                {{ form_label(militaireForm.personnePrev.nom, '', {'label_attr': {'class': 'intitule_label'}}) }}
+                                                {{ form_widget(militaireForm.personnePrev.nom, {'attr': {'class': 'form-control'}}) }}
+                                                <div class="form-error" style="color: red">
+                                                    {{ form_errors(militaireForm.personnePrev.nom) }}
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="col col-12">
+                                            <div class="mb-3">
+                                                {{ form_label(militaireForm.personnePrev.adresse, '', {'label_attr': {'class': 'intitule_label'}}) }}
+                                                {{ form_widget(militaireForm.personnePrev.adresse, {'attr': {'class': 'form-control'}}) }}
+                                                <div class="form-error" style="color: red">
+                                                    {{ form_errors(militaireForm.personnePrev.adresse) }}
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="col col-6">
+                                            <div class="mb-3">
+                                                {{ form_label(militaireForm.personnePrev.profession, '', {'label_attr': {'class': 'intitule_label'}}) }}
+                                                {{ form_widget(militaireForm.personnePrev.profession, {'attr': {'class': 'form-control'}}) }}
+                                                <div class="form-error" style="color: red">
+                                                    {{ form_errors(militaireForm.personnePrev.profession) }}
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="col col-6">
+                                            <div class="mb-3">
+                                                {{ form_label(militaireForm.personnePrev.employeur, '', {'label_attr': {'class': 'intitule_label'}}) }}
+                                                {{ form_widget(militaireForm.personnePrev.employeur, {'attr': {'class': 'form-control'}}) }}
+                                                <div class="form-error" style="color: red">
+                                                    {{ form_errors(militaireForm.personnePrev.employeur) }}
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                </div>
+
                             </div>
                         </div>
 
-                        <div class="mb-3">
-                            {{ form_label(militaireForm.origineRecrutement, '', {'label_attr': {'class': 'intitule_label'}}) }}
-                            {{ form_widget(militaireForm.origineRecrutement, {'attr': {'class': 'mdb-select md-form colorful-select dropdown-ins','searchable':'Rechercher'}}) }}
-                            <div class="form-error" style="color: red">
-                                {{ form_errors(militaireForm.origineRecrutement) }}
+
+
+                        <div class="col col-6">
+                            <div class="mb-3">
+                                {{ form_label(militaireForm.nivInstruGen, '', {'label_attr': {'class': 'intitule_label'}}) }}
+                                {{ form_widget(militaireForm.nivInstruGen, {'attr': {'class': 'form-control'}}) }}
+                                <div class="form-error" style="color: red">
+                                    {{ form_errors(militaireForm.nivInstruGen) }}
+                                </div>
                             </div>
                         </div>
 
-                        <div class="mb-3">
-                            <div class="file-loading">
-                                {{ form_widget(militaireForm.fichiers,{'id':'attachements'}, {'attr': {'class': ''}}) }}
-                            </div>
-
-                            <div id="kv-avatar-errors-2" class="center-block" style="width:800px;display:none"></div>
-
-                            <div class="form-error" style="color: red">
-                                {{ form_errors(militaireForm.fichiers) }}
+                        <div class="col col-6">
+                            <div class="mb-3">
+                                {{ form_label(militaireForm.formTech, '', {'label_attr': {'class': 'intitule_label'}}) }}
+                                {{ form_widget(militaireForm.formTech, {'attr': {'class': 'form-control'}}) }}
+                                <div class="form-error" style="color: red">
+                                    {{ form_errors(militaireForm.formTech) }}
+                                </div>
                             </div>
                         </div>
+
+                        <div class="col col-6">
+                            <div class="mb-3">
+                                {{ form_label(militaireForm.languePar, '', {'label_attr': {'class': 'intitule_label'}}) }}
+                                {{ form_widget(militaireForm.languePar, {'attr': {'class': 'form-control'}}) }}
+                                <div class="form-error" style="color: red">
+                                    {{ form_errors(militaireForm.languePar) }}
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col col-6">
+                            <div class="mb-3">
+                                {{ form_label(militaireForm.langueEcr, '', {'label_attr': {'class': 'intitule_label'}}) }}
+                                {{ form_widget(militaireForm.langueEcr, {'attr': {'class': 'form-control'}}) }}
+                                <div class="form-error" style="color: red">
+                                    {{ form_errors(militaireForm.langueEcr) }}
+                                </div>
+                            </div>
+                        </div>
+
+
+                        <div class="col col-6">
+                            <div class="mb-3">
+                                {{ form_label(militaireForm.sports, '', {'label_attr': {'class': 'intitule_label'}}) }}
+                                {{ form_widget(militaireForm.sports, {'attr': {'class': 'form-control'}}) }}
+                                <div class="form-error" style="color: red">
+                                    {{ form_errors(militaireForm.sports) }}
+                                </div>
+                            </div>
+                        </div>
+
+
+
+
+
+
+                        <div class="col col-12 mb-3">
+                            <div class="card">
+
+                                <div class="card-header font-weight-bold">Archives</div>
+                                <!-- Card content -->
+                                <div class="card-body">
+
+                                    <div class="telephone row js-sousdossier-wrapper" data-index="{{ militaireForm.sousDossiers|length > 0 ? militaireForm.sousDossiers|last.vars.name + 1 : 0 }}"
+                                         data-prototype="{{ formMacros.printSousDossier(militaireForm.sousDossiers.vars.prototype)|e('html_attr') }}">
+
+                                        <div class="col col-12">
+                                            <button type="button" class="add_item_link btn blue-gradient js-sousdossier-add" data-collection-holder-class="sousdossier">
+                                                <span class="fa fa-plus-circle"></span>
+                                                Ajouter un sous dossier</button>
+                                        </div>
+
+                                        <div class="col col-12">
+                                            {% for sousdossier in militaireForm.sousDossiers %}
+
+                                                {{ formMacros.printSousDossier(sousdossier) }}
+
+                                            {% endfor %}
+                                        </div>
+
+
+                                    </div>
+
+                                </div>
+
+                            </div>
+                        </div>
+
+
 
 
                         <hr>
@@ -245,6 +674,9 @@
                             {{ form_row(militaireForm.cancel,{'attr':{'class': 'btn btn-outline-secondary form-btn'}}) }}
                             {{ form_row(militaireForm.submit,{'attr':{'class': 'btn btn-outline-success form-btn'}}) }}
                         </div>
+
+                        {{ form_widget(militaireForm.compteBanqMilitaires) }}
+
 
                         {{ form_end(militaireForm) }}
 
@@ -267,79 +699,100 @@
 
     <script>
 
-        $("#mainPicture").fileinput({
-            language: "fr",
-            overwriteInitial: true,
-            maxFileSize: 1500,
-            showClose: false,
-            showCaption: false,
-            showBrowse: false,
-            browseOnZoneClick: true,
-            removeLabel: '',
-            removeIcon: '<i class="bi-x-lg"></i>',
-            removeTitle: 'Cancel or reset changes',
-            elErrorContainer: '#kv-avatar-errors-2',
-            msgErrorClass: 'alert alert-block alert-danger',
-            // defaultPreviewContent: '<img src="/img/default-avatar-male.png" alt="Your Avatar"><h6 class="text-muted">Click to select</h6>',
-            layoutTemplates: {main2: '{preview} '  + ' {remove} {browse}'},
-            allowedFileExtensions: ["jpg", "png", "gif","jpeg"]
-        });
+        $(document).ready(function () {
+
+            var $wrapper = $('.js-militaire-compte-wrapper');
+            $wrapper.on('click', '.js-remove-compte', function(e) {
+                e.preventDefault();
+                $(this).closest('.js-militaire-compte-item')
+                    .fadeOut()
+                    .remove();
+            });
+            $wrapper.on('click', '.js-militaire-compte-add', function(e) {
+                e.preventDefault();
+                // Get the data-prototype explained earlier
+                var prototype = $wrapper.data('prototype');
+                // get the new index
+                var index = $wrapper.data('index');
+                // Replace '__name__' in the prototype's HTML to
+                // instead be a number based on how many items we have
+                var newForm = prototype.replace(/__name__/g, index);
+                // increase the index with one for the next item
+                $wrapper.data('index', index + 1);
+                // Display the form in the page before the "new" link
+                $(this).after(newForm);
+            });
 
 
-        $("#attachements").fileinput({
+            /*
+            *Sous Dossier
+             */
 
-            theme: "explorer",
-            language: "fr",
-            showUpload: false,
-            maxFileSize: 1000000,
-            removeFromPreviewOnError: true,
-            overwriteInitial: false,
-            preferIconicPreview: true, // this will force thumbnails to display icons for following file extensions
-            previewFileIcon: '<i class="fas fa-file"></i>',
-            initialPreviewAsData: true, // defaults markup
-            previewFileIconSettings: { // configure your icon file extensions
-                'doc': '<i class="fas fa-file-word text-primary"></i>',
-                'xls': '<i class="fas fa-file-excel text-success"></i>',
-                'ppt': '<i class="fas fa-file-powerpoint text-danger"></i>',
-                'pdf': '<i class="fas fa-file-pdf text-danger"></i>',
-                'zip': '<i class="fas fa-file-archive text-muted"></i>',
-                'htm': '<i class="fas fa-file-code text-info"></i>',
-                'txt': '<i class="fas fa-file-text text-info"></i>',
-                'mov': '<i class="fas fa-file-video text-warning"></i>',
-                'mp3': '<i class="fas fa-file-audio text-warning"></i>',
-                // note for these file types below no extension determination logic
-                // has been configured (the keys itself will be used as extensions)
-                'jpg': '<i class="fas fa-file-image text-danger"></i>',
-                'gif': '<i class="fas fa-file-image text-muted"></i>',
-                'png': '<i class="fas fa-file-image text-primary"></i>'
-            },
-            previewFileExtSettings: { // configure the logic for determining icon file extensions
-                'doc': function(ext) {
-                    return ext.match(/(doc|docx)$/i);
-                },
-                'xls': function(ext) {
-                    return ext.match(/(xls|xlsx)$/i);
-                },
-                'ppt': function(ext) {
-                    return ext.match(/(ppt|pptx)$/i);
-                },
-                'zip': function(ext) {
-                    return ext.match(/(zip|rar|tar|gzip|gz|7z)$/i);
-                },
-                'htm': function(ext) {
-                    return ext.match(/(htm|html)$/i);
-                },
-                'txt': function(ext) {
-                    return ext.match(/(txt|ini|csv|java|php|js|css)$/i);
-                },
-                'mov': function(ext) {
-                    return ext.match(/(avi|mpg|mkv|mov|mp4|3gp|webm|wmv)$/i);
-                },
-                'mp3': function(ext) {
-                    return ext.match(/(mp3|wav)$/i);
-                }
-            }
-        });
+            var $wrappersousdossier = $('.js-sousdossier-wrapper');
+            $wrappersousdossier.on('click', '.js-remove-sousdossier', function(e) {
+                e.preventDefault();
+                $(this).closest('.js-soudossier-item')
+                    .fadeOut()
+                    .remove();
+            });
+            $wrappersousdossier.on('click', '.js-sousdossier-add', function(e) {
+                e.preventDefault();
+                // Get the data-prototype explained earlier
+                var prototype = $wrappersousdossier.data('prototype');
+                // get the new index
+                var index = $wrappersousdossier.data('index');
+                // Replace '__name__' in the prototype's HTML to
+                // instead be a number based on how many items we have
+                var newForm = prototype.replace(/__name__/g, index);
+                // increase the index with one for the next item
+                $wrappersousdossier.data('index', index + 1);
+                // Display the form in the page before the "new" link
+                $(this).after(newForm);
+            });
+
+
+
+            /*
+            Pieces
+            */
+
+            $('#test').on('click',function (e) {
+
+                alert('ok')
+
+                e.preventDefault();
+
+                console.log('ok')
+
+
+            })
+
+            var $wrapperpiece = $('.js-pieces-wrapper');
+            $wrapperpiece.on('click', '.js-remove-piece', function(e) {
+                e.preventDefault();
+                $(this).closest('.js-piece-item')
+                    .fadeOut()
+                    .remove();
+            });
+            $wrapperpiece.on('click', '.js-piece-add', function(e) {
+
+
+                e.preventDefault();
+                // Get the data-prototype explained earlier
+                var prototype = $wrapperpiece.data('prototype');
+                // get the new index
+                var index = $wrapperpiece.data('index');
+                // Replace '__name__' in the prototype's HTML to
+                // instead be a number based on how many items we have
+                var newForm = prototype.replace(/__name__/g, index);
+                // increase the index with one for the next item
+                $wrapperpiece.data('index', index + 1);
+                // Display the form in the page before the "new" link
+                $(this).after(newForm);
+            });
+
+        })
+
 
 
     </script>
