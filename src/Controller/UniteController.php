@@ -14,10 +14,7 @@ use Symfony\Component\Routing\Annotation\Route;
 #[Route('/unite')]
 class UniteController extends AbstractController
 {
-
-    /**
-     * @Route("/", name="cunite_indexorps", methods: ['GET'])
-     */
+    #[Route('/', name: 'unite_index', methods: ['GET'])]
     public function index(UniteRepository $uniteRepository): Response
     {
         return $this->render('unite/index.html.twig', [
@@ -26,9 +23,7 @@ class UniteController extends AbstractController
         ]);
     }
 
-    /**
-     * @Route("/new", name="unite_new", methods: ['GET', 'POST'])
-     */
+    #[Route('/new', name: 'unite_new', methods: ['GET', 'POST'])]
     public function new(Request $request): Response
     {
         $unite = new Unite();
@@ -50,10 +45,7 @@ class UniteController extends AbstractController
         ]);
     }
 
-
-    /**
-     * @Route("/{id}", name="unite_show", methods: ['GET'])
-     */
+    #[Route('/{id}', name: 'unite_show', methods: ['GET'])]
     public function show(Unite $unite): Response
     {
 
@@ -69,10 +61,7 @@ class UniteController extends AbstractController
         ]);
     }
 
-
-    /**
-     * @Route('/{id}/edit', name="unite_edit", methods: ['GET', 'POST'])
-     */
+    #[Route('/{id}/edit', name: 'unite_edit', methods: ['GET', 'POST'])]
     public function edit(Request $request, Unite $unite): Response
     {
         $form = $this->createForm(Unite1Type::class, $unite);
@@ -91,9 +80,7 @@ class UniteController extends AbstractController
         ]);
     }
 
-    /**
-     * @Route('/{id}', name="unite_delete", methods: ['POST'])
-     */
+    #[Route('/{id}', name: 'unite_delete', methods: ['POST'])]
     public function delete(Request $request, Unite $unite): Response
     {
         if ($this->isCsrfTokenValid('delete'.$unite->getId(), $request->request->get('_token'))) {
