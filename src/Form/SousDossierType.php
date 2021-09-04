@@ -41,6 +41,10 @@ class SousDossierType extends AbstractType
                 'by_reference' => false,
                 'allow_add' => true,
                 'allow_delete' => true,
+                'prototype_name' => '__pieces_prot__',
+                'attr' => array (
+                    'class' => "piece-collection",
+                ),
             ])
         ;
     }

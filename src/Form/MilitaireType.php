@@ -27,26 +27,7 @@ class MilitaireType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('fichiers',FileType::class, [
-                'label' => 'Logo',
 
-                // unmapped means that this field is not associated to any entity property
-                'mapped' => false,
-
-                'multiple' => true,
-
-                // make it optional so you don't have to re-upload the  file
-                // every time you edit details
-                'required' => false,
-
-                'attr'     => [
-                    'accept' => 'image/*',
-                    'multiple' => 'multiple',
-                    'mimeTypesMessage' => "Veuillez uploader un fichier image valide",
-                    'maxSizeMessage' => "Taille maximum de 1M",
-                ],
-
-            ])
             ->add('mainPicture',FileType::class, [
                 'label' => 'Photo principale',
 
@@ -315,10 +296,14 @@ class MilitaireType extends AbstractType
                 'required' => false,
                 'entry_type' => CompteBanqMilType::class,
                 'block_name' => 'compte_lists',
+                'label' => 'Compte banquaires : ',
                 'entry_options' => ['label' => false],
                 'by_reference' => false,
                 'allow_add' => true,
                 'allow_delete' => true,
+                'attr' => array(
+                    'class' => 'compte',
+                ),
             ])
             ->add('sousDossiers', CollectionType::class, [
                 'required' => false,
@@ -328,6 +313,10 @@ class MilitaireType extends AbstractType
                 'by_reference' => false,
                 'allow_add' => true,
                 'allow_delete' => true,
+                'prototype_name' => '__sousDossiers_prot__',
+                'attr' => array (
+                    'class' => "dossier-collection",
+                ),
             ])
 
             ->add('personnePrev', PersonnePrevType::class)

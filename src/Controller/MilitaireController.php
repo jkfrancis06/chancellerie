@@ -62,7 +62,7 @@ class MilitaireController extends AbstractController
         $militaireForm->handleRequest($request);
 
         if ($militaireForm->isSubmitted()){
-            $corpsLogos = $militaireForm->get('fichiers')->getData();
+            //$corpsLogos = $militaireForm->get('fichiers')->getData();
             $mainPicture = $militaireForm->get('mainPicture')->getData();
 
             if ($mainPicture == null){
@@ -81,7 +81,7 @@ class MilitaireController extends AbstractController
 
         if ($militaireForm->isSubmitted() && $militaireForm->isValid()){
 
-            $form_telephones = $militaireForm->get('telephone')->getData();
+            /*$form_telephones = $militaireForm->get('telephone')->getData();
 
             $telephones = explode(";",$form_telephones);
 
@@ -100,9 +100,17 @@ class MilitaireController extends AbstractController
 
             foreach ($militaire->getCompteBanqMilitaires() as $compteBanqMilitaire){
                 $compteBanqMilitaire->setMilitaire($militaire);
+            } */
+
+
+            $sousDossiers = $militaire->getSousDossiers();
+
+
+            if ($sousDossiers != null && sizeof($sousDossiers) > 0){
+
             }
 
-            if ($militaire->getPersonnePrev() != null){
+           /* if ($militaire->getPersonnePrev() != null){
                 $personnePrev = $militaire->getPersonnePrev();
                 $personnePrev->setMilitaire($militaire);
             }
@@ -123,7 +131,7 @@ class MilitaireController extends AbstractController
             $em->persist($militaire);
             $em->flush();
             $request->getSession()->getFlashBag()->add('create_militaire', 'L\'element a été crée avec succès');
-            return $this->redirectToRoute('militaire_details', array('id' => $militaire->getId()));
+            return $this->redirectToRoute('militaire_details', array('id' => $militaire->getId()));*/
 
         }
 

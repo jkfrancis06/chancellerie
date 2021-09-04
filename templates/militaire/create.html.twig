@@ -48,6 +48,11 @@
 
 {% block content %}
 
+    {% form_theme militaireForm 'bootstrap_5_layout.html.twig' %}
+
+
+    {% form_theme militaireForm 'jquery.collection.html.twig' %}
+
 
 
     {% import _self as formMacros %}
@@ -86,101 +91,10 @@
     {% endmacro %}
 
 
-    {% macro printSousDossier(sousDossier) %}
-
-        {% import _self as formMacros %}
-
-
-        <div class="row js-soudossier-item">
-            <div class="col col-2">
-                <div style="margin-top: 1.2em" class="">
-                    <a href="#" class="btn btn-outline-danger js-remove-sousdossier">
-                        <span class="fa fa-trash"></span>
-                    </a>
-                </div>
-            </div>
-
-            <div class="col col-5">
-                <div class="mb-3">
-                    {{ form_label(sousDossier.type, "Type de sous dossier: ", {'label_attr': {'class': 'intitule_label'}}) }}
-                    {{ form_widget(sousDossier.type, {'attr': {'class': 'form-control'}}) }}
-                    <div class="form-error" style="color: red">
-                        {{ form_errors(sousDossier.type) }}
-                    </div>
-                </div>
-            </div>
-
-            <table class="table table-hover table-bordered table-striped table-responsive">
-
-                <thead>
-                    <tr>
-                        <th>Fichier</th>
-                        <th>Date des pieces</th>
-                        <th>Analyse sommaire</th>
-                        <th></th>
-                    </tr>
-                </thead>
-
-                <div class="js-pieces-wrapper" data-index="{{ sousDossier.pieces|length > 0 ? sousDossier.pieces|last.vars.name + 1 : 0 }}"
-                       data-prototype="{{ formMacros.printPiece(sousDossier.pieces.vars.prototype)|e('html_attr') }}">
-
-
-                        <button type="button" class="add_item_link btn blue-gradient js-piece-add" data-collection-holder-class="piece">
-                            <span class="fa fa-plus-circle"></span>
-                            Ajouter une piece</button>
-
-                        {% for piece in sousDossier.pieces %}
-
-                            {{ formMacros.printPiece(piece) }}
-
-                        {% endfor %}
-                </div>
-
-            </table>
-
-        </div>
-    {% endmacro %}
 
 
 
 
-    {% macro printPiece(piece) %}
-        <tr class="js-piece-item">
-            <td>
-                <div class="col col-4 md-form">
-                    <div class="file-field">
-                        <a class="btn-floating purple-gradient mt-0 float-left">
-                            <i class="fas fa-camera" aria-hidden="true"></i>
-                            {{ form_widget(piece.filename,{'attr': {'class': ''}}) }}
-                        </a>
-                        <div class="file-path-wrapper">
-                            <input class="file-path validate" type="text" placeholder="Selectioner une photo">
-                        </div>
-                    </div>
-                </div>
-            </td>
-
-            <td>
-                {{ form_label(piece.datePiece, '', {'label_attr': {'class': 'intitule_label'}}) }}
-                {{ form_widget(piece.datePiece, {'attr': {'class': 'form-control js-datepicker'}}) }}
-                <div class="form-error" style="color: red">
-                    {{ form_errors(piece.datePiece) }}
-                </div>
-            </td>
-            <td>
-                {{ form_label(piece.description, '', {'label_attr': {'class': 'intitule_label'}}) }}
-                {{ form_widget(piece.description, {'attr': {'class': 'form-control'}}) }}
-                <div class="form-error" style="color: red">
-                    {{ form_errors(piece.description) }}
-                </div>
-            </td>
-            <td>
-                <a href="#" class="btn btn-outline-danger js-remove-piece">
-                    <span class="fa fa-trash"></span>
-                </a>
-            </td>
-        </tr>
-    {% endmacro %}
 
 
     <div style="margin-top: 1em; margin-bottom: 5em;">
@@ -401,32 +315,19 @@
                         </div>
 
 
-                        <div class="col col-12 mb-3">
+                        <div class="col col-12 mb-5 mt-5">
                             <div class="card">
 
                                 <div class="card-header font-weight-bold">Comptes banquaires</div>
                                 <!-- Card content -->
                                 <div class="card-body">
 
-                                    <div class="telephone row js-militaire-compte-wrapper" data-index="{{ militaireForm.compteBanqMilitaires|length > 0 ? militaireForm.compteBanqMilitaires|last.vars.name + 1 : 0 }}"
-                                         data-prototype="{{ formMacros.printCompteRow(militaireForm.compteBanqMilitaires.vars.prototype)|e('html_attr') }}">
-
-                                        <div class="col col-12">
-                                            <button type="button" class="add_item_link btn blue-gradient js-militaire-compte-add" data-collection-holder-class="compte">
-                                                <span class="fa fa-plus-circle"></span>
-                                                Ajouter un compte</button>
-                                        </div>
-
-                                        <div class="col col-12">
-                                            {% for compte in militaireForm.compteBanqMilitaires %}
-
-                                                {{ formMacros.printCompteRow(compte) }}
-
-                                            {% endfor %}
-                                        </div>
-
-
+                                    {{ form_label(militaireForm.compteBanqMilitaires)}}
+                                    {{ form_widget(militaireForm.compteBanqMilitaires)}}
+                                    <div class="form-error" style="color: red">
+                                        {{ form_errors(militaireForm.compteBanqMilitaires) }}
                                     </div>
+
 
                                 </div>
 
@@ -522,7 +423,7 @@
                         </div>
 
 
-                        <div class="col col-12 mb-3">
+                        <div class="col col-12 mb-5 mt-5">
                             <div class="card">
 
                                 <div class="card-header font-weight-bold">Personne a prevenir</div>
@@ -630,42 +531,24 @@
                         </div>
 
 
-
-
-
-
-                        <div class="col col-12 mb-3">
+                        <div class="col col-12 mb-5 mt-5">
                             <div class="card">
 
-                                <div class="card-header font-weight-bold">Archives</div>
+                                <div class="card-header font-weight-bold">Archivage</div>
                                 <!-- Card content -->
                                 <div class="card-body">
 
-                                    <div class="telephone row js-sousdossier-wrapper" data-index="{{ militaireForm.sousDossiers|length > 0 ? militaireForm.sousDossiers|last.vars.name + 1 : 0 }}"
-                                         data-prototype="{{ formMacros.printSousDossier(militaireForm.sousDossiers.vars.prototype)|e('html_attr') }}">
-
-                                        <div class="col col-12">
-                                            <button type="button" class="add_item_link btn blue-gradient js-sousdossier-add" data-collection-holder-class="sousdossier">
-                                                <span class="fa fa-plus-circle"></span>
-                                                Ajouter un sous dossier</button>
-                                        </div>
-
-                                        <div class="col col-12">
-                                            {% for sousdossier in militaireForm.sousDossiers %}
-
-                                                {{ formMacros.printSousDossier(sousdossier) }}
-
-                                            {% endfor %}
-                                        </div>
-
-
+                                    {{ form_label(militaireForm.sousDossiers)}}
+                                    {{ form_widget(militaireForm.sousDossiers)}}
+                                    <div class="form-error" style="color: red">
+                                        {{ form_errors(militaireForm.sousDossiers) }}
                                     </div>
+
 
                                 </div>
 
                             </div>
                         </div>
-
 
 
 
@@ -675,7 +558,6 @@
                             {{ form_row(militaireForm.submit,{'attr':{'class': 'btn btn-outline-success form-btn'}}) }}
                         </div>
 
-                        {{ form_widget(militaireForm.compteBanqMilitaires) }}
 
 
                         {{ form_end(militaireForm) }}
@@ -697,6 +579,59 @@
     <script  src="{{ asset('/assets/js/fileinput/locales/fr.js') }}" type="text/javascript"></script>
     <script  src="{{ asset('/assets/js/fileinput/theme/theme.js') }}"></script>
 
+    <script type="text/javascript">
+        $('.compte').collection({
+            fade_in: true,
+            fade_out: true,
+            up: '<a href="#" class="btn btn-sm btn-blue"><span class="fa fa-arrow-up"></span> Deplacer vers le haut</a>',
+            down: '<a href="#" class="btn btn-sm btn-grey"><span class="fa fa-arrow-down"></span> Deplacer vers le bas</a>',
+            add: '<a href="#" class="btn btn-sm btn-primary"><span class="fa fa-plus-circle"></span> Ajouter un compte </a>',
+            remove: '<a href="#" class="btn btn-sm btn-warning"><span class="fa fa-trash"></span> Supprimer</a>',
+            duplicate: '<a href="#" class="btn btn-sm btn-default"><span class="fa fa-th-large"></span> Dupliquer</a>',
+            drag_drop: true,
+            allow_duplicate: true,
+
+            drag_drop_options: {
+                placeholder: 'ui-state-highlight'
+            }
+        });
+
+        $('.dossier-collection').collection({
+            prefix: 'parent',
+            fade_in: true,
+            fade_out: true,
+            up: '<a href="#" class="btn btn-rounded btn-sm btn-blue"><span class="fa fa-arrow-up"></span> Deplacer le sous-dossier vers le haut</a>',
+            down: '<a href="#" class="btn btn-rounded btn-sm btn-grey"><span class="fa fa-arrow-down"></span> Deplacer le sous-dossier vers le bas</a>',
+            add: '<a href="#" class="btn btn-rounded btn-sm btn-primary"><span class="fa fa-plus-circle"></span> Ajouter un sous-dossier </a>',
+            remove: '<a href="#" class="btn btn-rounded btn-sm btn-warning"><span class="fa fa-trash"></span> Supprimer le sous-dossier</a>',
+            duplicate: '<a href="#" class="btn btn-rounded btn-sm btn-default"><span class="fa fa-th-large"></span> Dupliquer le sous-dossier</a>',
+            allow_duplicate: true,
+
+            drag_drop: true,
+            drag_drop_options: {
+                placeholder: 'ui-state-highlight'
+            },
+            children: [{
+                selector: '.piece-collection',
+                prefix: 'child',
+                fade_in: true,
+                fade_out: true,
+                up: '<a href="#" class="btn btn-rounded btn-sm btn-blue"><span class="fa fa-arrow-up"></span> Deplacer la piece vers le haut</a>',
+                down: '<a href="#" class="btn btn-rounded btn-sm btn-grey"><span class="fa fa-arrow-down"></span> Deplacer la piece vers le bas</a>',
+                add: '<a href="#" class="btn btn-rounded btn-sm btn-primary"><span class="fa fa-plus-circle"></span> Ajouter une piece </a>',
+                remove: '<a href="#" class="btn btn-rounded btn-sm btn-warning"><span class="fa fa-trash"></span> Supprimer la piece</a>',
+                duplicate: '<a href="#" class="btn btn-rounded btn-sm btn-default"><span class="fa fa-th-large"></span> Dupliquer la pliece</a>',
+                drag_drop: true,
+                allow_duplicate: true,
+
+                drag_drop_options: {
+                    placeholder: 'ui-state-highlight'
+                }
+            }]
+        });
+    </script>
+
+
     <script>
 
         $(document).ready(function () {
@@ -712,6 +647,7 @@
                 e.preventDefault();
                 // Get the data-prototype explained earlier
                 var prototype = $wrapper.data('prototype');
+
                 // get the new index
                 var index = $wrapper.data('index');
                 // Replace '__name__' in the prototype's HTML to
@@ -724,72 +660,8 @@
             });
 
 
-            /*
-            *Sous Dossier
-             */
-
-            var $wrappersousdossier = $('.js-sousdossier-wrapper');
-            $wrappersousdossier.on('click', '.js-remove-sousdossier', function(e) {
-                e.preventDefault();
-                $(this).closest('.js-soudossier-item')
-                    .fadeOut()
-                    .remove();
-            });
-            $wrappersousdossier.on('click', '.js-sousdossier-add', function(e) {
-                e.preventDefault();
-                // Get the data-prototype explained earlier
-                var prototype = $wrappersousdossier.data('prototype');
-                // get the new index
-                var index = $wrappersousdossier.data('index');
-                // Replace '__name__' in the prototype's HTML to
-                // instead be a number based on how many items we have
-                var newForm = prototype.replace(/__name__/g, index);
-                // increase the index with one for the next item
-                $wrappersousdossier.data('index', index + 1);
-                // Display the form in the page before the "new" link
-                $(this).after(newForm);
-            });
 
 
-
-            /*
-            Pieces
-            */
-
-            $('#test').on('click',function (e) {
-
-                alert('ok')
-
-                e.preventDefault();
-
-                console.log('ok')
-
-
-            })
-
-            var $wrapperpiece = $('.js-pieces-wrapper');
-            $wrapperpiece.on('click', '.js-remove-piece', function(e) {
-                e.preventDefault();
-                $(this).closest('.js-piece-item')
-                    .fadeOut()
-                    .remove();
-            });
-            $wrapperpiece.on('click', '.js-piece-add', function(e) {
-
-
-                e.preventDefault();
-                // Get the data-prototype explained earlier
-                var prototype = $wrapperpiece.data('prototype');
-                // get the new index
-                var index = $wrapperpiece.data('index');
-                // Replace '__name__' in the prototype's HTML to
-                // instead be a number based on how many items we have
-                var newForm = prototype.replace(/__name__/g, index);
-                // increase the index with one for the next item
-                $wrapperpiece.data('index', index + 1);
-                // Display the form in the page before the "new" link
-                $(this).after(newForm);
-            });
 
         })
 
