@@ -1,0 +1,66 @@
+
+{% block MilitaireType_widget %}
+
+    {# form_row would write extra markup, so we directly write the collection #}
+    {{ form_widget(form.sousDossiers) }}
+{% endblock %}
+
+{# By default, collection uses the form_widget block to create its markup, but we want a table #}
+{% block collection_widget %}
+    {% apply spaceless  %}
+
+        {#
+        # This is almost a copy/paste of jquery.collection.html.twig, we can't use it as it also
+        # use form_widget. Note that we also use form_widget(prototype) instead of form_row(prototype)
+        # to avoid generating extra markup.
+        #}
+        {% if prototype is defined %}
+            {% set attr = attr|merge({'data-prototype': form_widget(prototype)}) %}
+            {% set attr = attr|merge({'data-prototype-name': prototype.vars.name}) %}
+        {% endif %}
+        {% set attr = attr|merge({'data-allow-add': allow_add ? 1 : 0}) %}
+        {% set attr = attr|merge({'data-allow-remove': allow_delete ? 1 : 0 }) %}
+        {% set attr = attr|merge({'data-name-prefix': full_name}) %}
+
+        <fieldset class="well">
+            <label>{{ form_label(form) }}</label>
+
+            {{ form_errors(form) }}
+
+            {# Don't forget to add the collection attributes in your markup #}
+            <table {{ block('widget_attributes') }} >
+                <thead>
+                    <th style="width: 35%">Type </th>
+                    <th style="width: 65%">Pieces</th>
+                </thead>
+                <tbody>
+
+                </tbody>
+            </table>
+
+        </fieldset>
+
+    {% endapply %}
+{% endblock %}
+
+{% block SousDossierType_widget %}
+
+    <tr {{ block('widget_attributes') }}>
+        <td>
+            <div class="row" style="padding-left: 1em; padding-right: 1em">
+                {{ form_widget(form.type, {'attr': {'class': 'form-control'}}) }}
+
+                <div class="mt-3">
+                    <a href="#" class="collection-add btn btn-sm btn-primary"><span class="fa fa fa-plus-circle"></span></a>
+                    <a href="#" class="collection-remove btn btn-sm btn-danger"><span class="fa fa-trash"></span></a>
+                    <a href="#" class="collection-up btn btn-sm btn-deep-purple-accent"><span class="fa fa-arrow-up"></span></a>
+                    <a href="#" class="collection-down btn btn-sm btn-grey"><span class="fa fa-arrow-down"></span></a>
+                </div>
+            </div>
+        </td>
+        <td>{{ form_widget(form.pieces) }}</td>
+    </tr>
+
+{% endblock %}
+
+{% block SousDossierType_label %}{% endblock %}

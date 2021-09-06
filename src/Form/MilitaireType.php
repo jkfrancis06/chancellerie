@@ -296,7 +296,7 @@ class MilitaireType extends AbstractType
                 'required' => false,
                 'entry_type' => CompteBanqMilType::class,
                 'block_name' => 'compte_lists',
-                'label' => 'Compte banquaires : ',
+                'label' => ' ',
                 'entry_options' => ['label' => false],
                 'by_reference' => false,
                 'allow_add' => true,
@@ -332,5 +332,10 @@ class MilitaireType extends AbstractType
         $resolver->setDefaults([
             'data_class' => Militaire::class,
         ]);
+    }
+
+    public function getBlockPrefix()
+    {
+        return 'MilitaireType';
     }
 }

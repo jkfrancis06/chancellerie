@@ -4,6 +4,7 @@ namespace App\Entity;
 
 use App\Repository\PieceRepository;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\HttpFoundation\File\UploadedFile;
 
 /**
  * @ORM\Entity(repositoryClass=PieceRepository::class)
@@ -42,6 +43,12 @@ class Piece
      * @ORM\JoinColumn(nullable=false)
      */
     private $sousDossier;
+
+    /**
+     * @var UploadedFile
+     */
+    protected $file;
+
 
     public function getId(): ?int
     {
@@ -107,4 +114,22 @@ class Piece
 
         return $this;
     }
+
+    /**
+     * @param UploadedFile $file - Uploaded File
+     */
+    public function setFile($file)
+    {
+        $this->file = $file;
+    }
+
+    /**
+     * @return UploadedFile
+     */
+    public function getFile()
+    {
+        return $this->file;
+    }
+
+
 }

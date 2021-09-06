@@ -92,7 +92,7 @@
                                 <tr>
                                     <td>
                                         {% if militaire.militaire.fichiers is not null and militaire.militaire.fichiers|length > 0 %}
-                                            <img height="50" width="50" src="{{ asset('/elements/') }}{{ militaire.militaire.fichiers[0].nom }}" class="img-thumbnail" alt="...">
+                                            <img height="50" width="50" src="{{ asset('/elements/') }}{{ militaire.militaire.mainPicture }}" class="img-thumbnail" alt="...">
                                         {% endif %}
                                     </td>
                                     <td>{{ militaire.militaire.matricule }}</td>

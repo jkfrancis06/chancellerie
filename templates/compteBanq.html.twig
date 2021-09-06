@@ -1,0 +1,38 @@
+
+{% block CompteBanqMilType_row %}
+    <div class="row">
+        {{ form_label(form) }}
+        {{ form_errors(form) }}
+        {{ form_widget(form) }}
+    </div>
+{% endblock %}
+
+{% block CompteBanqMilType_widget %}
+    <div class="col col-4">
+        <div class="mb-3">
+            {{ form_label(form.institution, '', {'label_attr': {'class': 'intitule_label'}}) }}
+            {{ form_widget(form.institution, {'attr': {'class': 'form-control'}}) }}
+            <div class="form-error" style="color: red">
+                {{ form_errors(form.institution) }}
+            </div>
+        </div>
+    </div>
+    <div class="col col-4">
+        <div class="mb-3">
+            {{ form_label(form.numeroCompte, '', {'label_attr': {'class': 'intitule_label'}}) }}
+            {{ form_widget(form.numeroCompte, {'attr': {'class': 'form-control'}}) }}
+            <div class="form-error" style="color: red">
+                {{ form_errors(form.numeroCompte) }}
+            </div>
+        </div>
+    </div>
+    <div class="col col-4 mt-4">
+        <div class="d-flex flex-row">
+            <a href="#" class="collection-add btn btn-sm btn-primary"><span class="fa fa fa-plus-circle"></span></a>
+            <a href="#" class="collection-remove btn btn-sm btn-danger"><span class="fa fa-trash"></span></a>
+
+            <a href="#" class="collection-up btn btn-sm btn-deep-purple-accent"><span class="fa fa-arrow-up"></span></a>
+            <a href="#" class="collection-down btn btn-sm btn-grey"><span class="fa fa-arrow-down"></span></a>
+        </div>
+    </div>
+{% endblock %}

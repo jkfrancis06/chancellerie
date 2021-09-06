@@ -55,4 +55,10 @@ class SousDossierType extends AbstractType
             'data_class' => SousDossier::class,
         ]);
     }
+
+
+    public function getBlockPrefix()
+    {
+        return 'SousDossierType';
+    }
 }

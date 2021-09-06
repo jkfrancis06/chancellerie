@@ -11,6 +11,7 @@ use App\Entity\MilitaireFormation;
 use App\Entity\MilitaireMedaille;
 use App\Entity\MilitaireMission;
 use App\Entity\MilitaireStatut;
+use App\Entity\SousDossier;
 use App\Entity\Telephone;
 use App\Form\AffectationType;
 use App\Form\FamilleType;
@@ -68,6 +69,7 @@ class MilitaireController extends AbstractController
             if ($mainPicture == null){
                 $fileError = new FormError("Envoyer au moins un photo d'identite");
                 $militaireForm->get('mainPicture')->addError($fileError);
+                var_dump('Pic eror');
             }
 
             /*if (sizeof($corpsLogos) < 1){
@@ -76,12 +78,10 @@ class MilitaireController extends AbstractController
             }*/
         }
 
-        $em = $this->getDoctrine()->getManager();
-
 
         if ($militaireForm->isSubmitted() && $militaireForm->isValid()){
 
-            /*$form_telephones = $militaireForm->get('telephone')->getData();
+            $form_telephones = $militaireForm->get('telephone')->getData();
 
             $telephones = explode(";",$form_telephones);
 
@@ -100,38 +100,49 @@ class MilitaireController extends AbstractController
 
             foreach ($militaire->getCompteBanqMilitaires() as $compteBanqMilitaire){
                 $compteBanqMilitaire->setMilitaire($militaire);
-            } */
+            }
 
 
             $sousDossiers = $militaire->getSousDossiers();
 
-
             if ($sousDossiers != null && sizeof($sousDossiers) > 0){
+
+
+                foreach ($sousDossiers as $sousDossier){
+
+                    $sousDossier->setNumero($sousDossier->getType());
+
+                    $pieces = $sousDossier->getPieces();
+
+                    if ($pieces != null && sizeof($pieces) > 0){
+                        foreach ($pieces as $index => $piece){
+
+                            $piece->setNumeroOrdre($index);
+
+                            $fileName = $fileUploader->upload($piece->getFile(),$this->getParameter('elemetsDirectory'));
+
+                            $piece->setFilename($fileName);
+
+                        }
+                    }
+
+
+                }
 
             }
 
-           /* if ($militaire->getPersonnePrev() != null){
+            if ($militaire->getPersonnePrev() != null){
                 $personnePrev = $militaire->getPersonnePrev();
                 $personnePrev->setMilitaire($militaire);
             }
 
-            $corpsLogos = $militaireForm->get('fichiers')->getData();
 
-            if ($corpsLogos != null){
-                foreach ($corpsLogos as $corpsLogo){
-                    $fileName = $fileUploader->upload($corpsLogo,$this->getParameter('elemetsDirectory'));
-                    $fichier = new Fichier();
-                    $fichier->setNom($fileName);
-                    $fichier->setType('image');
-                    $militaire->addFichier($fichier);
-                }
-            }
-
+            $em = $this->getDoctrine()->getManager();
 
             $em->persist($militaire);
             $em->flush();
             $request->getSession()->getFlashBag()->add('create_militaire', 'L\'element a été crée avec succès');
-            return $this->redirectToRoute('militaire_details', array('id' => $militaire->getId()));*/
+            return $this->redirectToRoute('militaire_details', array('id' => $militaire->getId()));
 
         }
 

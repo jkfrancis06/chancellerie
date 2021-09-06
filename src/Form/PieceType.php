@@ -29,13 +29,10 @@ class PieceType extends AbstractType
                 ],
 
             ])
-            ->add('filename',FileType::class, [
+            ->add('file',FileType::class, [
                 'label' => 'Logo',
 
-                // unmapped means that this field is not associated to any entity property
-                'mapped' => false,
-
-                'multiple' => true,
+                'multiple' => false,
 
                 // make it optional so you don't have to re-upload the  file
                 // every time you edit details

@@ -28,4 +28,10 @@ class CompteBanqMilType extends AbstractType
             'data_class' => CompteBanqMilitaire::class,
         ]);
     }
+
+    public function getBlockPrefix()
+    {
+        return 'CompteBanqMilType';
+    }
+
 }
