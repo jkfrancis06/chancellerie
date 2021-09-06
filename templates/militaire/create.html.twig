@@ -54,15 +54,16 @@
 
     {% import _self as formMacros %}
 
+    {%
+        form_theme militaireForm.compteBanqMilitaires
+        'compteBanq.html.twig' 'jquery.collection.html.twig'
+    %}
 
     {% form_theme militaireForm 'bootstrap_4_layout.html.twig' %}
 
     {% form_theme militaireForm 'jquery.collection.html.twig' %}
 
-    {%
-        form_theme militaireForm.compteBanqMilitaires
-        'compteBanq.html.twig' 'jquery.collection.html.twig'
-    %}
+
 
 
 
@@ -576,7 +577,7 @@
             $('.compte').collection({
                 fade_in: true,
                 fade_out: true,
-                'prefix': 'first-collection',
+                prefix: 'first-collection',
                 add: '<a href="#" class="btn btn-sm btn-primary mt-2 mb-2 ml-2"><span class="fa fa-plus-circle"></span></a>',
             });
 

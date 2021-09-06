@@ -18,11 +18,11 @@ class SousDossierType extends AbstractType
                 'required' => true,
                 'label' => 'Type de piece : ',
                 'choices'  => [
-                    'Indetermine' => SousDossier::PIECE_INDETERMINES,
+                    'Indeterminé' => SousDossier::PIECE_INDETERMINES,
                     'Pieces matricules' => SousDossier::PIECE_MATRICULES,
                     'Pieces etat civil' => SousDossier::PIECE_ETAT_CIVIL,
                     'Mutations ' => SousDossier::PIECE_MUTATIONS,
-                    'Pieces Archives medicales' => SousDossier::PIECE_ARCHIVE_MEDICALES,
+                    'Pieces Archives médicales' => SousDossier::PIECE_ARCHIVE_MEDICALES,
                     'Pieces diverses' => SousDossier::PIECE_DIVERS,
                     'Feuilles de notes' => SousDossier::PIECE_NOTES,
                     'Notes divers, Ecoles, Stages' => SousDossier::PIECE_STAGES_ECOLES,
