@@ -55,13 +55,18 @@
     {% import _self as formMacros %}
 
     {%
-        form_theme militaireForm.compteBanqMilitaires
-        'compteBanq.html.twig' 'jquery.collection.html.twig'
+        form_theme militaireForm.sousDossiers
+        'themes/pieces-theme.html.twig'
     %}
 
-    {% form_theme militaireForm 'bootstrap_4_layout.html.twig' %}
 
-    {% form_theme militaireForm 'jquery.collection.html.twig' %}
+
+    {%
+        form_theme militaireForm
+        'themes/compteBanq.html.twig' 'themes/jquery.collection.html.twig'
+    %}
+
+
 
 
 
@@ -575,26 +580,27 @@
 
 
             $('.compte').collection({
-                fade_in: true,
-                fade_out: true,
-                prefix: 'first-collection',
-                add: '<a href="#" class="btn btn-sm btn-primary mt-2 mb-2 ml-2"><span class="fa fa-plus-circle"></span></a>',
+                add: '<a href="#" class="btn btn-rounded btn-sm btn-primary"><span class="fa fa-plus-circle"></span> Ajouter un sous-dossier </a>',
             });
 
             $('.dossier-collection').collection({
                 prefix: 'parent',
-                fade_in: true,
-                fade_out: true,
-                add: '<a href="#" class="btn btn-rounded btn-sm btn-primary"><span class="fa fa-plus-circle"></span> Ajouter un sous-dossier </a>',
-                allow_duplicate: true,
+                add: '<br><a class="btn btn-success" href="#"><span class="parent-add fa fa-plus"></span>Ajouter un dossier</a>',
+                remove: '<a class="btn btn-danger" href="#"><span class="parent-remove fa fa-trash"></span></a>',
+                allow_up :false,
+                allow_down :false,
                 children: [{
                     selector: '.piece-collection',
                     prefix: 'child',
-                    fade_in: true,
-                    fade_out: true,
-                    add: '<a href="#" class="btn btn-rounded btn-sm btn-primary"><span class="fa fa-plus-circle"></span> Ajouter une piece </a>',
+                    elements_selector: 'tr.item',
+                    elements_parent_selector: '%id% tbody',
+                    add: '<br><a class="btn btn-success mb-2 mt-2 ml-2" href="#"><span class="child-add fa fa-plus"></span> Ajouter une piece</a>',
+                    remove: '<a class="btn btn-danger" href="#"><span class="child-remove fa fa-trash"></span></a>',
+                    allow_up :false,
+                    allow_down :false,
                 }]
             });
+
 
 
         })

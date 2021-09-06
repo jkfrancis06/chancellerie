@@ -61,4 +61,9 @@ class PieceType extends AbstractType
             'data_class' => Piece::class,
         ]);
     }
+
+    public function getBlockPrefix()
+    {
+        return 'PieceType';
+    }
 }

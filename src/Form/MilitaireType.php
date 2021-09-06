@@ -295,7 +295,6 @@ class MilitaireType extends AbstractType
             ->add('compteBanqMilitaires', CollectionType::class, [
                 'required' => false,
                 'entry_type' => CompteBanqMilType::class,
-                'block_name' => 'compte_lists',
                 'label' => ' ',
                 'entry_options' => ['label' => false],
                 'by_reference' => false,
@@ -310,6 +309,7 @@ class MilitaireType extends AbstractType
                 'entry_type' => SousDossierType::class,
                 'block_name' => 'sousDossiers_lists',
                 'entry_options' => ['label' => false],
+                'label'=> '  ',
                 'by_reference' => false,
                 'allow_add' => true,
                 'allow_delete' => true,

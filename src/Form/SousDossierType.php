@@ -38,12 +38,13 @@ class SousDossierType extends AbstractType
                 'required' => false,
                 'entry_type' => PieceType::class,
                 'block_name' => 'pieces_lists',
+                'label'=> '  ',
                 'by_reference' => false,
                 'allow_add' => true,
                 'allow_delete' => true,
                 'prototype_name' => '__pieces_prot__',
                 'attr' => array (
-                    'class' => "piece-collection",
+                    'class' => "piece-collection table table-bordered",
                 ),
             ])
         ;

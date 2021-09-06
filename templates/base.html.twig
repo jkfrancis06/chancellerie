@@ -63,6 +63,10 @@
         <script  src="{{ asset('/assets/js/datatables/datatables.js') }}"></script>
         <script  src="{{ asset('/assets/js/custom/tables.js') }}"></script>
 
+        {% block js %}
+            {#{{ encore_entry_script_tags('app') }}#}
+        {% endblock %}
+
         <script>
             // SideNav Initialization
             $(document).ready(function() {
