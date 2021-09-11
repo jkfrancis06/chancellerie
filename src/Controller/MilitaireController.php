@@ -224,7 +224,19 @@ class MilitaireController extends AbstractController
 
 
         if ($affectationForm->isSubmitted() && $affectationForm->isValid()){
+
+            /*
+             * Recuperer la derniere affectation et la desactiver
+             */
+
+            $lastAffectation = $this->getDoctrine()->getManager()->getRepository(Affectation::class)->findLastInserted($militaire);
+
+            $lastAffectation->setIsActive(false);
+            $em->flush();
+
+
             $affectation->setMilitaire($militaire);
+            $affectation->setIsActive(true);
             $em->persist($affectation);
             $em->flush();
             $request->getSession()->getFlashBag()->add('create_affectation', 'Affectation cree avec success');
@@ -318,7 +330,12 @@ class MilitaireController extends AbstractController
 
         }
 
-        $affectations = $militaire->getAffectations();
+        $affectations = $this->getDoctrine()->getManager()->getRepository(Affectation::class)->findBy([
+            'militaire' => $militaire
+        ],
+        [
+           'id' => 'DESC'
+        ]);
 
         $militaireMissions = $militaire->getMilitaireMissions();
 

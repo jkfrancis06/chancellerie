@@ -733,8 +733,9 @@
                                                 {% if affectations | length == 0 %}
                                                     <p class="text-center">Aucune affectation</p>
                                                 {% else %}
-                                                    {% for affectation in affectations %}
-                                                        <tr>
+                                                    {% for key,affectation in affectations %}
+
+                                                        <tr {% if key == 0 %}style="background-color: darkseagreen!important;" {% endif %}>
                                                             <td>{{ affectation.dateDebut|date("d-M-Y")  }}</td>
                                                             <td>{{ affectation.dateFin|date("d-M-Y")  }}</td>
                                                             <td>{{ affectation.unite.intitule }}</td>

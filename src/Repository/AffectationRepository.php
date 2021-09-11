@@ -47,4 +47,32 @@ class AffectationRepository extends ServiceEntityRepository
         ;
     }
     */
+
+    public function findActiveAff($militaire)
+    {
+        return $this
+            ->createQueryBuilder("e")
+            ->where('e.militaire = :val')
+            ->andWhere('e.isActive = :active')
+            ->orderBy("e.id", "DESC")
+            ->setParameter('val',$militaire)
+            ->setParameter('active',true)
+            ->setMaxResults(1)
+            ->getQuery()
+            ->getOneOrNullResult();
+    }
+
+
+    public function findLastInserted($militaire)
+    {
+        return $this
+            ->createQueryBuilder("e")
+            ->where('e.militaire = :val')
+            ->orderBy("e.id", "DESC")
+            ->setParameter('val',$militaire)
+            ->setMaxResults(1)
+            ->getQuery()
+            ->getOneOrNullResult();
+    }
+
 }

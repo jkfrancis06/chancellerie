@@ -71,7 +71,6 @@
                 <th>Adresse</th>
                 <th>Fonction</th>
                 <th>Unite d'affectation</th>
-                <th>Corps d'affectation</th>
                 <th>Statut</th>
                 <th></th>
             </tr>
@@ -122,22 +121,17 @@
                             {% endfor %}
                         </td>
                         <td>{{ affectation.militaire.adresse }}</td>
+                        {% set affectation = AffectationGetter.getLastAffectation(affectation.militaire) %}
                         <td>
+                            {% if affectation is not null %}
+                                {{ affectation.fonction }}
+                            {% endif %}
+                        </td>
+                        <td>
+                            {% if affectation is not null %}
+                                {{ affectation.unite.intitule }} / {{ affectation.unite.corps.intitule }}
+                            {% endif %}
 
-                            {% set size = affectation.militaire.affectations|length -1 %}
-                            {% if size >= 0 %}
-                                {{ affectation.militaire.affectations[size].fonction }}
-                            {% endif %}
-                        </td>
-                        <td>
-                            {% if size >= 0 %}
-                                {{  affectation.militaire.affectations[size].unite.intitule }}
-                            {% endif %}
-                        </td>
-                        <td>
-                            {% if size >= 0 %}
-                                {{  affectation.militaire.affectations[size].unite.corps.intitule }}
-                            {% endif %}
                         </td>
                         <td>
 
