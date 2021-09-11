@@ -95,12 +95,13 @@ class Militaire
 
     /**
      * @ORM\ManyToOne(targetEntity=Specialite::class, inversedBy="militaires")
+     * @ORM\JoinColumn(nullable=true)
      */
     private $specialite;
 
     /**
      * @ORM\ManyToOne(targetEntity=OrigineRecrutement::class, inversedBy="militaires")
-     * @ORM\JoinColumn(nullable=false)
+     * @ORM\JoinColumn(nullable=true)
      */
     private $origineRecrutement;
 

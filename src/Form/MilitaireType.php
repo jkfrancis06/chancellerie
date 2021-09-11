@@ -131,11 +131,9 @@ class MilitaireType extends AbstractType
                 ]
             ])
             ->add('couleurYeux', TextType::class, [
-                'required' => true,
+                'required' => false,
                 'label' => 'Couleur des yeux : ',
-                'constraints' => [
-                    new NotBlank()
-                ]
+
             ])
             ->add('situationMatri', ChoiceType::class, [
                 'required' => true,
@@ -209,6 +207,7 @@ class MilitaireType extends AbstractType
 
 
             ->add('grade', EntityType::class, [
+                'required' => true,
                 'class' => Grade::class,
                 'label' => 'Grade : ',
                 'choice_label' => 'intitule',
@@ -217,6 +216,7 @@ class MilitaireType extends AbstractType
 
 
             ->add('specialite', EntityType::class, [
+                'required' => false,
                 'class' => Specialite::class,
                 'label' => 'Specialite : ',
                 'choice_label' => 'intitule',
@@ -226,6 +226,7 @@ class MilitaireType extends AbstractType
 
 
             ->add('origineRecrutement', EntityType::class, [
+                'required' => false,
                 'class' => OrigineRecrutement::class,
                 'label' => 'Origine de recrutement: ',
                 'choice_label' => 'intitule',
