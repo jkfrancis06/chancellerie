@@ -35,6 +35,17 @@ use Symfony\Component\Routing\Annotation\Route;
 
 class MilitaireController extends AbstractController
 {
+
+    /**
+     * @var string
+     */
+    private $elementsDir;
+
+    public function __construct(string $elementsDir)
+    {
+        $this->elementsDir = $elementsDir;
+    }
+
     /**
      * @Route("/militaire", name="militaire")
      */
@@ -69,7 +80,6 @@ class MilitaireController extends AbstractController
             if ($mainPicture == null){
                 $fileError = new FormError("Envoyer au moins un photo d'identite");
                 $militaireForm->get('mainPicture')->addError($fileError);
-                var_dump('Pic eror');
             }
 
             /*if (sizeof($corpsLogos) < 1){
@@ -87,8 +97,8 @@ class MilitaireController extends AbstractController
 
             $mainPicture = $militaireForm->get('mainPicture')->getData();
 
-            if ($mainPicture == null){
-                $fileName = $fileUploader->upload($mainPicture,$this->getParameter('elemetsDirectory'));
+            if ($mainPicture != null){
+                $fileName = $fileUploader->upload($mainPicture,$this->elementsDir.'/'.md5($militaire->getMatricule()));
                 $militaire->setMainPicture($fileName);
             }
 
@@ -119,7 +129,7 @@ class MilitaireController extends AbstractController
 
                             $piece->setNumeroOrdre($index);
 
-                            $fileName = $fileUploader->upload($piece->getFile(),$this->getParameter('elemetsDirectory'));
+                            $fileName = $fileUploader->upload($piece->getFile(),$this->elementsDir.'/'.md5($militaire->getMatricule()));
 
                             $piece->setFilename($fileName);
 

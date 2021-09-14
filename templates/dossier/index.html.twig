@@ -1,0 +1,44 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Dossiers {{ militaire.matricule }}{% endblock %}
+
+{% block body %}
+
+    <table id="tblAppendGrid"></table>
+
+{% endblock %}
+
+{% block js %}
+    <script  src="{{ asset('/assets/js/bootstrap/AppendGrid.js') }}"></script>
+
+    <script>
+        $(function () {
+            var myAppendGrid = new AppendGrid({
+                element: "tblAppendGrid",
+                uiFramework: "bootstrap4",
+                iconParams: {
+                    icons: {
+                        append: "Ajouter",
+                        removeLast: "Enlever"
+                    }
+                },
+                sizing: "small",
+                hideRowNumColumn: true,
+                hideButtons: {
+                    // Hide the move up and move down button on each row
+                    moveUp: true,
+                    moveDown: true
+                },
+                columns: [
+                    { name: "file", display: "Fichier", type: },
+                    { name: "date", display: "Date des pieces" },
+                    { name: "description", display: "Description" },
+                ],
+                beforeRowRemove: function(caller, rowIndex) {
+                    // Add confirmation before removing a row
+                    return confirm("Voulez vous supprimer cette piece ?");
+                }
+            });
+        });
+    </script>
+{% endblock %}

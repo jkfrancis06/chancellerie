@@ -73,7 +73,7 @@ class Militaire
     private $dateIncorp;
 
     /**
-     * @ORM\Column(type="string", length=255)
+     * @ORM\Column(type="string", length=255, nullable=true)
      */
     private $professionAnt;
 
@@ -83,7 +83,7 @@ class Militaire
     private $fichiers;
 
     /**
-     * @ORM\OneToMany(targetEntity=Telephone::class, mappedBy="militaire", orphanRemoval=true,cascade={"persist"})
+     * @ORM\OneToMany(targetEntity=Telephone::class, mappedBy="militaire", orphanRemoval=true,cascade={"persist", "remove"})
      */
     private $telephone;
 
@@ -162,7 +162,7 @@ class Militaire
     private $familles;
 
     /**
-     * @ORM\OneToMany(targetEntity=Unite::class, mappedBy="chefFormation")
+     * @ORM\OneToMany(targetEntity=Unite::class, mappedBy="chefFormation", orphanRemoval=true)
      */
     private $formationDirected;
 
@@ -265,6 +265,7 @@ class Militaire
          * @ORM\OneToMany(targetEntity=SousDossier::class, mappedBy="militaire", cascade={"persist", "remove"})
          */
         private $sousDossiers;
+
 
     public function __construct()
     {

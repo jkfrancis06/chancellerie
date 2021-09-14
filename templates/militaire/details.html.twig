@@ -82,6 +82,8 @@
                                 {{ form_errors(affectationForm.unite) }}
                             </div>
                         </div>
+
+
                         <div class="mb-3">
                             {{ form_label(affectationForm.piece, "Choisir une piece dans les archives : ", {'label_attr': {'class': 'intitule_label'}}) }}
                             {{ form_widget(affectationForm.piece, {'attr': {'class': 'mdb-select md-form colorful-select dropdown-ins','searchable':'Rechercher'}}) }}
@@ -89,6 +91,20 @@
                                 {{ form_errors(affectationForm.piece) }}
                             </div>
                         </div>
+
+                        <a  href="/"
+                           target="mywindow"
+                           onclick="window.open(this.href,'targetWindow',
+                                   `toolbar=no,
+                                    location=no,
+                                    status=no,
+                                    menubar=no,
+                                    scrollbars=yes,
+                                    resizable=yes,
+                                    width=800,
+                                    height=1200`);
+                           return false;">Popup link</a>
+
                     </div>
                     <div class="modal-footer justify-content-start">
                         <div class="mb-3">
@@ -488,7 +504,11 @@
                         <div class="row g-0">
                             <div class="col col-12">
                                 <div class="d-flex justify-content-center">
-                                    <img style="margin-top:1em;height: 10em;width: 10em" src="{{ asset('/elements/') }}{{ militaire.mainPicture }}" class="img-thumbnail" alt="...">
+                                    {% if militaire.mainPicture == null %}
+                                        <img style="margin-top:1em;height: 10em;width: 10em" src="{{ path('download_element', {'name': "default.png" , 'id': Encoder.encode(militaire.matricule)}) }}" class="img-thumbnail" alt="...">
+                                    {% else %}
+                                        <img style="margin-top:1em;height: 10em;width: 10em" src="{{ path('download_element', {'name': militaire.mainPicture , 'id': Encoder.encode(militaire.matricule)}) }}" class="img-thumbnail" alt="...">
+                                    {% endif %}
                                 </div>
                             </div>
                             <div class="col col-12 mt-3">
@@ -605,7 +625,9 @@
                                             </p>
                                             <p>
                                                 <span class="fw-bold">Origine de recrutement : </span>
-                                                <span>  {{ militaire.origineRecrutement.intitule }} </span>
+                                                {% if  militaire.origineRecrutement is not null  %}
+                                                    <span>  {{ militaire.origineRecrutement.intitule }} </span>
+                                                {% endif %}
                                             </p>
                                             <p>
                                                 <span class="fw-bold">Grade actuel / Categorie : </span>
@@ -618,7 +640,9 @@
 
                                             <p>
                                                 <span class="fw-bold">Specialite : </span>
-                                                <span>  {{ militaire.specialite.intitule }}   </span>
+                                                {% if  militaire.specialite is not null  %}
+                                                    <span>  {{ militaire.specialite.intitule }}   </span>
+                                                {% endif %}
                                             </p>
 
                                         </div>

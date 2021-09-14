@@ -111,13 +111,9 @@ class AffectationType extends AbstractType
                 },
                 'query_builder' => function (EntityRepository $er) use ($event) {
                     return $er->createQueryBuilder('p')
-                        ->select('p')
-                        ->join('p.sousDossier', 's')
-                        ->addSelect('s')
-                        ->from('App\Entity\SousDossier', 'p')
-                        ->join('p.sousDossier', 'ss')
-                        ->leftJoin('ss.militaire', 'm')
-                        ->addSelect('m')
+                        ->leftJoin('p.sousDossier', 'sd')
+                        ->leftJoin('sd.militaire', 'm')
+                        ->select('p', 'sd', 'm')
                         ->where('m.id = :id')
                         ->setParameter('id',$event->getData()->getMilitaire()->getId());
                 },

@@ -82,8 +82,10 @@
                 {% for affectation in affectations %}
                     <tr>
                         <td>
-                            {% if affectation.militaire.fichiers is not null and affectation.militaire.fichiers|length > 0 %}
-                                <img height="50" width="50" src="{{ asset('/elements/') }}{{ affectation.militaire.fichiers[0].nom }}" class="img-thumbnail" alt="...">
+                            {% if affectation.militaire.mainPicture == null %}
+                                <img height="50" width="50" src="{{ path('download_element', {'name': "default.png" , 'id': Encoder.encode(affectation.militaire.matricule)}) }}" class="img-thumbnail" alt="...">
+                            {% else %}
+                                <img height="50" width="50" src="{{ path('download_element', {'name': affectation.militaire.mainPicture , 'id': Encoder.encode(affectation.militaire.matricule)}) }}" class="img-thumbnail" alt="...">
                             {% endif %}
                         </td>
                         <td>{{ affectation.militaire.matricule }}</td>

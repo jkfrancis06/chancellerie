@@ -244,7 +244,11 @@
                                 {% for limited in militaires_limit %}
                                     <tr>
                                         <td>
-                                            <img height="50" width="50" src="{{ asset('/elements/') }}{{ limited.militaire.fichiers[0].nom }}" class="img-thumbnail" alt="...">
+                                            {% if limited.militaire.mainPicture == null %}
+                                                <img height="50" width="50" src="{{ path('download_element', {'name': "default.png" , 'id': Encoder.encode(limited.militaire.matricule)}) }}" class="img-thumbnail" alt="...">
+                                            {% else %}
+                                                <img height="50" width="50" src="{{ path('download_element', {'name': limited.militaire.mainPicture , 'id': Encoder.encode(limited.militaire.matricule)}) }}" class="img-thumbnail" alt="...">
+                                            {% endif %}
                                         </td>
                                         <td>
                                             {{ limited.militaire.matricule }}

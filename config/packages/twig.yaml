@@ -3,6 +3,7 @@ twig:
     globals:
         IndiceCalculator: '@App\Service\IndiceCalculator'
         AffectationGetter: '@App\Service\AffectationGetter'
+        Encoder: '@App\Service\Encoder'
     form_themes: ['bootstrap_5_layout.html.twig']
 
 when@test:

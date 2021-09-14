@@ -90,8 +90,10 @@
                             {% for militaire in militaires%}
                                 <tr>
                                     <td>
-                                        {% if militaire.militaire.fichiers is not null and militaire.militaire.fichiers|length > 0 %}
-                                            <img height="50" width="50" src="{{ asset('/elements/') }}{{ militaire.militaire.mainPicture }}" class="img-thumbnail" alt="...">
+                                        {% if militaire.militaire.mainPicture == null %}
+                                            <img height="50" width="50" src="{{ path('download_element', {'name': "default.png" , 'id': Encoder.encode(militaire.militaire.matricule)}) }}" class="img-thumbnail" alt="...">
+                                        {% else %}
+                                            <img height="50" width="50" src="{{ path('download_element', {'name': militaire.militaire.mainPicture , 'id': Encoder.encode(militaire.militaire.matricule)}) }}" class="img-thumbnail" alt="...">
                                         {% endif %}
                                     </td>
                                     <td>{{ militaire.militaire.matricule }}</td>
