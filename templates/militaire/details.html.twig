@@ -39,8 +39,8 @@
 
     <!-- Formulaire Affectation -->
 
-    <div class="modal fade" id="affectationModal" tabindex="-1" aria-labelledby="affectationModalLabel" aria-hidden="true" data-backdrop="static" data-keyboard="false">
-        <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+    <div class="modal fade right" id="affectationModal" tabindex="-1" aria-labelledby="affectationModalLabel" aria-hidden="true" data-backdrop="static" data-keyboard="false">
+        <div class="modal-dialog modal-full-height modal-right">
                 <div class="modal-content">
                     {{ form_start(affectationForm) }}
 
@@ -82,11 +82,19 @@
                                 {{ form_errors(affectationForm.unite) }}
                             </div>
                         </div>
+                        <div class="mb-3">
+                            {{ form_label(affectationForm.piece, "Choisir une piece dans les archives : ", {'label_attr': {'class': 'intitule_label'}}) }}
+                            {{ form_widget(affectationForm.piece, {'attr': {'class': 'mdb-select md-form colorful-select dropdown-ins','searchable':'Rechercher'}}) }}
+                            <div class="form-error" style="color: red">
+                                {{ form_errors(affectationForm.piece) }}
+                            </div>
+                        </div>
                     </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Fermer</button>
-                        {{ form_row(affectationForm.cancel,{'attr':{'class': 'btn btn-outline-secondary form-btn'}}) }}
-                        {{ form_row(affectationForm.submit,{'attr':{'class': 'btn btn-outline-success form-btn'}}) }}
+                    <div class="modal-footer justify-content-start">
+                        <div class="mb-3">
+                            <button type="button" class="btn btn-outline-secondary" data-dismiss="modal">Fermer</button>
+                        </div>
+                        {{ form_row(affectationForm.submit,{'attr':{'class': 'btn btn-outline-success'}}) }}
                     </div>
                     {{ form_end(affectationForm) }}
                 </div>

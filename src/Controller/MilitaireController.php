@@ -172,6 +172,7 @@ class MilitaireController extends AbstractController
         }
 
         $affectation = new Affectation();
+        $affectation->setMilitaire($militaire);
         $militaireMission = new MilitaireMission();
         $militaireExercice = new MilitaireExercice();
         $militaireMedaille = new MilitaireMedaille();

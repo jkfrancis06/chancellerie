@@ -28,9 +28,9 @@ class AppFixtures extends \Doctrine\Bundle\FixturesBundle\Fixture
     public function load(ObjectManager $manager)
     {
         $utilisateur = new Utilisateur();
-        $utilisateur->setEmail('admin@admin.km');
-        $utilisateur->setName('Admin DB');
-        $plainPassword ='admin';
+        $utilisateur->setEmail('nassurdine.mohamed@and.km');
+        $utilisateur->setName('Nassurdine Mohamed');
+        $plainPassword ='nassuerdine.mohamed#546';
         $utilisateur->setPassword($this->passwordEncoder->hashPassword($utilisateur, $plainPassword));
         $utilisateur->setRoles(array('ROLE_CHAN','ROLE_ADMIN'));
         $manager->persist($utilisateur);

@@ -46,6 +46,8 @@ class Spa
      */
     private $createdBy;
 
+
+
     public function __construct()
     {
         $this->militaireSpas = new ArrayCollection();

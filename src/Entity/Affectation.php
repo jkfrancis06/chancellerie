@@ -51,6 +51,12 @@ class Affectation
      */
     private $isActive;
 
+    /**
+     * @ORM\OneToOne(targetEntity=Piece::class, cascade={"persist", "remove"})
+     */
+    private $piece;
+
+
     public function getId(): ?int
     {
         return $this->id;
@@ -128,4 +134,17 @@ class Affectation
 
         return $this;
     }
+
+    public function getPiece(): ?Piece
+    {
+        return $this->piece;
+    }
+
+    public function setPiece(?Piece $piece): self
+    {
+        $this->piece = $piece;
+
+        return $this;
+    }
+
 }
