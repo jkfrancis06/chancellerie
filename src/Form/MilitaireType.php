@@ -308,16 +308,7 @@ class MilitaireType extends AbstractType
             ->add('sousDossiers', CollectionType::class, [
                 'required' => false,
                 'entry_type' => SousDossierType::class,
-                'block_name' => 'sousDossiers_lists',
                 'entry_options' => ['label' => false],
-                'label'=> '  ',
-                'by_reference' => false,
-                'allow_add' => true,
-                'allow_delete' => true,
-                'prototype_name' => '__sousDossiers_prot__',
-                'attr' => array (
-                    'class' => "dossier-collection",
-                ),
             ])
 
             ->add('personnePrev', PersonnePrevType::class)

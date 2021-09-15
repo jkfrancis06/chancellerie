@@ -69,9 +69,19 @@ class MilitaireController extends AbstractController
 
         $militaire = new Militaire();
 
+
+        for ($i = 0; $i<=10;$i++){  // create manually sousDossier form collections
+
+            $sousDossier = new SousDossier();
+            $sousDossier->setType($i);
+            $militaire->getSousDossiers()->add($sousDossier);
+
+        }
+
         $militaireForm = $this->createForm(MilitaireType::class, $militaire);
 
         $militaireForm->handleRequest($request);
+
 
         if ($militaireForm->isSubmitted()){
             //$corpsLogos = $militaireForm->get('fichiers')->getData();

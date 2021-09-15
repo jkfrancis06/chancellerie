@@ -53,14 +53,10 @@
 
 
     {% import _self as formMacros %}
-
     {%
         form_theme militaireForm.sousDossiers
-        'themes/pieces-theme.html.twig'
+        'themes/pieces.html.twig' 'themes/jquery.collection.html.twig'
     %}
-
-
-
     {%
         form_theme militaireForm
         'themes/compteBanq.html.twig' 'themes/jquery.collection.html.twig'
@@ -539,17 +535,32 @@
                         </div>
 
 
-                        <div class="col col-12 mb-5 mt-5">
-                            <div class="card">
 
-                                <div class="card-header font-weight-bold">Archivage</div>
-                                <!-- Card content -->
-                                <div class="card-body">
-                                    {{ form_row(militaireForm.sousDossiers) }}
+                        {% for sousDossier in militaireForm.sousDossiers %}
+
+                            <div class="col col-12 mb-5 mt-5">
+                                <div class="card">
+
+                                    <div class="card-header font-weight-bold">{{ SousDossierStringGetter.getString(sousDossier.vars.value.type) }}</div>
+                                    <!-- Card content -->
+                                    <div class="card-body">
+
+                                        <div class="row">
+                                            <div class="col col-12">
+                                                <div class="mb-3">
+                                                    {{ form_row(sousDossier.pieces) }}
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                    </div>
+
                                 </div>
-
                             </div>
-                        </div>
+
+                        {% endfor %}
+
+
 
 
 
@@ -580,25 +591,17 @@
 
 
             $('.compte').collection({
-                add: '<a href="#" class="btn btn-rounded btn-sm btn-primary"><span class="fa fa-plus-circle"></span> Ajouter un sous-dossier </a>',
+                prefix: 'collection',
+                add: '<a href="#" class="btn btn-rounded btn-sm btn-primary"><span class="fa fa-plus-circle"></span> Ajouter un compte banquaire </a>',
             });
 
-            $('.dossier-collection').collection({
-                prefix: 'parent',
-                add: '<br><a class="btn btn-success" href="#"><span class="parent-add fa fa-plus"></span>Ajouter un dossier</a>',
-                remove: '<a class="btn btn-danger" href="#"><span class="parent-remove fa fa-trash"></span></a>',
+            {% for i in 0..10 %}
+
+            {% endfor %}
+
+            $('.piece-collection').collection({
                 allow_up :false,
                 allow_down :false,
-                children: [{
-                    selector: '.piece-collection',
-                    prefix: 'child',
-                    elements_selector: 'tr.item',
-                    elements_parent_selector: '%id% tbody',
-                    add: '<br><a class="btn btn-success mb-2 mt-2 ml-2" href="#"><span class="child-add fa fa-plus"></span> Ajouter une piece</a>',
-                    remove: '<a class="btn btn-danger" href="#"><span class="child-remove fa fa-trash"></span></a>',
-                    allow_up :false,
-                    allow_down :false,
-                }]
             });
 
 

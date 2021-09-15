@@ -7,6 +7,7 @@ use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\DateType;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Validator\Constraints\NotBlank;
@@ -19,12 +20,10 @@ class PieceType extends AbstractType
             ->add('datePiece', DateType::class, [
                 'required' => false,
                 'label' => 'Date de piece: ',
-                'html5' => false,
                 'widget' => 'single_text',
-                'format' => 'dd-MM-yyyy',
+                'html5' => true,
                 // adds a class that can be selected in JavaScript
                 'attr' => [
-                    'class' => 'js-datepicker',
                     'placeholder' => 'Selectionner une date'
                 ],
 
@@ -39,18 +38,22 @@ class PieceType extends AbstractType
                 'required' => false,
 
                 'attr'     => [
-                    'accept' => 'image/*',
+                    'accept' => 'application/pdf, application/x-pdf',
                     'multiple' => 'multiple',
                     'mimeTypesMessage' => "Veuillez uploader un fichier image valide",
                     'maxSizeMessage' => "Taille maximum de 1M",
+
                 ],
 
             ])
-            ->add('description',TextareaType::class,[
+            ->add('description',TextType::class,[
                 'required' => true,
                 'constraints' => [
                     new NotBlank()
-                ]
+                ],
+                'attr' => [
+                    'placeholder' => 'Ajouter une description'
+                ],
             ])
         ;
     }

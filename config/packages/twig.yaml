@@ -4,6 +4,7 @@ twig:
         IndiceCalculator: '@App\Service\IndiceCalculator'
         AffectationGetter: '@App\Service\AffectationGetter'
         Encoder: '@App\Service\Encoder'
+        SousDossierStringGetter: '@App\Service\SousDossierStringGetter'
     form_themes: ['bootstrap_5_layout.html.twig']
 
 when@test:

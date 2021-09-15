@@ -1,20 +1,4 @@
 
-{% block SousDossierType_widget %}
-    <hr>
-    <div class="row" style="width: 100%!important;">
-        <div class="col col-12">
-            {{ form_widget(form.type, {'attr': {'class': 'form-control'}}) }}
-            <div class="mt-3 mb-3">
-                <a href="#" class="parent-add btn btn-sm btn-primary"><span class="fa fa fa-plus-circle"></span> Ajouter un sous-dossier</a>
-                <a href="#" class="parent-remove btn btn-sm btn-danger"><span class="fa fa-trash"></span> Supprimer le sous-dossier</a>
-            </div>
-        </div>
-        <div class="col col-12">
-            <td>{{ form_widget(form.pieces) }}</td>
-        </div>
-    </div>
-{% endblock %}
-
 {# By default, collection uses the form_widget block to create its markup, but we want a table #}
 {% block collection_widget %}
     {% apply spaceless %}
@@ -77,15 +61,9 @@
 
         </td>
         <td style="width: 13%">
-            <a href="#" class="child-add btn btn-sm btn-success"><span class="fa fa fa-plus-circle"></span></a>
-            <a href="#" class="child-remove btn btn-sm btn-danger"><span class="fa fa-trash"></span></a>
+            <a href="#" class="parent-add btn btn-sm btn-primary"><span class="fa fa fa-plus-circle"></span> Ajouter un sous-dossier</a>
+            <a href="#" class="parent-remove btn btn-sm btn-danger"><span class="fa fa-trash"></span> Supprimer le sous-dossier</a>
         </td>
     </tr>
 
-{% endblock %}
-
-{% block js %}
-    <script>
-
-    </script>
 {% endblock %}
