@@ -56,6 +56,11 @@ class Affectation
      */
     private $piece;
 
+    /**
+     * @ORM\ManyToOne(targetEntity=Corps::class, inversedBy="affectations")
+     */
+    private $corps;
+
 
     public function getId(): ?int
     {
@@ -116,7 +121,7 @@ class Affectation
         return $this->dateDebut;
     }
 
-    public function setDateDebut(\DateTimeInterface $dateDebut): self
+    public function setDateDebut(?\DateTimeInterface $dateDebut): self
     {
         $this->dateDebut = $dateDebut;
 
@@ -143,6 +148,18 @@ class Affectation
     public function setPiece(?Piece $piece): self
     {
         $this->piece = $piece;
+
+        return $this;
+    }
+
+    public function getCorps(): ?Corps
+    {
+        return $this->corps;
+    }
+
+    public function setCorps(?Corps $corps): self
+    {
+        $this->corps = $corps;
 
         return $this;
     }

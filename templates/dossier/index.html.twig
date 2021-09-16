@@ -4,41 +4,72 @@
 
 {% block body %}
 
-    <table id="tblAppendGrid"></table>
+    {%
+        form_theme militaireForm.sousDossiers
+        'themes/pieces.html.twig' 'themes/jquery.collection.html.twig'
+    %}
+
+    {{ form_start(militaireForm) }}
+
+        <div class="row">
+
+        {% for message in app.session.flashbag.get('grade_add') %}
+            <div class="alert alert-success alert-dismissible fade show" role="alert">
+                <strong>{{ message }}!</strong>
+                <button type="button" class="btn-close"  data-mdb-dismiss="alert"  aria-label="Close"></button>
+            </div>
+        {% endfor %}
+
+        {{ form_errors(militaireForm) }}
+
+        {% for sousDossier in militaireForm.sousDossiers %}
+
+          <div class="col col-12 mb-5 mt-5">
+             <div class="card">
+                <div class="card-header font-weight-bold">{{ SousDossierStringGetter.getString(sousDossier.vars.value.type) }}</div>
+                    <!-- Card content -->
+                  <div class="card-body">
+                      <div class="row">
+                          <div class="col col-12">
+                              <div class="mb-3">
+                                  {{ form_row(sousDossier.pieces) }}
+                              </div>
+                          </div>
+                      </div>
+                  </div>
+             </div>
+          </div>
+
+        {% endfor %}
+
+        </div>
+
+        <div class="d-flex justify-content-center">
+            {{ form_row(militaireForm.cancel,{'attr':{'class': 'btn btn-outline-secondary form-btn'}}) }}
+            {{ form_row(militaireForm.submit,{'attr':{'class': 'btn btn-outline-success form-btn'}}) }}
+        </div>
+
+    {{ form_end(militaireForm) }}
 
 {% endblock %}
 
 {% block js %}
-    <script  src="{{ asset('/assets/js/bootstrap/AppendGrid.js') }}"></script>
-
     <script>
-        $(function () {
-            var myAppendGrid = new AppendGrid({
-                element: "tblAppendGrid",
-                uiFramework: "bootstrap4",
-                iconParams: {
-                    icons: {
-                        append: "Ajouter",
-                        removeLast: "Enlever"
-                    }
-                },
-                sizing: "small",
-                hideRowNumColumn: true,
-                hideButtons: {
-                    // Hide the move up and move down button on each row
-                    moveUp: true,
-                    moveDown: true
-                },
-                columns: [
-                    { name: "file", display: "Fichier", type: },
-                    { name: "date", display: "Date des pieces" },
-                    { name: "description", display: "Description" },
-                ],
-                beforeRowRemove: function(caller, rowIndex) {
-                    // Add confirmation before removing a row
-                    return confirm("Voulez vous supprimer cette piece ?");
-                }
+
+        $(document).ready(function () {
+
+            {% if done == true %}
+                window.close();
+            {% endif %}
+
+            $('.piece-collection').collection({
+                allow_up :false,
+                allow_down :false,
             });
-        });
+
+        })
+
     </script>
+
+
 {% endblock %}

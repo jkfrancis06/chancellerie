@@ -17,12 +17,17 @@ class SousDossierStringGetter
     public function getString($dossier){
 
         switch ($dossier){
+
             case SousDossier::PIECE_MATRICULES :
                 return "Pieces Matricules";
             case SousDossier::PIECE_ETAT_CIVIL :
                 return "Pieces Etat Civil";
             case SousDossier::PIECE_ARCHIVE_MEDICALES :
                 return "Pieces Archive Medicale";
+            case SousDossier::PIECE_MUTATIONS :
+                return "Pieces Mutations";
+            case SousDossier::PIECE_PUNITIONS :
+                return "Pieces Punitions";
             case SousDossier::PIECE_DIVERS :
                 return "Pieces Divers";
             case SousDossier::PIECE_NOTES :

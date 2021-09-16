@@ -50,6 +50,8 @@ class FileUploader
         return $fileName;
     }
 
+    
+
     public function getTargetDirectory()
     {
         return $this->targetDirectory;

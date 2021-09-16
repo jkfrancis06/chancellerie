@@ -122,31 +122,31 @@ class MilitaireController extends AbstractController
                 $compteBanqMilitaire->setMilitaire($militaire);
             }
 
+            //TODO: Les sous dossiers ne sont pas lies avec le militaire : Bizarre a investiguer
+
+            foreach ($militaire->getSousDossiers() as $sousDossier){
+                $sousDossier->setMilitaire($militaire);
+            }
+
 
             $sousDossiers = $militaire->getSousDossiers();
 
-            if ($sousDossiers != null && sizeof($sousDossiers) > 0){
+            foreach ($sousDossiers as $sousDossier){
 
+                $sousDossier->setNumero($sousDossier->getType());
 
-                foreach ($sousDossiers as $sousDossier){
+                $pieces = $sousDossier->getPieces();
 
-                    $sousDossier->setNumero($sousDossier->getType());
+                if ($pieces != null && sizeof($pieces) > 0){
+                    foreach ($pieces as $index => $piece){
 
-                    $pieces = $sousDossier->getPieces();
+                        $piece->setNumeroOrdre($index);
 
-                    if ($pieces != null && sizeof($pieces) > 0){
-                        foreach ($pieces as $index => $piece){
+                        $fileName = $fileUploader->upload($piece->getFile(),$this->elementsDir.'/'.md5($militaire->getMatricule()));
 
-                            $piece->setNumeroOrdre($index);
+                        $piece->setFilename($fileName);
 
-                            $fileName = $fileUploader->upload($piece->getFile(),$this->elementsDir.'/'.md5($militaire->getMatricule()));
-
-                            $piece->setFilename($fileName);
-
-                        }
                     }
-
-
                 }
 
             }
@@ -252,9 +252,10 @@ class MilitaireController extends AbstractController
 
             $lastAffectation = $this->getDoctrine()->getManager()->getRepository(Affectation::class)->findLastInserted($militaire);
 
-            $lastAffectation->setIsActive(false);
-            $em->flush();
-
+            if ($lastAffectation != null){
+                $lastAffectation->setIsActive(false);
+                $em->flush();
+            }
 
             $affectation->setMilitaire($militaire);
             $affectation->setIsActive(true);

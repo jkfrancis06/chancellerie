@@ -171,4 +171,8 @@ class Unite
 
         return $this;
     }
+
+    public function __toString():string{
+        return $this->description.' ('.$this->intitule.')';
+    }
 }

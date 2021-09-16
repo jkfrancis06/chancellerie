@@ -43,10 +43,16 @@ class Corps
      */
     private $unites;
 
+    /**
+     * @ORM\OneToMany(targetEntity=Affectation::class, mappedBy="corps")
+     */
+    private $affectations;
+
     public function __construct()
     {
         $this->fichiers = new ArrayCollection();
         $this->unites = new ArrayCollection();
+        $this->affectations = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -148,6 +154,36 @@ class Corps
     public function __toString()
     {
         return $this->getIntitule();
+    }
+
+    /**
+     * @return Collection|Affectation[]
+     */
+    public function getAffectations(): Collection
+    {
+        return $this->affectations;
+    }
+
+    public function addAffectation(Affectation $affectation): self
+    {
+        if (!$this->affectations->contains($affectation)) {
+            $this->affectations[] = $affectation;
+            $affectation->setCorps($this);
+        }
+
+        return $this;
+    }
+
+    public function removeAffectation(Affectation $affectation): self
+    {
+        if ($this->affectations->removeElement($affectation)) {
+            // set the owning side to null (unless already changed)
+            if ($affectation->getCorps() === $this) {
+                $affectation->setCorps(null);
+            }
+        }
+
+        return $this;
     }
 
 
