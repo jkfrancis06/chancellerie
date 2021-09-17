@@ -11,6 +11,7 @@ use App\Entity\MilitaireFormation;
 use App\Entity\MilitaireMedaille;
 use App\Entity\MilitaireMission;
 use App\Entity\MilitaireStatut;
+use App\Entity\Punition;
 use App\Entity\SousDossier;
 use App\Entity\Telephone;
 use App\Form\AffectationType;
@@ -21,6 +22,7 @@ use App\Form\MilitaireMedailleType;
 use App\Form\MilitaireMissionType;
 use App\Form\MilitaireStatutType;
 use App\Form\MilitaireType;
+use App\Form\PunitionType;
 use App\Form\RadiationConfirmType;
 use App\Form\SearchMilitaireType;
 use App\Service\FileUploader;
@@ -201,6 +203,8 @@ class MilitaireController extends AbstractController
         $famille = new Famille();
         $militaireStatut = new MilitaireStatut();
         $famille->setMilitaire($militaire);
+        $punition = new Punition();
+        $punition->setMilitaireFautif($militaire);
 
 
 
@@ -212,6 +216,7 @@ class MilitaireController extends AbstractController
         $militaireFormationPlanForm = $this->createForm(MilitaireFormationType::class,$militaireFormationPlan);
         $familleForm = $this->createForm(FamilleType::class,$famille);
         $militaireStautForm = $this->createForm(MilitaireStatutType::class,$militaireStatut);
+        $punitionForm = $this->createForm(PunitionType::class,$punition);
 
 
 
@@ -223,6 +228,7 @@ class MilitaireController extends AbstractController
         $militaireFormationPlanForm->handleRequest($request);
         $familleForm->handleRequest($request);
         $militaireStautForm->handleRequest($request);
+        $punitionForm->handleRequest($request);
 
         $form_error = false;
 
@@ -237,7 +243,8 @@ class MilitaireController extends AbstractController
             ($militaireFormationForm->isSubmitted() && !$militaireFormationForm->isValid()) ||
             ($militaireFormationPlanForm->isSubmitted() && !$militaireFormationPlanForm->isValid()) ||
             ($familleForm->isSubmitted() && !$familleForm->isValid()) ||
-            ($militaireStautForm->isSubmitted() && !$militaireStautForm->isValid())
+            ($militaireStautForm->isSubmitted() && !$militaireStautForm->isValid()) ||
+            ($punitionForm->isSubmitted() && !$punitionForm->isValid())
         ){
             $form_error = true;
         }
@@ -308,6 +315,14 @@ class MilitaireController extends AbstractController
             return $this->redirectToRoute('militaire_details', array('id' => $militaire->getId()));
         }
 
+
+        if ($punitionForm->isSubmitted() && $punitionForm->isValid()){
+            $em->persist($punition);
+            $em->flush();
+            $request->getSession()->getFlashBag()->add('create_punition', 'Success');
+            return $this->redirectToRoute('militaire_details', array('id' => $militaire->getId()));
+        }
+
         if ($militaireStautForm->isSubmitted() && $militaireStautForm->isValid()){
 
             $militaireStatut->setMilitaire($militaire);
@@ -369,6 +384,8 @@ class MilitaireController extends AbstractController
 
         $militaireFamilles = $militaire->getFamilles();
 
+        $punitions = $militaire->getPunitions();
+
 
         $militaireStatus = $this->getDoctrine()->getManager()->getRepository(MilitaireStatut::class)->findBy([   // verifier si le dernier statut n'est pas radiation pour ne pas superposer les radiations
             'militaire'=> $militaire
@@ -412,6 +429,7 @@ class MilitaireController extends AbstractController
             'militaireStatus' => $militaireStatus,
             'affectations' => $affectations,
             'militaireFamilles' => $militaireFamilles,
+            'punitions' => $punitions,
             'affectationForm' => $affectationForm->createView(),
             'militaireMissionForm' => $militaireMissionForm->createView(),
             'militaireExerciceForm' => $militaireExerciceForm->createView(),
@@ -419,6 +437,7 @@ class MilitaireController extends AbstractController
             'militaireMedailleForm' => $militaireMedailleForm->createView(),
             'familleForm' => $familleForm->createView(),
             'militaireStautForm' => $militaireStautForm->createView(),
+            'punitionForm' => $punitionForm->createView(),
         ]);
     }
 

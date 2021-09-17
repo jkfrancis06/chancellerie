@@ -266,6 +266,16 @@ class Militaire
          */
         private $sousDossiers;
 
+        /**
+         * @ORM\OneToMany(targetEntity=Punition::class, mappedBy="militaireFautif")
+         */
+        private $punitions;
+
+        /**
+         * @ORM\ManyToMany(targetEntity=Punition::class, mappedBy="militairesDemandeurs")
+         */
+        private $demandesPunitions;
+
 
     public function __construct()
     {
@@ -285,6 +295,8 @@ class Militaire
         $this->spas = new ArrayCollection();
         $this->compteBanqMilitaires = new ArrayCollection();
         $this->sousDossiers = new ArrayCollection();
+        $this->punitions = new ArrayCollection();
+        $this->demandesPunitions = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -1171,6 +1183,63 @@ class Militaire
             if ($sousDossier->getMilitaire() === $this) {
                 $sousDossier->setMilitaire(null);
             }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Punition[]
+     */
+    public function getPunitions(): Collection
+    {
+        return $this->punitions;
+    }
+
+    public function addPunition(Punition $punition): self
+    {
+        if (!$this->punitions->contains($punition)) {
+            $this->punitions[] = $punition;
+            $punition->setMilitaireFautif($this);
+        }
+
+        return $this;
+    }
+
+    public function removePunition(Punition $punition): self
+    {
+        if ($this->punitions->removeElement($punition)) {
+            // set the owning side to null (unless already changed)
+            if ($punition->getMilitaireFautif() === $this) {
+                $punition->setMilitaireFautif(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Punition[]
+     */
+    public function getDemandesPunitions(): Collection
+    {
+        return $this->demandesPunitions;
+    }
+
+    public function addDemandesPunition(Punition $demandesPunition): self
+    {
+        if (!$this->demandesPunitions->contains($demandesPunition)) {
+            $this->demandesPunitions[] = $demandesPunition;
+            $demandesPunition->addMilitairesDemandeur($this);
+        }
+
+        return $this;
+    }
+
+    public function removeDemandesPunition(Punition $demandesPunition): self
+    {
+        if ($this->demandesPunitions->removeElement($demandesPunition)) {
+            $demandesPunition->removeMilitairesDemandeur($this);
         }
 
         return $this;

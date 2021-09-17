@@ -6,6 +6,7 @@ use App\Entity\Affectation;
 use App\Entity\Corps;
 use App\Entity\Grade;
 use App\Entity\Piece;
+use App\Entity\SousDossier;
 use App\Entity\Unite;
 use App\Service\SousDossierStringGetter;
 use Doctrine\ORM\EntityRepository;
@@ -133,7 +134,9 @@ class AffectationType extends AbstractType
                     return $er->createQueryBuilder('p')
                         ->leftJoin('p.sousDossier', 'sd')
                         ->where('sd.militaire = :militaire')
-                        ->setParameter('militaire',$event->getData()->getMilitaire());
+                        ->andWhere('sd.type = :type')
+                        ->setParameter('militaire',$event->getData()->getMilitaire())
+                        ->setParameter('type',SousDossier::PIECE_MUTATIONS);
                 },
                 'placeholder' => 'Choisir une piece dans les archives'
             ]);

@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\PieceRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 
@@ -48,6 +50,16 @@ class Piece
      * @var UploadedFile
      */
     protected $file;
+
+    /**
+     * @ORM\OneToMany(targetEntity=Punition::class, mappedBy="piece")
+     */
+    private $punitions;
+
+    public function __construct()
+    {
+        $this->punitions = new ArrayCollection();
+    }
 
 
 
@@ -130,6 +142,36 @@ class Piece
     public function getFile()
     {
         return $this->file;
+    }
+
+    /**
+     * @return Collection|Punition[]
+     */
+    public function getPunitions(): Collection
+    {
+        return $this->punitions;
+    }
+
+    public function addPunition(Punition $punition): self
+    {
+        if (!$this->punitions->contains($punition)) {
+            $this->punitions[] = $punition;
+            $punition->setPiece($this);
+        }
+
+        return $this;
+    }
+
+    public function removePunition(Punition $punition): self
+    {
+        if ($this->punitions->removeElement($punition)) {
+            // set the owning side to null (unless already changed)
+            if ($punition->getPiece() === $this) {
+                $punition->setPiece(null);
+            }
+        }
+
+        return $this;
     }
 
 

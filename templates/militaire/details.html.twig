@@ -292,6 +292,86 @@
         </div>
     </div>
 
+
+
+    <!-- Formulaire Punition -->
+
+    <div class="modal fade" id="punitionModal" tabindex="-1" aria-labelledby="punitionModalLabel" aria-hidden="true" data-backdrop="static" data-keyboard="false">
+        <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable modal-lg">
+            <div class="modal-content">
+                {{ form_start(punitionForm) }}
+
+                <span class="text-danger mt-3">
+                  {{ form_errors(punitionForm) }}
+                </span>
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Ajouter une punition</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+
+
+                    <div class="mb-3">
+                        {{ form_label(punitionForm.datePunition, "", {'label_attr': {'class': 'intitule_label'}}) }}
+                        {{ form_widget(punitionForm.datePunition) }}
+                        <div class="form-error" style="color: red">
+                            {{ form_errors(punitionForm.datePunition) }}
+                        </div>
+                    </div>
+
+                    <div class="mb-3">
+                        {{ form_label(punitionForm.motif, '', {'label_attr': {'class': 'intitule_label'}}) }}
+                        {{ form_widget(punitionForm.motif, {'attr': {'class': 'form-control'}}) }}
+                        <div class="form-error" style="color: red">
+                            {{ form_errors(punitionForm.motif) }}
+                        </div>
+                    </div>
+
+
+                    <div class="mb-3">
+                        {{ form_label(punitionForm.resume, '', {'label_attr': {'class': 'intitule_label'}}) }}
+                        {{ form_widget(punitionForm.resume, {'attr': {'class': 'form-control'}}) }}
+                        <div class="form-error" style="color: red">
+                            {{ form_errors(punitionForm.resume) }}
+                        </div>
+                    </div>
+
+                    <div class="mb-3">
+                        {{ form_label(punitionForm.dureeDemade, '', {'label_attr': {'class': 'intitule_label'}}) }}
+                        {{ form_widget(punitionForm.dureeDemade, {'attr': {'class': 'form-control'}}) }}
+                        <div class="form-error" style="color: red">
+                            {{ form_errors(punitionForm.dureeDemade) }}
+                        </div>
+                    </div>
+
+                    <div class="mb-3">
+                        {{ form_label(punitionForm.militairesDemandeurs, '', {'label_attr': {'class': 'intitule_label'}}) }}
+                        {{ form_widget(punitionForm.militairesDemandeurs, {'attr': {'class': 'mdb-select md-form colorful-select dropdown-ins','searchable':'Rechercher'}}) }}
+                        <div class="form-error" style="color: red">
+                            {{ form_errors(punitionForm.militairesDemandeurs) }}
+                        </div>
+                    </div>
+
+                    <div>
+                        {{ form_label(punitionForm.piece, "Choisir une piece dans les archives : ", {'label_attr': {'class': 'intitule_label'}}) }}
+                        {{ form_widget(punitionForm.piece, {'attr': {'class': 'mdb-select md-form colorful-select dropdown-ins','searchable':'Rechercher'}}) }}
+                        <div class="form-error" style="color: red">
+                            {{ form_errors(punitionForm.piece) }}
+                        </div>
+                    </div>
+
+
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Fermer</button>
+                    {{ form_row(punitionForm.cancel,{'attr':{'class': 'btn btn-outline-secondary form-btn'}}) }}
+                    {{ form_row(punitionForm.submit,{'attr':{'class': 'btn btn-outline-success form-btn'}}) }}
+                </div>
+                {{ form_end(punitionForm) }}
+            </div>
+        </div>
+    </div>
+
     <!-- Formulaire Formation -->
     <div class="modal fade" id="formationModal" tabindex="-1" aria-labelledby="formationModalLabel" aria-hidden="true" data-backdrop="static" data-keyboard="false">
 
@@ -725,18 +805,101 @@
         <div style="margin-left: 1em" class="mt-5">
             <nav>
                 <div class="nav nav-tabs md-tabs" id="nav-tab" role="tablist">
-                    <a class="nav-link active" id="nav-prof-tab" data-toggle="tab" href="#nav-prof" type="button" role="tab" aria-controls="nav-prof" aria-selected="false">Cursus professionnel</a>
-                    <a class="nav-link" id="nav-formation-tab" data-toggle="tab" href="#nav-formation" type="button" role="tab" aria-controls="nav-formation" aria-selected="false">Fiche formation</a>
-                    <a class="nav-link" id="nav-filiation-tab" data-toggle="tab" href="#nav-filiation" type="button" role="tab" aria-controls="nav-filiation" aria-selected="false">Filiation</a>
-                    <a class="nav-link" id="nav-statut-tab" data-toggle="tab" href="#nav-statut" type="button" role="tab" aria-controls="nav-statut" aria-selected="false">Dossier Statut</a>
+                    <a class="nav-link active" id="nav-b1-tab" data-toggle="tab" href="#nav-b1" type="button" role="tab" aria-controls="nav-b1" aria-selected="false">Premier Bureau (B1)</a>
+                    <a class="nav-link" id="nav-b2-tab" data-toggle="tab" href="#nav-b2" type="button" role="tab" aria-controls="nav-b2" aria-selected="false">Deuxieme Bureau (B2)</a>
+                    <a class="nav-link" id="nav-b3-tab" data-toggle="tab" href="#nav-b3" type="button" role="tab" aria-controls="nav-b3" aria-selected="false">Troisieme Bureau (B3)</a>
+                    <a class="nav-link" id="nav-social-tab" data-toggle="tab" href="#nav-social" type="button" role="tab" aria-controls="nav-social" aria-selected="false">Affaires Sociales</a>
+                    <a class="nav-link" id="nav-sante-tab" data-toggle="tab" href="#nav-sante" type="button" role="tab" aria-controls="nav-sante" aria-selected="false">Sante</a>
+                    <a class="nav-link" id="nav-com-tab" data-toggle="tab" href="#nav-com" type="button" role="tab" aria-controls="nav-com" aria-selected="false">Dossier Commandement de Formation</a>
+                    <a class="nav-link" id="nav-archive-tab" data-toggle="tab" href="#nav-archive" type="button" role="tab" aria-controls="nav-archive" aria-selected="false">Archives</a>
                 </div>
             </nav>
             <div class="tab-content card pt-5" id="nav-tabContent">
-                <div class="tab-pane fade show active" id="nav-prof" role="tabpanel" aria-labelledby="nav-prof">
+
+                {#    Tab B1            #}
+                <div class="tab-pane fade show active" id="nav-b1" role="tabpanel" aria-labelledby="nav-b1">
+
+                </div>
+
+                {#         Tab B2       #}
+                <div class="tab-pane fade" id="nav-b2" role="tabpanel" aria-labelledby="nav-b2">
+
+                    <div class="mt-5" style="margin-left: 1em">
+
+                        {% for message in app.session.flashbag.get('create_punition') %}
+                            <div class="alert alert-success alert-dismissible fade show" role="alert">
+                                <strong>{{ message }}!</strong>
+                                <button type="button" class="close"  data-dismiss="alert"  aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                            </div>
+                        {% endfor %}
+
+                        <div class="card ">
+                            <div class="card-header">
+                                <div class="d-flex justify-content-between">
+                                    <span class="fw-bold">Punitions ou condamnations</span>
+                                    <span>
+                                       <button  type="button" class="btn btn-outline-primary" data-toggle="modal" data-target="#punitionModal">
+                                           <i class="fa fa-plus"></i>
+                                           Ajouter une punition
+                                       </button>
+                                    </span>
+                                </div>
+                            </div>
+                            <div class="card-body">
+                                <table class="table text-center table-bordered table-striped table-hover">
+                                    <thead>
+                                    <tr>
+                                        <th scope="col">Date</th>
+                                        <th scope="col">Motif</th>
+                                        <th scope="col">Expose des faits</th>
+                                        <th scope="col">Demandeur</th>
+                                        <th scope="col">Duree</th>
+                                        <th scope="col">Archive</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    {% if punitions | length == 0 %}
+                                        <p class="text-center">Aucune punition</p>
+                                    {% else %}
+                                        {% for punition in punitions %}
+                                            <tr>
+                                                <td>
+                                                    {{ punition.datePunition| date("d-M-Y") }}
+                                                </td>
+                                                <td>{{ punition.motif  }}</td>
+                                                <td>{{ punition.resume|raw }}</td>
+                                                <td>
+                                                    <ul class="list-group">
+                                                        {% for demandeur in punition.militairesDemandeurs %}
+                                                            <li class="list-group-item">
+                                                                <span class="text-uppercase">{{ demandeur.grade.intitule }}</span>&nbsp;{{ demandeur.nom }}{{ demandeur.prenoms }}
+                                                            </li>
+                                                        {% endfor %}
+                                                    </ul>
+                                                </td>
+                                                <td>
+                                                    {# TODO: Ajouter un lien de telechargement #}
+                                                </td>
+
+                                            </tr>
+                                        {% endfor %}
+                                    {% endif %}
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+
+                {#         Tab B3       #}
+                <div class="tab-pane fade" id="nav-b3" role="tabpanel" aria-labelledby="nav-b3">
+
+
                     <div class="mt-5" style="margin-left: 1em">
                         <div class="row">
-
-
                             <div class="col col-12 mt-4"  style="word-wrap: break-word;">
 
                                 {% for message in app.session.flashbag.get('create_affectation') %}
@@ -763,38 +926,38 @@
                                     <div class="card-body">
                                         <table class="table text-center table-bordered table-striped table-hover">
                                             <thead>
-                                                <tr>
-                                                    <th scope="col">Date de debut</th>
-                                                    <th scope="col">Date de fin</th>
-                                                    <th scope="col">Unite</th>
-                                                    <th scope="col">Corps</th>
-                                                    <th scope="col">Poste</th>
-                                                    <th scope="col">Duree</th>
-                                                </tr>
+                                            <tr>
+                                                <th scope="col">Date de debut</th>
+                                                <th scope="col">Date de fin</th>
+                                                <th scope="col">Unite</th>
+                                                <th scope="col">Corps</th>
+                                                <th scope="col">Poste</th>
+                                                <th scope="col">Duree</th>
+                                            </tr>
                                             </thead>
                                             <tbody>
-                                                {% if affectations | length == 0 %}
-                                                    <p class="text-center">Aucune affectation</p>
-                                                {% else %}
-                                                    {% for key,affectation in affectations %}
+                                            {% if affectations | length == 0 %}
+                                                <p class="text-center">Aucune affectation</p>
+                                            {% else %}
+                                                {% for key,affectation in affectations %}
 
-                                                        <tr {% if key == 0 %}style="background-color: darkseagreen!important;" {% endif %}>
-                                                            <td>{{ affectation.dateDebut|date("d-M-Y")  }}</td>
-                                                            <td>{{ affectation.dateFin|date("d-M-Y")  }}</td>
-                                                            <td>{{ affectation.unite.intitule }}</td>
-                                                            <td>{{ affectation.unite.corps.intitule }}</td>
-                                                            <td>{{ affectation.fonction }}</td>
-                                                            <td>
-                                                                {% if affectation.dateFin != null %}
-                                                                    {% set dureeY = affectation.dateFin.diff(date(affectation.dateDebut)).y %}
-                                                                    {% set dureeM = (dureeY*12)+affectation.dateFin.diff(date(affectation.dateDebut)).m %}
-                                                                    {{ dureeM }} mois
-                                                                {% endif %}
-                                                            </td>
-                                                        </tr>
-                                                    {% endfor %}
+                                                    <tr {% if key == 0 %}style="background-color: darkseagreen!important;" {% endif %}>
+                                                        <td>{{ affectation.dateDebut|date("d-M-Y")  }}</td>
+                                                        <td>{{ affectation.dateFin|date("d-M-Y")  }}</td>
+                                                        <td>{{ affectation.unite.intitule }}</td>
+                                                        <td>{{ affectation.unite.corps.intitule }}</td>
+                                                        <td>{{ affectation.fonction }}</td>
+                                                        <td>
+                                                            {% if affectation.dateFin != null %}
+                                                                {% set dureeY = affectation.dateFin.diff(date(affectation.dateDebut)).y %}
+                                                                {% set dureeM = (dureeY*12)+affectation.dateFin.diff(date(affectation.dateDebut)).m %}
+                                                                {{ dureeM }} mois
+                                                            {% endif %}
+                                                        </td>
+                                                    </tr>
+                                                {% endfor %}
 
-                                                {% endif %}
+                                            {% endif %}
                                             </tbody>
                                         </table>
                                     </div>
@@ -977,13 +1140,8 @@
                             </div>
 
                         </div>
-                    </div>
-                </div>
 
 
-                <div class="tab-pane fade" id="nav-formation" role="tabpanel" aria-labelledby="nav-formation">
-
-                    <div class="mt-5" style="margin-left: 1em">
                         <div class="row">
 
                             <div class="col col-12 mt-4"  style="word-wrap: break-word;">
@@ -1084,12 +1242,12 @@
                                             {% else %}
                                                 {% for militaireFormation in militaireFormations %}
                                                     {% if militaireFormation.statut == 0 %}
-                                                    <tr>
-                                                        <td>{{ militaireFormation.dateDebut|date("d-M-Y")  }}</td>
-                                                        <td>{{ militaireFormation.dateFin|date("d-M-Y")  }}</td>
-                                                        <td>{{ militaireFormation.formation.intitule }}</td>
-                                                        <td>{{ militaireFormation.lieu }}</td>
-                                                    </tr>
+                                                        <tr>
+                                                            <td>{{ militaireFormation.dateDebut|date("d-M-Y")  }}</td>
+                                                            <td>{{ militaireFormation.dateFin|date("d-M-Y")  }}</td>
+                                                            <td>{{ militaireFormation.formation.intitule }}</td>
+                                                            <td>{{ militaireFormation.lieu }}</td>
+                                                        </tr>
                                                     {% endif %}
                                                 {% endfor %}
                                             {% endif %}
@@ -1099,13 +1257,24 @@
                                 </div>
                             </div>
                         </div>
+
                     </div>
-                </div>
-                
-                <div class="tab-pane fade" id="nav-filiation" role="tabpanel" aria-labelledby="nav-filiation">
+
 
 
                     <div class="mt-5" style="margin-left: 1em">
+
+                    </div>
+
+                </div>
+
+                {#         Tab Affaires Sociales        #}
+                <div class="tab-pane fade" id="nav-social" role="tabpanel" aria-labelledby="nav-social">
+
+
+                    <div class="mt-5" style="margin-left: 1em">
+
+
                         <div class="row">
 
                             <div class="col col-xs-12 mt-4"  style="word-wrap: break-word;">
@@ -1196,156 +1365,163 @@
                                 </div>
                             </div>
                         </div>
+
                     </div>
 
                 </div>
 
-                <div class="tab-pane fade" id="nav-statut" role="tabpanel" aria-labelledby="nav-statut">
+                {#         Tab Sante      #}
+                <div class="tab-pane fade" id="nav-sante" role="tabpanel" aria-labelledby="nav-sante"></div>
+
+                {#         Tab Commandement de formation     #}
+                <div class="tab-pane fade" id="nav-com" role="tabpanel" aria-labelledby="nav-com"></div>
+
+                {#         Tab Archive    #}
+                <div class="tab-pane fade" id="nav-archive" role="tabpanel" aria-labelledby="nav-archive">
 
 
-                    <div class="mt-5" style="margin-left: 1em">
-                        <div class="row">
+                    <div class="row">
 
-                            <div class="col col-12"  style="word-wrap: break-word;">
+                        <div class="col col-12"  style="word-wrap: break-word;">
 
-                                <p>
-                                    <span class="fw-bold">Statut actuel: </span>
-                                    {% if lastStatut != null and lastStatut.statut == 1 %}
-                                        <span class="text-danger fw-bold">Radie</span>
-                                        <p class="mt-1 fw-bold">Motif:  <span class="text-danger" >{{ lastStatut.commentaire }}</span>
-                                </p>
-                                    {% endif %}
-
-
-                                    {% if lastStatut != null and lastStatut.statut == 3 %}
-                                        <span class="text-success fw-bold">En service</span>
-                                    {% endif %}
-
-                                    {% if lastStatut != null and lastStatut.statut == 0 %}
-                                        <span class="text-warning fw-bold">Retraite</span>
-                                    {% endif %}
-
-                                    {% if lastStatut != null and lastStatut.statut == 2 %}
-                                        <span class="text-success fw-bold">En service</span>
-                                    {% endif %}
-
-                                    {% if lastStatut != null and lastStatut.statut == 4 %}
-                                        <span class="text-success fw-bold">Disponibilite</span>
-                                    {% endif %}
-
-                                    {% if lastStatut != null and lastStatut.statut == 5 %}
-                                        <span class="text-primary fw-bold">Detachement</span>
-                                    {% endif %}
-
-                                    {% if lastStatut != null and lastStatut.statut == 6 %}
-                                        <span class="text-danger fw-bold">Deserteur</span>
-                                    {% endif %}
-
-                                    {% if lastStatut != null and lastStatut.statut == 7 %}
-                                        <span class="text-warning fw-bold">Absence</span>
-                                    {% endif %}
-
-                                    {% if lastStatut != null and lastStatut.statut == 8 %}
-                                        <span class="text-warning fw-bold">Arret maladie</span>
-                                    {% endif %}
-                                </p>
-
-                            </div>
-
-                            <div class="col col-6" style="margin-left: 1em"></div>
-
-                            <div class="col col-6" style="margin-left: 1em"></div>
+                            <p>
+                                <span class="fw-bold">Statut actuel: </span>
+                                {% if lastStatut != null and lastStatut.statut == 1 %}
+                                <span class="text-danger fw-bold">Radie</span>
+                            <p class="mt-1 fw-bold">Motif:  <span class="text-danger" >{{ lastStatut.commentaire }}</span>
+                            </p>
+                            {% endif %}
 
 
-                            <div class="col col-12 mt-4"  style="word-wrap: break-word;">
+                            {% if lastStatut != null and lastStatut.statut == 3 %}
+                                <span class="text-success fw-bold">En service</span>
+                            {% endif %}
 
-                                {% for message in app.session.flashbag.get('statut') %}
-                                    <div class="alert alert-success alert-dismissible fade show" role="alert">
-                                        <strong>{{ message }}!</strong>
-                                        <button type="button" class="close"  data-dismiss="alert"  aria-label="Close">
-                                            <span aria-hidden="true">&times;</span>
-                                        </button>
-                                    </div>
-                                {% endfor %}
+                            {% if lastStatut != null and lastStatut.statut == 0 %}
+                                <span class="text-warning fw-bold">Retraite</span>
+                            {% endif %}
 
-                                <div class="card ">
-                                    <div class="card-header">
-                                        <div class="d-flex justify-content-between">
-                                            <span class="fw-bold">Historique des statuts</span>
-                                            <span>
+                            {% if lastStatut != null and lastStatut.statut == 2 %}
+                                <span class="text-success fw-bold">En service</span>
+                            {% endif %}
+
+                            {% if lastStatut != null and lastStatut.statut == 4 %}
+                                <span class="text-success fw-bold">Disponibilite</span>
+                            {% endif %}
+
+                            {% if lastStatut != null and lastStatut.statut == 5 %}
+                                <span class="text-primary fw-bold">Detachement</span>
+                            {% endif %}
+
+                            {% if lastStatut != null and lastStatut.statut == 6 %}
+                                <span class="text-danger fw-bold">Deserteur</span>
+                            {% endif %}
+
+                            {% if lastStatut != null and lastStatut.statut == 7 %}
+                                <span class="text-warning fw-bold">Absence</span>
+                            {% endif %}
+
+                            {% if lastStatut != null and lastStatut.statut == 8 %}
+                                <span class="text-warning fw-bold">Arret maladie</span>
+                            {% endif %}
+                            </p>
+
+                        </div>
+
+                        <div class="col col-6" style="margin-left: 1em"></div>
+
+                        <div class="col col-6" style="margin-left: 1em"></div>
+
+
+                        <div class="col col-12 mt-4"  style="word-wrap: break-word;">
+
+                            {% for message in app.session.flashbag.get('statut') %}
+                                <div class="alert alert-success alert-dismissible fade show" role="alert">
+                                    <strong>{{ message }}!</strong>
+                                    <button type="button" class="close"  data-dismiss="alert"  aria-label="Close">
+                                        <span aria-hidden="true">&times;</span>
+                                    </button>
+                                </div>
+                            {% endfor %}
+
+                            <div class="card ">
+                                <div class="card-header">
+                                    <div class="d-flex justify-content-between">
+                                        <span class="fw-bold">Historique des statuts</span>
+                                        <span>
                                                 <button  type="button" class="btn btn-outline-primary" data-toggle="modal" data-target="#statutModal">
                                                     <i class="fa fa-plus"></i>
                                                     Changer de statut
                                                 </button>
                                             </span>
-                                        </div>
                                     </div>
-                                    <div class="card-body">
-                                        <table class="table text-center table-bordered table-striped table-hover">
-                                            <thead>
-                                            <tr>
-                                                <th scope="col">Statut</th>
-                                                <th scope="col">Commentaire</th>
-                                                <th scope="col">Date</th>
-                                            </tr>
-                                            </thead>
-                                            <tbody>
-                                            {% if militaireStatus | length == 0 %}
-                                                <p class="text-center">Aucun statut</p>
-                                            {% else %}
-                                                {% for statut in militaireStatus %}
-                                                    <tr>
-                                                        <td>
-                                                            {% if statut.statut == 1 %}
-                                                                <span class="text-danger fw-bold">Radie</span>
-                                                            {% endif %}
+                                </div>
+                                <div class="card-body">
+                                    <table class="table text-center table-bordered table-striped table-hover">
+                                        <thead>
+                                        <tr>
+                                            <th scope="col">Statut</th>
+                                            <th scope="col">Commentaire</th>
+                                            <th scope="col">Date</th>
+                                        </tr>
+                                        </thead>
+                                        <tbody>
+                                        {% if militaireStatus | length == 0 %}
+                                            <p class="text-center">Aucun statut</p>
+                                        {% else %}
+                                            {% for statut in militaireStatus %}
+                                                <tr>
+                                                    <td>
+                                                        {% if statut.statut == 1 %}
+                                                            <span class="text-danger fw-bold">Radie</span>
+                                                        {% endif %}
 
 
-                                                            {% if statut.statut == 3 %}
-                                                                <span class="text-success fw-bold">En service</span>
-                                                            {% endif %}
+                                                        {% if statut.statut == 3 %}
+                                                            <span class="text-success fw-bold">En service</span>
+                                                        {% endif %}
 
-                                                            {% if statut.statut == 0 %}
-                                                                <span class="text-warning fw-bold">Retraite</span>
-                                                            {% endif %}
+                                                        {% if statut.statut == 0 %}
+                                                            <span class="text-warning fw-bold">Retraite</span>
+                                                        {% endif %}
 
-                                                            {% if statut.statut == 2 %}
-                                                                <span class="text-success fw-bold">En service</span>
-                                                            {% endif %}
+                                                        {% if statut.statut == 2 %}
+                                                            <span class="text-success fw-bold">En service</span>
+                                                        {% endif %}
 
-                                                            {% if statut.statut == 4 %}
-                                                                <span class="text-success fw-bold">Disponibilite</span>
-                                                            {% endif %}
+                                                        {% if statut.statut == 4 %}
+                                                            <span class="text-success fw-bold">Disponibilite</span>
+                                                        {% endif %}
 
-                                                            {% if statut.statut == 5 %}
-                                                                <span class="text-primary fw-bold">Detachement</span>
-                                                            {% endif %}
+                                                        {% if statut.statut == 5 %}
+                                                            <span class="text-primary fw-bold">Detachement</span>
+                                                        {% endif %}
 
-                                                            {% if statut.statut == 6 %}
-                                                                <span class="text-danger fw-bold">Deserteur</span>
-                                                            {% endif %}
+                                                        {% if statut.statut == 6 %}
+                                                            <span class="text-danger fw-bold">Deserteur</span>
+                                                        {% endif %}
 
-                                                            {% if statut.statut == 7 %}
-                                                                <span class="text-warning fw-bold">Absence</span>
-                                                            {% endif %}
+                                                        {% if statut.statut == 7 %}
+                                                            <span class="text-warning fw-bold">Absence</span>
+                                                        {% endif %}
 
-                                                            {% if statut.statut == 8 %}
-                                                                <span class="text-warning fw-bold">Arret maladie</span>
-                                                            {% endif %}
-                                                        </td>
-                                                        <td>{{ statut.commentaire }}</td>
-                                                        <td>{{ statut.dateDebut|date("d-M-Y") }}</td>
+                                                        {% if statut.statut == 8 %}
+                                                            <span class="text-warning fw-bold">Arret maladie</span>
+                                                        {% endif %}
+                                                    </td>
+                                                    <td>{{ statut.commentaire }}</td>
+                                                    <td>{{ statut.dateDebut|date("d-M-Y") }}</td>
 
-                                                    </tr>
-                                                {% endfor %}
-                                            {% endif %}
-                                            </tbody>
-                                        </table>
-                                    </div>
+                                                </tr>
+                                            {% endfor %}
+                                        {% endif %}
+                                        </tbody>
+                                    </table>
                                 </div>
                             </div>
                         </div>
                     </div>
+
 
                 </div>
             </div>
@@ -1379,7 +1555,6 @@
                         // ... with the returned one from the AJAX response.
                         $(html).find('#affectation_unite')
                     );
-                    // Position field now displays the appropriate positions.
                 }
             });
         });
