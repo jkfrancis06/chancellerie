@@ -103,7 +103,7 @@ class MilitaireType extends AbstractType
                 ],
             ])
             ->add('groupeSanguin', ChoiceType::class, [
-                'required' => true,
+                'required' => false,
                 'label' => 'Groupe Sanguin : ',
                 'choices'  => [
                     'Selectionner' => null,
