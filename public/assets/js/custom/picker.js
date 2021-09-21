@@ -175,4 +175,11 @@ $(document).ready(function() {
         $(this).val('');
     });
 
+
+
+
+    // Gijgo
+
+    $('#piece-picker').datepicker()
+
 });

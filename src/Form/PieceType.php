@@ -30,7 +30,8 @@ class PieceType extends AbstractType
 
                 // adds a class that can be selected in JavaScript
                 'attr' => [
-                    'placeholder' => 'Selectionner une date'
+                    'placeholder' => 'Selectionner une date',
+                    'class' => 'piece-date form-control'
                 ],
 
             ])

@@ -3,6 +3,8 @@
 {% endblock %}
 
 {% block PieceType_widget %}
+
+
     <div class="row mt-3 ml-2">
         <div class="col-md-4">
              <div class="file-field md-form">
@@ -19,7 +21,7 @@
               </div>
         </div>
         <div class="col-md-3">
-            {{ form_widget(form.datePiece, {'attr': {'class': 'js-datepicker'}}) }}
+            {{ form_widget(form.datePiece) }}
             <div class="form-error" style="color: red">
                 {{ form_errors(form.datePiece) }}
             </div>

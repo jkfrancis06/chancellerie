@@ -54,6 +54,9 @@
 
     {% import _self as formMacros %}
     {%
+        form_theme militaireForm.sousDossiers  'bootstrap_4_layout.html.twig'
+    %}
+    {%
         form_theme militaireForm.sousDossiers
         'themes/pieces.html.twig' 'themes/jquery.collection.html.twig'
     %}
@@ -61,6 +64,12 @@
         form_theme militaireForm
         'themes/compteBanq.html.twig' 'themes/jquery.collection.html.twig'
     %}
+
+
+
+
+    <input class="input" width="234" />
+
 
 
 
@@ -583,6 +592,22 @@
 
 {% endblock %}
 
+
+{% block js %}
+    <script>
+        $('.piece-date').datepicker(
+            {
+                uiLibrary: 'bootstrap4',
+                iconsLibrary: 'fontawesome',
+                format: 'dd-mm-yyyy',
+                locale: 'fr-fr',
+                showRightIcon: false,
+                footer: true, modal: true, header: true
+            }
+        );
+    </script>
+{% endblock %}
+
 {% block botton_javascripts %}
 
     <script>
@@ -602,6 +627,19 @@
             $('.piece-collection').collection({
                 allow_up :false,
                 allow_down :false,
+            });
+
+            $('.piece-collection').on('sf_collection_after_add', function (e) {
+                $('.piece-date').datepicker(
+                    {
+                        uiLibrary: 'bootstrap4',
+                        iconsLibrary: 'fontawesome',
+                        format: 'dd-mm-yyyy',
+                        locale: 'fr-fr',
+                        showRightIcon: false,
+                        footer: true, modal: true, header: true
+                    }
+                );
             });
 
 
