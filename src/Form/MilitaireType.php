@@ -72,12 +72,10 @@ class MilitaireType extends AbstractType
             ->add('dateNaissance', DateType::class, [
                 'required' => true,
                 'label' => 'Date de naissance: ',
-                'html5' => false,
+                'html5' => true,
                 'widget' => 'single_text',
-                'format' => 'dd-MM-yyyy',
                 // adds a class that can be selected in JavaScript
                 'attr' => [
-                    'class' => 'js-datepicker',
                     'placeholder' => 'Selectionner une date'
                 ],
 
@@ -187,11 +185,9 @@ class MilitaireType extends AbstractType
                 'required' => true,
                 'widget' => 'single_text',
                 'label' => 'Date d\'incorporation : ',
-                'html5' => false,
-                'format' => 'dd-MM-yyyy',
+                'html5' => true,
                 // adds a class that can be selected in JavaScript
                 'attr' => [
-                    'class' => 'js-datepicker',
                     'placeholder' => 'Selectionner une date'
                 ],
                 'constraints' => [

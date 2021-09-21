@@ -67,18 +67,6 @@
 
 
 
-
-    <input class="input" width="234" />
-
-
-
-
-
-
-
-
-
-
     {% macro printCompteRow(CompteBanquaire) %}
         <div class="row js-militaire-compte-item">
             <div class="col col-5">
@@ -154,6 +142,9 @@
                                     <input class="file-path validate" type="text" placeholder="Selectioner une photo">
                                 </div>
                             </div>
+                            <div class="form-error" style="color: red">
+                                {{ form_errors(militaireForm.mainPicture) }}
+                            </div>
                         </div>
 
                         <div class="col col-8"></div>
@@ -199,17 +190,39 @@
                         </div>
 
 
-                        <div class="col col-4">
+                        <div class="col col-6">
                             <div class="mb-3">
                                 {{ form_label(militaireForm.dateNaissance, '', {'label_attr': {'class': 'intitule_label'}}) }}
-                                {{ form_widget(militaireForm.dateNaissance, {'attr': {'class': 'form-control js-datepicker'}}) }}
+                                {{ form_widget(militaireForm.dateNaissance, {'attr': {'class': 'form-control'}}) }}
                                 <div class="form-error" style="color: red">
                                     {{ form_errors(militaireForm.dateNaissance) }}
                                 </div>
                             </div>
                         </div>
 
-                        <div class="col col-4">
+                        <div class="col col-6">
+                            <div class="mb-3">
+                                {{ form_label(militaireForm.dateIncorp, '', {'label_attr': {'class': 'intitule_label'}}) }}
+                                {{ form_widget(militaireForm.dateIncorp, {'attr': {'class': 'form-control'}}) }}
+                                <div class="form-error" style="color: red">
+                                    {{ form_errors(militaireForm.dateIncorp) }}
+                                </div>
+                            </div>
+                        </div>
+
+
+                        <div class="col col-6">
+                            <div class="mb-3">
+                                {{ form_label(militaireForm.lieuNaissance, '', {'label_attr': {'class': 'intitule_label'}}) }}
+                                {{ form_widget(militaireForm.lieuNaissance, {'attr': {'class': 'form-control'}}) }}
+                                <div class="form-error" style="color: red">
+                                    {{ form_errors(militaireForm.lieuNaissance) }}
+                                </div>
+                            </div>
+                        </div>
+
+
+                        <div class="col col-6">
                             <div class="mb-3">
                                 {{ form_label(militaireForm.quartier, '', {'label_attr': {'class': 'intitule_label'}}) }}
                                 {{ form_widget(militaireForm.quartier, {'attr': {'class': 'form-control'}}) }}
@@ -219,15 +232,6 @@
                             </div>
                         </div>
 
-                        <div class="col col-4">
-                            <div class="mb-3">
-                                {{ form_label(militaireForm.lieuNaissance, '', {'label_attr': {'class': 'intitule_label'}}) }}
-                                {{ form_widget(militaireForm.lieuNaissance, {'attr': {'class': 'form-control'}}) }}
-                                <div class="form-error" style="color: red">
-                                    {{ form_errors(militaireForm.lieuNaissance) }}
-                                </div>
-                            </div>
-                        </div>
 
                         <div class="col col-3">
                             <div class="mb-3">
@@ -347,15 +351,6 @@
                             </div>
                         </div>
 
-                        <div class="col col-6">
-                            <div class="mb-3">
-                                {{ form_label(militaireForm.dateIncorp, '', {'label_attr': {'class': 'intitule_label'}}) }}
-                                {{ form_widget(militaireForm.dateIncorp, {'attr':{'class': 'form-control js-datepicker'}}) }}
-                                <div class="form-error" style="color: red">
-                                    {{ form_errors(militaireForm.dateIncorp) }}
-                                </div>
-                            </div>
-                        </div>
 
                         <div class="col col-6">
                             <div class="mb-3">
@@ -590,21 +585,14 @@
         </div>
     </div>
 
+
+
 {% endblock %}
 
 
 {% block js %}
     <script>
-        $('.piece-date').datepicker(
-            {
-                uiLibrary: 'bootstrap4',
-                iconsLibrary: 'fontawesome',
-                format: 'dd-mm-yyyy',
-                locale: 'fr-fr',
-                showRightIcon: false,
-                footer: true, modal: true, header: true
-            }
-        );
+
     </script>
 {% endblock %}
 
@@ -614,33 +602,33 @@
 
         $(document).ready(function () {
 
+            $('.custom-file input').change(function (e) {
+                if (e.target.files.length) {
+                    $(this).next('.custom-file-label').html(e.target.files[0].name);
+                }
+            });
 
             $('.compte').collection({
                 prefix: 'collection',
                 add: '<a href="#" class="btn btn-rounded btn-sm btn-primary"><span class="fa fa-plus-circle"></span> Ajouter un compte banquaire </a>',
             });
 
-            {% for i in 0..10 %}
-
-            {% endfor %}
 
             $('.piece-collection').collection({
                 allow_up :false,
                 allow_down :false,
+                after_add: function(collection, element) {
+                    $('.custom-file input').change(function (e) {
+                        if (e.target.files.length) {
+                            $(this).next('.custom-file-label').html(e.target.files[0].name);
+                        }
+                    });
+
+
+
+                },
             });
 
-            $('.piece-collection').on('sf_collection_after_add', function (e) {
-                $('.piece-date').datepicker(
-                    {
-                        uiLibrary: 'bootstrap4',
-                        iconsLibrary: 'fontawesome',
-                        format: 'dd-mm-yyyy',
-                        locale: 'fr-fr',
-                        showRightIcon: false,
-                        footer: true, modal: true, header: true
-                    }
-                );
-            });
 
 
 

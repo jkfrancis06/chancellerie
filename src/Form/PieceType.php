@@ -25,8 +25,7 @@ class PieceType extends AbstractType
                 'required' => false,
                 'label' => 'Date de piece: ',
                 'widget' => 'single_text',
-                'html5' => false,
-                        'format' => 'dd-MM-yyyy',
+                'html5' => true,
 
                 // adds a class that can be selected in JavaScript
                 'attr' => [

@@ -65,6 +65,15 @@ class Utilisateur implements UserInterface, PasswordAuthenticatedUserInterface
      */
     private $createdAt;
 
+
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    private $salt;
+
+
+    private $plainPassword;
+
     public function __construct()
     {
 
@@ -109,6 +118,22 @@ class Utilisateur implements UserInterface, PasswordAuthenticatedUserInterface
         return (string) $this->email;
     }
 
+
+    public function getPlainPassword(): ?string
+    {
+        return $this->plainPassword;
+    }
+    public function setPlainPassword(string $plainPassword): self
+    {
+        $this->plainPassword = $plainPassword;
+        return $this;
+    }
+
+
+
+
+
+
     /**
      * @see UserInterface
      */
@@ -152,6 +177,12 @@ class Utilisateur implements UserInterface, PasswordAuthenticatedUserInterface
     public function getSalt(): ?string
     {
         return null;
+    }
+    public function setSalt(string $salt): self
+    {
+        $this->salt = $salt;
+
+        return $this;
     }
 
     /**

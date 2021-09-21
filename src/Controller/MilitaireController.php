@@ -89,6 +89,8 @@ class MilitaireController extends AbstractController
             //$corpsLogos = $militaireForm->get('fichiers')->getData();
             $mainPicture = $militaireForm->get('mainPicture')->getData();
 
+            var_dump($mainPicture);
+
             if ($mainPicture == null){
                 $fileError = new FormError("Envoyer au moins un photo d'identite");
                 $militaireForm->get('mainPicture')->addError($fileError);
