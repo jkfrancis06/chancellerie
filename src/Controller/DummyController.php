@@ -34,13 +34,15 @@ class DummyController extends AbstractController
      */
     public function remove($id): Response
     {
-        $militaire  = $this->getDoctrine()->getManager()->getRepository(Militaire::class)->find($id);
+        $militaires  = $this->getDoctrine()->getManager()->getRepository(Militaire::class)->findAll();
 
         //19593
 
-        $em = $this->getDoctrine()->getManager();
-        $em->remove($militaire);
-        $em->flush();
+        foreach($militaires as $militaire){
+            $em = $this->getDoctrine()->getManager();
+            $em->remove($militaire);
+            $em->flush();   
+        }
 
 
         
