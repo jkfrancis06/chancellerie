@@ -121,7 +121,7 @@ class MilitaireType extends AbstractType
                 ],
             ])
             ->add('taille',NumberType::class,[
-                'required' => true,
+                'required' => false,
                 'label' => 'Taille : ',
                 'attr' => array(
                     'placeholder' => 'Taille en metre. Exemple: 1.3'

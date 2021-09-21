@@ -48,7 +48,7 @@ class Militaire
     private $sexe;
 
     /**
-     * @ORM\Column(type="float")
+     * @ORM\Column(type="float", nullable=true)
      */
     private $taille;
 
@@ -369,7 +369,7 @@ class Militaire
         return $this->taille;
     }
 
-    public function setTaille(float $taille): self
+    public function setTaille(?float $taille): self
     {
         $this->taille = $taille;
 
