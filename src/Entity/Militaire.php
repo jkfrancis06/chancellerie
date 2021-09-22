@@ -11,7 +11,7 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
 /**
  * @ORM\Entity(repositoryClass=MilitaireRepository::class)
- *
+ * @UniqueEntity("matricule", message="Ce matricule est deja existant.")
  */
 class Militaire
 {
