@@ -56,15 +56,35 @@
 {% block js %}
     <script>
 
+
+
+        {% if done == true %}
+            window.onunload = refreshParent;
+            function refreshParent() {
+                window.opener.location.reload();
+            }
+            window.close();
+        {% endif %}
+
         $(document).ready(function () {
 
-            {% if done == true %}
-                window.close();
-            {% endif %}
+
+            $('.custom-file input').change(function (e) {
+                if (e.target.files.length) {
+                    $(this).next('.custom-file-label').html(e.target.files[0].name);
+                }
+            });
 
             $('.piece-collection').collection({
                 allow_up :false,
                 allow_down :false,
+                after_add: function(collection, element) {
+                    $('.custom-file input').change(function (e) {
+                        if (e.target.files.length) {
+                            $(this).next('.custom-file-label').html(e.target.files[0].name);
+                        }
+                    });
+                },
             });
 
         })

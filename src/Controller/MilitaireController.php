@@ -262,6 +262,9 @@ class MilitaireController extends AbstractController
 
             if ($lastAffectation != null){
                 $lastAffectation->setIsActive(false);
+                if ($lastAffectation->getDateFin() == null){
+                    $lastAffectation->setDateFin($affectation->getDateDebut());
+                }
                 $em->flush();
             }
 

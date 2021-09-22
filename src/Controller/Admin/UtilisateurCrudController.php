@@ -29,6 +29,7 @@ use Symfony\Component\Form\Extension\Core\Type\RepeatedType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\FormEvent;
 use Symfony\Component\Form\FormEvents;
+use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 
 class UtilisateurCrudController extends AbstractCrudController
@@ -42,7 +43,7 @@ class UtilisateurCrudController extends AbstractCrudController
     private $entityManager;
 
 
-    public function __construct(EntityManagerInterface $entityManager,UserPasswordEncoderInterface $passwordEncoder)
+    public function __construct(EntityManagerInterface $entityManager,UserPasswordHasherInterface $passwordEncoder)
     {
         $this->passwordEncoder = $passwordEncoder;
         $this->entityManager = $entityManager;
@@ -94,7 +95,7 @@ class UtilisateurCrudController extends AbstractCrudController
     /**
      * @required
      */
-    public function setEncoder(UserPasswordEncoderInterface $passwordEncoder): void
+    public function setEncoder(UserPasswordHasherInterface $passwordEncoder): void
     {
         $this->passwordEncoder = $passwordEncoder;
     }
@@ -105,7 +106,7 @@ class UtilisateurCrudController extends AbstractCrudController
             /** @var Utilisateur $user */
             $user = $event->getData();
             if ($user->getPlainPassword()) {
-                $user->setPassword($this->passwordEncoder->encodePassword($user, $user->getPlainPassword()));
+                $user->setPassword($this->passwordEncoder->hashPassword($user, $user->getPlainPassword()));
             }
         });
     }
@@ -136,7 +137,7 @@ class UtilisateurCrudController extends AbstractCrudController
         if ($user->getPlainPassword() !== null) {
             $user->setSalt(base_convert(bin2hex(random_bytes(20)), 16, 36));
             // This is where you use UserPasswordEncoderInterface
-            $user->setPassword($this->passwordEncoder->encodePassword($user, $user->getPlainPassword()));
+            $user->setPassword($this->passwordEncoder->hashPassword($user, $user->getPlainPassword()));
         }
 
     }

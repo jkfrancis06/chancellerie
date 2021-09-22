@@ -1,6 +1,6 @@
 {% extends 'nav.html.twig' %}
 
-{% block title %}Tableau de bord{% endblock %}
+{% block title %}{{ militaire.matricule }}{% endblock %}
 
 {% block javascripts %}
     <script  src="{{ asset('/assets/js/datepicker/moment.min.js') }}"></script>
@@ -55,19 +55,13 @@
                     </div>
                     <div class="modal-body">
                         <div class="mb-3">
-                            {{ form_label(affectationForm.dateDebut, "Date d'affectation : ", {'label_attr': {'class': 'intitule_label'}}) }}
-                            {{ form_widget(affectationForm.dateDebut, {'attr': {'class': 'form-control js-datepicker'}}) }}
+                            {{ form_label(affectationForm.dateDebut, "Date de mutation : ", {'label_attr': {'class': 'intitule_label'}}) }}
+                            {{ form_widget(affectationForm.dateDebut, {'attr': {'class': 'form-control'}}) }}
                             <div class="form-error" style="color: red">
                                 {{ form_errors(affectationForm.dateDebut) }}
                             </div>
                         </div>
-                        <div class="mb-3">
-                            {{ form_label(affectationForm.dateFin, "Date de fin d'affectation: ", {'label_attr': {'class': 'intitule_label'}}) }}
-                            {{ form_widget(affectationForm.dateFin, {'attr': {'class': 'form-control js-datepicker'}}) }}
-                            <div class="form-error" style="color: red">
-                                {{ form_errors(affectationForm.dateFin) }}
-                            </div>
-                        </div>
+
                         <div class="mb-3">
                             {{ form_label(affectationForm.fonction, "Poste : ", {'label_attr': {'class': 'intitule_label'}}) }}
                             {{ form_widget(affectationForm.fonction, {'attr': {'class': 'form-control'}}) }}
@@ -598,7 +592,7 @@
                                     {% if militaire.mainPicture == null %}
                                         <img style="margin-top:1em;height: 10em;width: 10em" src="{{ path('download_element', {'name': "default.png" , 'id': Encoder.encode(militaire.matricule)}) }}" class="img-thumbnail" alt="...">
                                     {% else %}
-                                        <img style="margin-top:1em;height: 10em;width: 10em" src="{{ path('download_element', {'name': militaire.mainPicture , 'id': Encoder.encode(militaire.matricule)}) }}" class="img-thumbnail" alt="...">
+                                        <img style="margin-top:1em;height: 10em;width: 10em" src="{{ path('download_element', {'name': militaire.mainPicture , 'id': militaire.matricule}) }}" class="img-thumbnail" alt="...">
                                     {% endif %}
                                 </div>
                             </div>
@@ -918,7 +912,7 @@
                                             <span>
                                                 <button type="button" class="btn btn-outline-primary waves-effect" data-toggle="modal" data-target="#affectationModal">
                                                     <i class="fa fa-plus"></i>
-                                                    Changer d'affectation
+                                                    Nouvelle mutation
                                                 </button>
                                             </span>
                                         </div>
@@ -933,6 +927,7 @@
                                                 <th scope="col">Corps</th>
                                                 <th scope="col">Poste</th>
                                                 <th scope="col">Duree</th>
+                                                <th scope="col">Ordre de mutation</th>
                                             </tr>
                                             </thead>
                                             <tbody>
@@ -953,6 +948,17 @@
                                                                 {% set dureeM = (dureeY*12)+affectation.dateFin.diff(date(affectation.dateDebut)).m %}
                                                                 {{ dureeM }} mois
                                                             {% endif %}
+                                                        </td>
+                                                        <td>
+                                                            {% if affectation.piece is not null %}
+                                                                <a
+                                                                        target="_blank"
+                                                                        href="{{ path('download_element', {'id': affectation.militaire.matricule,'name':affectation.piece.filename}) }}"
+                                                                        >
+                                                                    <i class="fa fa-print"></i> Imprimer
+                                                                </a>
+                                                            {% endif %}
+
                                                         </td>
                                                     </tr>
                                                 {% endfor %}

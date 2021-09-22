@@ -23,6 +23,7 @@ class DownloadController extends AbstractController
 
     /**
      * @Route("/c/download/{id}/{name}", name="download_element")
+     * @Route("/c/download/{id}/{name}", name="download_controller")
      */
     public function index($id,$name): Response
     {
@@ -30,7 +31,7 @@ class DownloadController extends AbstractController
         if ($name == "default.png"){
             $response = new BinaryFileResponse($this->getParameter('elemetsDirectory').'/'.$name);
         }else{
-            $response = new BinaryFileResponse($this->elementsDir.'/'.$id.'/'.$name);
+            $response = new BinaryFileResponse($this->elementsDir.'/'.md5($id).'/'.$name);
         }
         $response->trustXSendfileTypeHeader();
         $response->setContentDisposition(

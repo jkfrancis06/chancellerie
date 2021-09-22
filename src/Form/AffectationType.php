@@ -43,8 +43,8 @@ class AffectationType extends AbstractType
                 'required' => true,
                 'widget' => 'single_text',
                 'label' => 'Date de mutation : ',
-                'html5' => false,
-                'format' => 'dd-MM-yyyy',
+                'html5' => true,
+                //'format' => 'dd-MM-yyyy',
                 // adds a class that can be selected in JavaScript
                 'attr' => [
                     'class' => 'js-datepicker',
@@ -54,18 +54,7 @@ class AffectationType extends AbstractType
                     new NotBlank()
                 ]
             ])
-            ->add('dateFin', DateType::class, [
-                'required' => false,
-                'widget' => 'single_text',
-                'label' => 'Date de fin de mutation : ',
-                'html5' => false,
-                'format' => 'dd-MM-yyyy',
-                // adds a class that can be selected in JavaScript
-                'attr' => [
-                    'class' => 'js-datepicker',
-                    'placeholder' => 'Selectionner une date'
-                ],
-            ])
+
             ->add('fonction', TextType::class, [
                 'required' => true,
                 'label' => 'Adresse : ',

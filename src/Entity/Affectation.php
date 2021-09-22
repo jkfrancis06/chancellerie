@@ -9,6 +9,7 @@ use App\Validator as AppAssert;
 /**
  * @ORM\Entity(repositoryClass=AffectationRepository::class)
  * @AppAssert\DateInterval()
+ * @AppAssert\Affectation()
  */
 class Affectation
 {

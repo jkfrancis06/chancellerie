@@ -19,27 +19,30 @@ class AffectationValidator extends ConstraintValidator
     {
         /* @var $constraint \App\Validator\Affectation */
 
-        $affectations = $this->entityManager->getRepository(\App\Entity\Affectation::class)->findBy([
-           'militaire' => $value->getMilitaire()
+        $lastAffectation = $this->entityManager->getRepository(\App\Entity\Affectation::class)->findOneBy([
+           'militaire' => $value->getMilitaire(),
+            'isActive' => true
         ]);
+
+        $is_valid = true;
 
         // TODO: Verifier les contraintes
 
-        foreach ($affectations as $affectation){
-            if ($affectation->getDateFin != null){
-                if ($affectation->getDate->getTimestamp() < $value ){
+        if ($lastAffectation != null && $value->getDateDebut() != null){
 
-                }
+
+            if ($lastAffectation->getDateDebut()->getTimestamp() > $value->getDateDebut()->getTimestamp()){
+
+                $this->context->buildViolation($constraint->message)
+                    ->setParameter('{{ value }}', '$value')
+                    ->addViolation();
+
             }
+
+
+
+
         }
 
-        if (null === $value || '' === $value) {
-            return;
-        }
-
-        // TODO: implement the validation here
-        $this->context->buildViolation($constraint->message)
-            ->setParameter('{{ value }}', $value)
-            ->addViolation();
     }
 }

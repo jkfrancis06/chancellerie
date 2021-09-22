@@ -91,9 +91,9 @@
                                 <tr>
                                     <td>
                                         {% if militaire.militaire.mainPicture == null %}
-                                            <img height="50" width="50" src="{{ path('download_element', {'name': "default.png" , 'id': Encoder.encode(militaire.militaire.matricule)}) }}" class="img-thumbnail" alt="...">
+                                            <img height="50" width="50" src="{{ path('download_element', {'name': "default.png" , 'id': militaire.militaire.matricule}) }}" class="img-thumbnail" alt="...">
                                         {% else %}
-                                            <img height="50" width="50" src="{{ path('download_element', {'name': militaire.militaire.mainPicture , 'id': Encoder.encode(militaire.militaire.matricule)}) }}" class="img-thumbnail" alt="...">
+                                            <img height="50" width="50" src="{{ path('download_element', {'name': militaire.militaire.mainPicture , 'id': militaire.militaire.matricule}) }}" class="img-thumbnail" alt="...">
                                         {% endif %}
                                     </td>
                                     <td>{{ militaire.militaire.matricule }}</td>

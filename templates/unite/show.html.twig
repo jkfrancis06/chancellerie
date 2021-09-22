@@ -83,9 +83,9 @@
                     <tr>
                         <td>
                             {% if affectation.militaire.mainPicture == null %}
-                                <img height="50" width="50" src="{{ path('download_element', {'name': "default.png" , 'id': Encoder.encode(affectation.militaire.matricule)}) }}" class="img-thumbnail" alt="...">
+                                <img height="50" width="50" src="{{ path('download_element', {'name': "default.png" , 'id': affectation.militaire.matricule}) }}" class="img-thumbnail" alt="...">
                             {% else %}
-                                <img height="50" width="50" src="{{ path('download_element', {'name': affectation.militaire.mainPicture , 'id': Encoder.encode(affectation.militaire.matricule)}) }}" class="img-thumbnail" alt="...">
+                                <img height="50" width="50" src="{{ path('download_element', {'name': affectation.militaire.mainPicture , 'id': affectation.militaire.matricule}) }}" class="img-thumbnail" alt="...">
                             {% endif %}
                         </td>
                         <td>{{ affectation.militaire.matricule }}</td>
