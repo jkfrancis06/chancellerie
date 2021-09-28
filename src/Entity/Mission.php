@@ -33,7 +33,7 @@ class Mission
     private $lieu;
 
     /**
-     * @ORM\Column(type="text")
+     * @ORM\Column(type="text",nullable=true)
      */
     private $commentaire;
 
@@ -91,7 +91,7 @@ class Mission
         return $this->commentaire;
     }
 
-    public function setCommentaire(string $commentaire): self
+    public function setCommentaire(?string $commentaire): self
     {
         $this->commentaire = $commentaire;
 

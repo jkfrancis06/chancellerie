@@ -35,14 +35,17 @@
 {% endblock %}
 
 
+{% form_theme affectationForm 'bootstrap_4_layout.html.twig' %}
+
+
 {% block content %}
 
     <!-- Formulaire Affectation -->
 
     <div class="modal fade right" id="affectationModal" tabindex="-1" aria-labelledby="affectationModalLabel" aria-hidden="true" data-backdrop="static" data-keyboard="false">
-        <div class="modal-dialog modal-full-height modal-right">
+        <div class="modal-dialog modal-lg modal-right">
                 <div class="modal-content">
-                    {{ form_start(affectationForm) }}
+                    {{ form_start(affectationForm,{ 'attr': { 'enctype': 'multipart/form-data'} }) }}
 
                     <span class="text-danger mt-3">
                         {{ form_errors(affectationForm) }}
@@ -86,35 +89,28 @@
                             </div>
                         </div>
 
-
-                        <div>
-                            {{ form_label(affectationForm.piece, "Choisir une piece dans les archives : ", {'label_attr': {'class': 'intitule_label'}}) }}
-                            {{ form_widget(affectationForm.piece, {'attr': {'class': 'mdb-select md-form colorful-select dropdown-ins','searchable':'Rechercher'}}) }}
+                        <div class="mt-3">
+                            {{ form_label(affectationForm.addPiece, "Action : ", {'label_attr': {'class': 'intitule_label'}}) }}
+                            {{ form_widget(affectationForm.addPiece, {'attr': {'class': 'form-control'}}) }}
                             <div class="form-error" style="color: red">
-                                {{ form_errors(affectationForm.piece) }}
+                                {{ form_errors(affectationForm.addPiece) }}
                             </div>
                         </div>
 
-                        <a href="{{ path('militaire_dossiers',{ 'id': militaire.id }) }}"
-                           target="mywindow"
-                           onclick="window.open(this.href,'targetWindow',
-                                   `toolbar=no,
-                                    location=no,
-                                    status=no,
-                                    menubar=no,
-                                    scrollbars=yes,
-                                    resizable=yes,
-                                    width=1200,
-                                    height=1200`);
-                           return false;">
-                            <i class="fa fa-plus"></i> Ajouter une piece
-                        </a>
+
+
+                        <div class="mt-3" id="piece_content_box">
+                            {% if affectationForm.vars.value.addPiece is not null %}
+                                {{ form_widget(affectationForm.piece) }}
+                                <div class="form-error" style="color: red">
+                                    {{ form_errors(affectationForm.addPiece) }}
+                                </div>
+                            {% endif %}
+                        </div>
 
                     </div>
                     <div class="modal-footer justify-content-start">
-                        <div class="mb-3">
-                            <button type="button" class="btn btn-outline-secondary" data-dismiss="modal">Fermer</button>
-                        </div>
+                        <button type="button" class="btn btn-outline-secondary" data-dismiss="modal">Fermer</button>
                         {{ form_row(affectationForm.submit,{'attr':{'class': 'btn btn-outline-success'}}) }}
                     </div>
                     {{ form_end(affectationForm) }}
@@ -126,7 +122,7 @@
     <!-- Formulaire Mission -->
 
     <div class="modal fade" id="missionModal" tabindex="-1" aria-labelledby="missionModalLabel" aria-hidden="true" data-backdrop="static" data-keyboard="false">
-        <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+        <div class="modal-dialog modal-dialog-centered modal-lg modal-dialog-scrollable">
             <div class="modal-content">
                 {{ form_start(militaireMissionForm) }}
 
@@ -938,7 +934,13 @@
 
                                                     <tr {% if key == 0 %}style="background-color: darkseagreen!important;" {% endif %}>
                                                         <td>{{ affectation.dateDebut|date("d-M-Y")  }}</td>
-                                                        <td>{{ affectation.dateFin|date("d-M-Y")  }}</td>
+                                                        <td>
+                                                            {% if affectation.dateFin is not null %}
+                                                                {{ affectation.dateFin|date("d-M-Y")  }}
+                                                            {% else %}
+                                                                -
+                                                            {% endif %}
+                                                        </td>
                                                         <td>{{ affectation.unite.intitule }}</td>
                                                         <td>{{ affectation.unite.corps.intitule }}</td>
                                                         <td>{{ affectation.fonction }}</td>
@@ -1544,13 +1546,12 @@
         // When sport gets selected ...
         $corps.change(function() {
 
-            console.log('ok')
             // ... retrieve the corresponding form.
             var $form = $(this).closest('form');
-            // Simulate form data, but only include the selected sport value.
             var data = {};
             data[$corps.attr('name')] = $corps.val();
             // Submit data via AJAX to the form's action path.
+            console.log(data)
             $.ajax({
                 url : $form.attr('action'),
                 type: $form.attr('method'),
@@ -1560,10 +1561,45 @@
                     $('#affectation_unite').replaceWith(
                         // ... with the returned one from the AJAX response.
                         $(html).find('#affectation_unite')
+
                     );
+
+                    console.log($(html).find('#affectation_unite'))
+
                 }
             });
         });
+
+
+        var $addPiece = $('#affectation_addPiece');
+
+        $addPiece.change(function () {
+
+            console.log(typeof $addPiece.val())
+            var $form = $(this).closest('form');
+            var data = {};
+            data[$addPiece.attr('name')] = $addPiece.val();
+            // Submit data via AJAX to the form's action path.
+            console.log(data)
+            $.ajax({
+                url : $form.attr('action'),
+                type: $form.attr('method'),
+                data : data,
+                success: function(html) {
+
+
+                    $('#piece_content_box').html($(html).find('#affectation_piece'))
+
+                    $('.custom-file input').change(function (e) {
+                        if (e.target.files.length) {
+                            $(this).next('.custom-file-label').html(e.target.files[0].name);
+                        }
+                    });
+
+                }
+            });
+
+        })
     </script>
 
 {% endblock %}

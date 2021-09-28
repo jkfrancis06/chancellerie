@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\Affectation;
+use App\Entity\Corps;
 use App\Entity\Diplome;
 use App\Entity\Exercice;
 use App\Entity\Fichier;
@@ -22,6 +23,7 @@ use App\Entity\OrigineRecrutement;
 use App\Entity\Specialite;
 use App\Entity\Telephone;
 use App\Entity\Unite;
+use SebastianBergmann\CodeCoverage\Report\Xml\Unit;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
@@ -49,6 +51,39 @@ class DummyController extends AbstractController
 
         return new Response('ok');
     }
+
+
+
+    /**
+     * @Route("/pu/", name="parse_unites")
+     */
+    public function parseUnit(): Response
+    {
+        $corps  = $this->getDoctrine()->getManager()->getRepository(Corps::class)->findAll();
+
+        //19593
+
+
+        foreach($corps as $item){
+
+            $unite = new Unite();
+            $unite->setIntitule('DEFAULT');
+            $unite->setDescription('DEFAULT');
+            $unite->setCorps($item);
+
+            $em = $this->getDoctrine()->getManager();
+            $em->persist($unite);
+            $em->flush();
+        }
+
+
+
+
+        return new Response('ok');
+    }
+
+
+
 
     /**
      * @Route("/dummy", name="dummy")

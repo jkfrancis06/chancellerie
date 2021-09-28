@@ -31,8 +31,18 @@ class DossierController extends AbstractController
 
         $done = false;
 
+        if ($militaire->getSousDossiers() == null || sizeof($militaire->getSousDossiers()) == 0){
+            for ($i = 0; $i<=10;$i++){  // create manually sousDossier form collections
+
+                $sousDossier = new SousDossier();
+                $sousDossier->setType($i);
+                $militaire->getSousDossiers()->add($sousDossier);
+
+            }
+        }
 
         $militaireForm = $this->createForm(MilitaireSousDossierUpdateType::class,$militaire);
+
 
         $militaireForm->handleRequest($request);
 
@@ -43,6 +53,9 @@ class DossierController extends AbstractController
             foreach ($sousDossiers as $sousDossier){
 
                 $sousDossier->setNumero($sousDossier->getType());
+
+                $sousDossier->setMilitaire($militaire);
+
 
                 $pieces = $sousDossier->getPieces();
 

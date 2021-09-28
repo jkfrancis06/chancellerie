@@ -52,6 +52,9 @@ class Affectation
      */
     private $isActive;
 
+
+    private $addPiece;
+
     /**
      * @ORM\OneToOne(targetEntity=Piece::class, cascade={"persist", "remove"})
      */
@@ -163,6 +166,18 @@ class Affectation
         $this->corps = $corps;
 
         return $this;
+    }
+
+
+    public function getAddPiece()
+    {
+        return $this->addPiece;
+    }
+
+
+    public function setAddPiece($addPiece): void
+    {
+        $this->addPiece = $addPiece;
     }
 
 }

@@ -7,6 +7,7 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use App\Validator as AppAssert;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity(repositoryClass=MilitaireMissionRepository::class)
@@ -43,13 +44,15 @@ class MilitaireMission
     private $militaire;
 
     /**
-     * @ORM\ManyToOne(targetEntity=Mission::class, inversedBy="militaireMissions")
+     * @Assert\Type(type="App\Entity\Mission")
+     * @Assert\Valid
+     * @ORM\ManyToOne(targetEntity=Mission::class, inversedBy="militaireMissions",cascade={"persist"})
      * @ORM\JoinColumn(nullable=false)
      */
     private $mission;
 
     /**
-     * @ORM\OneToMany(targetEntity=Fichier::class, mappedBy="militaireMission")
+     * @ORM\OneToMany(targetEntity=Fichier::class, mappedBy="militaireMission",cascade={"persist", "remove"})
      */
     private $piecesJoints;
 

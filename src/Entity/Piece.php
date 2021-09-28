@@ -26,7 +26,7 @@ class Piece
     private $datePiece;
 
     /**
-     * @ORM\Column(type="integer")
+     * @ORM\Column(type="integer", nullable=true)
      */
     private $numeroOrdre;
 
@@ -85,7 +85,7 @@ class Piece
         return $this->numeroOrdre;
     }
 
-    public function setNumeroOrdre(int $numeroOrdre): self
+    public function setNumeroOrdre(?int $numeroOrdre): self
     {
         $this->numeroOrdre = $numeroOrdre;
 

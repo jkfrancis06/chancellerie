@@ -35,13 +35,14 @@ class PieceType extends AbstractType
 
             ])
             ->add('file',FileType::class, [
-                'label' => 'Logo',
+                'label' => 'Fichier Joint (Ordre de mutation)',
 
                 'multiple' => false,
 
+
                 // make it optional so you don't have to re-upload the  file
                 // every time you edit details
-                'required' => false,
+                'required' => true,
 
                 'attr'     => [
                     'accept' => 'application/pdf, application/x-pdf',

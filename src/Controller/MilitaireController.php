@@ -185,7 +185,7 @@ class MilitaireController extends AbstractController
     /**
      * @Route("/militaire/d/{id}", name="militaire_details")
      */
-    public function details(int $id, Request $request): Response
+    public function details(int $id, Request $request,FileUploader $fileUploader): Response
     {
 
         $militaire = $this->getDoctrine()->getManager()->getRepository(Militaire::class)->find($id);
@@ -194,8 +194,16 @@ class MilitaireController extends AbstractController
             throw new NotFoundHttpException("Element non trouve");
         }
 
+        /*
+         * Pour les pieces de mutation crees lors de l'affectation, on selectionne le sous dossier correspondant
+         */
+
+
+
         $affectation = new Affectation();
         $affectation->setMilitaire($militaire);
+
+
         $militaireMission = new MilitaireMission();
         $militaireExercice = new MilitaireExercice();
         $militaireMedaille = new MilitaireMedaille();
@@ -268,7 +276,21 @@ class MilitaireController extends AbstractController
                 $em->flush();
             }
 
-            $affectation->setMilitaire($militaire);
+            $mutationDossier = $this->getDoctrine()->getManager()->getRepository(SousDossier::class)->findOneBy([
+                'militaire' => $militaire,
+                'type' => SousDossier::PIECE_MUTATIONS
+            ]);
+            if ($mutationDossier != null) {
+                $affectation->getPiece()->setSousDossier($mutationDossier);
+            }
+
+            $piece = $affectationForm->get('piece')->getData();
+
+            if ($piece->getFile() != null){
+                $fileName = $fileUploader->upload($piece->getFile(),$this->elementsDir.'/'.md5($militaire->getMatricule()));
+                $piece->setFilename($fileName);
+            }
+
             $affectation->setIsActive(true);
             $em->persist($affectation);
             $em->flush();
