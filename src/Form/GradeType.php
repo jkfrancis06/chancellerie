@@ -37,6 +37,9 @@ class GradeType extends AbstractType
                 'label' => 'limiteAge',
                 'help' => "Entrer la limite d'age, 0 pour aucun",
             ])
+            ->add('numeroOrdre', IntegerType::class, [
+                'label' => 'numeroOrdre',
+            ])
             ->add('gradeCategorie', EntityType::class, [
                 'class' => GradeCategorie::class,
 

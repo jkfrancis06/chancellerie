@@ -36,15 +36,17 @@ class MilitaireStatutRepository extends ServiceEntityRepository
     }
     */
 
-    /*
-    public function findOneBySomeField($value): ?MilitaireStatut
+
+    public function getMilitaireStatut($militaire): ?MilitaireStatut
     {
-        return $this->createQueryBuilder('m')
-            ->andWhere('m.exampleField = :val')
-            ->setParameter('val', $value)
+        return $this->createQueryBuilder('s')
+            ->andWhere('s.militaire = :militaire')
+            ->orderBy("s.id", "DESC")
+            ->setParameter('militaire', $militaire)
+            ->setMaxResults(1)
             ->getQuery()
-            ->getOneOrNullResult()
+            ->getOneOrNullResult();
         ;
     }
-    */
+
 }

@@ -74,6 +74,11 @@ class Utilisateur implements UserInterface, PasswordAuthenticatedUserInterface
 
     private $plainPassword;
 
+    /**
+     * @ORM\OneToOne(targetEntity=Militaire::class, cascade={"persist", "remove"})
+     */
+    private $militaire;
+
     public function __construct()
     {
 
@@ -262,6 +267,18 @@ class Utilisateur implements UserInterface, PasswordAuthenticatedUserInterface
     public function setCreatedAt(\DateTimeInterface $createdAt): self
     {
         $this->createdAt = $createdAt;
+
+        return $this;
+    }
+
+    public function getMilitaire(): ?Militaire
+    {
+        return $this->militaire;
+    }
+
+    public function setMilitaire(?Militaire $militaire): self
+    {
+        $this->militaire = $militaire;
 
         return $this;
     }

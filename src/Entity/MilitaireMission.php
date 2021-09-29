@@ -51,10 +51,13 @@ class MilitaireMission
      */
     private $mission;
 
+
+    private $addPiece;
+
     /**
-     * @ORM\OneToMany(targetEntity=Fichier::class, mappedBy="militaireMission",cascade={"persist", "remove"})
+     * @ORM\OneToOne(targetEntity=Piece::class, cascade={"persist", "remove"})
      */
-    private $piecesJoints;
+    private $piece;
 
     public function __construct()
     {
@@ -126,32 +129,25 @@ class MilitaireMission
         return $this;
     }
 
-    /**
-     * @return Collection|Fichier[]
-     */
-    public function getPiecesJoints(): Collection
+    public function getAddPiece()
     {
-        return $this->piecesJoints;
+        return $this->addPiece;
     }
 
-    public function addPiecesJoint(Fichier $piecesJoint): self
-    {
-        if (!$this->piecesJoints->contains($piecesJoint)) {
-            $this->piecesJoints[] = $piecesJoint;
-            $piecesJoint->setMilitaireMission($this);
-        }
 
-        return $this;
+    public function setAddPiece($addPiece): void
+    {
+        $this->addPiece = $addPiece;
     }
 
-    public function removePiecesJoint(Fichier $piecesJoint): self
+    public function getPiece(): ?Piece
     {
-        if ($this->piecesJoints->removeElement($piecesJoint)) {
-            // set the owning side to null (unless already changed)
-            if ($piecesJoint->getMilitaireMission() === $this) {
-                $piecesJoint->setMilitaireMission(null);
-            }
-        }
+        return $this->piece;
+    }
+
+    public function setPiece(?Piece $piece): self
+    {
+        $this->piece = $piece;
 
         return $this;
     }

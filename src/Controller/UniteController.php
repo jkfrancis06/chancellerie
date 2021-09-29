@@ -11,7 +11,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
-#[Route('/unite')]
+#[Route('/ch/unite')]
 class UniteController extends AbstractController
 {
     #[Route('/', name: 'unite_index', methods: ['GET'])]

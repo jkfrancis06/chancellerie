@@ -14,6 +14,7 @@ use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\Routing\Annotation\Route;
 
 
+#[Route('/ch')]
 class IndiceController extends AbstractController
 {
     /**

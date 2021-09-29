@@ -166,6 +166,26 @@
                     </div>
 
 
+                    <div class="mt-3">
+                        {{ form_label(militaireMissionForm.addPiece, "Action : ", {'label_attr': {'class': 'intitule_label'}}) }}
+                        {{ form_widget(militaireMissionForm.addPiece, {'attr': {'class': 'form-control'}}) }}
+                        <div class="form-error" style="color: red">
+                            {{ form_errors(militaireMissionForm.addPiece) }}
+                        </div>
+                    </div>
+
+
+
+                    <div class="mt-3" id="piece_content_box">
+                        {% if militaireMissionForm.vars.value.addPiece is not null %}
+                            {{ form_widget(militaireMissionForm.piece) }}
+                            <div class="form-error" style="color: red">
+                                {{ form_errors(militaireMissionForm.addPiece) }}
+                            </div>
+                        {% endif %}
+                    </div>
+
+
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Fermer</button>

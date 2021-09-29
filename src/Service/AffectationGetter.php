@@ -22,4 +22,32 @@ class AffectationGetter
     public function getLastAffectation($militaire){
         return $this->entityManager->getRepository(Affectation::class)->findActiveAff($militaire);
     }
+
+    public function countAffectations($unite){
+        $activeAffectations = [];
+        if ($unite != null){
+            $activeAffectations = $this->entityManager->getRepository(Affectation::class)->findBy([
+               'unite' => $unite,
+                'isActive' => true
+            ]);
+        }
+
+        return count($activeAffectations);
+
+    }
+
+
+    public function getAffectations($unite){
+        $activeAffectations = [];
+        if ($unite != null){
+            $activeAffectations = $this->entityManager->getRepository(Affectation::class)->findBy([
+                'unite' => $unite,
+                'isActive' => true
+            ]);
+        }
+
+        return $activeAffectations;
+
+    }
+
 }

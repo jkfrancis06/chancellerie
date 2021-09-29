@@ -37,6 +37,14 @@
                         {{ form_errors(gradeForm) }}
 
                         <div class="mb-3">
+                            {{ form_label(gradeForm.numeroOrdre, "Numero d'hierarchie : ", {'label_attr': {'class': 'intitule_label'}}) }}
+                            {{ form_widget(gradeForm.numeroOrdre, {'attr': {'class': 'form-control'}}) }}
+                            <div class="form-error" style="color: red">
+                                {{ form_errors(gradeForm.numeroOrdre) }}
+                            </div>
+                        </div>
+
+                        <div class="mb-3">
                             {{ form_label(gradeForm.intitule, "Intitule du grade : ", {'label_attr': {'class': 'intitule_label'}}) }}
                             {{ form_widget(gradeForm.intitule, {'attr': {'class': 'form-control'}}) }}
                             <div class="form-error" style="color: red">
@@ -86,9 +94,12 @@
                             <div class="card-body">
                                 <h5 class="card-title">Liste des  grades</h5>
                                 <hr>
-                                <table id="grade_data" class="table table-responsive table-bordered table-striped table-hover">
+                                <table id="grade_data" class="table text-center table-responsive table-bordered table-striped table-hover">
                                     <thead>
                                     <tr>
+                                        <th>
+                                            Numero d'hierarchie
+                                        </th>
                                         <th>
                                             Categorie
                                         </th>
@@ -112,6 +123,7 @@
                                     {% else %}
                                         {% for grade in grades%}
                                             <tr>
+                                                <td>{{ grade.numeroOrdre }}</td>
                                                 <td>{{ grade.gradeCategorie.intitule }}</td>
                                                 <td>{{ grade.intitule }}</td>
                                                 <td>{{ grade.description }}</td>
@@ -175,7 +187,7 @@
                             <div class="card-body">
                                 <h5 class="card-title">Liste des categories de grade</h5>
                                 <hr>
-                                <table class="table table-responsive table-bordered table-striped table-hover">
+                                <table class="table  table-responsive table-bordered table-striped table-hover">
                                     <thead>
                                     <tr>
                                         <th></th>
@@ -213,12 +225,12 @@
     <script>
         $(document).ready(function() {
             $('#grade_data').DataTable( {
-                order: [[0, 'asc']],
+                order: [[1, 'asc']],
                 rowGroup: {
-                    dataSrc: 0
+                    dataSrc: 1
                 },
                 
-                "order": [[ 1, "asc" ]],
+                "order": [[ 0, "desc" ]],
                 "language": {
                     "sProcessing":     "Traitement en cours...",
                     "sSearch":         "Rechercher&nbsp;:",

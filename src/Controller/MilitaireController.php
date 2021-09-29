@@ -35,6 +35,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\Routing\Annotation\Route;
 
+#[Route('/ch')]
 class MilitaireController extends AbstractController
 {
 
@@ -620,7 +621,7 @@ class MilitaireController extends AbstractController
 
         $elements = [];
 
-        $militaires =  $this->getDoctrine()->getManager()->getRepository(Militaire::class)->findBy(array(), array('matricule' => 'ASC'));
+        $militaires =  $this->getDoctrine()->getManager()->getRepository(Militaire::class)->findAllMilitaires();
 
 
         foreach ($militaires as $militaire){

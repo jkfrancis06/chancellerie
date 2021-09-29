@@ -54,6 +54,11 @@ class Grade
      */
     private $limiteAge;
 
+    /**
+     * @ORM\Column(type="integer", nullable=true)
+     */
+    private $numeroOrdre;
+
 
 
     public function __construct()
@@ -168,6 +173,18 @@ class Grade
     public function setLimiteAge(?int $limiteAge): self
     {
         $this->limiteAge = $limiteAge;
+
+        return $this;
+    }
+
+    public function getNumeroOrdre(): ?int
+    {
+        return $this->numeroOrdre;
+    }
+
+    public function setNumeroOrdre(?int $numeroOrdre): self
+    {
+        $this->numeroOrdre = $numeroOrdre;
 
         return $this;
     }

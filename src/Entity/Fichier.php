@@ -42,10 +42,7 @@ class Fichier
      */
     private $militaire;
 
-    /**
-     * @ORM\ManyToOne(targetEntity=MilitaireMission::class, inversedBy="piecesJoints")
-     */
-    private $militaireMission;
+
 
     public function __construct()
     {
@@ -118,15 +115,4 @@ class Fichier
         return $this;
     }
 
-    public function getMilitaireMission(): ?MilitaireMission
-    {
-        return $this->militaireMission;
-    }
-
-    public function setMilitaireMission(?MilitaireMission $militaireMission): self
-    {
-        $this->militaireMission = $militaireMission;
-
-        return $this;
-    }
 }

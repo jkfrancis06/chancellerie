@@ -10,7 +10,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
-#[Route('/corps/crud')]
+#[Route('/ch/corps/crud')]
 class CorpsCrudController extends AbstractController
 {
     #[Route('/', name: 'corps_crud_index', methods: ['GET'])]

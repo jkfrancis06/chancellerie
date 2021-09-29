@@ -77,6 +77,7 @@ class UtilisateurCrudController extends AbstractCrudController
                 ->setRequired($pageName == Crud::PAGE_NEW),
             BooleanField::new('isActive'),
             BooleanField::new('isDeleted'),
+            AssociationField::new('militaire'),
             ArrayField::new('roles'),
         ];
     }

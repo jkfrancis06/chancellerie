@@ -22,19 +22,32 @@ class MilitaireRepository extends ServiceEntityRepository
     // /**
     //  * @return Militaire[] Returns an array of Militaire objects
     //  */
-    /*
-    public function findByExampleField($value)
+    public function findAllMilitaires()
     {
         return $this->createQueryBuilder('m')
-            ->andWhere('m.exampleField = :val')
-            ->setParameter('val', $value)
-            ->orderBy('m.id', 'ASC')
-            ->setMaxResults(10)
+            ->leftJoin('m.grade', 'g')
+            ->orderBy('g.numeroOrdre', 'desc')
             ->getQuery()
             ->getResult()
         ;
     }
-    */
+
+
+
+    public function findMilitairesFromUnites($unite)
+    {
+        return $this->createQueryBuilder('m')
+            ->leftJoin('m.affectations', 'a')
+            ->leftJoin('m.grade', 'g')
+            ->where('a.unite = :unite')
+            ->andWhere('a.isActive = :active')
+            ->orderBy('g.numeroOrdre', 'desc')
+            ->setParameter('unite', $unite)
+            ->setParameter('active', true)
+            ->getQuery()
+            ->getResult()
+            ;
+    }
 
 
     public function searchMilitaire($form)
@@ -192,6 +205,8 @@ class MilitaireRepository extends ServiceEntityRepository
             $qb->setParameter('origineRecrutement', $origineRecrutement);
         }
 
+        $qb->leftJoin('m.grade','g');
+        $qb->orderBy('g.numeroOrdre', 'desc');
 
 
         return $qb->getQuery()->getResult();

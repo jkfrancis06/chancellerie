@@ -20,6 +20,8 @@ use App\Entity\MilitaireMission;
 use App\Entity\MilitaireStatut;
 use App\Entity\Mission;
 use App\Entity\OrigineRecrutement;
+use App\Entity\Piece;
+use App\Entity\SousDossier;
 use App\Entity\Specialite;
 use App\Entity\Telephone;
 use App\Entity\Unite;
@@ -59,20 +61,17 @@ class DummyController extends AbstractController
      */
     public function parseUnit(): Response
     {
-        $corps  = $this->getDoctrine()->getManager()->getRepository(Corps::class)->findAll();
+        $corps  = $this->getDoctrine()->getManager()->getRepository(Affectation::class)->findAll();
 
         //19593
 
 
         foreach($corps as $item){
 
-            $unite = new Unite();
-            $unite->setIntitule('DEFAULT');
-            $unite->setDescription('DEFAULT');
-            $unite->setCorps($item);
+
 
             $em = $this->getDoctrine()->getManager();
-            $em->persist($unite);
+            $em->remove($item);
             $em->flush();
         }
 
@@ -233,6 +232,22 @@ class DummyController extends AbstractController
             $rand_aff = rand(1, sizeof($unites)-1);
 
             $j = 0;
+
+            if ($militaire->getSousDossiers() == null || sizeof($militaire->getSousDossiers()) == 0){
+                for ($i = 0; $i<=10;$i++){  // create manually sousDossier form collections
+
+                    $sousDossier = new SousDossier();
+                    $sousDossier->setNumero($i);
+                    $sousDossier->setType($i);
+                    $militaire->getSousDossiers()->add($sousDossier);
+
+                }
+            }
+
+            $em = $this->getDoctrine()->getManager();
+            $em->flush();
+
+
             while ($j < $rand_aff){
                 array_push($array,$j);
                 $j++;
@@ -267,6 +282,25 @@ class DummyController extends AbstractController
                 $militaireAffectation->setUnite($unites[$randomElement]);
 
                 $militaireAffectation->setFonction($unites[$randomElement]->getDescription().'  '.$unites[$randomElement]->getCorps()->getIntitule());
+
+                $piece = new Piece();
+                $piece->setFilename('test.pdf');
+                $piece->setDescription('Random-'.$i);
+
+                $mutationDossier = $this->getDoctrine()->getManager()->getRepository(SousDossier::class)->findOneBy([
+                    'militaire' => $militaire,
+                    'type' => SousDossier::PIECE_MUTATIONS
+                ]);
+                if ($mutationDossier != null) {
+                    $piece->setSousDossier($mutationDossier);
+                }
+
+
+
+                if ($i == $rand_aff) {
+                    $militaireAffectation->setIsActive(true);
+                }
+
 
                 $militaire->addAffectation($militaireAffectation);
 

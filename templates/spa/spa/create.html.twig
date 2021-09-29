@@ -1,0 +1,138 @@
+{% extends 'nav-spa.html.twig' %}
+
+{% block title %}Nouvelle SPA {{ unite.intitule }}{% endblock %}
+
+
+
+{% block content %}
+
+    <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item">
+                <a href="{{ path('spa_create') }}">Liste des unites</a>
+            </li>
+            <li class="breadcrumb-item active">SPA {{ unite.intitule }}</li>
+        </ol>
+    </nav>
+
+    <form id="dataForm" action="">
+
+        <div class="row">
+            <div class="col col-12">
+                <table id="spaMilitaires" class="table text-center table-bordered table-striped table-hover">
+
+                </table>
+                <button id="submit" type="button" class="btn btn-primary">Envoyer</button>
+            </div>
+        </div>
+
+    </form>
+
+
+
+{% endblock %}
+
+ {% block js %}
+     <script  src="{{ asset('/assets/js/bootstrap/AppendGrid.js') }}"></script>
+ {% endblock %}
+
+{% block botton_javascripts %}
+    <script>
+
+
+        $(document).ready(function () {
+            var myAppendGrid = new AppendGrid({
+                element: "spaMilitaires",
+                iconFramework: "fontawesome5",
+                uiFramework: "bootstrap4",
+                hideRowNumColumn: true,
+                hideButtons: {
+                    // Hide the move up and move down button on each row
+                    moveUp: true,
+                    moveDown: true,
+                    insert: true,
+                    remove: true,
+                    append: true,
+                    removeLast: true,
+                },
+                columns: [
+                    {
+                        name: "id",
+                        display: "id",
+                        type: "hidden"
+                    },
+                    {
+                        name: "numero",
+                        display: "#",
+                        type: "readonly",
+                        ctrlClass: "text-center"
+                    },
+                    {
+                        name: "matricule",
+                        display: "Numero Matricule",
+                        type: "readonly",
+                        ctrlClass: "text-center"
+                    },
+                    {
+                        name: "grade",
+                        display: "Grade",
+                        type: "readonly",
+                        ctrlClass: "text-center"
+                    },
+                    {
+                        name: "name",
+                        display: "Nom et Prenoms",
+                        type: "readonly",
+                        ctrlClass: "text-center"
+                    },
+                    {
+                        name: "statut",
+                        display: "Statut",
+                        type: "select",
+                        ctrlClass: "text-center",
+                        ctrlOptions:
+                            {
+                                3: "En service",
+                                0: "Retraite",
+                                1: "Radie",
+                                2: "Permission longue-duree",
+                                4: "Disponibilite",
+                                5: "Detachement",
+                                6: "Deserteur",
+                                7: "Absence",
+                                8: "Arret maladie"
+                            }
+                    },
+                    {
+                        name: "commentaire",
+                        display: "Commentaire",
+                        type: "textarea",
+                    },
+                ],
+                initData: [
+                    {% for key,militaire in militaires %}
+                        {
+                            id: {{ militaire.id }},
+                            numero: {{ key+1 }},
+                            matricule: {{ militaire.matricule }},
+                            grade: "{{ militaire.grade.intitule }}",
+                            name: "{{ militaire.nom }}" +"  " +"{{ militaire.prenoms }}",
+                            statut: {{ GetMilitaireStatut.getStatut(militaire).statut }},
+                        },
+
+                    {% endfor %}
+
+                ]
+            });
+
+
+
+            $("#submit").on("click", function() {
+                // Hide alert message
+                console.log($("#dataForm").val())
+            });
+
+        })
+
+    </script>
+{% endblock %}

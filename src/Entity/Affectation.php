@@ -66,6 +66,10 @@ class Affectation
     private $corps;
 
 
+    public function __construct(){
+        $this->isActive = false;
+    }
+
     public function getId(): ?int
     {
         return $this->id;

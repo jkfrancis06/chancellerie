@@ -1,0 +1,55 @@
+{% extends 'nav-spa.html.twig' %}
+
+{% block title %}Nouvelle SPA{% endblock %}
+
+
+
+{% block content %}
+
+    <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item active">Liste des unites</li>
+        </ol>
+    </nav>
+
+    <div class="row">
+        <div class="col col-12">
+            <table class="table text-center table-bordered table-striped table-hover">
+                <thead>
+                    <tr>
+                        <th>Intitule</th>
+                        <th>Description</th>
+                        <th>Corps</th>
+                        <th>Effectif</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+
+                <tbody>
+
+                    {% for unite in unites %}
+                        <tr>
+                            <td>{{ unite.intitule }}</td>
+                            <td>{{ unite.description }}</td>
+                            <td>{{ unite.corps.intitule }}</td>
+                            <td>{{ AffectationGetter.countAffectations(unite) }} éléments</td>
+                            <td>
+                                <a class="btn btn-sm btn-primary" href="{{ path('spa_unite_create', { 'id': unite.id }) }}">
+                                    <i class="fa fa-plus-circle mr-2"></i>
+                                    Nouvelle SPA
+                                </a>
+                            </td>
+                        </tr>
+                    {% endfor %}
+
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+
+
+{% endblock %}
+
+{% block botton_javascripts %}
+{% endblock %}
