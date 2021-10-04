@@ -12,6 +12,21 @@ use App\Validator as AppAssert;
  */
 class MilitaireStatut
 {
+
+
+
+    const STATUT_RETRAITE = 0;
+    const STATUT_RADIE = 1;
+    const STATUT_PERM_LD = 2;
+    const STATUT_SERVICE = 3;
+    const STATUT_DISPONIBILITE = 4;
+    const STATUT_DETACHEMENT = 5;
+    const STATUT_DESERTEUR = 6;
+    const STATUT_ABSENCE = 7;
+    const STATUT_ARR_MALADIE = 8;
+
+
+
     /**
      * @ORM\Id
      * @ORM\GeneratedValue

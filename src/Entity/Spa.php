@@ -50,6 +50,7 @@ class Spa
 
     public function __construct()
     {
+        $this->setCreatedAt(new \DateTime());
         $this->militaireSpas = new ArrayCollection();
     }
 

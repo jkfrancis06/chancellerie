@@ -3,8 +3,73 @@
 {% block title %}Nouvelle SPA{% endblock %}
 
 
+{% block stylesheets %}
+    <link rel="stylesheet" href="{{ asset('/assets/css/parsley/parsley.css') }}" />
+    <style>
+        #spaDateModal.modal.custom-class {
+            z-index: 1029
+        }
+    </style>
+{% endblock %}
+
+ {% block javascripts %}
+     <script  src="{{ asset('/assets/js/parsley/parsley.js') }}"></script>
+     <script  src="{{ asset('/assets/js/parsley/i18n/fr.js') }}"></script>
+ {% endblock %}
+
+
 
 {% block content %}
+
+
+    <!--Modal: modalConfirmOutdated SPA-->
+
+
+    <!-- SPA Date Modal -->
+    <div class="modal fade" id="spaDateModal" tabindex="-1" role="dialog" aria-labelledby="spaDateModal"
+
+         aria-hidden="true">
+        <div class="modal-dialog  modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Selectionner la date de la SPA</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+
+                    <form id="dateInputForm" data-parsley-validate="">
+
+
+                        <div class="row">
+
+                            <div class="col col-12">
+                                <label for="spaDate">Date de la SPA : </label>
+                                <input data-parsley-trigger="input" name="spaDate" data-parsley-date="" required="" type="date" id="spaDate" class="form-control">
+                            </div>
+
+                            <div class="col col-12 mt-5">
+                                <div id="dateAlert" class="alert alert-warning alert-dismissible fade show" role="alert">
+                                    <strong>Attention!</strong> Vous etes sur le point de creer une SPA antidatee
+                                </div>
+                            </div>
+
+                            <div class="col col-12 mt-3">
+                                <a id="validateSpaDate" type="submit" class="btn btn-primary" value="validate">Valider</a>
+                            </div>
+
+                        </div>
+
+
+
+
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
 
     <nav aria-label="breadcrumb">
         <ol class="breadcrumb">
@@ -34,12 +99,45 @@
                             <td>{{ unite.corps.intitule }}</td>
                             <td>{{ AffectationGetter.countAffectations(unite) }} éléments</td>
                             <td>
-                                <a class="btn btn-sm btn-primary" href="{{ path('spa_unite_create', { 'id': unite.id }) }}">
+                                <a id="spaDateTrigger" data-unite="{{ unite.id }}" class="btn btn-sm btn-primary"
+                                   data-toggle="modal" data-target="#spaDateModal">
                                     <i class="fa fa-plus-circle mr-2"></i>
                                     Nouvelle SPA
                                 </a>
                             </td>
                         </tr>
+
+                        {% for spa in unite.spas %}
+                            <tr>
+                                <td colspan="5">
+                                    <div class="accordion" id="accordionExample">
+                                        <div class="card z-depth-0 bordered">
+                                            <div class="card-header" id="headingOne">
+                                                <h5 class="mb-0">
+                                                    <button class="btn btn-link" type="button" data-toggle="collapse" data-target="#collapseOne"
+                                                            aria-expanded="true" aria-controls="collapseOne">
+                                                        {{ spa.createdAt|date('d-m-Y') }}
+                                                    </button>
+                                                </h5>
+                                            </div>
+                                            <div id="collapseOne" class="collapse" aria-labelledby="headingOne"
+                                                 data-parent="#accordionExample">
+                                                <div class="card-body">
+                                                    Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. 3
+                                                    wolf moon officia aute, non cupidatat skateboard dolor brunch. Food truck quinoa nesciunt laborum
+                                                    eiusmod. Brunch 3 wolf moon tempor, sunt aliqua put a bird on it squid single-origin coffee nulla
+                                                    assumenda shoreditch et. Nihil anim keffiyeh helvetica, craft beer labore wes anderson cred
+                                                    nesciunt sapiente ea proident. Ad vegan excepteur butcher vice lomo. Leggings occaecat craft beer
+                                                    farm-to-table, raw denim aesthetic synth nesciunt you probably haven't heard of them accusamus
+                                                    labore sustainable.
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </td>
+                            </tr>
+                        {% endfor %}
+
                     {% endfor %}
 
                 </tbody>
@@ -49,7 +147,80 @@
 
 
 
+
 {% endblock %}
 
 {% block botton_javascripts %}
+    <script>
+        $(document).ready(function () {
+
+            $("#dateAlert").hide()
+
+            var unite_id ;
+            var spaDate;
+
+            $("#validateSpaDate").hide()
+
+            $('#spaDateTrigger').on('click',function () {
+                unite_id = $(this).attr('data-unite')
+            })
+
+            $('#modalConfirmOutdated').on('shown.bs.modal', function() {
+                //Make sure the modal and backdrop are siblings (changes the DOM)
+                console.log("modal")
+                $(this).before($('.modal-backdrop'));
+                //Make sure the z-index is higher than the backdrop
+                $(this).css("z-index", parseInt($('.modal-backdrop').css('z-index')) + 1);
+            });
+
+            Parsley.addValidator('date', {
+                validateString: function(value) {
+                    var $spaDate = $('#spaDate');
+                    console.log($spaDate.val())
+
+                    $("#dateAlert").hide()
+
+                    $("#validateSpaDate").hide()
+
+                    spaDate = $spaDate.val()
+
+                    var xhr = $.ajax('/spa/unite/xhr-cd/' + $spaDate.val()+'/'+ unite_id)
+                    return xhr.then(function(response) {
+                        console.log(response)
+                        if (response.found === true) {
+                            return $.Deferred().reject("Il déjà existe une SPA a cette date");
+                        }
+                        if (response.isOutDated === true) {
+                            $("#dateAlert").show()
+                        }
+                    })
+                },
+            });
+
+            $('#dateInputForm').parsley().on('field:validated', function() {
+                var ok = $('.parsley-error').length === 0;
+                $('.bs-callout-info').toggleClass('hidden', !ok);
+                $('.bs-callout-warning').toggleClass('hidden', ok);
+
+                var url = "http://"+window.location.host+"/spa/unite/create-spa/"+unite_id+"/"+spaDate;
+
+                $("#validateSpaDate").attr("href", url);
+
+                $("#validateSpaDate").show()
+
+            })
+                .on('form:submit', function() {
+                    return false;
+                });
+
+
+
+            /*var $spaBtn = $('#validateSpaDate');
+            $spaBtn.on('click',function (e) {
+                e.preventDefault()
+                var $spaDate = $('#spaDate');
+                console.log( $spaDate.val())
+            })*/
+        })
+    </script>
 {% endblock %}
