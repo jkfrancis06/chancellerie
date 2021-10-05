@@ -1,28 +1,53 @@
-{% extends 'base.html.twig' %}
 
-{% block title %}Corps index{% endblock %}
+{% extends 'nav.html.twig' %}
 
-{% block body %}
-    <h1>Corps index</h1>
+{% block title %}Corps{% endblock %}
 
-    <table class="table">
+{% block content %}
+
+    <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item active"> Liste des corps</li>
+        </ol>
+    </nav>
+
+
+
+    {% for message in app.session.flashbag.get('unite_add') %}
+        <div class="alert alert-success alert-dismissible fade show" role="alert">
+            <strong>{{ message }}!</strong>
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+    {% endfor %}
+
+    <a class="btn btn-deep-purple mb-5" href="{{ path('corps_crud_new') }}">
+        <i class="fa fa-plus"></i>
+        Creer un corps
+    </a>
+
+
+    <table id="corps_list" class="table table-striped table-bordered table-hover">
         <thead>
             <tr>
-                <th>Id</th>
+                <th></th>
                 <th>Intitule</th>
                 <th>Description</th>
-                <th>actions</th>
+                <th></th>
             </tr>
         </thead>
         <tbody>
         {% for corps in corps %}
             <tr>
-                <td>{{ corps.id }}</td>
+                <td class="d-flex justify-content-center">
+                    <img height="50" width="50" src="{{ asset('/logos/') }}{{ corps.mainPicture }}" class="img-thumbnail" alt="...">
+                </td>
                 <td>{{ corps.intitule }}</td>
                 <td>{{ corps.description }}</td>
                 <td>
-                    <a href="{{ path('corps_crud_show', {'id': corps.id}) }}">show</a>
-                    <a href="{{ path('corps_crud_edit', {'id': corps.id}) }}">edit</a>
+                    <a class="btn btn-primary btn-sm" href="{{ path('corps_crud_show', {'id': corps.id}) }}">Voir</a>
+                    <a class="btn btn-secondary btn-sm" href="{{ path('corps_crud_edit', {'id': corps.id}) }}">Modifier</a>
                 </td>
             </tr>
         {% else %}
@@ -33,5 +58,44 @@
         </tbody>
     </table>
 
-    <a href="{{ path('corps_crud_new') }}">Create new</a>
+
+
+{% endblock %}
+
+
+
+{% block botton_javascripts %}
+<script>
+    $(document).ready(function() {
+        $('#corps_list').DataTable( {
+            rowGroup: {
+                dataSrc: 2
+            },
+
+            "order": [[ 2, "asc" ]],
+            "language": {
+                "sProcessing":     "Traitement en cours...",
+                "sSearch":         "Rechercher&nbsp;:",
+                "sLengthMenu":     "Afficher _MENU_ &eacute;l&eacute;ments",
+                "sInfo":           "Affichage de l'&eacute;lement _START_ &agrave; _END_ sur _TOTAL_ &eacute;l&eacute;ments",
+                "sInfoEmpty":      "Affichage de l'&eacute;lement 0 &agrave; 0 sur 0 &eacute;l&eacute;ments",
+                "sInfoFiltered":   "(filtr&eacute; de _MAX_ &eacute;l&eacute;ments au total)",
+                "sInfoPostFix":    "",
+                "sLoadingRecords": "Chargement en cours...",
+                "sZeroRecords":    "Aucun &eacute;l&eacute;ment &agrave; afficher",
+                "sEmptyTable":     "Aucune donn&eacute;e disponible dans le tableau",
+                "oPaginate": {
+                    "sFirst":      "Premier",
+                    "sPrevious":   "Pr&eacute;c&eacute;dent",
+                    "sNext":       "Suivant",
+                    "sLast":       "Dernier"
+                },
+                "oAria": {
+                    "sSortAscending":  ": activer pour trier la colonne par ordre croissant",
+                    "sSortDescending": ": activer pour trier la colonne par ordre d&eacute;croissant"
+                }
+            }
+        } );
+    } );
+</script>
 {% endblock %}

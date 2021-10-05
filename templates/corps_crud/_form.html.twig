@@ -1,4 +1,58 @@
-{{ form_start(form) }}
-    {{ form_widget(form) }}
-    <button class="btn">{{ button_label|default('Save') }}</button>
-{{ form_end(form) }}
+
+
+<div class="col col-6">
+    {{ form_start(form) }}
+
+    <div class="text-danger">
+        {{ form_errors(form) }}
+    </div>
+
+    <div class="mb-3">
+        {{ form_label(form.intitule, "Nom  de l'unite : ", {'label_attr': {'class': 'intitule_label'}}) }}
+        {{ form_widget(form.intitule, {'attr': {'class': 'form-control'}}) }}
+        <div class="form-error" style="color: red">
+            {{ form_errors(form.intitule) }}
+        </div>
+    </div>
+
+    <div class="mb-3">
+        {{ form_label(form.description, "Description de l'unite : ", {'label_attr': {'class': 'intitule_label'}}) }}
+        {{ form_widget(form.description, {'attr': {'class': 'form-control'}}) }}
+        <div class="form-error" style="color: red">
+            {{ form_errors(form.description) }}
+        </div>
+    </div>
+
+    <div class="mb-3">
+
+        {{ form_widget(form.chefCorps, {'attr': {'class': 'mdb-select  md-form colorful-select dropdown-ins','searchable': 'Rechercher un militaire'}}) }}
+        {{ form_label(form.chefCorps, "Chef de corps : ", {'label_attr': {'class': ''}}) }}
+        <div class="form-error" style="color: red">
+            {{ form_errors(form.chefCorps) }}
+        </div>
+    </div>
+
+    <div class="md-form">
+        <div class="file-field">
+            <div class="btn blue-gradient btn-sm float-left">
+                <span><i class="fas fa-cloud-upload-alt mr-2" aria-hidden="true"></i>Choisir un fichier</span>
+                {{ form_widget(form.mainPicture, {'attr': {'class': 'form-control'}}) }}
+            </div>
+            <div class="file-path-wrapper">
+                <input class="file-path validate" readonly type="text" placeholder="Uploader une image">
+            </div>
+        </div>
+        <div class="form-error" style="color: red">
+            {{ form_errors(form.mainPicture) }}
+        </div>
+
+
+    </div>
+
+    <hr>
+    <div class="d-flex justify-content-start">
+        {{ form_row(form.save,{'attr':{'class': 'btn btn-outline-secondary form-btn'}}) }}
+    </div>
+
+    {{ form_end(form) }}
+</div>

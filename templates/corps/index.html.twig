@@ -234,9 +234,7 @@
                                         {% for corps in db_corps %}
 
                                             <tr>
-                                                <td class="d-flex justify-content-center">
-                                                    <img height="50" width="50" src="{{ asset('/logos/') }}{{ corps.fichiers[0].nom }}" class="img-thumbnail" alt="...">
-                                                </td>
+
                                                 <td>{{ corps.intitule }}</td>
                                                 <td>{{ corps.description }}</td>
                                             </tr>

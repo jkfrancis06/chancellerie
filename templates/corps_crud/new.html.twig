@@ -1,11 +1,16 @@
-{% extends 'base.html.twig' %}
+{% extends 'nav.html.twig' %}
 
-{% block title %}New Corps{% endblock %}
+{% block title %}Creer un corps{% endblock %}
 
-{% block body %}
-    <h1>Create new Corps</h1>
+{% block content %}
+
+    <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="{{ path('corps_crud_index') }}">Liste des corps</a></li>
+            <li class="breadcrumb-item active">Nouveau</li>
+        </ol>
+    </nav>
 
     {{ include('corps_crud/_form.html.twig') }}
 
-    <a href="{{ path('corps_crud_index') }}">back to list</a>
 {% endblock %}

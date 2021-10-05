@@ -96,6 +96,15 @@ class SpaController extends AbstractController
 
         $dateObject = new \DateTime($date);
 
+        $spas = $this->getDoctrine()->getManager()->getRepository(Spa::class)->findBy([
+            'dateSpa' => $dateObject,
+            'unite' => $unite
+        ]);
+
+        if ($spas != null){
+            return $this->redirectToRoute('spa_create');
+        }
+
         $militaires = $this->getDoctrine()->getManager()->getRepository(Militaire::class)->findMilitairesFromUnites($unite);
 
         return $this->render('spa/spa/create.html.twig', [
@@ -132,13 +141,13 @@ class SpaController extends AbstractController
             $found = true;
         }else{
             $spas = $this->getDoctrine()->getManager()->getRepository(Spa::class)->findBy([
-                'createdAt' => $dateObject,
+                'dateSpa' => $dateObject,
                 'unite' => $unite
             ]);
             if ($spas == null){
                 $found = false;
             }else{
-                $found = false;
+                $found = true;
             }
         }
 
@@ -150,6 +159,7 @@ class SpaController extends AbstractController
             'time' => $dateObject->getTimestamp(),
             'today' => strtotime($date),
             'date' => $date,
+            'spa' => $spas,
             'unite' => $unite,
         ]);
 
@@ -173,6 +183,7 @@ class SpaController extends AbstractController
         $spa->setCreatedBy($this->getUser()->getMilitaire());
         $spa->setUnite($unite);
         $spa->setCommentaire($data['commentaire']);
+        $spa->setDateSpa(new \DateTime($date));
 
         $em = $this->getDoctrine()->getManager();
         $em->persist($spa);

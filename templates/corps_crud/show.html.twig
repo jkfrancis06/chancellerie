@@ -1,16 +1,31 @@
-{% extends 'base.html.twig' %}
+{% extends 'nav.html.twig' %}
 
-{% block title %}Corps{% endblock %}
+{% block title %}{{ corps.intitule }}{% endblock %}
 
-{% block body %}
-    <h1>Corps</h1>
+{% block content %}
+
+    <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="{{ path('corps_crud_index') }}">Liste des corps</a></li>
+            <li class="breadcrumb-item active">{{ corps.intitule }}</li>
+        </ol>
+    </nav>
+
+
+    <div class="mt-3 mb-5">
+
+        <div class="d-flex justify-content-start">
+            <a class="btn btn-secondary" href="{{ path('corps_crud_edit', {'id': corps.id}) }}">
+                <i class="fa fa-edit"></i>
+                Modifier
+            </a>
+            {{ include('corps_crud/_delete_form.html.twig') }}
+        </div>
+
+    </div>
 
     <table class="table">
         <tbody>
-            <tr>
-                <th>Id</th>
-                <td>{{ corps.id }}</td>
-            </tr>
             <tr>
                 <th>Intitule</th>
                 <td>{{ corps.intitule }}</td>
@@ -22,9 +37,40 @@
         </tbody>
     </table>
 
-    <a href="{{ path('corps_crud_index') }}">back to list</a>
+    <div class="mt-5">
+        <h5>{{ corps.intitule }}  ({{ unites | length }} unites) </h5>
+        <hr>
 
-    <a href="{{ path('corps_crud_edit', {'id': corps.id}) }}">edit</a>
+        <table id="unites" class="table table-bordered table-striped table-hover text-center">
+            <thead>
+            <tr>
+                <th>Intitule</th>
+                <th>Description</th>
+                <th>Corps</th>
+                <th>actions</th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for unite in unites %}
+                <tr>
+                    <td>{{ unite.intitule }}</td>
+                    <td>{{ unite.description }}</td>
+                    <td>{{ unite.corps.intitule }}</td>
+                    <td>
+                        <a class="btn btn-primary btn-sm" href="{{ path('unite_show', {'id': unite.id}) }}">Voir</a>
+                        <a class="btn btn-secondary btn-sm" href="{{ path('unite_edit', {'id': unite.id}) }}">Modifier</a>
+                    </td>
+                </tr>
+            {% else %}
+                <tr>
+                    <td colspan="4">no records found</td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
 
-    {{ include('corps_crud/_delete_form.html.twig') }}
+
+
+
 {% endblock %}

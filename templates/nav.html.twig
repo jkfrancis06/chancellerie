@@ -104,6 +104,21 @@
                         {% endif %}
 
 
+                        {% if active == "corps" %}
+                            <li>
+                                <a  href="{{ path('corps_crud_index') }}"  class="waves-effect active">
+                                    <i class="fa fa-users mr-2"></i>
+                                    Corps</a>
+                            </li>
+                        {% else %}
+                            <li>
+                                <a  href="{{ path('corps_crud_index') }}"  class="waves-effect">
+                                    <i class="fa fa-users mr-2"></i>
+                                    Corps</a>
+                            </li>
+                        {% endif %}
+
+
                         {% if active == "indices" %}
                             <li>
                                 <a  href="{{ path('indices') }}"  class="waves-effect active">

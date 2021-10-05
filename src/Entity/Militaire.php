@@ -13,7 +13,7 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
  * @ORM\Entity(repositoryClass=MilitaireRepository::class)
  * @UniqueEntity("matricule", message="Ce matricule est deja existant.")
  */
-class Militaire
+class   Militaire
 {
     /**
      * @ORM\Id
@@ -276,6 +276,11 @@ class Militaire
          */
         private $demandesPunitions;
 
+        /**
+         * @ORM\OneToMany(targetEntity=Corps::class, mappedBy="chefCorps")
+         */
+        private $corps;
+
 
     public function __construct()
     {
@@ -297,6 +302,7 @@ class Militaire
         $this->sousDossiers = new ArrayCollection();
         $this->punitions = new ArrayCollection();
         $this->demandesPunitions = new ArrayCollection();
+        $this->corps = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -1240,6 +1246,36 @@ class Militaire
     {
         if ($this->demandesPunitions->removeElement($demandesPunition)) {
             $demandesPunition->removeMilitairesDemandeur($this);
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Corps[]
+     */
+    public function getCorps(): Collection
+    {
+        return $this->corps;
+    }
+
+    public function addCorps(Corps $corps): self
+    {
+        if (!$this->corps->contains($corps)) {
+            $this->corps[] = $corps;
+            $corps->setChefCorps($this);
+        }
+
+        return $this;
+    }
+
+    public function removeCorps(Corps $corps): self
+    {
+        if ($this->corps->removeElement($corps)) {
+            // set the owning side to null (unless already changed)
+            if ($corps->getChefCorps() === $this) {
+                $corps->setChefCorps(null);
+            }
         }
 
         return $this;

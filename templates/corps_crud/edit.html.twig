@@ -1,13 +1,20 @@
-{% extends 'base.html.twig' %}
 
-{% block title %}Edit Corps{% endblock %}
+{% extends 'nav.html.twig' %}
 
-{% block body %}
-    <h1>Edit Corps</h1>
+{% block title %}Modifier {{ corps.intitule }}{% endblock %}
 
-    {{ include('corps_crud/_form.html.twig', {'button_label': 'Update'}) }}
+{% block content %}
+    <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="{{ path('corps_crud_index') }}">Liste des corps</a></li>
+            <li class="breadcrumb-item"><a href="{{ path('corps_crud_show', {'id': corps.id}) }}">{{ corps.intitule }}</a></li>
+            <li class="breadcrumb-item active">Modifier</li>
+        </ol>
+    </nav>
 
-    <a href="{{ path('corps_crud_index') }}">back to list</a>
 
-    {{ include('corps_crud/_delete_form.html.twig') }}
+    <div class="d-flex justify-content-start">
+        {{ include('corps_crud/_form.html.twig', {'button_label': 'Update'}) }}
+    </div>
+
 {% endblock %}

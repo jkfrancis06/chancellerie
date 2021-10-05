@@ -107,37 +107,6 @@
                             </td>
                         </tr>
 
-                        {% for spa in unite.spas %}
-                            <tr>
-                                <td colspan="5">
-                                    <div class="accordion" id="accordionExample">
-                                        <div class="card z-depth-0 bordered">
-                                            <div class="card-header" id="headingOne">
-                                                <h5 class="mb-0">
-                                                    <button class="btn btn-link" type="button" data-toggle="collapse" data-target="#collapseOne"
-                                                            aria-expanded="true" aria-controls="collapseOne">
-                                                        {{ spa.createdAt|date('d-m-Y') }}
-                                                    </button>
-                                                </h5>
-                                            </div>
-                                            <div id="collapseOne" class="collapse" aria-labelledby="headingOne"
-                                                 data-parent="#accordionExample">
-                                                <div class="card-body">
-                                                    Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. 3
-                                                    wolf moon officia aute, non cupidatat skateboard dolor brunch. Food truck quinoa nesciunt laborum
-                                                    eiusmod. Brunch 3 wolf moon tempor, sunt aliqua put a bird on it squid single-origin coffee nulla
-                                                    assumenda shoreditch et. Nihil anim keffiyeh helvetica, craft beer labore wes anderson cred
-                                                    nesciunt sapiente ea proident. Ad vegan excepteur butcher vice lomo. Leggings occaecat craft beer
-                                                    farm-to-table, raw denim aesthetic synth nesciunt you probably haven't heard of them accusamus
-                                                    labore sustainable.
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </td>
-                            </tr>
-                        {% endfor %}
-
                     {% endfor %}
 
                 </tbody>
@@ -156,8 +125,8 @@
 
             $("#dateAlert").hide()
 
-            var unite_id ;
-            var spaDate;
+            let unite_id;
+            let spaDate;
 
             $("#validateSpaDate").hide()
 
@@ -175,7 +144,7 @@
 
             Parsley.addValidator('date', {
                 validateString: function(value) {
-                    var $spaDate = $('#spaDate');
+                    const $spaDate = $('#spaDate');
                     console.log($spaDate.val())
 
                     $("#dateAlert").hide()
@@ -197,18 +166,23 @@
                 },
             });
 
-            $('#dateInputForm').parsley().on('field:validated', function() {
+
+            $('#spaDate').parsley().on('field:validated', function() {
                 var ok = $('.parsley-error').length === 0;
                 $('.bs-callout-info').toggleClass('hidden', !ok);
                 $('.bs-callout-warning').toggleClass('hidden', ok);
 
-                var url = "http://"+window.location.host+"/spa/unite/create-spa/"+unite_id+"/"+spaDate;
-
-                $("#validateSpaDate").attr("href", url);
-
-                $("#validateSpaDate").show()
-
             })
+                .on('field:error', function() {
+                    $("#validateSpaDate").hide()
+                })
+                .on('field:success', function() {
+                    var url = "http://"+window.location.host+"/spa/unite/create-spa/"+unite_id+"/"+spaDate;
+
+                    $("#validateSpaDate").attr("href", url);
+
+                    $("#validateSpaDate").show()
+                })
                 .on('form:submit', function() {
                     return false;
                 });

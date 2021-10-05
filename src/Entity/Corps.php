@@ -32,14 +32,8 @@ class Corps
      */
     private $description;
 
-
     /**
-     * @ORM\OneToMany(targetEntity=Fichier::class, mappedBy="corps",cascade={"persist"})
-     */
-    private $fichiers;
-
-    /**
-     * @ORM\OneToMany(targetEntity=Unite::class, mappedBy="corps")
+     * @ORM\OneToMany(targetEntity=Unite::class, mappedBy="corps",cascade={"persist","remove"})
      */
     private $unites;
 
@@ -47,6 +41,16 @@ class Corps
      * @ORM\OneToMany(targetEntity=Affectation::class, mappedBy="corps")
      */
     private $affectations;
+
+    /**
+     * @ORM\ManyToOne(targetEntity=Militaire::class, inversedBy="corps")
+     */
+    private $chefCorps;
+
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    private $mainPicture;
 
     public function __construct()
     {
@@ -84,35 +88,6 @@ class Corps
         return $this;
     }
 
-    /**
-     * @return Collection|Fichier[]
-     */
-    public function getFichiers(): Collection
-    {
-        return $this->fichiers;
-    }
-
-    public function addFichier(Fichier $fichier): self
-    {
-        if (!$this->fichiers->contains($fichier)) {
-            $this->fichiers[] = $fichier;
-            $fichier->setCorps($this);
-        }
-
-        return $this;
-    }
-
-    public function removeFichier(Fichier $fichier): self
-    {
-        if ($this->fichiers->removeElement($fichier)) {
-            // set the owning side to null (unless already changed)
-            if ($fichier->getCorps() === $this) {
-                $fichier->setCorps(null);
-            }
-        }
-
-        return $this;
-    }
 
     /**
      * @return Collection|Unite[]
@@ -182,6 +157,30 @@ class Corps
                 $affectation->setCorps(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getChefCorps(): ?Militaire
+    {
+        return $this->chefCorps;
+    }
+
+    public function setChefCorps(?Militaire $chefCorps): self
+    {
+        $this->chefCorps = $chefCorps;
+
+        return $this;
+    }
+
+    public function getMainPicture(): ?string
+    {
+        return $this->mainPicture;
+    }
+
+    public function setMainPicture(?string $mainPicture): self
+    {
+        $this->mainPicture = $mainPicture;
 
         return $this;
     }

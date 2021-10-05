@@ -46,6 +46,11 @@ class Spa
      */
     private $createdBy;
 
+    /**
+     * @ORM\Column(type="date")
+     */
+    private $dateSpa;
+
 
 
     public function __construct()
@@ -133,6 +138,18 @@ class Spa
     public function setCreatedBy(?Militaire $createdBy): self
     {
         $this->createdBy = $createdBy;
+
+        return $this;
+    }
+
+    public function getDateSpa(): ?\DateTimeInterface
+    {
+        return $this->dateSpa;
+    }
+
+    public function setDateSpa(\DateTimeInterface $dateSpa): self
+    {
+        $this->dateSpa = $dateSpa;
 
         return $this;
     }
