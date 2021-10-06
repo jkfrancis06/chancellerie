@@ -23,14 +23,17 @@
         </div>
     </div>
 
-    <div class="mb-3">
-
-        {{ form_widget(form.chefCorps, {'attr': {'class': 'mdb-select  md-form colorful-select dropdown-ins','searchable': 'Rechercher un militaire'}}) }}
-        {{ form_label(form.chefCorps, "Chef de corps : ", {'label_attr': {'class': ''}}) }}
-        <div class="form-error" style="color: red">
-            {{ form_errors(form.chefCorps) }}
+    {% if form.chefCorps is defined %}
+        <div class="mb-3">
+            {{ form_widget(form.chefCorps, {'attr': {'class': 'mdb-select  md-form colorful-select dropdown-ins','searchable': 'Rechercher un militaire'}}) }}
+            {{ form_label(form.chefCorps, "Chef de corps : ", {'label_attr': {'class': ''}}) }}
+            <div class="form-error" style="color: red">
+                {{ form_errors(form.chefCorps) }}
+            </div>
         </div>
-    </div>
+    {% endif %}
+
+
 
     <div class="md-form">
         <div class="file-field">

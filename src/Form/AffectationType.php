@@ -76,11 +76,6 @@ class AffectationType extends AbstractType
                 'placeholder' => 'Choisir un corps'
             ])
 
-
-
-
-
-
             ->add('addPiece', ChoiceType::class, [
                 'choices'  => [
                     'Choisir une option' => null,
@@ -150,12 +145,9 @@ class AffectationType extends AbstractType
 
             $data = $event->getData();
 
-
             $formModifier($event->getForm(), $data->getCorps());
 
             $pieceFormModifier($event->getForm(), $data->getAddPiece() , $event->getForm());
-
-
 
             // create the field, this is similar the $builder->add()
             // field name, field type, field options

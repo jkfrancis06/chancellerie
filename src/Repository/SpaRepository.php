@@ -22,19 +22,18 @@ class SpaRepository extends ServiceEntityRepository
     // /**
     //  * @return Spa[] Returns an array of Spa objects
     //  */
-    /*
-    public function findByExampleField($value)
+
+    public function findSpaByCorps($unites)
     {
         return $this->createQueryBuilder('s')
-            ->andWhere('s.exampleField = :val')
-            ->setParameter('val', $value)
-            ->orderBy('s.id', 'ASC')
-            ->setMaxResults(10)
+            ->andWhere('s.unite IN (:unites)')
+            ->setParameter('unites', $unites)
+            ->orderBy('s.createdAt', 'DESC')
             ->getQuery()
             ->getResult()
         ;
     }
-    */
+
 
     /*
     public function findOneBySomeField($value): ?Spa

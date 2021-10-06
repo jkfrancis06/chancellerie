@@ -58,10 +58,10 @@
                                 <i class="fas fa-angle-down rotate-icon"></i></a>
                             <div class="collapsible-body">
                                 <ul>
-                                    {% if active == 'militaire'%}
-                                        <li><a href="{{ path('all_militaires') }}" class="waves-effect active">Toutes les donnees</a></li>
+                                    {% if active == 'all_spa'%}
+                                        <li><a href="{{ path('all_spa') }}" class="waves-effect active">Toutes les donnees</a></li>
                                     {% else %}
-                                        <li><a href="{{ path('all_militaires') }}" class="waves-effect">Toutes les donnees</a></li>
+                                        <li><a href="{{ path('all_spa') }}" class="waves-effect">Toutes les donnees</a></li>
                                     {% endif %}
 
                                     {% if active == 'spa_create'%}
@@ -70,11 +70,6 @@
                                         <li><a href="{{ path('spa_create') }}" class="waves-effect">Creer</a></li>
                                     {% endif %}
 
-                                    {% if active == 'search_militaire'%}
-                                        <li><a href="{{ path('search_militaire') }}" class="waves-effect active">Recherche avancee</a></li>
-                                    {% else %}
-                                        <li><a href="{{ path('search_militaire') }}" class="waves-effect">Recherche avancee</a></li>
-                                    {% endif %}
                                 </ul>
                             </div>
                         </li>

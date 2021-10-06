@@ -36,20 +36,6 @@ class CorpsType extends AbstractType
                     new NotBlank()
                 ]
             ])
-            ->add('chefCorps', EntityType::class, [
-                'class' => Militaire::class,
-                'query_builder' => function (EntityRepository $er) {
-                    $qb =  $er->createQueryBuilder('m');
-                            $qb->leftJoin('m.militaireStatuts', 'ms')
-                                ->where($qb->expr()->notin("ms.statut", ":statutArray"))
-                                ->setParameter('statutArray',[
-                                    MilitaireStatut::STATUT_DESERTEUR,
-                                    MilitaireStatut::STATUT_RADIE,
-                                    MilitaireStatut::STATUT_RADIE
-                                ]);
-                        return $qb;
-                },
-            ])
 
             ->add('mainPicture',FileType::class, [
                 'label' => 'Logo',

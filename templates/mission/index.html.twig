@@ -85,22 +85,6 @@
                             </div>
                         </div>
 
-                        <div class="md-form">
-
-                            <div class="file-field">
-                                <div class="btn blue-gradient btn-sm float-left">
-                                    <span><i class="fas fa-cloud-upload-alt mr-2" aria-hidden="true"></i>Choisir un fichier</span>
-                                    {{ form_widget(missionForm.logo, {'attr': {'class': ''}}) }}
-                                </div>
-                                <div class="file-path-wrapper">
-                                    <input class="file-path validate" readonly type="text" placeholder="Uploader un logo">
-                                </div>
-                            </div>
-                            <div class="form-error" style="color: red">
-                                {{ form_errors(missionForm.logo) }}
-                            </div>
-                        </div>
-
                         <hr>
                         <div class="d-flex justify-content-center">
                             {{ form_row(missionForm.cancel,{'attr':{'class': 'btn btn-outline-secondary form-btn'}}) }}
@@ -141,9 +125,6 @@
                                     {% else %}
                                         {% for mission in missions %}
                                             <tr>
-                                                <td class="d-flex justify-content-center">
-                                                    <img height="50" width="50" src="{{ asset('/logos/') }}{{ mission.logo.nom }}" class="img-thumbnail" alt="...">
-                                                </td>
                                                 <td>{{ mission.intitule }}</td>
                                                 <td>{{ mission.type }}</td>
                                                 <td>{{ mission.lieu }}</td>

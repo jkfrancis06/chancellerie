@@ -24,4 +24,19 @@ class GetMilitaireStatut
         return $this->entityManager->getRepository(MilitaireStatut::class)->getMilitaireStatut($militaire);
     }
 
+    public function getString($statut) {
+        return match ($statut) {
+            MilitaireStatut::STATUT_RETRAITE => "Retraite",
+            MilitaireStatut::STATUT_RADIE => "Radie",
+            MilitaireStatut::STATUT_PERM_LD => "Permission Longue-Duree",
+            MilitaireStatut::STATUT_SERVICE => "En service",
+            MilitaireStatut::STATUT_DISPONIBILITE => "Disponibilite",
+            MilitaireStatut::STATUT_DETACHEMENT => "Detachement",
+            MilitaireStatut::STATUT_DESERTEUR => "Deserteur",
+            MilitaireStatut::STATUT_ABSENCE => "Absence",
+            MilitaireStatut::STATUT_ARR_MALADIE => "Arrêt maladie",
+            default => "",
+        };
+    }
+
 }

@@ -3,6 +3,7 @@
 namespace App\Controller\SPA;
 
 use App\Entity\Affectation;
+use App\Entity\Corps;
 use App\Entity\Militaire;
 use App\Entity\MilitaireSpa;
 use App\Entity\MilitaireStatut;
@@ -27,24 +28,21 @@ class SpaController extends AbstractController
         $this->affectationGetter = $affectationGetter;
     }
 
-    #[Route('/', name: 'spa_create')]
+    #[Route('/c/', name: 'spa_create')]
     public function index(): Response
     {
 
 
         if ($this->getUser()->getMilitaire() != null){
-            $militaire = $this->getDoctrine()->getManager()->getRepository(Militaire::class)->find($this->getUser()->getMilitaire()->getId());
-            $unites = $this->getDoctrine()->getManager()->getRepository(Unite::class)->findBy([
-                'chefFormation' => $militaire
-            ]);
 
-            $spas =  $this->getDoctrine()->getManager()->getRepository(Spa::class)->findBy([
-                'unite' => $unites
-            ],
-                [
-                    'createdAt' => 'DESC'
-                ]
-            );
+            $militaire = $this->getDoctrine()->getManager()->getRepository(Militaire::class)->find($this->getUser()->getMilitaire()->getId());
+            $corps = $this->getDoctrine()->getManager()->getRepository(Corps::class)->findOneBy([
+                'chefCorps' => $militaire
+            ]);
+            if ($corps != null){
+                $unites = $corps->getUnites();
+                $spas =  $this->getDoctrine()->getManager()->getRepository(Spa::class)->findSpaByCorps($unites);
+            }
 
         }else{
             $unites = [];
@@ -55,6 +53,39 @@ class SpaController extends AbstractController
 
 
         return $this->render('spa/spa/index.html.twig', [
+            'active' => 'spa_create',
+            'unites' => $unites,
+            'spas' => $spas,
+            'militaire' => $militaire
+        ]);
+    }
+
+
+    #[Route('/', name: 'all_spa')]
+    public function allSpa(): Response
+    {
+
+
+        if ($this->getUser()->getMilitaire() != null){
+
+            $militaire = $this->getDoctrine()->getManager()->getRepository(Militaire::class)->find($this->getUser()->getMilitaire()->getId());
+            $corps = $this->getDoctrine()->getManager()->getRepository(Corps::class)->findOneBy([
+                'chefCorps' => $militaire
+            ]);
+            if ($corps != null){
+                $unites = $corps->getUnites();
+                $spas =  $this->getDoctrine()->getManager()->getRepository(Spa::class)->findSpaByCorps($unites);
+            }
+
+        }else{
+            $unites = [];
+            $militaire = null;
+            $spas = [];
+        }
+
+
+
+        return $this->render('spa/spa/all.html.twig', [
             'active' => 'spa_create',
             'unites' => $unites,
             'spas' => $spas,
@@ -201,6 +232,7 @@ class SpaController extends AbstractController
                 $militaireSpa = new MilitaireSpa();
                 $militaireSpa->setMilitaire($militaire);
                 $militaireSpa->setSpa($spa);
+                $militaireSpa->setStatut($row['statut']);
                 $militaireSpa->setCommentaire($row['commentaire']);
                 $em->persist($militaireSpa);
                 $em->flush();
@@ -213,15 +245,44 @@ class SpaController extends AbstractController
 
                 $militaireStatut->setCommentaire($row['commentaire']);
 
+
+
                 $militaireStatut->setDateDebut(new \DateTime($date));
 
                 $em->persist($militaireStatut);
                 $em->flush();
 
+                $dateObj = new \DateTime($date);
+
+
             }
+
+
         }
+
+        $request->getSession()->getFlashBag()->add('spa_create', "La SPA du ".$dateObj->format('d-m-Y')." de l'unite ".$unite->getIntitule(). " a ete cree avec succes");
+
 
         return new JsonResponse(1,200);
 
     }
+
+
+
+
+
+    #[Route('/show-spa/{spa}', name: 'spa_show')]
+    public function showSpa(Spa $spa): Response
+    {
+
+
+
+        return $this->render('spa/spa/show.html.twig', [
+            'spa' => $spa,
+            'active' => "spa_create",
+        ]);
+
+
+    }
+
 }

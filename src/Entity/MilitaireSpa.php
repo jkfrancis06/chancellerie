@@ -34,6 +34,11 @@ class MilitaireSpa
      */
     private $commentaire;
 
+    /**
+     * @ORM\Column(type="integer", nullable=true)
+     */
+    private $statut;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -71,6 +76,18 @@ class MilitaireSpa
     public function setCommentaire(string $commentaire): self
     {
         $this->commentaire = $commentaire;
+
+        return $this;
+    }
+
+    public function getStatut(): ?int
+    {
+        return $this->statut;
+    }
+
+    public function setStatut(?int $statut): self
+    {
+        $this->statut = $statut;
 
         return $this;
     }

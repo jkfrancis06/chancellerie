@@ -34,6 +34,7 @@
                 <th></th>
                 <th>Intitule</th>
                 <th>Description</th>
+                <th>Chef de Corps </th>
                 <th></th>
             </tr>
         </thead>
@@ -45,6 +46,13 @@
                 </td>
                 <td>{{ corps.intitule }}</td>
                 <td>{{ corps.description }}</td>
+                <td>
+                    {% if corps.chefCorps is not null %}
+                        {{ corps.chefCorps.matricule }} - {{ corps.chefCorps.nom }} {{ corps.chefCorps.prenoms }}
+                    {% else %}
+                        <a  href="{{ path('corps_crud_edit', {'id': corps.id}) }}">Pas encore de chef de corps, Ajouter     </a>
+                    {% endif %}
+                </td>
                 <td>
                     <a class="btn btn-primary btn-sm" href="{{ path('corps_crud_show', {'id': corps.id}) }}">Voir</a>
                     <a class="btn btn-secondary btn-sm" href="{{ path('corps_crud_edit', {'id': corps.id}) }}">Modifier</a>

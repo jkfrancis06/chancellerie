@@ -99,7 +99,7 @@
                             <td>{{ unite.corps.intitule }}</td>
                             <td>{{ AffectationGetter.countAffectations(unite) }} éléments</td>
                             <td>
-                                <a id="spaDateTrigger" data-unite="{{ unite.id }}" class="btn btn-sm btn-primary"
+                                <a data-unite="{{ unite.id }}" class="spaDateTrigger btn btn-sm btn-primary"
                                    data-toggle="modal" data-target="#spaDateModal">
                                     <i class="fa fa-plus-circle mr-2"></i>
                                     Nouvelle SPA
@@ -130,7 +130,8 @@
 
             $("#validateSpaDate").hide()
 
-            $('#spaDateTrigger').on('click',function () {
+            $('.spaDateTrigger').on('click',function () {
+                console.log('ok')
                 unite_id = $(this).attr('data-unite')
             })
 

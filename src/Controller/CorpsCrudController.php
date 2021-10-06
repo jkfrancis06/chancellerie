@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Entity\Corps;
 use App\Form\Corps1Type;
+use App\Form\CorpsEditType;
 use App\Form\CorpsType;
 use App\Repository\CorpsRepository;
 use App\Service\FileUploader;
@@ -66,7 +67,7 @@ class CorpsCrudController extends AbstractController
     #[Route('/{id}/edit', name: 'corps_crud_edit', methods: ['GET', 'POST'])]
     public function edit(Request $request, Corps $corps, FileUploader $fileUploader): Response
     {
-        $form = $this->createForm(CorpsType::class, $corps);
+        $form = $this->createForm(CorpsEditType::class, $corps);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
