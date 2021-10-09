@@ -8,6 +8,8 @@ use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
+use Symfony\Component\Serializer\Annotation\MaxDepth;
+
 
 
 /**
@@ -40,6 +42,7 @@ class Grade
     private $gradeCategorie;
 
     /**
+     * @MaxDepth(1)
      * @ORM\OneToMany(targetEntity=Militaire::class, mappedBy="grade")
      */
     private $militaires;

@@ -39,6 +39,13 @@ class MilitaireSpa
      */
     private $statut;
 
+    /**
+     * @ORM\Column(type="array", nullable=true)
+     */
+    private $savedGrade = [];
+
+
+
     public function getId(): ?int
     {
         return $this->id;
@@ -91,4 +98,18 @@ class MilitaireSpa
 
         return $this;
     }
+
+    public function getSavedGrade(): ?array
+    {
+        return $this->savedGrade;
+    }
+
+    public function setSavedGrade(?array $savedGrade): self
+    {
+        $this->savedGrade = $savedGrade;
+
+        return $this;
+    }
+
+
 }

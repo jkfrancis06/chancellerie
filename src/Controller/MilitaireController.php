@@ -283,6 +283,14 @@ class MilitaireController extends AbstractController
             ]);
             if ($mutationDossier != null) {
                 $affectation->getPiece()->setSousDossier($mutationDossier);
+            }else{
+                $sousDossier = new SousDossier();
+                $sousDossier->setMilitaire($militaire);
+                $sousDossier->setType(SousDossier::PIECE_MUTATIONS);
+                $sousDossier->setNumero(SousDossier::PIECE_MUTATIONS);
+                $em->persist($sousDossier);
+                $em->flush();
+                $affectation->getPiece()->setSousDossier($sousDossier);
             }
 
             $piece = $affectationForm->get('piece')->getData();

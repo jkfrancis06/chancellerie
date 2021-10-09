@@ -1,0 +1,293 @@
+{% extends 'nav-spa.html.twig' %}
+
+{% block title %}Statistiques{% endblock %}
+
+
+{% block javascripts %}
+
+    <script  src="{{ asset('/assets/js/datepicker/moment.min.js') }}"></script>
+    <script  src="{{ asset('/assets/js/datepicker/daterangepicker.js') }}"></script>
+    <script  src="{{ asset('/assets/js/custom/picker.js') }}"></script>
+
+
+{% endblock %}
+
+{% block stylesheets %}
+    <link rel="stylesheet" href="{{ asset('/assets/css/datepicker/daterangepicker.css') }}" />
+    <link rel="stylesheet" href="{{ asset('/assets/css/jqueryUi/jquery-ui.css') }}" />
+
+
+{% endblock %}
+
+{% block content %}
+
+
+<div class="example-wrapper">
+
+    <div class="container-fluid">
+
+        {{ form_start(statForm) }}
+
+            <div class="row">
+
+                <div class="col col-12 text-danger">
+                    {{ form_errors(statForm) }}
+                </div>
+
+                <div class="col col-6">
+                    {{ form_label(statForm.period, "Periode : ", {'label_attr': {'class': 'intitule_label'}}) }}
+                    {{ form_widget(statForm.period, {'attr': {'class': 'form-control'}}) }}
+                    <div class="form-error" style="color: red">
+                        {{ form_errors(statForm.period) }}
+                    </div>
+                </div>
+
+                <div class="col col-6">
+                    {{ form_label(statForm.unite, "Unités : ", {'label_attr': {'class': 'intitule_label'}}) }}
+                    {{ form_widget(statForm.unite, {'attr': {'class': 'mdb-select md-form colorful-select dropdown-primary'}}) }}
+                    <div class="form-error" style="color: red">
+                        {{ form_errors(statForm.unite) }}
+                    </div>
+                </div>
+
+                <div class="col col-12 mt-5">
+                    {{ form_row(statForm.save,{'attr':{'class': 'btn btn-outline-secondary btn-lg btn-block'}}) }}
+                </div>
+
+            </div>
+
+
+
+        {{ form_end(statForm) }}
+
+
+        <div class="row mt-5">
+
+            <div class="col col-12 mb-5">
+                <div class="card">
+                    <div class="card-header">
+                        Effectif theroique a la date du {{ date|date('d-m-Y') }} (Radies inclus)
+                    </div>
+                    <div class="card-body">
+                        <table class="table table-bordered table-striped">
+                            <tbody>
+
+                                {% for affectation in affectations %}
+                                    <tr>
+                                        <td class="text-uppercase">{{ affectation['unite'] }}</td>
+                                        <td>{{ affectation['count'] }}</td>
+                                    </tr>
+                                {% endfor %}
+
+
+
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+
+
+
+            <div class="col col-6">
+                <div class="card">
+                    <div class="card-header">
+                        Status
+                    </div>
+                    <div class="card-body">
+                        <canvas id="statusChart"></canvas>
+                    </div>
+                </div>
+            </div>
+
+
+            <div class="col col-6">
+                <div class="card">
+                    <div class="card-header">
+                        Categories de grades
+                    </div>
+                    <div class="card-body">
+                        <canvas id="categoryChart"></canvas>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+
+        <div class="row mt-5">
+
+            {% for spa in querySpa %}
+                <div class="col col-12 mt-3">
+                    <div class="card">
+                        <div class="card-header">
+                            {{ spa.unite }} SPA du {{ spa.dateSpa|date('d-m-Y') }}
+                        </div>
+                        <div class="card-body">
+                            <div class="card mt-5 mb-5">
+                                <div class="card-body">
+                                    <blockquote>
+                                        {{ spa.commentaire|raw }}
+                                    </blockquote>
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col col-12">
+                                    <table class="spaTable table text-center table-bordered table-striped table-hover">
+                                        <thead>
+                                        <tr>
+                                            <th>Matricule</th>
+                                            <th>Nom et Prenoms</th>
+                                            <th>Statut</th>
+                                            <th>Observation</th>
+                                        </tr>
+                                        </thead>
+
+                                        <tbody>
+
+                                        {% for militaireSpa in spa.militaireSpas %}
+                                            <tr>
+                                                <td>{{ militaireSpa.militaire.matricule}}</td>
+                                                <td class="text-uppercase">{{ militaireSpa.militaire.nom}}&nbsp;{{ militaireSpa.militaire.prenoms}}</td>
+                                                <td>{{ GetMilitaireStatut.getString(militaireSpa.statut) }}</td>
+                                                <td>{{ militaireSpa.commentaire | raw }}</td>
+                                            </tr>
+
+
+                                        {% endfor %}
+
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+
+        </div>
+
+    </div>
+
+</div>
+{% endblock %}
+
+
+{% block botton_javascripts %}
+    <script>
+        $(document).ready(function() {
+
+            var labels = [
+                {% for key,status in statuts_array %}
+                    '{{ key }}',
+                {% endfor %}
+            ]
+
+            var data = [
+                {% for key,status in statuts_array %}
+                '{{ status['count'] }}',
+                {% endfor %}
+            ]
+
+
+            var colors = [
+                {% for key,status in statuts_array %}
+                '{{ status['color'] }}',
+                {% endfor %}
+            ]
+
+            var ctxPA = document.getElementById("statusChart").getContext('2d');
+            var myPolarChart = new Chart(ctxPA, {
+                type: 'horizontalBar',
+                data: {
+                    labels: labels,
+                    datasets: [{
+                        label: " ",
+                        data: data,
+                        backgroundColor: colors,
+                        hoverBackgroundColor: colors
+                    }]
+                },
+                options: {
+                    responsive: true
+                }
+            });
+
+
+
+
+            var donut_labels = [
+                {% for key,categorie in categories_array %}
+                '{{ categorie['categorie']['intitule'] }}',
+                {% endfor %}
+            ]
+
+            var donut_data = [
+                {% for key,categorie in categories_array %}
+                '{{ categorie['count'] }}',
+                {% endfor %}
+            ]
+
+
+            var donut_colors = [
+                {% for key,categorie in categories_array %}
+                '{{ categorie['color'] }}',
+                {% endfor %}
+            ]
+
+            var ctxD = document.getElementById("categoryChart").getContext('2d');
+            var myLineChart = new Chart(ctxD, {
+                type: 'doughnut',
+                data: {
+                    labels: donut_labels,
+                    datasets: [{
+                        data: donut_data,
+                        backgroundColor: donut_colors,
+                        hoverBackgroundColor: donut_colors
+                    }]
+                },
+                options: {
+                    responsive: true
+                }
+            })
+
+
+            $('.spaTable').DataTable( {
+                dom: 'lBfrtip',
+                buttons: [
+                    'excel', {
+                        extend: 'pdfHtml5',
+                        orientation: 'landscape',
+                        pageSize: 'LEGAL'
+                    }
+                ],
+
+                "language": {
+                    "sProcessing":     "Traitement en cours...",
+                    "sSearch":         "Rechercher&nbsp;:",
+                    "sLengthMenu":     "Afficher _MENU_ &eacute;l&eacute;ments",
+                    "sInfo":           "Affichage de l'&eacute;lement _START_ &agrave; _END_ sur _TOTAL_ &eacute;l&eacute;ments",
+                    "sInfoEmpty":      "Affichage de l'&eacute;lement 0 &agrave; 0 sur 0 &eacute;l&eacute;ments",
+                    "sInfoFiltered":   "(filtr&eacute; de _MAX_ &eacute;l&eacute;ments au total)",
+                    "sInfoPostFix":    "",
+                    "sLoadingRecords": "Chargement en cours...",
+                    "sZeroRecords":    "Aucun &eacute;l&eacute;ment &agrave; afficher",
+                    "sEmptyTable":     "Aucune donn&eacute;e disponible dans le tableau",
+                    "oPaginate": {
+                        "sFirst":      "Premier",
+                        "sPrevious":   "Pr&eacute;c&eacute;dent",
+                        "sNext":       "Suivant",
+                        "sLast":       "Dernier"
+                    },
+                    "oAria": {
+                        "sSortAscending":  ": activer pour trier la colonne par ordre croissant",
+                        "sSortDescending": ": activer pour trier la colonne par ordre d&eacute;croissant"
+                    }
+                }
+            } );
+
+        });
+    </script>
+{% endblock %}

@@ -173,6 +173,6 @@ class Unite
     }
 
     public function __toString():string{
-        return $this->description.' ('.$this->intitule.')';
+        return $this->intitule;
     }
 }

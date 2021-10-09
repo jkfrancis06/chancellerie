@@ -42,12 +42,9 @@ class AffectationValidator extends ConstraintValidator
             'isActive' => true
         ]);
 
-        $is_valid = true;
-
         // TODO: Verifier les contraintes
 
         if ($lastAffectation != null && $value->getDateDebut() != null){
-
 
             if ($lastAffectation->getDateDebut()->getTimestamp() > $value->getDateDebut()->getTimestamp()){
 
@@ -56,8 +53,6 @@ class AffectationValidator extends ConstraintValidator
                     ->addViolation();
 
             }
-
-
 
 
         }

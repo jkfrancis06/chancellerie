@@ -22,19 +22,21 @@ class MilitaireSpaRepository extends ServiceEntityRepository
     // /**
     //  * @return MilitaireSpa[] Returns an array of MilitaireSpa objects
     //  */
-    /*
-    public function findByExampleField($value)
+
+    public function findSpaByUnites($selectedDate,$unites)
     {
         return $this->createQueryBuilder('m')
-            ->andWhere('m.exampleField = :val')
-            ->setParameter('val', $value)
-            ->orderBy('m.id', 'ASC')
-            ->setMaxResults(10)
+            ->leftJoin("m.spa", "spa")
+            ->andWhere('spa.dateSpa = :selectedDate')
+            ->andWhere('spa.unite IN (:unites)')
+            ->setParameter('selectedDate', $selectedDate)
+            ->setParameter('unites', $unites)
+            ->orderBy('spa.dateSpa', 'ASC')
             ->getQuery()
             ->getResult()
         ;
     }
-    */
+
 
     /*
     public function findOneBySomeField($value): ?MilitaireSpa

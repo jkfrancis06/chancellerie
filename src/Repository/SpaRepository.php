@@ -35,15 +35,31 @@ class SpaRepository extends ServiceEntityRepository
     }
 
 
-    /*
-    public function findOneBySomeField($value): ?Spa
+    public function findSpaByDateAndUnite($selectedDate,$unites)
+    {
+        return $this->createQueryBuilder('s')
+            ->andWhere('s.unite IN (:unites)')
+            ->andWhere('s.dateSpa  = :dateSpa')
+            ->setParameter('unites', $unites)
+            ->setParameter('dateSpa', $selectedDate)
+            ->orderBy('s.dateSpa', 'ASC')
+            ->getQuery()
+            ->getResult()
+            ;
+    }
+
+
+
+    /*public function findOneBySomeField(): ?Spa
     {
         return $this->createQueryBuilder('s')
             ->andWhere('s.exampleField = :val')
             ->setParameter('val', $value)
+            ->orderBy("id", "DESC")
+            ->setMaxResults(1)
             ->getQuery()
-            ->getOneOrNullResult()
+            ->getOneOrNullResult();
         ;
-    }
-    */
+    }*/
+
 }

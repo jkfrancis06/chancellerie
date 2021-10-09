@@ -26,17 +26,65 @@ class AffectationRepository extends ServiceEntityRepository
 
 
 
-    /*
-    public function findOneBySomeField($value): ?Affectation
+
+    public function findAffectationByUnite($unite)
     {
         return $this->createQueryBuilder('a')
-            ->andWhere('a.exampleField = :val')
-            ->setParameter('val', $value)
+            ->andWhere('a.unite IN (:unites)')
+            ->setParameter('unites', $unite)
             ->getQuery()
-            ->getOneOrNullResult()
+            ->getResult()
         ;
     }
-    */
+
+    /*
+     * Trouver les affectations actives dans une unite
+     */
+    public function findAffectationByUniteActive($unite)
+    {
+        return $this->createQueryBuilder('a')
+            ->andWhere('a.unite IN (:unites)')
+            ->andWhere('a.isActive = :active)')
+            ->setParameter('unites', $unite)
+            ->setParameter('active', true)
+            ->getQuery()
+            ->getResult()
+            ;
+    }
+
+
+    /*
+     * Trouver les affectations a une date precise dans certaines unites
+     */
+    public function findSelectedAffectations($unite,$date)
+    {
+
+        /*
+         *
+	unite_id = 4 and
+	(
+		(affectation.date_debut >= '1975-06-01' and affectation.date_fin = null )
+		OR
+		( '1975-06-01' between affectation.date_debut and affectation.date_fin  )
+	)
+         */
+        $qb = $this->createQueryBuilder('a');
+
+        $qb->andWhere('a.unite IN (:unites)');
+        $qb->andWhere(
+            $qb->expr()->orX(
+                $qb->expr()->andX("a.dateDebut <= :date","a.dateFin IS NULL"),
+                $qb->expr()->andX(":date BETWEEN a.dateDebut AND a.dateFin ")
+            )
+        );
+
+        $qb->setParameter('unites', $unite);
+        $qb->setParameter('date', $date->format('Y-m-d'));
+
+
+        return $qb ->getQuery()->getResult();
+    }
+
 
     public function findActiveAff($militaire)
     {

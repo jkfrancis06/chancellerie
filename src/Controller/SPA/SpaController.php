@@ -15,6 +15,10 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Serializer\Encoder\JsonEncoder;
+use Symfony\Component\Serializer\Encoder\XmlEncoder;
+use Symfony\Component\Serializer\Normalizer\ObjectNormalizer;
+use Symfony\Component\Serializer\Serializer;
 use function Symfony\Component\Translation\t;
 
 #[Route('/spa/unite')]
@@ -229,11 +233,22 @@ class SpaController extends AbstractController
 
             if ($militaire != null){
 
+                $grade = $militaire->getGrade();
+
+                $grade_array = [];
+                $grade_array['id'] = $grade->getId();
+                $grade_array['intitule'] = $grade->getIntitule();
+                $grade_array['description'] = $grade->getDescription();
+                $grade_array['categorie'] = [];
+                $grade_array['categorie']['id'] = $grade->getGradeCategorie()->getId();
+                $grade_array['categorie']['intitule'] = $grade->getGradeCategorie()->getIntitule();
+
                 $militaireSpa = new MilitaireSpa();
                 $militaireSpa->setMilitaire($militaire);
                 $militaireSpa->setSpa($spa);
                 $militaireSpa->setStatut($row['statut']);
                 $militaireSpa->setCommentaire($row['commentaire']);
+                $militaireSpa->setSavedGrade($grade_array);
                 $em->persist($militaireSpa);
                 $em->flush();
 

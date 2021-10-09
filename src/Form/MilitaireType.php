@@ -13,6 +13,7 @@ use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\CollectionType;
 use Symfony\Component\Form\Extension\Core\Type\DateType;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
+use Symfony\Component\Form\Extension\Core\Type\IntegerType;
 use Symfony\Component\Form\Extension\Core\Type\NumberType;
 use Symfony\Component\Form\Extension\Core\Type\ResetType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
@@ -48,7 +49,7 @@ class MilitaireType extends AbstractType
                 ],
 
             ])
-            ->add('matricule', TextType::class, [
+            ->add('matricule', IntegerType::class, [
                 'required' => true,
                 'label' => 'Matricule : ',
                 'constraints' => [
