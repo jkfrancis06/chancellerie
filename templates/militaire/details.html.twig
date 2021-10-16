@@ -16,7 +16,6 @@
                 console.log('ok')
             });
             let lastModal = localStorage.getItem('lastModal');
-
             {% if error == true  %}
                 if (lastModal) {
                     $(lastModal).modal('show');
@@ -89,7 +88,7 @@
                             </div>
                         </div>
 
-                        <div class="mt-3">
+                        <!--<div class="mt-3">
                             {{ form_label(affectationForm.addPiece, "Action : ", {'label_attr': {'class': 'intitule_label'}}) }}
                             {{ form_widget(affectationForm.addPiece, {'attr': {'class': 'form-control'}}) }}
                             <div class="form-error" style="color: red">
@@ -100,13 +99,13 @@
 
 
                         <div class="mt-3" id="piece_content_box">
-                            {% if affectationForm.vars.value.addPiece is not null %}
+                            {#  {% if affectationForm.vars.value.addPiece is not null %}
                                 {{ form_widget(affectationForm.piece) }}
                                 <div class="form-error" style="color: red">
                                     {{ form_errors(affectationForm.addPiece) }}
                                 </div>
-                            {% endif %}
-                        </div>
+                            {% endif %}#}
+                        </div> -->
 
                     </div>
                     <div class="modal-footer justify-content-start">
@@ -176,7 +175,7 @@
 
 
 
-                    <div class="mt-3" id="piece_content_box">
+                    <div class="mt-3" id="militaire_mission_piece_content_box">
                         {% if militaireMissionForm.vars.value.addPiece is not null %}
                             {{ form_widget(militaireMissionForm.piece) }}
                             <div class="form-error" style="color: red">
@@ -617,29 +616,29 @@
                                     <div class="row">
                                         <div class="col col-3" style="word-wrap: break-word;">
                                             <p>
-                                                <span class="fw-bold">Matricule: </span>
-                                                <span>{{ militaire.matricule }}</span>
+                                                <span>Matricule: </span>
+                                                <span class="font-weight-bold">{{ militaire.matricule }}</span>
                                             </p>
                                             <p>
                                             <p>
-                                                <span class="fw-bold">Nom: </span>
-                                                <span>{{ militaire.nom }}</span>
+                                                <span>Nom: </span>
+                                                <span class="font-weight-bold"> {{ militaire.nom }}</span>
                                             </p>
                                             <p>
-                                                <span class="fw-bold">Prenoms: </span>
-                                                <span>{{ militaire.prenoms }}</span>
+                                                <span>Prenoms: </span>
+                                                <span class="font-weight-bold">{{ militaire.prenoms }}</span>
                                             </p>
 
-                                                <span class="fw-bold">Grade: </span>
-                                                <span>{{ militaire.grade.intitule }}</span>
+                                                <span>Grade: </span>
+                                                <span class="font-weight-bold">{{ militaire.grade.intitule }}</span>
                                             </p>
 
                                             {% set indice = IndiceCalculator.calculateIndice(militaire.id) %}
 
 
                                             <p>
-                                                <span class="fw-bold">Echelon: </span>
-                                                <span>
+                                                <span>Echelon: </span>
+                                                <span class="font-weight-bold">
                                                     {% if indice is not null %}
                                                         {{ indice.echelon }}
                                                     {% endif %}
@@ -647,8 +646,8 @@
                                             </p>
 
                                             <p>
-                                                <span class="fw-bold">Indice: </span>
-                                                <span>
+                                                <span>Indice: </span>
+                                                <span class="font-weight-bold">
                                                     {% if indice is not null %}
                                                         {{ indice.indice }}
                                                     {% endif %}
@@ -656,8 +655,8 @@
                                             </p>
 
                                             <p>
-                                                <span class="fw-bold">Annees de service: </span>
-                                                <span>
+                                                <span>Annees de service: </span>
+                                                <span class="font-weight-bold">
                                                     {% set srv = date().diff(date(militaire.dateIncorp)).y %}
                                                     {{ srv }} ans
                                                 </span>
@@ -671,23 +670,23 @@
                                         <div class="col col-3" style="word-wrap: break-word;">
 
                                             <p>
-                                                <span class="fw-bold">Date de naissance: </span>
-                                                <span>{{ militaire.dateNaissance|date("d-M-Y")  }}</span>
+                                                <span>Date de naissance: </span>
+                                                <span class="font-weight-bold">{{ militaire.dateNaissance|date("d-M-Y")  }}</span>
                                             </p>
 
                                             <p>
-                                                <span class="fw-bold">Date d'incorporation: </span>
-                                                <span>{{ militaire.dateIncorp|date("d-M-Y")  }}</span>
+                                                <span>Date d'incorporation: </span>
+                                                <span class="font-weight-bold">{{ militaire.dateIncorp|date("d-M-Y")  }}</span>
                                             </p>
 
                                             <p>
-                                                <span class="fw-bold">Age: </span>
+                                                <span>Age: </span>
                                                 {% set age = date().diff(date(militaire.dateNaissance)).y %}
-                                                <span>{{ age }} ans</span>
+                                                <span class="font-weight-bold">{{ age }} ans</span>
                                             </p>
                                             <p>
-                                                <span class="fw-bold">Sexe: </span>
-                                                <span>
+                                                <span>Sexe: </span>
+                                                <span class="font-weight-bold">
                                                     {% if militaire.sexe == 'f' %}
                                                         Femme
                                                     {% else %}
@@ -696,53 +695,53 @@
                                                  </span>
                                             </p>
                                             <p>
-                                                <span class="fw-bold">Taille: </span>
-                                                <span>{{ militaire.taille }} m</span>
+                                                <span>Taille: </span>
+                                                <span class="font-weight-bold">{{ militaire.taille }} m</span>
                                             </p>
                                             <p>
-                                                <span class="fw-bold">Couleur des yeux: </span>
-                                                <span>{{ militaire.couleurYeux }}</span>
+                                                <span>Couleur des yeux: </span>
+                                                <span class="font-weight-bold">{{ militaire.couleurYeux }}</span>
                                             </p>
 
                                             <p>
-                                                <span class="fw-bold">Situation matrimoniale: </span>
-                                                <span>{{ militaire.situationMatri }}</span>
+                                                <span>Situation matrimoniale: </span>
+                                                <span class="font-weight-bold">{{ militaire.situationMatri }}</span>
                                             </p>
 
                                         </div>
 
                                         <div class="col col-3" style="word-wrap: break-word;">
                                             <p>
-                                                <span class="fw-bold">Adresse: </span>
-                                                <span>{{ militaire.adresse }}</span>
+                                                <span>Adresse: </span>
+                                                <span class="font-weight-bold">{{ militaire.adresse }}</span>
                                             </p>
                                             <p>
-                                                <span class="fw-bold">Numeros de telephones: </span>
-                                                <span>
+                                                <span>Numeros de telephones: </span>
+                                                <span class="font-weight-bold">
                                                     {% for telephone in militaire.telephone %}
                                                         {{ telephone.numero }}
                                                     {% endfor %}
                                                 </span>
                                             </p>
                                             <p>
-                                                <span class="fw-bold">Origine de recrutement : </span>
+                                                <span>Origine de recrutement : </span>
                                                 {% if  militaire.origineRecrutement is not null  %}
-                                                    <span>  {{ militaire.origineRecrutement.intitule }} </span>
+                                                    <span class="font-weight-bold">  {{ militaire.origineRecrutement.intitule }} </span>
                                                 {% endif %}
                                             </p>
                                             <p>
-                                                <span class="fw-bold">Grade actuel / Categorie : </span>
-                                                <span>  {{ militaire.grade.intitule }} / {{ militaire.grade.gradeCategorie.intitule }}  </span>
+                                                <span>Grade actuel: </span>
+                                                <span class="font-weight-bold">  {{ militaire.grade.intitule }} / {{ militaire.grade.gradeCategorie.intitule }}  </span>
                                             </p>
                                             <p>
-                                                <span class="fw-bold">Profession anterieure : </span>
-                                                <span>  {{ militaire.professionAnt }}   </span>
+                                                <span>Profession anterieure : </span>
+                                                <span class="font-weight-bold">  {{ militaire.professionAnt }}   </span>
                                             </p>
 
                                             <p>
-                                                <span class="fw-bold">Specialite : </span>
+                                                <span>Specialite : </span>
                                                 {% if  militaire.specialite is not null  %}
-                                                    <span>  {{ militaire.specialite.intitule }}   </span>
+                                                    <span class="font-weight-bold">  {{ militaire.specialite.intitule }}   </span>
                                                 {% endif %}
                                             </p>
 
@@ -752,47 +751,15 @@
 
                                             <p>
                                                 <span class="fw-bold">Statut: </span>
-                                                <span>
+                                                {% set lastSpa = MilitaireStatutGetter.loadLastSpa(militaire) %}
 
-                                                    {% if lastStatut != null and lastStatut.statut == 1 %}
-                                                        <span class="text-danger fw-bold">Radie</span>
-                                                    {% endif %}
+                                                {% if lastSpa is not null %}
 
+                                                    {% set statut_color = MilitaireStatutGetter.getString(lastSpa.statut) %}
 
-                                                    {% if lastStatut != null and lastStatut.statut == 3 %}
-                                                        <span class="text-success fw-bold">En service</span>
-                                                    {% endif %}
+                                                    <span class="{{ statut_color }} font-weight-bold">{{  GetMilitaireStatut.getString(lastSpa.statut)  }}</span>
 
-                                                    {% if lastStatut != null and lastStatut.statut == 0 %}
-                                                        <span class="text-warning fw-bold">Retraite</span>
-                                                    {% endif %}
-
-                                                    {% if lastStatut != null and lastStatut.statut == 2 %}
-                                                        <span class="text-success fw-bold">En service</span>
-                                                    {% endif %}
-
-                                                    {% if lastStatut != null and lastStatut.statut == 4 %}
-                                                        <span class="text-success fw-bold">Disponibilite</span>
-                                                    {% endif %}
-
-                                                    {% if lastStatut != null and lastStatut.statut == 5 %}
-                                                        <span class="text-primary fw-bold">Detachement</span>
-                                                    {% endif %}
-
-                                                    {% if lastStatut != null and lastStatut.statut == 6 %}
-                                                        <span class="text-danger fw-bold">Deserteur</span>
-                                                    {% endif %}
-
-                                                    {% if lastStatut != null and lastStatut.statut == 7 %}
-                                                        <span class="text-warning fw-bold">Absence</span>
-                                                    {% endif %}
-
-                                                    {% if lastStatut != null and lastStatut.statut == 8 %}
-                                                        <span class="text-warning fw-bold">Arret maladie</span>
-                                                    {% endif %}
-
-
-                                                </span>
+                                                {% endif %}
                                             </p>
 
                                             <p>
@@ -820,7 +787,7 @@
                     <a class="nav-link" id="nav-b3-tab" data-toggle="tab" href="#nav-b3" type="button" role="tab" aria-controls="nav-b3" aria-selected="false">Troisieme Bureau (B3)</a>
                     <a class="nav-link" id="nav-social-tab" data-toggle="tab" href="#nav-social" type="button" role="tab" aria-controls="nav-social" aria-selected="false">Affaires Sociales</a>
                     <a class="nav-link" id="nav-sante-tab" data-toggle="tab" href="#nav-sante" type="button" role="tab" aria-controls="nav-sante" aria-selected="false">Sante</a>
-                    <a class="nav-link" id="nav-com-tab" data-toggle="tab" href="#nav-com" type="button" role="tab" aria-controls="nav-com" aria-selected="false">Dossier Commandement de Formation</a>
+                    <a class="nav-link" id="nav-com-tab" data-toggle="tab" href="#nav-com" type="button" role="tab" aria-controls="nav-com" aria-selected="false">SPA</a>
                     <a class="nav-link" id="nav-archive-tab" data-toggle="tab" href="#nav-archive" type="button" role="tab" aria-controls="nav-archive" aria-selected="false">Archives</a>
                 </div>
             </nav>
@@ -942,8 +909,6 @@
                                                 <th scope="col">Unite</th>
                                                 <th scope="col">Corps</th>
                                                 <th scope="col">Poste</th>
-                                                <th scope="col">Duree</th>
-                                                <th scope="col">Ordre de mutation</th>
                                             </tr>
                                             </thead>
                                             <tbody>
@@ -964,24 +929,6 @@
                                                         <td>{{ affectation.unite.intitule }}</td>
                                                         <td>{{ affectation.unite.corps.intitule }}</td>
                                                         <td>{{ affectation.fonction }}</td>
-                                                        <td>
-                                                            {% if affectation.dateFin != null %}
-                                                                {% set dureeY = affectation.dateFin.diff(date(affectation.dateDebut)).y %}
-                                                                {% set dureeM = (dureeY*12)+affectation.dateFin.diff(date(affectation.dateDebut)).m %}
-                                                                {{ dureeM }} mois
-                                                            {% endif %}
-                                                        </td>
-                                                        <td>
-                                                            {% if affectation.piece is not null %}
-                                                                <a
-                                                                        target="_blank"
-                                                                        href="{{ path('download_element', {'id': affectation.militaire.matricule,'name':affectation.piece.filename}) }}"
-                                                                        >
-                                                                    <i class="fa fa-print"></i> Imprimer
-                                                                </a>
-                                                            {% endif %}
-
-                                                        </td>
                                                     </tr>
                                                 {% endfor %}
 
@@ -1402,11 +1349,7 @@
                 <div class="tab-pane fade" id="nav-sante" role="tabpanel" aria-labelledby="nav-sante"></div>
 
                 {#         Tab Commandement de formation     #}
-                <div class="tab-pane fade" id="nav-com" role="tabpanel" aria-labelledby="nav-com"></div>
-
-                {#         Tab Archive    #}
-                <div class="tab-pane fade" id="nav-archive" role="tabpanel" aria-labelledby="nav-archive">
-
+                <div class="tab-pane fade" id="nav-com" role="tabpanel" aria-labelledby="nav-com">
 
                     <div class="row">
 
@@ -1550,6 +1493,13 @@
                         </div>
                     </div>
 
+                </div>
+
+                {#         Tab Archive    #}
+                <div class="tab-pane fade" id="nav-archive" role="tabpanel" aria-labelledby="nav-archive">
+
+
+
 
                 </div>
             </div>
@@ -1561,7 +1511,7 @@
 
 {% block js %}
 
-    <script>
+   <script>
         var $corps = $('#affectation_corps');
         // When sport gets selected ...
         $corps.change(function() {
@@ -1591,7 +1541,7 @@
         });
 
 
-        var $addPiece = $('#affectation_addPiece');
+        /*var $addPiece = $('#affectation_addPiece');
 
         $addPiece.change(function () {
 
@@ -1619,7 +1569,8 @@
                 }
             });
 
-        })
+        })*/
+
     </script>
 
 {% endblock %}

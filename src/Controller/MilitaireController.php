@@ -277,7 +277,7 @@ class MilitaireController extends AbstractController
                 $em->flush();
             }
 
-            $mutationDossier = $this->getDoctrine()->getManager()->getRepository(SousDossier::class)->findOneBy([
+            /*$mutationDossier = $this->getDoctrine()->getManager()->getRepository(SousDossier::class)->findOneBy([
                 'militaire' => $militaire,
                 'type' => SousDossier::PIECE_MUTATIONS
             ]);
@@ -298,7 +298,7 @@ class MilitaireController extends AbstractController
             if ($piece->getFile() != null){
                 $fileName = $fileUploader->upload($piece->getFile(),$this->elementsDir.'/'.md5($militaire->getMatricule()));
                 $piece->setFilename($fileName);
-            }
+            }*/
 
             $affectation->setIsActive(true);
             $em->persist($affectation);

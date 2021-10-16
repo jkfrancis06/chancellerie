@@ -5,6 +5,7 @@ twig:
         AffectationGetter: '@App\Service\AffectationGetter'
         Encoder: '@App\Service\Encoder'
         SousDossierStringGetter: '@App\Service\SousDossierStringGetter'
+        MilitaireStatutGetter: '@App\Service\MilitaireStatutGetter'
         GetMilitaireStatut: '@App\Service\GetMilitaireStatut'
         form_themes: ['bootstrap_4_layout.html.twig']
 when@test:

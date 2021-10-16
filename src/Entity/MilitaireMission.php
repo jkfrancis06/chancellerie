@@ -23,12 +23,12 @@ class MilitaireMission
     private $id;
 
     /**
-     * @ORM\Column(type="date")
+     * @ORM\Column(type="date", nullable=true)
      */
     private $dateDebut;
 
     /**
-     * @ORM\Column(type="date")
+     * @ORM\Column(type="date", nullable=true)
      */
     private $dateFin;
 
@@ -59,6 +59,7 @@ class MilitaireMission
      */
     private $piece;
 
+
     public function __construct()
     {
         $this->piecesJoints = new ArrayCollection();
@@ -74,7 +75,7 @@ class MilitaireMission
         return $this->dateDebut;
     }
 
-    public function setDateDebut(\DateTimeInterface $dateDebut): self
+    public function setDateDebut(?\DateTimeInterface $dateDebut): self
     {
         $this->dateDebut = $dateDebut;
 
@@ -86,7 +87,7 @@ class MilitaireMission
         return $this->dateFin;
     }
 
-    public function setDateFin(\DateTimeInterface $dateFin): self
+    public function setDateFin(?\DateTimeInterface $dateFin): self
     {
         $this->dateFin = $dateFin;
 

@@ -38,15 +38,18 @@ class MilitaireSpaRepository extends ServiceEntityRepository
     }
 
 
-    /*
-    public function findOneBySomeField($value): ?MilitaireSpa
+
+    public function findLastSpa($militaire): ?MilitaireSpa
     {
         return $this->createQueryBuilder('m')
-            ->andWhere('m.exampleField = :val')
-            ->setParameter('val', $value)
+            ->leftJoin('m.spa','s')
+            ->andWhere('m.militaire = :militaire')
+            ->orderBy('s.dateSpa','DESC')
+            ->setParameter('militaire', $militaire)
+            ->setMaxResults(1)
             ->getQuery()
-            ->getOneOrNullResult()
+            ->getOneOrNullResult();
         ;
     }
-    */
+
 }

@@ -281,6 +281,11 @@ class   Militaire
          */
         private $corps;
 
+        /**
+         * @ORM\Column(type="date", nullable=true)
+         */
+        private $lastGradeUpdate;
+
 
     public function __construct()
     {
@@ -1277,6 +1282,18 @@ class   Militaire
                 $corps->setChefCorps(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getLastGradeUpdate(): ?\DateTimeInterface
+    {
+        return $this->lastGradeUpdate;
+    }
+
+    public function setLastGradeUpdate(?\DateTimeInterface $lastGradeUpdate): self
+    {
+        $this->lastGradeUpdate = $lastGradeUpdate;
 
         return $this;
     }
