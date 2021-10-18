@@ -136,6 +136,10 @@ class SpaController extends AbstractController
             'unite' => $unite
         ]);
 
+        if ($dateObject->getTimestamp() >  strtotime(date('Y-m-d'))){
+            return $this->redirectToRoute('spa_create');
+        }
+
         if ($spas != null){
             return $this->redirectToRoute('spa_create');
         }
@@ -163,10 +167,13 @@ class SpaController extends AbstractController
 
         $dateObject = new \DateTime($date);
 
-
+        $isNextDate = false;
 
         if ($dateObject->getTimestamp() !=  strtotime(date('Y-m-d'))) {
             $isOutDated = true;
+        }
+        if ($dateObject->getTimestamp() >  strtotime(date('Y-m-d'))){
+            $isNextDate = true;
         }
 
         $unite = $this->getDoctrine()->getManager()->getRepository(Unite::class)->find($unite_id);
@@ -196,6 +203,7 @@ class SpaController extends AbstractController
             'date' => $date,
             'spa' => $spas,
             'unite' => $unite,
+            'isNextDate' => $isNextDate,
         ]);
 
     }
@@ -225,53 +233,66 @@ class SpaController extends AbstractController
         $em->flush();
 
 
+        try {
+            foreach ($militaireSpaRows as $row){
+
+                $militaire = $this->getDoctrine()->getManager()->getRepository(Militaire::class)->find(intval($row['id']));
+
+                if ($militaire != null){
+
+                    $lastSpa = $this->getDoctrine()->getManager()->getRepository(MilitaireSpa::class)->findLastSpa($militaire);
 
 
-        foreach ($militaireSpaRows as $row){
+                    $grade = $militaire->getGrade();
 
-            $militaire = $this->getDoctrine()->getManager()->getRepository(Militaire::class)->find(intval($row['id']));
+                    $grade_array = [];
+                    $grade_array['id'] = $grade->getId();
+                    $grade_array['intitule'] = $grade->getIntitule();
+                    $grade_array['description'] = $grade->getDescription();
+                    $grade_array['categorie'] = [];
+                    $grade_array['categorie']['id'] = $grade->getGradeCategorie()->getId();
+                    $grade_array['categorie']['intitule'] = $grade->getGradeCategorie()->getIntitule();
 
-            if ($militaire != null){
+                    $militaireSpa = new MilitaireSpa();
+                    $militaireSpa->setMilitaire($militaire);
+                    $militaireSpa->setSpa($spa);
+                    $militaireSpa->setStatut($row['statut']);
+                    $militaireSpa->setCommentaire($row['commentaire']);
+                    $militaireSpa->setSavedGrade($grade_array);
+                    $em->persist($militaireSpa);
+                    $em->flush();
 
-                $grade = $militaire->getGrade();
+                    // Verifier si la SPA sera ecraser par le statut de la chancellerie
 
-                $grade_array = [];
-                $grade_array['id'] = $grade->getId();
-                $grade_array['intitule'] = $grade->getIntitule();
-                $grade_array['description'] = $grade->getDescription();
-                $grade_array['categorie'] = [];
-                $grade_array['categorie']['id'] = $grade->getGradeCategorie()->getId();
-                $grade_array['categorie']['intitule'] = $grade->getGradeCategorie()->getIntitule();
+                    if ($militaire->getStatut() == null || $lastSpa == null || $lastSpa->getSpa()->getDateSpa()->getTimestamp() >= $militaire->getStatut()->getDateDebut()->getTimestamp()) {
 
-                $militaireSpa = new MilitaireSpa();
-                $militaireSpa->setMilitaire($militaire);
-                $militaireSpa->setSpa($spa);
-                $militaireSpa->setStatut($row['statut']);
-                $militaireSpa->setCommentaire($row['commentaire']);
-                $militaireSpa->setSavedGrade($grade_array);
-                $em->persist($militaireSpa);
-                $em->flush();
+                        $militaireStatut = new MilitaireStatut();
 
-                $militaireStatut = new MilitaireStatut();
+                        $militaireStatut->setStatut(intval($row['statut']));
 
-                $militaireStatut->setMilitaire($militaire);
+                        $militaireStatut->setCommentaire($row['commentaire']);
 
-                $militaireStatut->setStatut(intval($row['statut']));
+                        $militaireStatut->setDateDebut(new \DateTime($date));
 
-                $militaireStatut->setCommentaire($row['commentaire']);
+                        $militaireStatut->setDefinedBy(MilitaireStatut::UPDATED_BY_CHEF_CORPS);
+
+                        $militaire->setStatut($militaireStatut);
+
+                        $em->flush();
+                    }
+
+                    $dateObj = new \DateTime($date);
 
 
 
-                $militaireStatut->setDateDebut(new \DateTime($date));
-
-                $em->persist($militaireStatut);
-                $em->flush();
-
-                $dateObj = new \DateTime($date);
+                }
 
 
             }
+        }catch (\Exception $exception){
 
+            $em->remove($spa);
+            $em->remove();
 
         }
 

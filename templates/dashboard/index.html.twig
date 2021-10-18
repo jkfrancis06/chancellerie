@@ -11,212 +11,84 @@
 {% block content %}
 
 
-    <section class="mt-md-4 pt-md-2 mb-5 pb-4">
+    <div class="row mt-5">
 
-        <!-- Grid row -->
-        <div class="row">
-
-
-            <!-- Grid column -->
-            <div class="col-xl-12 col-md-12 mb-xl-0 mb-5">
-
-                <!-- Card -->
-                <div class="card card-cascade cascading-admin-card">
-
-                    <!-- Card Data -->
-                    <div class="admin-up">
-                        <i class="fas fa-users primary-color mr-3 z-depth-2"></i>
-                        <div class="data">
-                            <p class="text-uppercase">effectif total</p>
-                            <h4 class="font-weight-bold dark-grey-text">{{ militaires | length }}</h4>
-                        </div>
-                    </div>
-
-                    <!-- Card content -->
-                    <div class="card-body card-body-cascade">
-                        <div class="progress mb-3">
-                            <div class="progress-bar bg-primary" role="progressbar" style="width: 100%" aria-valuenow="100"
-                                 aria-valuemin="0" aria-valuemax="100"></div>
-                        </div>
-                        <p class="card-text">Effectif des elements a ce jour</p>
-                    </div>
-
+        <div class="col col-12 mb-5">
+            <div class="card">
+                <div class="card-header">
+                    Effectifs aux dernieres SPA
                 </div>
-                <!-- Card -->
+                <div class="card-body">
+                    <table id="effectif_table" class="table table-bordered table-striped">
+                        <thead>
+                            <tr>
+                                <th>Corps</th>
+                                <th>Unite</th>
+                                <th>Effectifs</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                        {% for affectation in affectations %}
+                            <tr>
+                                <td class="text-uppercase">{{ affectation['unite'].corps.intitule }}</td>
+                                <td class="text-uppercase">{{ affectation['unite'] }}</td>
+                                <td>
+                                    <table class="table table-striped table-bordered">
+                                        <tbody>
+                                        {% for key,count in affectation.count %}
+                                            <tr>
+                                                <td class="{{ MilitaireStatutGetter.getString(key) }}">
+                                                    {{ GetMilitaireStatut.getString(key)  }}
+                                                </td>
+                                                <td>
+                                                    {{ count}}
+                                                </td>
+                                            </tr>
+                                        {% endfor %}
+                                        </tbody>
+                                    </table>
+                                </td>
+                            </tr>
+                        {% endfor %}
 
-            </div>
 
 
-            <!-- Grid column -->
-
-            <!-- Grid column -->
-            <div class="col-xl-3 col-md-6 mb-xl-0 mb-4 mt-4">
-
-                <!-- Card -->
-                <div class="card card-cascade cascading-admin-card">
-
-                    <!-- Card Data -->
-                    <div class="admin-up">
-                        <i class="fas fa-chart-line success-color mr-3 z-depth-2"></i>
-                        <div class="data">
-                            <p class="text-uppercase">En service</p>
-                            <h4 class="font-weight-bold dark-grey-text">{{ militaire_service | length }}</h4>
-                        </div>
-                    </div>
-
-                    <!-- Card content -->
-                    <div class="card-body card-body-cascade">
-                        <div class="progress mb-3">
-                            {% if militaires|length != 0 %}
-                                {% set en_servie  = (militaire_service|length / militaires|length)*100 %}
-                            {% else %}
-                                {% set en_servie  = 0 %}
-                            {% endif %}
-                            <div class="progress-bar green accent-2" role="progressbar" style="width: {{ en_servie|round(1, 'ceil') }}%" aria-valuenow="25"
-                                 aria-valuemin="0" aria-valuemax="100"></div>
-                        </div>
-                        <p class="card-text">{{ en_servie|round(1, 'ceil') }}% de l'effectif total</p>
-                    </div>
-
+                        </tbody>
+                    </table>
                 </div>
-                <!-- Card -->
-
             </div>
-            <!-- Grid column -->
-
-            <!-- Grid column -->
-            <div class="col-xl-3 col-md-6 mb-md-0 mb-4  mt-4">
-
-                <!-- Card -->
-                <div class="card card-cascade cascading-admin-card">
-
-                    <!-- Card Data -->
-                    <div class="admin-up">
-                        <i class="fas fa-chart-pie light-blue lighten-1 mr-3 z-depth-2"></i>
-                        <div class="data">
-                            <p class="text-uppercase">Retraités </p>
-                            <h4 class="font-weight-bold dark-grey-text">{{ militaire_retraite | length }}</h4>
-                        </div>
-                    </div>
-
-                    <!-- Card content -->
-                    <div class="card-body card-body-cascade">
-                        <div class="progress mb-3">
-                            {% if militaires|length != 0 %}
-                                {% set retraite  = (militaire_retraite|length / militaires|length)*100 %}
-                            {% else %}
-                                {% set retraite  = 0 %}
-                            {% endif %}
-                            <div class="progress-bar blue lighten-2" role="progressbar" style="width: {{ en_servie|round(1, 'ceil') }}%" aria-valuenow="75"
-                                 aria-valuemin="0" aria-valuemax="100"></div>
-                        </div>
-                        <p class="card-text">{{ en_servie|round(1, 'ceil') }}% de l'effectif total</p>
-                    </div>
-
-                </div>
-                <!-- Card -->
-
-            </div>
-            <!-- Grid column -->
-
-            <!-- Grid column -->
-            <div class="col-xl-3 col-md-6 mb-0  mt-4">
-
-                <!-- Card -->
-                <div class="card card-cascade cascading-admin-card">
-
-                    <!-- Card Data -->
-                    <div class="admin-up">
-                        <i class="fas fa-chart-bar red accent-2 mr-3 z-depth-2"></i>
-                        <div class="data">
-                            <p class="text-uppercase">Radiés</p>
-                            <h4 class="font-weight-bold dark-grey-text">{{ militaire_radie | length }}</h4>
-                        </div>
-                    </div>
-
-                    <!-- Card content -->
-                    <div class="card-body card-body-cascade">
-
-                        <div class="progress mb-3">
-                            {% if militaires|length != 0 %}
-                                {% set radie  = (militaire_radie|length / militaires|length) * 100 %}
-                            {% else %}
-                                {% set radie  = 0 %}
-                            {% endif %}
-                            <div class="progress-bar red" role="progressbar" style="width: {{ radie|round(1, 'ceil') }}%" aria-valuenow="25"
-                                 aria-valuemin="0" aria-valuemax="100"></div>
-                        </div>
-                        <p class="card-text">{{ radie|round(1, 'ceil') }}% de l'effectif total</p>
-                    </div>
-
-                </div>
-                <!-- Card -->
-
-            </div>
-            <!-- Grid column -->
-
-
-            <!-- Grid column -->
-            <div class="col-xl-3 col-md-6 mb-xl-0 mb-4  mt-4">
-
-                <!-- Card -->
-                <div class="card card-cascade cascading-admin-card">
-
-                    <!-- Card Data -->
-                    <div class="admin-up">
-                        <i class="fas fa-users primary-color mr-3 z-depth-2"></i>
-                        <div class="data">
-                            <p class="text-uppercase">Autres statuts</p>
-                            <h4 class="font-weight-bold dark-grey-text">{{ militaire_disponibilite | length }}</h4>
-                        </div>
-                    </div>
-
-                    <!-- Card content -->
-                    <div class="card-body card-body-cascade">
-                        <div class="progress mb-3">
-                            {% if militaires|length != 0 %}
-                                {% set dispo  = (militaire_disponibilite|length / militaires|length)*100 %}
-                            {% else %}
-                                {% set dispo  = 0 %}
-                            {% endif %}
-                            <div class="progress-bar blue  accent-2" role="progressbar"style="width: {{ dispo|round(1, 'ceil') }}%" aria-valuenow="75"
-                                 aria-valuemin="0" aria-valuemax="100"></div>
-                        </div>
-                        <p class="card-text">{{ dispo|round(1, 'ceil') }}% de l'effectif total</p>
-                    </div>
-
-                </div>
-                <!-- Card -->
-
-            </div>
-
-        </div>
-        <!-- Grid row -->
-
-    </section>
-
-
-    <!-- Section: Main panel -->
-    <section class="mb-5">
-
-        <!-- Card -->
-        <div class="card card-cascade narrower">
-
-            <!-- Section: Chart -->
-            <section>
-
-                <canvas id="barChart" height="175"></canvas>
-
-                <!-- Grid row -->
-
-            </section>
-
         </div>
 
-    </section>
 
-    <div class="row">
+
+
         <div class="col col-6">
+            <div class="card">
+                <div class="card-header">
+                    Status
+                </div>
+                <div class="card-body">
+                    <canvas id="statusChart"></canvas>
+                </div>
+            </div>
+        </div>
+
+
+        <div class="col col-6">
+            <div class="card">
+                <div class="card-header">
+                    Categories de grades
+                </div>
+                <div class="card-body">
+                    <canvas id="categoryChart"></canvas>
+                </div>
+            </div>
+        </div>
+
+
+
+
+        <div class="col col-12 mt-5">
             <section>
                 <!-- Panel -->
                 <div class="card mb-lg-0 mb-4">
@@ -284,18 +156,50 @@
                 <!-- Panel -->
             </section>
         </div>
+
     </div>
 
 
 
 
 
-        {% endblock %}
+
+
+{% endblock %}
 
 {% block botton_javascripts %}
     <script>
 
         $(document).ready(function () {
+
+            $('#effectif_table').DataTable( {
+                order: [[0, 'asc']],
+                rowGroup: {
+                    dataSrc: 0
+                },
+                "language": {
+                    "sProcessing":     "Traitement en cours...",
+                    "sSearch":         "Rechercher&nbsp;:",
+                    "sLengthMenu":     "Afficher _MENU_ &eacute;l&eacute;ments",
+                    "sInfo":           "Affichage de l'&eacute;lement _START_ &agrave; _END_ sur _TOTAL_ &eacute;l&eacute;ments",
+                    "sInfoEmpty":      "Affichage de l'&eacute;lement 0 &agrave; 0 sur 0 &eacute;l&eacute;ments",
+                    "sInfoFiltered":   "(filtr&eacute; de _MAX_ &eacute;l&eacute;ments au total)",
+                    "sInfoPostFix":    "",
+                    "sLoadingRecords": "Chargement en cours...",
+                    "sZeroRecords":    "Aucun &eacute;l&eacute;ment &agrave; afficher",
+                    "sEmptyTable":     "Aucune donn&eacute;e disponible dans le tableau",
+                    "oPaginate": {
+                        "sFirst":      "Premier",
+                        "sPrevious":   "Pr&eacute;c&eacute;dent",
+                        "sNext":       "Suivant",
+                        "sLast":       "Dernier"
+                    },
+                    "oAria": {
+                        "sSortAscending":  ": activer pour trier la colonne par ordre croissant",
+                        "sSortDescending": ": activer pour trier la colonne par ordre d&eacute;croissant"
+                    }
+                }
+            } );
 
 
             $('#limit_data').DataTable( {
@@ -325,49 +229,79 @@
                 }
             } );
 
-            //bar
-            var ctxB = document.getElementById("barChart").getContext('2d');
-            var myBarChart = new Chart(ctxB, {
+            var labels = [
+                {% for key,status in statuts_array %}
+                '{{ key }}',
+                {% endfor %}
+            ]
+
+            var data = [
+                {% for key,status in statuts_array %}
+                '{{ status['count'] }}',
+                {% endfor %}
+            ]
+
+
+            var colors = [
+                {% for key,status in statuts_array %}
+                '{{ status['color'] }}',
+                {% endfor %}
+            ]
+
+            var ctxPA = document.getElementById("statusChart").getContext('2d');
+            var myPolarChart = new Chart(ctxPA, {
                 type: 'horizontalBar',
                 data: {
-                    labels: [
-                        {% for corp in corp_array %}
-                            "{{ corp.corps.intitule }}",
-                        {% endfor %}
-                    ],
+                    labels: labels,
                     datasets: [{
-                        label: 'Effectif therorique par corps',
-                        data: [
-                            {% for corp in corp_array %}
-                                "{{ corp.effectif }}",
-                            {% endfor %}
-                        ],
-                        backgroundColor: [
-                            {% for corp in corp_array %}
-                            "#{{ corp.corps.stringToColorCode() }}",
-                            {% endfor %}
-                        ],
-                        borderColor: [
-                            {% for corp in corp_array %}
-                                "#{{ corp.corps.stringToColorCode() }}",
-                            {% endfor %}
-                        ],
-                        borderWidth: 1
+                        label: " ",
+                        data: data,
+                        backgroundColor: colors,
+                        hoverBackgroundColor: colors
                     }]
                 },
                 options: {
-                    scales: {
-                        xAxes: [{
-                            ticks: {
-                                min: 0 // Edit the value according to what you need
-                            }
-                        }],
-                        yAxes: [{
-                            stacked: true
-                        }]
-                    }
+                    responsive: true
                 }
             });
+
+
+
+
+            var donut_labels = [
+                {% for key,categorie in categories_array %}
+                '{{ categorie['categorie']['intitule'] }}',
+                {% endfor %}
+            ]
+
+            var donut_data = [
+                {% for key,categorie in categories_array %}
+                '{{ categorie['count'] }}',
+                {% endfor %}
+            ]
+
+
+            var donut_colors = [
+                {% for key,categorie in categories_array %}
+                '{{ categorie['color'] }}',
+                {% endfor %}
+            ]
+
+            var ctxD = document.getElementById("categoryChart").getContext('2d');
+            var myLineChart = new Chart(ctxD, {
+                type: 'doughnut',
+                data: {
+                    labels: donut_labels,
+                    datasets: [{
+                        data: donut_data,
+                        backgroundColor: donut_colors,
+                        hoverBackgroundColor: donut_colors
+                    }]
+                },
+                options: {
+                    responsive: true
+                }
+            })
 
         })
 

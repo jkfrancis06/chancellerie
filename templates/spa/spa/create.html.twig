@@ -166,7 +166,11 @@
                             matricule: {{ militaire.matricule }},
                             grade: "{{ militaire.grade.intitule }}",
                             name: "{{ militaire.nom }}" +"  " +"{{ militaire.prenoms }}",
-                            statut: {{ GetMilitaireStatut.getStatut(militaire).statut }},
+                            {% if GetMilitaireStatut.getStatut(militaire) is null %}
+                                statut: 404,
+                            {% else %}
+                                statut: {{ GetMilitaireStatut.getStatut(militaire).statut }},
+                            {% endif %}
                         },
 
                     {% endfor %}
@@ -180,6 +184,8 @@
 
                 var $data = myAppendGrid.getAllValue()
 
+                $('#submit').attr('disabled',true)
+
 
                 axios.post('/spa/unite/parse-spa/'+{{ unite.id }}, {
                     data: $data,
@@ -191,6 +197,7 @@
                         window.location.href = " {{ path('all_spa') }}"
                     })
                     .catch(function (error) {
+                        $('#submit').attr('disabled',false)
                         console.log(error);
                     });
 

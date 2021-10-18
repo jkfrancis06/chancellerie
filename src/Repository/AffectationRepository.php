@@ -44,7 +44,7 @@ class AffectationRepository extends ServiceEntityRepository
     {
         return $this->createQueryBuilder('a')
             ->andWhere('a.unite IN (:unites)')
-            ->andWhere('a.isActive = :active)')
+            ->andWhere('a.isActive = :active')
             ->setParameter('unites', $unite)
             ->setParameter('active', true)
             ->getQuery()

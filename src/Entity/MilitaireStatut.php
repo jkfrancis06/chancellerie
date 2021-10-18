@@ -25,6 +25,9 @@ class MilitaireStatut
     const STATUT_ABSENCE = 7;
     const STATUT_ARR_MALADIE = 8;
 
+    const UPDATED_BY_CHAN = 1;
+    const UPDATED_BY_CHEF_CORPS = 2;
+
 
 
     /**
@@ -33,11 +36,6 @@ class MilitaireStatut
      * @ORM\Column(type="integer")
      */
     private $id;
-
-    /**
-     * @ORM\ManyToOne(targetEntity=Militaire::class, inversedBy="militaireStatuts")
-     */
-    private $militaire;
 
     /**
      * @ORM\Column(type="integer", nullable=true)
@@ -59,22 +57,27 @@ class MilitaireStatut
      */
     private $dateFin;
 
+    /**
+     * @ORM\Column(type="integer", nullable=true)
+     */
+    private $definedBy;
+
+    /**
+     * @ORM\Column(type="datetime", nullable=true)
+     */
+    private $updateAt;
+
+    public function __construct()
+    {
+        $this->updateAt = new \DateTime();
+    }
+
+
     public function getId(): ?int
     {
         return $this->id;
     }
 
-    public function getMilitaire(): ?Militaire
-    {
-        return $this->militaire;
-    }
-
-    public function setMilitaire(?Militaire $militaire): self
-    {
-        $this->militaire = $militaire;
-
-        return $this;
-    }
 
     public function getStatut(): ?int
     {
@@ -120,6 +123,30 @@ class MilitaireStatut
     public function setDateFin(?\DateTimeInterface $dateFin): self
     {
         $this->dateFin = $dateFin;
+
+        return $this;
+    }
+
+    public function getDefinedBy(): ?int
+    {
+        return $this->definedBy;
+    }
+
+    public function setDefinedBy(?int $definedBy): self
+    {
+        $this->definedBy = $definedBy;
+
+        return $this;
+    }
+
+    public function getUpdateAt(): ?\DateTimeInterface
+    {
+        return $this->updateAt;
+    }
+
+    public function setUpdateAt(?\DateTimeInterface $updateAt): self
+    {
+        $this->updateAt = $updateAt;
 
         return $this;
     }

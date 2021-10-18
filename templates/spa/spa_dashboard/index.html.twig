@@ -4,6 +4,8 @@
 
 
 
+
+
 {% block content %}
 
 
@@ -11,7 +13,290 @@
 
 
 
+    <div class="row mt-5">
+
+        <div class="col col-12 mb-5">
+            <div class="card">
+                <div class="card-header">
+                    Effectifs aux dernieres SPA
+                </div>
+                <div class="card-body">
+                    <table class="table table-bordered table-striped">
+                        <tbody>
+
+                        {% for affectation in affectations %}
+                            <tr>
+                                <td class="text-uppercase">{{ affectation['unite'] }}</td>
+                                <td>
+                                    <table class="table table-striped table-bordered">
+                                        <tbody>
+                                        {% for key,count in affectation.count %}
+                                            <tr>
+                                                <td class="{{ MilitaireStatutGetter.getString(key) }}">
+                                                    {{ GetMilitaireStatut.getString(key)  }}
+                                                </td>
+                                                <td>
+                                                    {{ count}}
+                                                </td>
+                                            </tr>
+                                        {% endfor %}
+                                        </tbody>
+                                    </table>
+                                </td>
+                            </tr>
+                        {% endfor %}
+
+
+
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+
+
+
+        <div class="col col-6">
+            <div class="card">
+                <div class="card-header">
+                    Status
+                </div>
+                <div class="card-body">
+                    <canvas id="statusChart"></canvas>
+                </div>
+            </div>
+        </div>
+
+
+        <div class="col col-6">
+            <div class="card">
+                <div class="card-header">
+                    Categories de grades
+                </div>
+                <div class="card-body">
+                    <canvas id="categoryChart"></canvas>
+                </div>
+            </div>
+        </div>
+
+
+
+        <div class="col col-12 mt-5">
+            <table id="elements_list" class="table table-responsive table-bordered table-striped table-hover text-center">
+                <thead>
+                <tr>
+                    <th>Photo</th>
+                    <th>Matricule</th>
+                    <th>Nom</th>
+                    <th>Prenoms</th>
+                    <th>Grade</th>
+                    <th>Date d'incorporation</th>
+                    <th>Annees de service</th>
+                    <th>Date de naissance</th>
+                    <th>Sexe</th>
+                    <th>Groupe sanguin</th>
+                    <th>Numeros de telephones</th>
+                    <th>Adresse</th>
+                    <th>Fonction</th>
+                    <th>Unite d'affectation</th>
+                    <th>Statut</th>
+                </tr>
+                </thead>
+                <tbody>
+                {% if militaires | length == 0 %}
+                    <p class="text-center">Aucun element n'a été ajouté pour l'instant</p>
+                {% else %}
+                    {% for affectation in militaires%}
+                        <tr>
+                            <td>
+                                {% if affectation.militaire.mainPicture == null %}
+                                    <img height="50" width="50" src="{{ path('download_element', {'name': "default.png" , 'id': affectation.militaire.matricule}) }}" class="img-thumbnail" alt="...">
+                                {% else %}
+                                    <img height="50" width="50" src="{{ path('download_element', {'name': affectation.militaire.mainPicture , 'id': affectation.militaire.matricule}) }}" class="img-thumbnail" alt="...">
+                                {% endif %}
+                            </td>
+                            <td>{{ affectation.militaire.matricule }}</td>
+                            <td>{{ affectation.militaire.nom }}</td>
+                            <td>{{ affectation.militaire.prenoms }}</td>
+                            <td>{{ affectation.militaire.grade.intitule }}</td>
+                            <td>{{ affectation.militaire.dateIncorp|date("d-m-Y")  }}</td>
+                            <td>
+                                {% set incorp = date().diff(date(affectation.militaire.dateIncorp)).y %}
+                                {{ incorp }}
+                            </td>
+                            <td>{{ affectation.militaire.dateNaissance|date("d-m-Y")  }}</td>
+                            <td>
+                                {% if affectation.militaire.sexe == 'f' %}
+                                    Femme
+                                {% else %}
+                                    Homme
+                                {% endif %}
+                            </td>
+                            <td>{{ affectation.militaire.groupeSanguin }}</td>
+                            <td>
+                                {% for telephone in affectation.militaire.telephone %}
+                                    {{ telephone.numero }} <br>
+                                {% endfor %}
+                            </td>
+                            <td>{{ affectation.militaire.adresse }}</td>
+                            {% set affectation = AffectationGetter.getLastAffectation(affectation.militaire) %}
+                            <td>
+                                {% if affectation is not null %}
+                                    {{ affectation.fonction }}
+                                {% endif %}
+                            </td>
+                            <td>
+                                {% if affectation is not null %}
+                                    {{ affectation.unite.intitule }}
+                                {% endif %}
+
+                            </td>
+                            <td>
+
+                                {% set lastSpa = MilitaireStatutGetter.loadLastSpa(affectation.militaire) %}
+
+                                {% if lastSpa is not null %}
+
+                                    {% set statut_color = MilitaireStatutGetter.getString(lastSpa.statut) %}
+
+                                    <span class="{{ statut_color }} font-weight-bold">{{  GetMilitaireStatut.getString(lastSpa.statut)  }}</span>
+
+                                {% endif %}
+
+
+                            </td>
+
+                        </tr>
+                    {% endfor %}
+
+                {% endif %}
+                </tbody>
+            </table>
+        </div>
+
+    </div>
+
+
 {% endblock %}
 
 {% block botton_javascripts %}
+
+    <script>
+        $(document).ready(function() {
+
+            var labels = [
+                {% for key,status in statuts_array %}
+                '{{ key }}',
+                {% endfor %}
+            ]
+
+            var data = [
+                {% for key,status in statuts_array %}
+                '{{ status['count'] }}',
+                {% endfor %}
+            ]
+
+
+            var colors = [
+                {% for key,status in statuts_array %}
+                '{{ status['color'] }}',
+                {% endfor %}
+            ]
+
+            var ctxPA = document.getElementById("statusChart").getContext('2d');
+            var myPolarChart = new Chart(ctxPA, {
+                type: 'horizontalBar',
+                data: {
+                    labels: labels,
+                    datasets: [{
+                        label: " ",
+                        data: data,
+                        backgroundColor: colors,
+                        hoverBackgroundColor: colors
+                    }]
+                },
+                options: {
+                    responsive: true
+                }
+            });
+
+
+
+
+            var donut_labels = [
+                {% for key,categorie in categories_array %}
+                '{{ categorie['categorie']['intitule'] }}',
+                {% endfor %}
+            ]
+
+            var donut_data = [
+                {% for key,categorie in categories_array %}
+                '{{ categorie['count'] }}',
+                {% endfor %}
+            ]
+
+
+            var donut_colors = [
+                {% for key,categorie in categories_array %}
+                '{{ categorie['color'] }}',
+                {% endfor %}
+            ]
+
+            var ctxD = document.getElementById("categoryChart").getContext('2d');
+            var myLineChart = new Chart(ctxD, {
+                type: 'doughnut',
+                data: {
+                    labels: donut_labels,
+                    datasets: [{
+                        data: donut_data,
+                        backgroundColor: donut_colors,
+                        hoverBackgroundColor: donut_colors
+                    }]
+                },
+                options: {
+                    responsive: true
+                }
+            })
+
+            $('#elements_list').DataTable({
+                dom: 'lBfrtip',
+                buttons: [
+                    'excel', {
+                        extend: 'pdfHtml5',
+                        orientation: 'landscape',
+                        pageSize: 'LEGAL'
+                    }
+                ],
+                order: [[13, 'asc']],
+                rowGroup: {
+                    dataSrc: 13
+                },
+                "language": {
+                    "sProcessing":     "Traitement en cours...",
+                    "sSearch":         "Rechercher&nbsp;:",
+                    "sLengthMenu":     "Afficher _MENU_ &eacute;l&eacute;ments",
+                    "sInfo":           "Affichage de l'&eacute;lement _START_ &agrave; _END_ sur _TOTAL_ &eacute;l&eacute;ments",
+                    "sInfoEmpty":      "Affichage de l'&eacute;lement 0 &agrave; 0 sur 0 &eacute;l&eacute;ments",
+                    "sInfoFiltered":   "(filtr&eacute; de _MAX_ &eacute;l&eacute;ments au total)",
+                    "sInfoPostFix":    "",
+                    "sLoadingRecords": "Chargement en cours...",
+                    "sZeroRecords":    "Aucun &eacute;l&eacute;ment &agrave; afficher",
+                    "sEmptyTable":     "Aucune donn&eacute;e disponible dans le tableau",
+                    "oPaginate": {
+                        "sFirst":      "Premier",
+                        "sPrevious":   "Pr&eacute;c&eacute;dent",
+                        "sNext":       "Suivant",
+                        "sLast":       "Dernier"
+                    },
+                    "oAria": {
+                        "sSortAscending":  ": activer pour trier la colonne par ordre croissant",
+                        "sSortDescending": ": activer pour trier la colonne par ordre d&eacute;croissant"
+                    }
+                }
+            });
+            $('#loader').hide();
+            $('#tab-content').css("display", "block");
+        });
+    </script>
 {% endblock %}

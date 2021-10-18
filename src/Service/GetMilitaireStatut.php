@@ -21,7 +21,7 @@ class GetMilitaireStatut
 
 
     public function getStatut($militaire){
-        return $this->entityManager->getRepository(MilitaireStatut::class)->getMilitaireStatut($militaire);
+        return $militaire->getStatut();
     }
 
     public function getString($statut) {

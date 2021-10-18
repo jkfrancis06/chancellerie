@@ -16,9 +16,12 @@ class MilitaireStatutGetter
         $this->entityManager = $entityManager;
     }
 
-    public function loadLastSpa($milaire) {
+    public function loadLastSpa($militaire) {
 
-        return $this->entityManager->getRepository(MilitaireSpa::class)->findLastSpa($milaire);
+          return $militaire->getStatut();
+
+
+        //$this->entityManager->getRepository(MilitaireSpa::class)->findLastSpa($militaire);
     }
 
     public function getString($statut) {

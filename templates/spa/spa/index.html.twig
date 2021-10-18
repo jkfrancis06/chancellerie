@@ -160,6 +160,9 @@
                         if (response.found === true) {
                             return $.Deferred().reject("Il déjà existe une SPA a cette date");
                         }
+                        if (response.isNextDate === true) {
+                            return $.Deferred().reject("Date invalide");
+                        }
                         if (response.isOutDated === true) {
                             $("#dateAlert").show()
                         }

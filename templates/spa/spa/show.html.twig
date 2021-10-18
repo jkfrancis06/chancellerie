@@ -53,7 +53,6 @@
                         <th>Nom et Prenoms</th>
                         <th>Statut</th>
                         <th>Observation</th>
-                        <th></th>
                     </tr>
                 </thead>
 
@@ -63,11 +62,8 @@
                         <tr>
                             <td>{{ militaireSpa.militaire.matricule}}</td>
                             <td class="text-uppercase">{{ militaireSpa.militaire.nom}}&nbsp;{{ militaireSpa.militaire.prenoms}}</td>
-                            <td>{{ GetMilitaireStatut.getString(militaireSpa.statut) }}</td>
+                            <td class="{{ MilitaireStatutGetter.getString(militaireSpa.statut) }} font-weight-bold">{{ GetMilitaireStatut.getString(militaireSpa.statut) }}</td>
                             <td>{{ militaireSpa.commentaire | raw }}</td>
-                            <td>
-                                <a class="btn btn-sm btn-primary" href="{{ path('spa_show',{spa : spa.id}) }}">Voir</a>
-                            </td>
                         </tr>
 
 

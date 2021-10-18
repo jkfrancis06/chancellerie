@@ -66,7 +66,7 @@
             <div class="col col-12 mb-5">
                 <div class="card">
                     <div class="card-header">
-                        Effectif theroique a la date du {{ date|date('d-m-Y') }} (Radies inclus)
+                        Effectif theroique a la date du {{ date|date('d-m-Y') }}
                     </div>
                     <div class="card-body">
                         <table class="table table-bordered table-striped">
@@ -75,7 +75,22 @@
                                 {% for affectation in affectations %}
                                     <tr>
                                         <td class="text-uppercase">{{ affectation['unite'] }}</td>
-                                        <td>{{ affectation['count'] }}</td>
+                                        <td>
+                                            <table class="table table-striped table-bordered">
+                                                <tbody>
+                                                    {% for key,count in affectation.count %}
+                                                        <tr>
+                                                            <td class="{{ MilitaireStatutGetter.getString(key) }}">
+                                                                {{ GetMilitaireStatut.getString(key)  }}
+                                                            </td>
+                                                            <td>
+                                                               {{ count}}
+                                                            </td>
+                                                        </tr>
+                                                    {% endfor %}
+                                                </tbody>
+                                            </table>
+                                        </td>
                                     </tr>
                                 {% endfor %}
 
@@ -151,7 +166,7 @@
                                             <tr>
                                                 <td>{{ militaireSpa.militaire.matricule}}</td>
                                                 <td class="text-uppercase">{{ militaireSpa.militaire.nom}}&nbsp;{{ militaireSpa.militaire.prenoms}}</td>
-                                                <td>{{ GetMilitaireStatut.getString(militaireSpa.statut) }}</td>
+                                                <td class="{{ MilitaireStatutGetter.getString(militaireSpa.statut) }} font-weight-bold">{{ GetMilitaireStatut.getString(militaireSpa.statut) }}</td>
                                                 <td>{{ militaireSpa.commentaire | raw }}</td>
                                             </tr>
 

@@ -72,11 +72,24 @@ class StatController extends AbstractController
 
             }
 
-            $querySpa = $this->getDoctrine()->getManager()->getRepository(Spa::class)->findSpaByDateAndUnite($selectedDate,$unites);
+            $unites_ids = [];
+
+            foreach ($unites as $unite){
+                array_push($unites_ids,$unite->getId());
+            }
+
+
+            $querySpa = $this->getDoctrine()->getManager()->getRepository(Spa::class)->findBy([
+                'dateSpa' => $selectedDate,
+                'unite' => $unites_ids
+            ]);
+
+
+            //$querySpa = $this->getDoctrine()->getManager()->getRepository(Spa::class)->findSpaByDateAndUnite($selectedDate,$unites);
 
             //$affectations = $this->getDoctrine()->getManager()->getRepository(Affectation::class)->findAffectationByUnite($unites);
 
-            $affectations = $this->getDoctrine()->getManager()->getRepository(Affectation::class)->findSelectedAffectations($unites,$selectedDate);
+            //$affectations = $this->getDoctrine()->getManager()->getRepository(Affectation::class)->findSelectedAffectations($unites,$selectedDate);
 
 
 
@@ -84,41 +97,38 @@ class StatController extends AbstractController
 
             // on cherche les militaires qui sont dans ces unites a cette date donnee
 
-            if ($affectations != null) {
+            if ($querySpa != null) {
 
 
 
-                foreach ($affectations as $affectation){
+                foreach ($querySpa as $spa){
 
-                    if (!array_key_exists($affectation->getUnite()->getId(),$affectations_array)){
-                        $affectations_array[$affectation->getUnite()->getId()] = [];
-                        $affectations_array[$affectation->getUnite()->getId()]['unite'] = $affectation->getUnite();
-                        $affectations_array[$affectation->getUnite()->getId()]['count'] = 0;
+                    if (!array_key_exists($spa->getUnite()->getId(),$affectations_array)){
+
+                        $affectations_array[$spa->getUnite()->getId()] = [];
+                        $affectations_array[$spa->getUnite()->getId()]['unite'] = $spa->getUnite();
+                        $affectations_array[$spa->getUnite()->getId()]['count'] = $this->getStatsByUnite($spa->getMilitaireSpas());
                     }
-                    $affectations_array[$affectation->getUnite()->getId()]['count']++;
+
+
+                    foreach ($spa->getMilitaireSpas() as $militaireSpa){
+
+                        if ($militaireSpa->getStatut() != null){
+
+                            $statuts_array[$this->getMilitaireStatut->getString($militaireSpa->getStatut())]['count']++; // update status counter
+                        }
+
+                        $grade = $militaireSpa->getSavedGrade();
+
+
+                        if (array_key_exists($grade['categorie']['id'], $categories_array)){
+                            $categories_array[$grade['categorie']['id']]['count'] ++;
+                        }
+                    }
 
                 }
             }
 
-
-            foreach ($querySpa as $spa){  // loop in spa
-
-                foreach ($spa->getMilitaireSpas() as $militaireSpa){
-
-                    if ($militaireSpa->getStatut() != null){  // update status counter
-
-                        $statuts_array[$this->getMilitaireStatut->getString($militaireSpa->getStatut())]['count']++;
-                    }
-
-                    $grade = $militaireSpa->getSavedGrade();
-
-
-                    if (array_key_exists($grade['categorie']['id'], $categories_array)){
-                        $categories_array[$grade['categorie']['id']]['count'] ++;
-                    }
-                }
-
-            }
 
 
 
@@ -134,5 +144,23 @@ class StatController extends AbstractController
             'statuts_array' => $statuts_array,
             'categories_array' => $categories_array,
         ]);
+    }
+
+    private function getStatsByUnite($militaires_spa){
+
+        $status_array = [];
+
+        foreach ($militaires_spa as $spa) {
+
+            if (!array_key_exists($spa->getStatut(), $status_array)) {
+                $status_array[$spa->getStatut()] = 1;
+            }else{
+                $status_array[$spa->getStatut()]++;
+            }
+        }
+
+        return $status_array;
+
+
     }
 }

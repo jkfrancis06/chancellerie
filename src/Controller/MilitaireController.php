@@ -10,6 +10,7 @@ use App\Entity\MilitaireExercice;
 use App\Entity\MilitaireFormation;
 use App\Entity\MilitaireMedaille;
 use App\Entity\MilitaireMission;
+use App\Entity\MilitaireSpa;
 use App\Entity\MilitaireStatut;
 use App\Entity\Punition;
 use App\Entity\SousDossier;
@@ -277,29 +278,6 @@ class MilitaireController extends AbstractController
                 $em->flush();
             }
 
-            /*$mutationDossier = $this->getDoctrine()->getManager()->getRepository(SousDossier::class)->findOneBy([
-                'militaire' => $militaire,
-                'type' => SousDossier::PIECE_MUTATIONS
-            ]);
-            if ($mutationDossier != null) {
-                $affectation->getPiece()->setSousDossier($mutationDossier);
-            }else{
-                $sousDossier = new SousDossier();
-                $sousDossier->setMilitaire($militaire);
-                $sousDossier->setType(SousDossier::PIECE_MUTATIONS);
-                $sousDossier->setNumero(SousDossier::PIECE_MUTATIONS);
-                $em->persist($sousDossier);
-                $em->flush();
-                $affectation->getPiece()->setSousDossier($sousDossier);
-            }
-
-            $piece = $affectationForm->get('piece')->getData();
-
-            if ($piece->getFile() != null){
-                $fileName = $fileUploader->upload($piece->getFile(),$this->elementsDir.'/'.md5($militaire->getMatricule()));
-                $piece->setFilename($fileName);
-            }*/
-
             $affectation->setIsActive(true);
             $em->persist($affectation);
             $em->flush();
@@ -360,45 +338,17 @@ class MilitaireController extends AbstractController
 
         if ($militaireStautForm->isSubmitted() && $militaireStautForm->isValid()){
 
-            $militaireStatut->setMilitaire($militaire);
-            if ($militaireStatut->getStatut() == 1) { // radiation
-                $db_militaireStatut = $this->getDoctrine()->getManager()->getRepository(MilitaireStatut::class)->findBy([   // verifier si le dernier statut n'est pas radiation pour ne pas superposer les radiations
-                    'militaire'=> $militaire
-                ]);
+            $lastSpa = $this->getDoctrine()->getManager()->getRepository(MilitaireSpa::class)->findLastSpa($militaire);
 
-                if (sizeof( $db_militaireStatut) > 0){   // si il a deja un historique
-                    if ($db_militaireStatut[sizeof($db_militaireStatut) -1 ]->getStatut() == 1){  // radie donc ne rien faire
-                        return $this->redirectToRoute('militaire_details', array('id' => $militaire->getId()));
-                    }elseif ($db_militaireStatut[sizeof($db_militaireStatut) -1 ]->getStatut() == 11){  // en attente de confirmation donc rediriger vers la page de confirmation
-                        return $this->redirectToRoute('militaire_radiation', array(
-                            'id' => $militaire->getId(),
-                            'status' => $db_militaireStatut[sizeof($db_militaireStatut) -1 ]->getId()
-                        ));
-                    }else{                                                                              // ajouter le statut
-                        $militaireStatut->setStatut(11);
-                        $em->persist($militaireStatut);
-                        $em->flush();
-                        return $this->redirectToRoute('militaire_radiation', array(
-                            'id' => $militaire->getId(),
-                            'status' => $militaireStatut->getId()
-                        ));
-                    }
-                }else{    // ajouter le statut
-                    $militaireStatut->setStatut(11);
-                    $em->persist($militaireStatut);
-                    $em->flush();
-                    return $this->redirectToRoute('militaire_radiation', array(
-                        'id' => $militaire->getId(),
-                        'status' => $militaireStatut->getId()
-                    ));
-                }
 
-            }else{
-                $em->persist($militaireStatut);
+            if ($lastSpa->getSpa() == null || $lastSpa->getSpa()->getDateSpa()->getTimestamp() < $militaireStatut->getDateDebut()->getTimestamp()) {
+                $militaireStatut->setDefinedBy(MilitaireStatut::UPDATED_BY_CHAN);
+                $militaire->setStatut($militaireStatut);
                 $em->flush();
                 $request->getSession()->getFlashBag()->add('statut', 'Success');
-                return $this->redirectToRoute('militaire_details', array('id' => $militaire->getId()));
             }
+
+            return $this->redirectToRoute('militaire_details', array('id' => $militaire->getId()));
 
         }
 
@@ -422,20 +372,10 @@ class MilitaireController extends AbstractController
         $punitions = $militaire->getPunitions();
 
 
-        $militaireStatus = $this->getDoctrine()->getManager()->getRepository(MilitaireStatut::class)->findBy([   // verifier si le dernier statut n'est pas radiation pour ne pas superposer les radiations
-            'militaire'=> $militaire
-        ],
-        [
-            'id' => 'DESC'
-        ]);
+
+        $militaireStatut = $militaire->getStatut();
 
         $lastStatut = null;
-
-
-        if (sizeof($militaireStatus) > 0){
-            $lastStatut = $militaireStatus[0];
-        }
-
 
 
         $nbEnfants = 0;
@@ -461,7 +401,7 @@ class MilitaireController extends AbstractController
             'militaireExercices' => $militaireExercices,
             'militaireMedailles' => $militaireMedailles,
             'militaireFormations' => $militaireFormations,
-            'militaireStatus' => $militaireStatus,
+            'militaireStatut' => $militaireStatut,
             'affectations' => $affectations,
             'militaireFamilles' => $militaireFamilles,
             'punitions' => $punitions,
@@ -476,58 +416,6 @@ class MilitaireController extends AbstractController
         ]);
     }
 
-
-
-
-    /**
-     * @Route("/militaire/r/{id}/{status}", name="militaire_radiation")
-     */
-    public function confirmStatus($id,$status,Request $request): Response
-    {
-        $user = $this->getUser();
-
-        $militaire = $this->getDoctrine()->getManager()->getRepository(Militaire::class)->find($id);
-
-        $db_militaireStatut = $this->getDoctrine()->getManager()->getRepository(MilitaireStatut::class)->find($status);
-
-
-        if ($militaire == null || $db_militaireStatut == null ){
-            throw new NotFoundHttpException("Element non trouve");
-        }
-
-
-        $confirmForm = $this->createForm(RadiationConfirmType::class);
-
-        $confirmForm->handleRequest($request);
-
-        if ($confirmForm->isSubmitted()){
-            $submittedMatricule = $confirmForm->get('numero_matricule')->getData();
-            if ($submittedMatricule != $militaire->getMatricule()){
-                $error = new FormError("Le numero matricule est incorrect");
-                $confirmForm->get('numero_matricule')->addError($error);
-            }
-        }
-
-        $em = $this->getDoctrine()->getManager();
-
-        if ($confirmForm->isSubmitted() && $confirmForm->isValid()){
-
-            $db_militaireStatut->setStatut(1);
-
-            $em->flush();
-            $request->getSession()->getFlashBag()->add('statut', 'Success');
-            return $this->redirectToRoute('militaire_details', array('id' => $militaire->getId()));
-        }
-
-
-        return $this->render('militaire/confirm_statut.html.twig', [
-            'controller_name' => 'DashboardController',
-            'active' => 'dashboard',
-            'militaire' => $militaire,
-            'user' => $user,
-            'confirmForm' => $confirmForm->createView()
-        ]);
-    }
 
     /**
      * @Route("/militaire/p/{id}", name="print_militaire")

@@ -13,7 +13,7 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
  * @ORM\Entity(repositoryClass=MilitaireRepository::class)
  * @UniqueEntity("matricule", message="Ce matricule est deja existant.")
  */
-class   Militaire
+class Militaire
 {
     /**
      * @ORM\Id
@@ -120,10 +120,6 @@ class   Militaire
      */
     private $militaireFonctions;
 
-    /**
-     * @ORM\OneToMany(targetEntity=MilitaireStatut::class, mappedBy="militaire", cascade={"persist", "remove"})
-     */
-    private $militaireStatuts;
 
     /**
      * @ORM\OneToMany(targetEntity=MilitaireMission::class, mappedBy="militaire", orphanRemoval=true, cascade={"persist", "remove"})
@@ -286,6 +282,13 @@ class   Militaire
          */
         private $lastGradeUpdate;
 
+        /**
+         * @ORM\OneToOne(targetEntity=MilitaireStatut::class, cascade={"persist", "remove"})
+         */
+        private $statut;
+
+
+
 
     public function __construct()
     {
@@ -293,7 +296,7 @@ class   Militaire
         $this->telephone = new ArrayCollection();
         $this->affectations = new ArrayCollection();
         $this->militaireFonctions = new ArrayCollection();
-        $this->militaireStatuts = new ArrayCollection();
+        $this->militaireFonctions = new ArrayCollection();
         $this->militaireMissions = new ArrayCollection();
         $this->militaireMedailles = new ArrayCollection();
         $this->militaireDiplomes = new ArrayCollection();
@@ -615,35 +618,6 @@ class   Militaire
         return $this;
     }
 
-    /**
-     * @return Collection|MilitaireStatut[]
-     */
-    public function getMilitaireStatuts(): Collection
-    {
-        return $this->militaireStatuts;
-    }
-
-    public function addMilitaireStatut(MilitaireStatut $militaireStatut): self
-    {
-        if (!$this->militaireStatuts->contains($militaireStatut)) {
-            $this->militaireStatuts[] = $militaireStatut;
-            $militaireStatut->setMilitaire($this);
-        }
-
-        return $this;
-    }
-
-    public function removeMilitaireStatut(MilitaireStatut $militaireStatut): self
-    {
-        if ($this->militaireStatuts->removeElement($militaireStatut)) {
-            // set the owning side to null (unless already changed)
-            if ($militaireStatut->getMilitaire() === $this) {
-                $militaireStatut->setMilitaire(null);
-            }
-        }
-
-        return $this;
-    }
 
     /**
      * @return Collection|MilitaireMission[]
@@ -1294,6 +1268,18 @@ class   Militaire
     public function setLastGradeUpdate(?\DateTimeInterface $lastGradeUpdate): self
     {
         $this->lastGradeUpdate = $lastGradeUpdate;
+
+        return $this;
+    }
+
+    public function getStatut(): ?MilitaireStatut
+    {
+        return $this->statut;
+    }
+
+    public function setStatut(?MilitaireStatut $statut): self
+    {
+        $this->statut = $statut;
 
         return $this;
     }

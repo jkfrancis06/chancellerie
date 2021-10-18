@@ -2,9 +2,14 @@
 
 namespace App\Controller;
 
+use App\Entity\Affectation;
 use App\Entity\Corps;
+use App\Entity\GradeCategorie;
 use App\Entity\Militaire;
+use App\Entity\Spa;
+use App\Service\GetMilitaireStatut;
 use App\Service\LimiteAgeCalculator;
+use App\Service\StringToHex;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -12,100 +17,149 @@ use Symfony\Component\Routing\Annotation\Route;
 #[Route('/ch')]
 class DashboardController extends AbstractController
 {
+
+    private $getMilitaireStatut;
+    private $stringToHex;
+
+    public function __construct(GetMilitaireStatut $getMilitaireStatut, StringToHex $stringToHex){
+        $this->getMilitaireStatut = $getMilitaireStatut;
+        $this->stringToHex = $stringToHex;
+    }
+
+
     /**
      * @Route("/", name="dashboard")
      */
     public function index(LimiteAgeCalculator $limiteAgeCalculator): Response
     {
-        $user = $this->getUser();
 
-        $militaires = $this->getDoctrine()->getManager()->getRepository(Militaire::class)->findAll();
+        $querySpa = array();
+        $affectations_array = array();
+        $statuts_array = [];
+        $categories_array = [];
+        $militaires_limit = [];
 
-        $militaire_service = [];
-        $militaire_retraite = [];
-        $militaire_radie = [];
-        $militaire_disponibilite = [];
-        $array= [2,4,8];
+        $categories = $this->getDoctrine()->getManager()->getRepository(GradeCategorie::class)->findAll();
 
         $corps = $this->getDoctrine()->getManager()->getRepository(Corps::class)->findAll();
 
-        $corp_array = [];
-
-        $militaires_limit = [];
-
-        foreach ($corps as $corp){
-            $item = [];
-            $item["corps"] = $corp;
-            $item["effectif"] = 0;
-            array_push($corp_array, $item);
-
-        }
-
-        foreach ($militaires as $militaire){
-
-            if ($militaire->getMilitaireStatuts() != null) {
-
-                if ($militaire->getMilitaireStatuts()[sizeof($militaire->getMilitaireStatuts())-1] != null){
-                    if ($militaire->getMilitaireStatuts()[sizeof($militaire->getMilitaireStatuts())-1]->getStatut() == 0) {
-                        array_push($militaire_retraite, $militaire);
-                    }
-
-                    if ($militaire->getMilitaireStatuts()[sizeof($militaire->getMilitaireStatuts())-1]->getStatut() == 3) {
-                        array_push($militaire_service, $militaire);
-                    }
-                    if ($militaire->getMilitaireStatuts()[sizeof($militaire->getMilitaireStatuts())-1]->getStatut() == 1 ||
-                        $militaire->getMilitaireStatuts()[sizeof($militaire->getMilitaireStatuts())-1]->getStatut() == 6) {
-                        array_push($militaire_radie, $militaire);
-                    }
-
-                    if (in_array($militaire->getMilitaireStatuts()[sizeof($militaire->getMilitaireStatuts())-1]->getStatut(),$array)) {
-                        array_push($militaire_disponibilite, $militaire);
-                    }
-
-                }
-
-                $affectation = $militaire->getAffectations();
+        if ($corps != null) {
 
 
-                if ($affectation[sizeof($affectation)-1] != null){
+            // push labels in grade category stats array
+            foreach ($categories as $category){
 
-                    if ($affectation != null){
-                        foreach ($corp_array as &$corp){
-                            if ($affectation[sizeof($affectation)-1]->getUnite()->getCorps() == $corp["corps"]){
-                                $corp["effectif"]++;
-                            }
-                        }
-                    }
-                }
-
-
-                 if ($limiteAgeCalculator->calculate($militaire, 6)){
-                     $item = [];
-                     $date = new \DateTime();
-                     $item['limit'] = $date->diff($militaire->getDateNaissance())->m;
-                     $dt = new \DateTime();
-                     $dt->setTimestamp($militaire->addDate($militaire->getGrade()->getLimiteAge()));
-                     $item['limit_date'] = $dt;
-                     $item['militaire'] = $militaire;
-                     array_push($militaires_limit, $item);
-                 }
+                $categories_array[$category->getId()] = [];
+                $categories_array[$category->getId()]['categorie'] = [];
+                $categories_array[$category->getId()]['count'] = 0;
+                $categories_array[$category->getId()]['color'] = '#'.$this->stringToHex->stringToColorCode($category->getIntitule());
+                $categories_array[$category->getId()]['categorie']['id'] = $category->getId();
+                $categories_array[$category->getId()]['categorie']['intitule'] = $category->getIntitule();
 
             }
 
 
-        }
+            // push labels in status stats array
 
+            for ($i = 0; $i <=10 ; $i++) {
+
+                if ($this->getMilitaireStatut->getString($i) !== "") {
+                    $statuts_array[$this->getMilitaireStatut->getString($i)] = [];
+                    $statuts_array[$this->getMilitaireStatut->getString($i)]['color'] = '#'.$this->stringToHex->getString($i);
+                    $statuts_array[$this->getMilitaireStatut->getString($i)]['count'] = 0;
+                }
+
+            }
+
+
+
+
+
+            $affectations = $this->getDoctrine()->getManager()->getRepository(Affectation::class)->findBy([  //find all militaires
+                'isActive' => true
+            ]);
+
+
+
+            // on cherche les militaires qui sont dans la base de donnee
+
+            foreach ($affectations as $affectation){
+
+                if ($affectation != null) {
+
+                    if (!array_key_exists($affectation->getUnite()->getId(),$affectations_array)){   // si le label de cette unite existe deja dans le tableau
+
+                        $affectations_array[$affectation->getUnite()->getId()] = [];
+                        $affectations_array[$affectation->getUnite()->getId()]['unite'] = $affectation->getUnite();
+                        $affectations_array[$affectation->getUnite()->getId()]['count'] = [];
+
+                        if ($affectation->getMilitaire()->getStatut() != null ) {  // si son statut a deja ete mis a jour
+
+                            /*
+                             * Si ce statut ne figure pas dans la liste des statuts de l'unite
+                             */
+                            if (!array_key_exists($affectation->getMilitaire()->getStatut()->getStatut(),$affectations_array[$affectation->getUnite()->getId()]['count'])){
+                                $affectations_array[$affectation->getUnite()->getId()]['count'][$affectation->getMilitaire()->getStatut()->getStatut()] = 1;
+                            }else{
+                                $affectations_array[$affectation->getUnite()->getId()]['count'][$affectation->getMilitaire()->getStatut()->getStatut()]++;
+                            }
+
+                        }
+
+                    }else{
+
+                        if ($affectation->getMilitaire()->getStatut() != null) {
+
+                            if (!array_key_exists($affectation->getMilitaire()->getStatut()->getStatut(),$affectations_array[$affectation->getUnite()->getId()]['count'])){
+                                $affectations_array[$affectation->getUnite()->getId()]['count'][$affectation->getMilitaire()->getStatut()->getStatut()] = 1;
+                            }else{
+                                $affectations_array[$affectation->getUnite()->getId()]['count'][$affectation->getMilitaire()->getStatut()->getStatut()]++;
+                            }
+                        }
+                    }
+
+                    if ($affectation->getMilitaire()->getStatut() != null && $this->getMilitaireStatut->getString($affectation->getMilitaire()->getStatut()->getStatut()) !== ""){
+                        $statuts_array[$this->getMilitaireStatut->getString($affectation->getMilitaire()->getStatut()->getStatut())]['count']++; // update status counter
+                    }
+
+                    $grade = $affectation->getMilitaire()->getGrade();
+
+
+                    if (array_key_exists($grade->getGradeCategorie()->getId(), $categories_array)){
+                        $categories_array[$grade->getGradeCategorie()->getId()]['count'] ++;
+                    }
+                }
+
+                if ($limiteAgeCalculator->calculate($affectation->getMilitaire(), 6)){
+                    $item = [];
+                    $date = new \DateTime();
+                    $item['limit'] = $date->diff($affectation->getMilitaire()->getDateNaissance())->m;
+                    $dt = new \DateTime();
+                    $dt->setTimestamp($affectation->getMilitaire()->addDate($affectation->getMilitaire()->getGrade()->getLimiteAge()));
+                    $item['limit_date'] = $dt;
+                    $item['militaire'] = $affectation->getMilitaire();
+                    array_push($militaires_limit, $item);
+                }
+
+            }
+
+
+
+
+
+        }
 
         return $this->render('dashboard/index.html.twig', [
             'controller_name' => 'DashboardController',
             'active' => 'dashboard',
-            'militaires' => $militaires,
-            'militaire_service' => $militaire_service,
-            'militaire_retraite' => $militaire_retraite,
-            'militaire_radie' => $militaire_radie,
+            'querySpa' => $querySpa,
+            'affectations' => $affectations_array,
+            'statuts_array' => $statuts_array,
+            'categories_array' => $categories_array,
             'militaires_limit' => $militaires_limit,
-            'militaire_disponibilite' => $militaire_disponibilite,
-            'corp_array' => $corp_array,
         ]);
     }
+
+
+
 }

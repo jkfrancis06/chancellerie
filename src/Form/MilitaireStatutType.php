@@ -23,43 +23,29 @@ class MilitaireStatutType extends AbstractType
 
             ])
             ->add('dateDebut', DateType::class, [
-                'required' => false,
-                'html5' => false,
+                'required' => true,
+                'html5' => true,
                 'widget' => 'single_text',
-                'format' => 'dd-MM-yyyy',
                 // adds a class that can be selected in JavaScript
                 'attr' => [
                     'class' => 'js-datepicker',
                     'placeholder' => 'Selectionner une date'
                 ],
-
-            ])
-            ->add('dateFin', DateType::class, [
-                'required' => false,
-                'html5' => false,
-                'widget' => 'single_text',
-                'format' => 'dd-MM-yyyy',
-                // adds a class that can be selected in JavaScript
-                'attr' => [
-                    'class' => 'js-datepicker',
-                    'placeholder' => 'Selectionner une date'
-                ],
-
 
             ])
             ->add('statut', ChoiceType::class, [
                 'required' => true,
                 'choices'  => [
                     'Selectionner' => null,
-                    'Retraite' => 0,
-                    'Radie' => 1,
-                    'Permission longue-duree' => 2,
-                    'En service' => 3,
-                    'Disponibilite' => 4,
-                    'Detachement' => 5,
-                    'Deserteur' => 6,
-                    'Absence' => 7,
-                    'Arret maladie' => 8,
+                    'Retraite' => MilitaireStatut::STATUT_RETRAITE,
+                    'Radie' => MilitaireStatut::STATUT_RADIE,
+                    'Permission longue-duree' => MilitaireStatut::STATUT_PERM_LD,
+                    'En service' => MilitaireStatut::STATUT_SERVICE,
+                    'Disponibilite' => MilitaireStatut::STATUT_DISPONIBILITE,
+                    'Detachement' => MilitaireStatut::STATUT_DETACHEMENT,
+                    'Deserteur' => MilitaireStatut::STATUT_DESERTEUR,
+                    'Absence' => MilitaireStatut::STATUT_ABSENCE,
+                    'Arret maladie' => MilitaireStatut::STATUT_ARR_MALADIE,
                 ],
                 'attr' => [
                     'placeholder' => 'Selectionner',
