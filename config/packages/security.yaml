@@ -44,6 +44,7 @@ security:
     access_control:
         - { path: '^/connexion', roles: PUBLIC_ACCESS }
         - { path: ^/ch, roles: [ROLE_SAISIE, ROLE_CHAN, ROLE_CEM, ROLE_ADMIN] }
+        - { path: ^/b1, roles: [ROLE_B1] }
         - { path: ^/admin, roles: [ROLE_SUPER_ADMIN,ROLE_CEM, ROLE_ADMIN] }
         - { path: ^/cf, roles: [ROLE_SPA] }   # Espace Chef de formation
         - { path: ^/spa, roles: [ROLE_SPA] }   # Espace Chef de formation

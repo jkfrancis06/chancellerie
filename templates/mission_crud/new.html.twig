@@ -1,0 +1,17 @@
+{% extends 'nav.html.twig' %}
+
+{% block title %}Nouvelle Mission{% endblock %}
+
+{% block content %}
+
+    <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="{{ path('mission_crud_index') }}">Liste des missions</a></li>
+            <li class="breadcrumb-item active">Nouveau</li>
+        </ol>
+    </nav>
+
+    {{ include('mission_crud/_form.html.twig') }}
+
+
+{% endblock %}

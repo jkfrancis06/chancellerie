@@ -22,12 +22,10 @@ class MilitaireFormationType extends AbstractType
         $builder
             ->add('dateDebut', DateType::class, [
                 'required' => true,
-                'html5' => false,
+                'html5' => true,
                 'widget' => 'single_text',
-                'format' => 'dd-MM-yyyy',
                 // adds a class that can be selected in JavaScript
                 'attr' => [
-                    'class' => 'js-datepicker',
                     'placeholder' => 'Selectionner une date'
                 ],
 
@@ -38,12 +36,10 @@ class MilitaireFormationType extends AbstractType
             ])
             ->add('dateFin', DateType::class, [
                 'required' => false,
-                'html5' => false,
+                'html5' => true,
                 'widget' => 'single_text',
-                'format' => 'dd-MM-yyyy',
                 // adds a class that can be selected in JavaScript
                 'attr' => [
-                    'class' => 'js-datepicker',
                     'placeholder' => 'Selectionner une date'
                 ],
 
@@ -51,9 +47,8 @@ class MilitaireFormationType extends AbstractType
             ->add('statut', ChoiceType::class, [
                 'required' => true,
                 'choices'  => [
-                    'Selectionner' => null,
-                    'A programmer' => 0,
-                    'Fait' => 1,
+                    'A programmer' => MilitaireFormation::FORM_PLAN,
+                    'Fait' => MilitaireFormation::FORM_DONE,
                 ],
                 'attr' => [
                     'placeholder' => 'Selectionner',

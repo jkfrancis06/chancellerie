@@ -20,7 +20,12 @@ class IndiceCalculator
 
     public function calculateIndice($id){
 
-        $militaire = $this->entityManager->getRepository(Militaire::class)->find($id);
+        if ($id instanceof Militaire){
+            $militaire = $id;
+        }else{
+            $militaire = $this->entityManager->getRepository(Militaire::class)->find($id);
+        }
+
 
         if ($militaire == null){
             return null;

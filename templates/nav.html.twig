@@ -121,30 +121,31 @@
 
                         {% if active == "indices" %}
                             <li>
-                                <a  href="{{ path('indices') }}"  class="waves-effect active">
+                                <a  href="{{ path('indice_crud_index') }}"  class="waves-effect active">
                                     <i class="fas fa-arrow-up mr-2"></i>
                                     Indices</a>
                             </li>
                         {% else %}
                             <li>
-                                <a  href="{{ path('indices') }}"  class="waves-effect">
+                                <a  href="{{ path('indice_crud_index') }}"  class="waves-effect">
                                     <i class="fas fa-arrow-up mr-2"></i>
                                     Indices</a>
                             </li>
                         {% endif %}
 
 
-                        {% if active == "spe_origine" %}
+
+                        {% if active == "mission" %}
                             <li>
-                                <a  href="{{ path('spe_ori') }}"  class="waves-effect active">
-                                    <i class="fas fa-toolbox mr-2"></i>
-                                    Specialites et Origines </a>
+                                <a  href="{{ path('mission_crud_index') }}"  class="waves-effect active">
+                                    <i class="fas fa-plane-departure mr-2"></i>
+                                    Missions</a>
                             </li>
                         {% else %}
                             <li>
-                                <a  href="{{ path('spe_ori') }}"  class="waves-effect">
-                                    <i class="fas fa-toolbox mr-2"></i>
-                                    Specialites et Origines </a>
+                                <a  href="{{ path('mission_crud_index') }}"  class="waves-effect">
+                                    <i class="fas fa-plane-departure mr-2"></i>
+                                    Missions</a>
                             </li>
                         {% endif %}
 
@@ -153,15 +154,42 @@
                             <li>
                                 <a  href="{{ path('mission') }}"  class="waves-effect active">
                                     <i class="fas fa-plane-departure mr-2"></i>
-                                    Missions et exercices</a>
+                                    Exercices</a>
                             </li>
                         {% else %}
                             <li>
                                 <a  href="{{ path('mission') }}"  class="waves-effect">
                                     <i class="fas fa-plane-departure mr-2"></i>
-                                    Missions et exercices</a>
+                                    Exercices</a>
                             </li>
+
+
                         {% endif %}
+
+                        <li><a class="collapsible-header waves-effect
+                         {% if active == 'spa_create' %}
+                            active
+                         {% endif %} arrow-r">
+                                <i class="fas fa fa-user"></i>
+                                SPA
+                                <i class="fas fa-angle-down rotate-icon"></i></a>
+                            <div class="collapsible-body">
+                                <ul>
+                                    {% if active == 'spa_create'%}
+                                        <li><a href="{{ path('chan_all_spa') }}" class="waves-effect active">Toutes les donnees</a></li>
+                                    {% else %}
+                                        <li><a href="{{ path('chan_all_spa') }}" class="waves-effect">Toutes les donnees</a></li>
+                                    {% endif %}
+
+                                    {% if active == 'spa_create'%}
+                                        <li><a href="{{ path('chan_spa_stat') }}" class="waves-effect active">Statistiques</a></li>
+                                    {% else %}
+                                        <li><a href="{{ path('chan_spa_stat') }}" class="waves-effect">Statistiques</a></li>
+                                    {% endif %}
+
+                                </ul>
+                            </div>
+                        </li>
 
 
                         {% if active == "formation" %}
@@ -192,6 +220,24 @@
                                     Medailles</a>
                             </li>
                         {% endif %}
+
+
+                        {% if active == "spe_origine" %}
+                            <li>
+                                <a  href="{{ path('spe_ori') }}"  class="waves-effect active">
+                                    <i class="fas fa-toolbox mr-2"></i>
+                                    Specialites et Origines </a>
+                            </li>
+                        {% else %}
+                            <li>
+                                <a  href="{{ path('spe_ori') }}"  class="waves-effect">
+                                    <i class="fas fa-toolbox mr-2"></i>
+                                    Specialites et Origines </a>
+                            </li>
+                        {% endif %}
+
+
+
 
 
                         {% if active == "grade_categorie" %}

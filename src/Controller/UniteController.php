@@ -34,7 +34,7 @@ class UniteController extends AbstractController
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->persist($unite);
             $entityManager->flush();
-
+            $request->getSession()->getFlashBag()->add('create_unite', 'Unité crée avec success');
             return $this->redirectToRoute('unite_index', [], Response::HTTP_SEE_OTHER);
         }
 
@@ -69,7 +69,7 @@ class UniteController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
             $this->getDoctrine()->getManager()->flush();
-
+            $request->getSession()->getFlashBag()->add('create_unite', 'Unité modifiée avec success');
             return $this->redirectToRoute('unite_index', [], Response::HTTP_SEE_OTHER);
         }
 
@@ -88,7 +88,7 @@ class UniteController extends AbstractController
             $entityManager->remove($unite);
             $entityManager->flush();
         }
-
+        $request->getSession()->getFlashBag()->add('unite_delete', 'Unité supprimée avec success');
         return $this->redirectToRoute('unite_index', [], Response::HTTP_SEE_OTHER);
     }
 }

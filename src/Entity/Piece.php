@@ -51,10 +51,6 @@ class Piece
      */
     protected $file;
 
-    /**
-     * @ORM\OneToMany(targetEntity=Punition::class, mappedBy="piece")
-     */
-    private $punitions;
 
 
     public function __construct()
@@ -151,28 +147,6 @@ class Piece
     public function getPunitions(): Collection
     {
         return $this->punitions;
-    }
-
-    public function addPunition(Punition $punition): self
-    {
-        if (!$this->punitions->contains($punition)) {
-            $this->punitions[] = $punition;
-            $punition->setPiece($this);
-        }
-
-        return $this;
-    }
-
-    public function removePunition(Punition $punition): self
-    {
-        if ($this->punitions->removeElement($punition)) {
-            // set the owning side to null (unless already changed)
-            if ($punition->getPiece() === $this) {
-                $punition->setPiece(null);
-            }
-        }
-
-        return $this;
     }
 
 

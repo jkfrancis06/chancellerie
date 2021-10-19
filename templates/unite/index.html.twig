@@ -19,6 +19,23 @@
         Creer une unite
     </a>
 
+    {% for message in app.session.flashbag.get('create_unite') %}
+        <div class="alert alert-success alert-dismissible fade show" role="alert">
+            <strong>{{ message }}!</strong>
+            <button type="button" class="close"  data-dismiss="alert"  aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+    {% endfor %}
+
+    {% for message in app.session.flashbag.get('unite_delete') %}
+        <div class="alert alert-warning alert-dismissible fade show" role="alert">
+            <strong>{{ message }}!</strong>
+            <button type="button" class="close"  data-dismiss="alert"  aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+    {% endfor %}
 
 
 
@@ -28,7 +45,6 @@
             <th>Intitule</th>
             <th>Description</th>
             <th>Corps</th>
-            <th>Chef de formation</th>
             <th>actions</th>
         </tr>
         </thead>
@@ -38,11 +54,7 @@
                 <td>{{ unite.intitule }}</td>
                 <td>{{ unite.description }}</td>
                 <td>{{ unite.corps.intitule }}</td>
-                <td>
-                    {% if unite.chefFormation is not null %}
-                        {{ unite.chefFormation.matricule }}&nbsp; - &nbsp;{{ unite.chefFormation.nom }}&nbsp;{{ unite.chefFormation.prenoms }}
-                    {% endif %}
-                </td>
+
                 <td>
                     <a class="btn btn-primary btn-sm" href="{{ path('unite_show', {'id': unite.id}) }}">Voir</a>
                     <a class="btn btn-secondary btn-sm" href="{{ path('unite_edit', {'id': unite.id}) }}">Modifier</a>

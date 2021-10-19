@@ -48,24 +48,35 @@ class SpaStatType extends AbstractType
 
         $builder->addEventListener(FormEvents::PRE_SET_DATA, function (FormEvent $event)  {
 
-
-
             $form = $event->getForm();
 
-            $form->add('unite', EntityType::class, [
-                'class' => Unite::class,
-                'multiple' => true,
-                'required' => false,
-                'query_builder' => function (EntityRepository $er) use ($event) {
-                    $qb =  $er->createQueryBuilder('u');
-                    $qb->leftJoin("u.corps", "c");
-                    if ($this->security->getUser()->getMilitaire() != null){
-                        $qb->where("c.chefCorps = :chefCorps")
-                            ->setParameter('chefCorps', $this->security->getUser()->getMilitaire() );
-                    }
-                    return $qb;
-                },
-            ]);
+
+            if (in_array('ROLE_CHAN',$this->security->getUser()->getRoles())) {
+                $form->add('unite', EntityType::class, [
+                    'class' => Unite::class,
+                    'multiple' => true,
+                    'required' => false,
+                ]);
+            }else{
+                $form->add('unite', EntityType::class, [
+                    'class' => Unite::class,
+                    'multiple' => true,
+                    'required' => false,
+                    'query_builder' => function (EntityRepository $er) use ($event) {
+                        $qb =  $er->createQueryBuilder('u');
+                        $qb->leftJoin("u.corps", "c");
+                        if ($this->security->getUser()->getMilitaire() != null){
+                            $qb->where("c.chefCorps = :chefCorps")
+                                ->setParameter('chefCorps', $this->security->getUser()->getMilitaire() );
+                        }
+                        return $qb;
+                    },
+                ]);
+            }
+
+
+
+
 
             // create the field, this is similar the $builder->add()
             // field name, field type, field options

@@ -519,6 +519,8 @@ class Militaire
     {
         $this->grade = $grade;
 
+        $this->lastGradeUpdate = new \DateTime();
+
         return $this;
     }
 
@@ -820,35 +822,7 @@ class Militaire
         return strtotime('+'.$interval.' year', $timestamp);
     }
 
-    /**
-     * @return Collection|Unite[]
-     */
-    public function getFormationDirected(): Collection
-    {
-        return $this->formationDirected;
-    }
 
-    public function addFormationDirected(Unite $formationDirected): self
-    {
-        if (!$this->formationDirected->contains($formationDirected)) {
-            $this->formationDirected[] = $formationDirected;
-            $formationDirected->setChefFormation($this);
-        }
-
-        return $this;
-    }
-
-    public function removeFormationDirected(Unite $formationDirected): self
-    {
-        if ($this->formationDirected->removeElement($formationDirected)) {
-            // set the owning side to null (unless already changed)
-            if ($formationDirected->getChefFormation() === $this) {
-                $formationDirected->setChefFormation(null);
-            }
-        }
-
-        return $this;
-    }
 
 
     public function __toString()

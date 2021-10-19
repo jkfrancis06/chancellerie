@@ -3,6 +3,7 @@
 namespace App\Repository;
 
 use App\Entity\Militaire;
+use App\Entity\MilitaireStatut;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
@@ -30,6 +31,18 @@ class MilitaireRepository extends ServiceEntityRepository
             ->getQuery()
             ->getResult()
         ;
+    }
+
+    public function findActiveMilitaires()
+    {
+        return $this->createQueryBuilder('m')
+            ->leftJoin('m.statut', 's')
+            ->where('s.statut IN (:actives)')
+            ->orderBy('m.matricule', 'ASC')
+            ->setParameter('actives', MilitaireStatut::STATUT_ACTIF)
+            ->getQuery()
+            ->getResult()
+            ;
     }
 
 
@@ -203,6 +216,15 @@ class MilitaireRepository extends ServiceEntityRepository
         if (sizeof($origineRecrutement) > 0){
             $qb->andWhere($qb->expr()->in('m.origineRecrutement', ':origineRecrutement'));
             $qb->setParameter('origineRecrutement', $origineRecrutement);
+        }
+
+        // Statut
+        $statut = $form->get('statut')->getData();
+        if ($statut != null){
+
+            $qb->leftJoin('m.statut','s');
+            $qb->andWhere('s.statut = :statut');
+            $qb->setParameter('statut', $statut);
         }
 
         $qb->leftJoin('m.grade','g');

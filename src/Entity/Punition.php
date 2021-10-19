@@ -54,10 +54,6 @@ class Punition
      */
     private $resume;
 
-    /**
-     * @ORM\ManyToOne(targetEntity=Piece::class, inversedBy="punitions")
-     */
-    private $piece;
 
     public function __construct(
 
@@ -168,15 +164,4 @@ class Punition
         return $this;
     }
 
-    public function getPiece(): ?Piece
-    {
-        return $this->piece;
-    }
-
-    public function setPiece(?Piece $piece): self
-    {
-        $this->piece = $piece;
-
-        return $this;
-    }
 }

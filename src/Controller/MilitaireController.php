@@ -17,6 +17,7 @@ use App\Entity\SousDossier;
 use App\Entity\Telephone;
 use App\Form\AffectationType;
 use App\Form\FamilleType;
+use App\Form\MilitaireEditType;
 use App\Form\MilitaireExerciceType;
 use App\Form\MilitaireFormationType;
 use App\Form\MilitaireMedailleType;
@@ -570,6 +571,89 @@ class MilitaireController extends AbstractController
         ]);
     }
 
+
+    /**
+     * @Route("/militaires/e/{militaire}", name="edit_militaire")
+     */
+    public function editMilitaires(Militaire $militaire,Request $request): Response
+    {
+
+        $editForm = $this->createForm(MilitaireEditType::class,$militaire);
+
+        $editForm->handleRequest($request);
+
+
+        if ($editForm->isSubmitted() && $editForm->isValid()){
+
+            $em = $this->getDoctrine()->getManager();
+
+            $em->flush();
+
+            return $this->redirectToRoute('militaire_details', array('id' => $militaire->getId()));
+
+
+        }
+
+
+        return $this->renderForm('militaire/edit.html.twig', [
+            'controller_name' => 'DashboardController',
+            'active' => 'search_militaire',
+            'militaire' => $militaire,
+            'militaireForm' => $editForm,
+        ]);
+    }
+
+
+    /**
+     * @Route("/militaires/f/{formation}", name="mark_as_done")
+     */
+    public function markFormAsDone(MilitaireFormation $formation,  Request $request): Response
+    {
+
+        if ($formation->getStatut() == MilitaireFormation::FORM_PLAN){
+            $today = new \DateTime();
+
+            if ($today->getTimestamp() < $formation->getDateDebut()->getTimestamp()) {
+
+                $request->getSession()->getFlashBag()->add('mark_formation', 'Erreur');
+                return $this->redirectToRoute('militaire_details', array('id' => $formation->getMilitaire()->getId()));
+
+            }else{
+
+                $formation->setStatut(MilitaireFormation::FORM_DONE);
+                $em = $this->getDoctrine()->getManager();
+                $em->flush();
+
+                $request->getSession()->getFlashBag()->add('create_militaireFormation', 'Success');
+            }
+
+
+        }
+        return $this->redirectToRoute('militaire_details', array('id' => $formation->getMilitaire()->getId()));
+    }
+
+    /**
+     * @Route("/militaires/fc/{formation}", name="cancel_formation")
+     */
+    public function cancelFormation(MilitaireFormation $formation,  Request $request): Response
+    {
+
+        if ($formation->getStatut() == MilitaireFormation::FORM_PLAN){
+
+            $em = $this->getDoctrine()->getManager();
+
+            $em->remove($formation);
+
+            $em->flush();
+
+            $request->getSession()->getFlashBag()->add('cancel_militaireFormation', 'Formation annulée');
+        }
+
+        return $this->redirectToRoute('militaire_details', array('id' => $formation->getMilitaire()->getId()));
+
+
+
+    }
 
 
 

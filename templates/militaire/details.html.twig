@@ -137,14 +137,14 @@
 
                     <div class="mb-3">
                         {{ form_label(militaireMissionForm.dateDebut, "Date de debut de mission : ", {'label_attr': {'class': 'intitule_label'}}) }}
-                        {{ form_widget(militaireMissionForm.dateDebut, {'attr': {'class': 'form-control js-datepicker'}}) }}
+                        {{ form_widget(militaireMissionForm.dateDebut, {'attr': {'class': 'form-control'}}) }}
                         <div class="form-error" style="color: red">
                             {{ form_errors(militaireMissionForm.dateDebut) }}
                         </div>
                     </div>
                     <div class="mb-3">
                         {{ form_label(militaireMissionForm.dateFin, "Date de fin de mission : ", {'label_attr': {'class': 'intitule_label'}}) }}
-                        {{ form_widget(militaireMissionForm.dateFin, {'attr': {'class': 'form-control js-datepicker'}}) }}
+                        {{ form_widget(militaireMissionForm.dateFin, {'attr': {'class': 'form-control '}}) }}
                         <div class="form-error" style="color: red">
                             {{ form_errors(militaireMissionForm.dateFin) }}
                         </div>
@@ -165,26 +165,6 @@
                     </div>
 
 
-                    <div class="mt-3">
-                        {{ form_label(militaireMissionForm.addPiece, "Action : ", {'label_attr': {'class': 'intitule_label'}}) }}
-                        {{ form_widget(militaireMissionForm.addPiece, {'attr': {'class': 'form-control'}}) }}
-                        <div class="form-error" style="color: red">
-                            {{ form_errors(militaireMissionForm.addPiece) }}
-                        </div>
-                    </div>
-
-
-
-                    <div class="mt-3" id="militaire_mission_piece_content_box">
-                        {% if militaireMissionForm.vars.value.addPiece is not null %}
-                            {{ form_widget(militaireMissionForm.piece) }}
-                            <div class="form-error" style="color: red">
-                                {{ form_errors(militaireMissionForm.addPiece) }}
-                            </div>
-                        {% endif %}
-                    </div>
-
-
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Fermer</button>
@@ -199,7 +179,7 @@
 
     <!-- Formulaire Exercices -->
     <div class="modal fade" id="exerciceModal" tabindex="-1" aria-labelledby="exerciceModalLabel" aria-hidden="true" data-backdrop="static" data-keyboard="false">
-        <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+        <div class="modal-dialog modal-lg modal-dialog-centered modal-dialog-scrollable">
             <div class="modal-content">
                 {{ form_start(militaireExerciceForm) }}
 
@@ -222,7 +202,7 @@
 
                     <div class="mb-3">
                         {{ form_label(militaireExerciceForm.date, '', {'label_attr': {'class': 'intitule_label'}}) }}
-                        {{ form_widget(militaireExerciceForm.date, {'attr': {'class': 'form-control js-datepicker'}}) }}
+                        {{ form_widget(militaireExerciceForm.date, {'attr': {'class': 'form-control'}}) }}
                         <div class="form-error" style="color: red">
                             {{ form_errors(militaireExerciceForm.date) }}
                         </div>
@@ -250,7 +230,7 @@
 
     <!-- Formulaire Medaille -->
     <div class="modal fade" id="medailleModal" tabindex="-1" aria-labelledby="medailleModalLabel" aria-hidden="true" data-backdrop="static" data-keyboard="false">
-        <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+        <div class="modal-dialog modal-lg modal-dialog-centered modal-dialog-scrollable">
             <div class="modal-content">
                 {{ form_start(militaireMedailleForm) }}
 
@@ -273,7 +253,7 @@
 
                     <div class="mb-3">
                         {{ form_label(militaireMedailleForm.date, "Date d'obtention", {'label_attr': {'class': 'intitule_label'}}) }}
-                        {{ form_widget(militaireMedailleForm.date, {'attr': {'class': 'form-control js-datepicker'}}) }}
+                        {{ form_widget(militaireMedailleForm.date, {'attr': {'class': 'form-control'}}) }}
                         <div class="form-error" style="color: red">
                             {{ form_errors(militaireMedailleForm.date) }}
                         </div>
@@ -317,7 +297,7 @@
 
                     <div class="mb-3">
                         {{ form_label(punitionForm.datePunition, "", {'label_attr': {'class': 'intitule_label'}}) }}
-                        {{ form_widget(punitionForm.datePunition) }}
+                        {{ form_widget(punitionForm.datePunition, {'attr': {'class': 'form-control'}}) }}
                         <div class="form-error" style="color: red">
                             {{ form_errors(punitionForm.datePunition) }}
                         </div>
@@ -356,13 +336,7 @@
                         </div>
                     </div>
 
-                    <div>
-                        {{ form_label(punitionForm.piece, "Choisir une piece dans les archives : ", {'label_attr': {'class': 'intitule_label'}}) }}
-                        {{ form_widget(punitionForm.piece, {'attr': {'class': 'mdb-select md-form colorful-select dropdown-ins','searchable':'Rechercher'}}) }}
-                        <div class="form-error" style="color: red">
-                            {{ form_errors(punitionForm.piece) }}
-                        </div>
-                    </div>
+
 
 
                 </div>
@@ -379,7 +353,7 @@
     <!-- Formulaire Formation -->
     <div class="modal fade" id="formationModal" tabindex="-1" aria-labelledby="formationModalLabel" aria-hidden="true" data-backdrop="static" data-keyboard="false">
 
-        <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+        <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable modal-lg">
             <div class="modal-content">
                 {{ form_start(militaireFormationForm) }}
 
@@ -412,7 +386,7 @@
 
                     <div class="mb-3">
                         {{ form_label(militaireFormationForm.dateDebut, "Date de debut : ", {'label_attr': {'class': 'intitule_label'}}) }}
-                        {{ form_widget(militaireFormationForm.dateDebut, {'attr': {'class': 'form-control js-datepicker-formation'}}) }}
+                        {{ form_widget(militaireFormationForm.dateDebut, {'attr': {'class': 'form-control '}}) }}
                         <div class="form-error" style="color: red">
                             {{ form_errors(militaireFormationForm.dateDebut) }}
                         </div>
@@ -420,7 +394,7 @@
 
                     <div class="mb-3">
                         {{ form_label(militaireFormationForm.dateFin, "Date de fin : ", {'label_attr': {'class': 'intitule_label'}}) }}
-                        {{ form_widget(militaireFormationForm.dateFin, {'attr': {'class': 'form-control js-datepicker-formation'}}) }}
+                        {{ form_widget(militaireFormationForm.dateFin, {'attr': {'class': 'form-control'}}) }}
                         <div class="form-error" style="color: red">
                             {{ form_errors(militaireFormationForm.dateFin) }}
                         </div>
@@ -447,10 +421,13 @@
         </div>
     </div>
 
+
+
+
     <!-- Formulaire famille -->
     <div class="modal fade" id="familleModal" tabindex="-1" aria-labelledby="familleModalLabel" aria-hidden="'true'" data-backdrop="static" data-keyboard="false">
 
-        <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+        <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable modal-lg">
             <div class="modal-content">
                 {{ form_start(familleForm) }}
 
@@ -483,7 +460,7 @@
 
                     <div class="mb-3">
                         {{ form_label(familleForm.typeFiliation, "Type de filiation : ", {'label_attr': {'class': 'intitule_label'}}) }}
-                        {{ form_widget(familleForm.typeFiliation, {'attr': {'class': 'mdb-select md-form colorful-select dropdown-ins','searchable':'Rechercher'}}) }}
+                        {{ form_widget(familleForm.typeFiliation, {'attr': {'class': 'form-control'}}) }}
                         <div class="form-error" style="color: red">
                             {{ form_errors(familleForm.typeFiliation) }}
                         </div>
@@ -688,8 +665,8 @@
                                             </p>
 
                                             <p>
-                                                <span>Situation matrimoniale: </span>
-                                                <span class="font-weight-bold">{{ militaire.situationMatri }}</span>
+                                                <span>Situation familiale: </span>
+                                                <span class="font-weight-bold">{{ militaire.situationMatri }} / {{ nbEnfants }} enfant(s)</span>
                                             </p>
 
                                         </div>
@@ -749,6 +726,13 @@
                                             <p>
                                                 <a href="{{ path('print_militaire', { 'id': militaire.id }) }}" type="button" class="btn btn-outline-primary">
                                                     <i class="fa fa-download"> Telecharger le dossier</i>
+                                                </a>
+                                            </p>
+
+
+                                            <p>
+                                                <a href="{{ path('edit_militaire', { 'militaire': militaire.id }) }}" type="button" class="btn btn-outline-secondary">
+                                                    <i class="fa fa-edit"> Modifier les informations</i>
                                                 </a>
                                             </p>
 
@@ -829,7 +813,7 @@
                                     </div>
                                 </div>
                                 <div class="card-body">
-                                    <table class="table text-center table-bordered table-striped table-hover">
+                                    <table class="table b3_table text-center table-bordered table-striped table-hover">
                                         <thead>
                                         <tr>
                                             <th scope="col">Date</th>
@@ -908,7 +892,7 @@
                                             </div>
                                         </div>
                                         <div class="card-body">
-                                            <table class="table text-center table-bordered table-striped table-hover">
+                                            <table class="table b3_table text-center table-bordered table-striped table-hover">
                                                 <thead>
                                                 <tr>
                                                     <th scope="col">Date de debut</th>
@@ -972,16 +956,14 @@
                                             </div>
                                         </div>
                                         <div class="card-body">
-                                            <table class="table text-center table-bordered table-striped table-hover">
+                                            <table class="table b3_table text-center table-bordered table-striped table-hover">
                                                 <thead>
                                                 <tr>
-                                                    <th scope="col"></th>
                                                     <th scope="col">Date de debut</th>
                                                     <th scope="col">Date de fin</th>
                                                     <th scope="col">Mission</th>
                                                     <th scope="col">Lieu</th>
                                                     <th scope="col">Commentaires</th>
-                                                    <th scope="col">Duree</th>
                                                 </tr>
                                                 </thead>
                                                 <tbody>
@@ -990,19 +972,16 @@
                                                 {% else %}
                                                     {% for militaireMission in militaireMissions %}
                                                         <tr>
-                                                            <td class="d-flex justify-content-center">
-                                                                <img height="50" width="50" src="{{ asset('/logos/') }}{{ militaireMission.mission.logo.nom }}" class="img-thumbnail" alt="...">
-                                                            </td>
                                                             <td>{{ militaireMission.dateDebut|date("d-M-Y")  }}</td>
-                                                            <td>{{ militaireMission.dateFin|date("d-M-Y")  }}</td>
+                                                            <td>
+                                                                {% if militaireMission.dateFin is not null %}
+                                                                    {{ militaireMission.dateFin|date("d-M-Y")  }}
+                                                                {% endif %}
+                                                            </td>
                                                             <td>{{ militaireMission.mission.intitule }}</td>
                                                             <td>{{ militaireMission.mission.lieu}}</td>
                                                             <td>{{ militaireMission.commentaire }}</td>
-                                                            <td>
-                                                                {% set dureeY = militaireMission.dateFin.diff(date(militaireMission.dateDebut)).y %}
-                                                                {% set dureeM = (dureeY*12)+militaireMission.dateFin.diff(date(militaireMission.dateDebut)).m %}
-                                                                {{ dureeM }} mois
-                                                            </td>
+
                                                         </tr>
                                                     {% endfor %}
 
@@ -1039,7 +1018,7 @@
                                             </div>
                                         </div>
                                         <div class="card-body">
-                                            <table class="table text-center table-bordered table-striped table-hover">
+                                            <table class="table b3_table text-center table-bordered table-striped table-hover">
                                                 <thead>
                                                 <tr>
                                                     <th scope="col">Date</th>
@@ -1094,7 +1073,7 @@
                                             </div>
                                         </div>
                                         <div class="card-body">
-                                            <table class="table text-center table-bordered table-striped table-hover">
+                                            <table class="table b3_table text-center table-bordered table-striped table-hover">
                                                 <thead>
                                                 <tr>
                                                     <th scope="col">Date</th>
@@ -1145,13 +1124,13 @@
                                                 <span>
                                                 <button id="formationBtn" type="button" class="btn btn-outline-primary" data-toggle="modal" data-target="#formationModal">
                                                     <i class="fa fa-plus"></i>
-                                                    Ajouter une formation deja faite
+                                                    Ajouter une formation
                                                 </button>
                                             </span>
                                             </div>
                                         </div>
                                         <div class="card-body">
-                                            <table class="table text-center table-bordered table-striped table-hover">
+                                            <table class="table b3_table text-center table-bordered table-striped table-hover">
                                                 <thead>
                                                 <tr>
                                                     <th scope="col">Date de debut</th>
@@ -1168,7 +1147,11 @@
                                                         {% if militaireFormation.statut == 1 %}
                                                             <tr>
                                                                 <td>{{ militaireFormation.dateDebut|date("d-M-Y")  }}</td>
-                                                                <td>{{ militaireFormation.dateFin|date("d-M-Y")  }}</td>
+                                                                <td>
+                                                                    {% if militaireFormation.dateFin is not null %}
+                                                                        {{ militaireFormation.dateFin|date("d-M-Y")  }}
+                                                                    {% endif %}
+                                                                </td>
                                                                 <td>{{ militaireFormation.formation.intitule }}</td>
                                                                 <td>{{ militaireFormation.lieu }}</td>
                                                             </tr>
@@ -1185,7 +1168,27 @@
                                 <div class="col col-6" style="margin-left: 1em"></div>
 
 
+
                                 <div class="col col-12 mt-4"  style="word-wrap: break-word;">
+
+
+                                    {% for message in app.session.flashbag.get('cancel_militaireFormation') %}
+                                        <div class="alert alert-warning alert-dismissible fade show" role="alert">
+                                            <strong>{{ message }}!</strong>
+                                            <button type="button" class="close"  data-dismiss="alert"  aria-label="Close">
+                                                <span aria-hidden="true">&times;</span>
+                                            </button>
+                                        </div>
+                                    {% endfor %}
+
+                                    {% for message in app.session.flashbag.get('mark_formation') %}
+                                        <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                                            <strong>{{ message }}!</strong>
+                                            <button type="button" class="close"  data-dismiss="alert"  aria-label="Close">
+                                                <span aria-hidden="true">&times;</span>
+                                            </button>
+                                        </div>
+                                    {% endfor %}
 
                                     {% for message in app.session.flashbag.get('create_militaireFormationPlan') %}
                                         <div class="alert alert-success alert-dismissible fade show" role="alert">
@@ -1209,13 +1212,14 @@
                                             </div>
                                         </div>
                                         <div class="card-body">
-                                            <table class="table text-center table-bordered table-striped table-hover">
+                                            <table class="table b3_table text-center table-bordered table-striped table-hover">
                                                 <thead>
                                                 <tr>
                                                     <th scope="col">Date de debut</th>
                                                     <th scope="col">Date de fin</th>
                                                     <th scope="col">Formation</th>
                                                     <th scope="col">Lieu</th>
+                                                    <th scope="col">Action</th>
                                                 </tr>
                                                 </thead>
                                                 <tbody>
@@ -1223,12 +1227,22 @@
                                                     <p class="text-center">Aucune formation planifiee</p>
                                                 {% else %}
                                                     {% for militaireFormation in militaireFormations %}
-                                                        {% if militaireFormation.statut == 0 %}
+                                                        {% if militaireFormation.statut == 2 %}
                                                             <tr>
                                                                 <td>{{ militaireFormation.dateDebut|date("d-M-Y")  }}</td>
-                                                                <td>{{ militaireFormation.dateFin|date("d-M-Y")  }}</td>
+                                                                <td>
+                                                                    {% if militaireFormation.dateFin is not null %}
+                                                                        {{ militaireFormation.dateFin|date("d-M-Y")  }}
+                                                                    {% endif %}
+                                                                </td>
                                                                 <td>{{ militaireFormation.formation.intitule }}</td>
                                                                 <td>{{ militaireFormation.lieu }}</td>
+                                                                <td>
+                                                                    <a class="btn btn-sm btn-primary" href="{{ path('mark_as_done',{'formation':militaireFormation.id} ) }}">Marquer comme fait</a>
+                                                                    <a class="btn btn-sm btn-danger"
+                                                                       onclick="return confirm('Êtes-vous sûr?')"
+                                                                       href="{{ path('cancel_formation',{'formation':militaireFormation.id} ) }}">Annuler la programmation</a>
+                                                                </td>
                                                             </tr>
                                                         {% endif %}
                                                     {% endfor %}
@@ -1266,7 +1280,7 @@
                                 <div class="col col-xs-12 mt-4"  style="word-wrap: break-word;">
 
                                     <p>
-                                        <span class="fw-bold">Situation familiale: </span>
+                                        <span class="fw-bold">Situation matrimoniale: </span>
                                         <span>{{ militaire.situationMatri }}</span>
                                     </p>
 
@@ -1370,14 +1384,19 @@
 
                             <div class="mt-3">
                                 <span>Statut Actuel: </span>
-                                <span class="{{ statut_color }} font-weight-bold ml-2">{{  GetMilitaireStatut.getString(lastSpa.statut)  }}</span>
-                                <span>
-                                {% if militaire.statut.definedBy == 1 %}
-                                    (Chancellerie, le {{ militaire.statut.updateAt|date('d-m-Y H:i:s') }} )
-                                {% else %}
-                                    (SPA)
+                                {% if militaire.statut is not null  %}
+                                    <span class="{{ statut_color }} font-weight-bold ml-2">{{  GetMilitaireStatut.getString(lastSpa.statut)  }}</span>
+
+                                    <span>
+                                    {% if militaire.statut.definedBy == 1 %}
+                                        (Chancellerie, le {{ militaire.statut.updateAt|date('d-m-Y H:i:s') }} )
+                                    {% else %}
+                                        (SPA)
+                                    {% endif %}
+                                </span>
+
                                 {% endif %}
-                            </span>
+
                             </div>
 
                             <div class="ml-5">
@@ -1400,28 +1419,31 @@
 
                         <div class="row p-3">
 
+                          <div class="col col-12">
+                              <table id="militaire_spa"  class="table table-bordered table-hover table-striped">
+                                  <thead>
+                                  <tr>
+                                      <th>Date</th>
+                                      <th>Unite/Corps</th>
+                                      <th>Statut</th>
+                                      <th>Cree par</th>
+                                      <th>Commentaire</th>
+                                  </tr>
+                                  </thead>
 
-                            <table class="table table-bordered table-hover table-striped">
-                                <thead>
-                                <tr>
-                                    <th>Date</th>
-                                    <th>Statut</th>
-                                    <th>Cree par</th>
-                                    <th>Commentaire</th>
-                                </tr>
-                                </thead>
-
-                                <tbody>
-                                {% for spa in militaire.militaireSpas %}
-                                    <tr>
-                                        <td>{{ spa.spa.dateSpa|date('d-m-Y') }}</td>
-                                        <td class="{{ MilitaireStatutGetter.getString(spa.statut) }}">{{ GetMilitaireStatut.getString(spa.statut)  }}</td>
-                                        <td>{{ spa.spa.createdBy }}</td>
-                                        <td>{{ spa.commentaire|raw }}</td>
-                                    </tr>
-                                {% endfor %}
-                                </tbody>
-                            </table>
+                                  <tbody>
+                                  {% for spa in militaire.militaireSpas %}
+                                      <tr>
+                                          <td>{{ spa.spa.dateSpa|date('d-m-Y') }}</td>
+                                          <td>{{ spa.spa.unite}} / {{ spa.spa.unite.corps}}</td>
+                                          <td class="{{ MilitaireStatutGetter.getString(spa.statut) }}">{{ GetMilitaireStatut.getString(spa.statut)  }}</td>
+                                          <td>{{ spa.spa.createdBy }}</td>
+                                          <td>{{ spa.commentaire|raw }}</td>
+                                      </tr>
+                                  {% endfor %}
+                                  </tbody>
+                              </table>
+                          </div>
 
 
                         </div>
@@ -1474,6 +1496,75 @@
             });
         });
 
+        $('.b3_table').DataTable({
+            dom: 'lBfrtip',
+            ordering: false,
+            buttons: [
+                'excel', {
+                    extend: 'pdfHtml5',
+                    orientation: 'landscape',
+                    pageSize: 'LEGAL'
+                }
+            ],
+            "language": {
+                "sProcessing":     "Traitement en cours...",
+                "sSearch":         "Rechercher&nbsp;:",
+                "sLengthMenu":     "Afficher _MENU_ &eacute;l&eacute;ments",
+                "sInfo":           "Affichage de l'&eacute;lement _START_ &agrave; _END_ sur _TOTAL_ &eacute;l&eacute;ments",
+                "sInfoEmpty":      "Affichage de l'&eacute;lement 0 &agrave; 0 sur 0 &eacute;l&eacute;ments",
+                "sInfoFiltered":   "(filtr&eacute; de _MAX_ &eacute;l&eacute;ments au total)",
+                "sInfoPostFix":    "",
+                "sLoadingRecords": "Chargement en cours...",
+                "sZeroRecords":    "Aucun &eacute;l&eacute;ment &agrave; afficher",
+                "sEmptyTable":     "Aucune donn&eacute;e disponible dans le tableau",
+                "oPaginate": {
+                    "sFirst":      "Premier",
+                    "sPrevious":   "Pr&eacute;c&eacute;dent",
+                    "sNext":       "Suivant",
+                    "sLast":       "Dernier"
+                },
+                "oAria": {
+                    "sSortAscending":  ": activer pour trier la colonne par ordre croissant",
+                    "sSortDescending": ": activer pour trier la colonne par ordre d&eacute;croissant"
+                }
+            }
+        });
+
+        $('#militaire_spa').DataTable({
+            dom: 'lBfrtip',
+            buttons: [
+                'excel', {
+                    extend: 'pdfHtml5',
+                    orientation: 'landscape',
+                    pageSize: 'LEGAL'
+                }
+            ],
+            rowGroup: {
+                dataSrc: 1
+            },
+            "language": {
+                "sProcessing":     "Traitement en cours...",
+                "sSearch":         "Rechercher&nbsp;:",
+                "sLengthMenu":     "Afficher _MENU_ &eacute;l&eacute;ments",
+                "sInfo":           "Affichage de l'&eacute;lement _START_ &agrave; _END_ sur _TOTAL_ &eacute;l&eacute;ments",
+                "sInfoEmpty":      "Affichage de l'&eacute;lement 0 &agrave; 0 sur 0 &eacute;l&eacute;ments",
+                "sInfoFiltered":   "(filtr&eacute; de _MAX_ &eacute;l&eacute;ments au total)",
+                "sInfoPostFix":    "",
+                "sLoadingRecords": "Chargement en cours...",
+                "sZeroRecords":    "Aucun &eacute;l&eacute;ment &agrave; afficher",
+                "sEmptyTable":     "Aucune donn&eacute;e disponible dans le tableau",
+                "oPaginate": {
+                    "sFirst":      "Premier",
+                    "sPrevious":   "Pr&eacute;c&eacute;dent",
+                    "sNext":       "Suivant",
+                    "sLast":       "Dernier"
+                },
+                "oAria": {
+                    "sSortAscending":  ": activer pour trier la colonne par ordre croissant",
+                    "sSortDescending": ": activer pour trier la colonne par ordre d&eacute;croissant"
+                }
+            }
+        });
 
         /*var $addPiece = $('#affectation_addPiece');
 

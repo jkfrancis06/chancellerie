@@ -1,0 +1,53 @@
+{{ form_start(missionForm) }}
+
+<div class="text-danger">
+    {{ form_errors(missionForm) }}
+</div>
+
+<div class="mb-3">
+    {{ form_label(missionForm.intitule, "Intitule de la mission: ", {'label_attr': {'class': 'c_image_name_input_label'}}) }}
+    <div class="input-group">
+        {{ form_widget(missionForm.intitule, {'attr': {'class': 'form-control'}}) }}
+    </div>
+    <div class="form-error" style="color: red">
+        {{ form_errors(missionForm.intitule) }}
+    </div>
+</div>
+
+<div class="mb-3">
+    {{ form_label(missionForm.type, "Type de mission: ", {'label_attr': {'class': 'c_image_name_input_label'}}) }}
+    <div>
+        {{ form_widget(missionForm.type, {'attr': {'class': 'form-control'}}) }}
+    </div>
+    <div class="form-error" style="color: red">
+        {{ form_errors(missionForm.type) }}
+    </div>
+</div>
+
+<div class="mb-3">
+    {{ form_label(missionForm.lieu, "Lieu :", {'label_attr': {'class': 'c_image_name_input_label'}}) }}
+    <div class="input-group">
+        {{ form_widget(missionForm.lieu, {'attr': {'class': 'form-control'}}) }}
+    </div>
+    <div class="form-error" style="color: red">
+        {{ form_errors(missionForm.lieu) }}
+    </div>
+</div>
+
+<div class="mb-3">
+    {{ form_label(missionForm.commentaire, "Commentaires : ", {'label_attr': {'class': 'c_image_name_input_label'}}) }}
+    <div class="input-group">
+        {{ form_widget(missionForm.commentaire, {'attr': {'class': 'form-control'}}) }}
+    </div>
+    <div class="form-error" style="color: red">
+        {{ form_errors(missionForm.commentaire) }}
+    </div>
+</div>
+
+<hr>
+<div class="d-flex justify-content-center">
+    {{ form_row(missionForm.cancel,{'attr':{'class': 'btn btn-outline-secondary form-btn'}}) }}
+    {{ form_row(missionForm.submit,{'attr':{'class': 'btn btn-outline-success form-btn'}}) }}
+</div>
+
+{{ form_end(missionForm) }}

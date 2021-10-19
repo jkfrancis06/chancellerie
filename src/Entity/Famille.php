@@ -14,6 +14,12 @@ use App\Validator as AppAssert;
  */
 class Famille
 {
+
+    const PERE = 0;
+    const MERE = 1;
+    const CONJ = 2;
+    const ENFANT = 4;
+
     /**
      * @ORM\Id
      * @ORM\GeneratedValue

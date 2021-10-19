@@ -1,0 +1,157 @@
+{% extends 'nav.html.twig' %}
+
+{% block title %}Indice{% endblock %}
+
+{% block content %}
+
+    <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="{{ path('indice_crud_index') }}">Liste des indices</a></li>
+            <li class="breadcrumb-item active">{{ indice.indice }}</li>
+        </ol>
+    </nav>
+
+
+
+    {% if is_granted('ROLE_ADMIN') %}
+        <div class="mt-3 mb-5">
+
+            <div class="d-flex justify-content-start">
+                <a class="btn btn-secondary" href="{{ path('indice_crud_edit', {'id': indice.id}) }}">
+                    <i class="fa fa-edit"></i>
+                    Modifier
+                </a>
+                {{ include('indice_crud/_delete_form.html.twig') }}
+            </div>
+
+        </div>
+    {% endif %}
+
+
+    <table class="table">
+        <tbody>
+            <tr>
+                <th>Echelon</th>
+                <td>{{ indice.echelon }}</td>
+            </tr>
+            <tr>
+                <th>Indice</th>
+                <td>{{ indice.indice }}</td>
+            </tr>
+            <tr>
+                <th>Anciennete</th>
+                <td>
+                    {% if indice.periodeAnciennete == constant('ANCIENNETE_AVANT', indice) %}
+                        Avant
+                    {% endif %}
+                    {% if indice.periodeAnciennete == constant('ANCIENNETE_APRES', indice) %}
+                        Apres
+                    {% endif %}
+                    {{ indice.anciennete }} ans
+                </td>
+            </tr>
+            <tr>
+                <th>Prerequation</th>
+                <td>{{ indice.prerequation }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <div class="mt-5">
+        <hr>
+
+        <table id="elements" class="table table-responsive table-bordered table-striped table-hover text-center">
+            <thead>
+            <tr>
+                <th>Photo</th>
+                <th>Matricule</th>
+                <th>Nom</th>
+                <th>Prenoms</th>
+                <th>Grade</th>
+                <th>Date d'incorporation</th>
+                <th>Annees de service</th>
+                <th>Date de naissance</th>
+                <th>Sexe</th>
+                <th>Groupe sanguin</th>
+                <th>Numeros de telephones</th>
+                <th>Adresse</th>
+                <th>Fonction</th>
+                <th>Statut</th>
+                <th></th>
+            </tr>
+            </thead>
+            <tbody>
+            {% if militaires | length == 0 %}
+                <p class="text-center">Aucun element n'a été ajouté pour l'instant</p>
+            {% else %}
+                {% for militaire in militaires %}
+                    <tr>
+                        <td>
+                            {% if militaire.mainPicture == null %}
+                                <img height="50" width="50" src="{{ path('download_element', {'name': "default.png" , 'id': militaire.matricule}) }}" class="img-thumbnail" alt="...">
+                            {% else %}
+                                <img height="50" width="50" src="{{ path('download_element', {'name': militaire.mainPicture , 'id': militaire.matricule}) }}" class="img-thumbnail" alt="...">
+                            {% endif %}
+                        </td>
+                        <td>{{ militaire.matricule }}</td>
+                        <td>{{ militaire.nom }}</td>
+                        <td>{{ militaire.prenoms }}</td>
+                        <td>{{ militaire.grade.intitule }}</td>
+                        <td>{{ militaire.dateIncorp|date("d-m-Y")  }}</td>
+                        <td>
+                            {% set incorp = date().diff(date(militaire.dateIncorp)).y %}
+                            {{ incorp }}
+                        </td>
+                        <td>{{ militaire.dateNaissance|date("d-m-Y")  }}</td>
+                        <td>
+                            {% if militaire.sexe == 'f' %}
+                                Femme
+                            {% else %}
+                                Homme
+                            {% endif %}
+                        </td>
+                        <td>{{ militaire.groupeSanguin }}</td>
+                        <td>
+                            {% for telephone in militaire.telephone %}
+                                {{ telephone.numero }} <br>
+                            {% endfor %}
+                        </td>
+                        <td>{{ militaire.adresse }}</td>
+                        {% set affectation = AffectationGetter.getLastAffectation(militaire) %}
+                        <td>
+                            {% if affectation is not null %}
+                                {{ affectation.fonction }}
+                            {% endif %}
+                        </td>
+
+                        <td>
+
+                            {% set lastSpa = MilitaireStatutGetter.loadLastSpa( militaire) %}
+
+                            {% if lastSpa is not null %}
+
+                                {% set statut_color = MilitaireStatutGetter.getString(lastSpa.statut) %}
+
+                                <span class="{{ statut_color }} font-weight-bold">{{  GetMilitaireStatut.getString(lastSpa.statut)  }}</span>
+
+                            {% endif %}
+
+
+                        </td>
+
+                        <td>
+                            <a target="_blank" rel="noopener noreferrer" href="{{ path('militaire_details', { 'id': militaire.id }) }}" type="button" class="btn btn-primary">
+                                <i class="fa fa-eye"></i>
+                            </a>
+                        </td>
+
+                    </tr>
+                {% endfor %}
+
+            {% endif %}
+            </tbody>
+        </table>
+    </div>
+
+
+{% endblock %}

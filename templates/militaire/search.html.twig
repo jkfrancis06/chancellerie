@@ -226,6 +226,14 @@
                            </div>
                        </div>
 
+                       <div class="col col-3 mb-3">
+                           {{ form_label(searchForm.statut, "Statut : ", {'label_attr': {'class': 'c_image_name_input_label'}}) }}
+                           {{ form_widget(searchForm.statut, {'attr': {'class': 'form-control'}}) }}
+                           <div class="form-error" style="color: red">
+                               {{ form_errors(searchForm.statut) }}
+                           </div>
+                       </div>
+
                    </div>
 
                    <div class="d-flex justify-content-center">
@@ -258,16 +266,17 @@
                                        <th>Nom</th>
                                        <th>Prenoms</th>
                                        <th>Grade</th>
-                                       <th>Date de naissance</th>
-                                       <th>Sexe</th>
-                                       <th>Groupe Sanguin</th>
-                                       <th>Numeros de telephones</th>
-                                       <th>Adresse</th>
+                                       <th>Echelon</th>
+                                       <th>Indice</th>
                                        <th>Date d'incorporation</th>
                                        <th>Annees de service</th>
+                                       <th>Date de naissance</th>
+                                       <th>Sexe</th>
+                                       <th>Groupe sanguin</th>
+                                       <th>Numeros de telephones</th>
+                                       <th>Adresse</th>
                                        <th>Fonction</th>
                                        <th>Unite d'affectation</th>
-                                       <th>Corps d'affectation</th>
                                        <th>Statut</th>
                                        <th></th>
                                    </tr>
@@ -276,18 +285,36 @@
                                    {% if qr_result | length == 0 %}
                                        <p class="text-center">Aucun element n'a été ajouté pour l'instant</p>
                                    {% else %}
-                                       {% for militaire in qr_result %}
+                                       {% for militaire in qr_result%}
                                            <tr>
                                                <td>
-                                                   {% if militaire.fichiers is not null and militaire.fichiers|length > 0 %}
-                                                       <img height="50" width="50" src="{{ asset('/elements/') }}{{ militaire.mainPicture }}" class="img-thumbnail" alt="...">
+                                                   {% if militaire.mainPicture == null %}
+                                                       <img height="50" width="50" src="{{ path('download_element', {'name': "default.png" , 'id': militaire.matricule}) }}" class="img-thumbnail" alt="...">
+                                                   {% else %}
+                                                       <img height="50" width="50" src="{{ path('download_element', {'name': militaire.mainPicture , 'id': militaire.matricule}) }}" class="img-thumbnail" alt="...">
                                                    {% endif %}
                                                </td>
                                                <td>{{ militaire.matricule }}</td>
                                                <td>{{ militaire.nom }}</td>
                                                <td>{{ militaire.prenoms }}</td>
                                                <td>{{ militaire.grade.intitule }}</td>
-                                               <td>{{ militaire.dateNaissance|date("d-m-Y")  }}</td>
+                                               {% set indice = IndiceCalculator.calculateIndice(militaire.id) %}
+                                               <td>
+                                                   {% if indice is not null %}
+                                                       {{ indice.echelon }}
+                                                   {% endif %}
+                                               </td>
+                                               <td>
+                                                   {% if indice is not null %}
+                                                       {{ indice.indice }}
+                                                   {% endif %}
+                                               </td>
+                                               <td>{{ militaire.dateIncorp|date("d-m-Y")  }}</td>
+                                               <td>
+                                                   {% set incorp = date().diff(date(militaire.dateIncorp)).y %}
+                                                   {{ incorp }}
+                                               </td>
+                                               <td >{{ militaire.dateNaissance|date("d-m-Y")  }}</td>
                                                <td>
                                                    {% if militaire.sexe == 'f' %}
                                                        Femme
@@ -302,72 +329,30 @@
                                                    {% endfor %}
                                                </td>
                                                <td>{{ militaire.adresse }}</td>
-                                               <td>{{ militaire.dateIncorp|date("d-m-Y")  }}</td>
+                                               {% set affectation = AffectationGetter.getLastAffectation(militaire) %}
                                                <td>
-                                                   {% set srv = date().diff(date(militaire.dateIncorp)).y %}
-                                                   {{ srv }}
-                                               </td>
-                                               <td>
-
-                                                   {% set size = militaire.affectations|length -1 %}
-                                                   {% if size >= 0 %}
-                                                       {{ militaire.affectations[size].fonction }}
+                                                   {% if affectation is not null %}
+                                                       {{ affectation.fonction }}
                                                    {% endif %}
                                                </td>
                                                <td>
-                                                   {% if size >= 0 %}
-                                                       {{  militaire.affectations[size].unite.intitule }}
+                                                   {% if affectation is not null %}
+                                                       {{ affectation.unite.intitule }} / {{ affectation.unite.corps.intitule }}
                                                    {% endif %}
-                                               </td>
-                                               <td>
-                                                   {% if size >= 0 %}
-                                                       {{  militaire.affectations[size].unite.corps.intitule }}
-                                                   {% endif %}
+
                                                </td>
                                                <td>
 
-                                                   {% set key = militaire.militaireStatuts|length -1 %}
+                                                   {% set lastSpa = MilitaireStatutGetter.loadLastSpa(militaire) %}
 
-                                                   {% if key >= 0 %}
-                                                       {% set lastStatut =  militaire.militaireStatuts[key] %}
+                                                   {% if lastSpa is not null %}
 
-                                                       {% if lastStatut != null and lastStatut.statut == 1 %}
-                                                           <span class="text-danger fw-bold">Radie</span>
-                                                       {% endif %}
+                                                       {% set statut_color = MilitaireStatutGetter.getString(lastSpa.statut) %}
 
+                                                       <span class="{{ statut_color }} font-weight-bold">{{  GetMilitaireStatut.getString(lastSpa.statut)  }}</span>
 
-                                                       {% if lastStatut != null and lastStatut.statut == 3 %}
-                                                           <span class="text-success fw-bold">En service</span>
-                                                       {% endif %}
-
-                                                       {% if lastStatut != null and lastStatut.statut == 0 %}
-                                                           <span class="text-warning fw-bold">Retraite</span>
-                                                       {% endif %}
-
-                                                       {% if lastStatut != null and lastStatut.statut == 2 %}
-                                                           <span class="text-success fw-bold">En service</span>
-                                                       {% endif %}
-
-                                                       {% if lastStatut != null and lastStatut.statut == 4 %}
-                                                           <span class="text-success fw-bold">Disponibilite</span>
-                                                       {% endif %}
-
-                                                       {% if lastStatut != null and lastStatut.statut == 5 %}
-                                                           <span class="text-primary fw-bold">Detachement</span>
-                                                       {% endif %}
-
-                                                       {% if lastStatut != null and lastStatut.statut == 6 %}
-                                                           <span class="text-danger fw-bold">Deserteur</span>
-                                                       {% endif %}
-
-                                                       {% if lastStatut != null and lastStatut.statut == 7 %}
-                                                           <span class="text-warning fw-bold">Absence</span>
-                                                       {% endif %}
-
-                                                       {% if lastStatut != null and lastStatut.statut == 8 %}
-                                                           <span class="text-warning fw-bold">Arret maladie</span>
-                                                       {% endif %}
                                                    {% endif %}
+
 
                                                </td>
 

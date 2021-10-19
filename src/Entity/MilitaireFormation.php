@@ -9,9 +9,14 @@ use App\Validator as AppAssert;
 /**
  * @ORM\Entity(repositoryClass=MilitaireFormationRepository::class)
  * @AppAssert\DateInterval()
+ * @AppAssert\Formation()
  */
 class MilitaireFormation
 {
+
+
+    const FORM_PLAN = 2;
+    const FORM_DONE = 1;
     /**
      * @ORM\Id
      * @ORM\GeneratedValue
@@ -96,7 +101,7 @@ class MilitaireFormation
         return $this->dateFin;
     }
 
-    public function setDateFin(\DateTimeInterface $dateFin): self
+    public function setDateFin(?\DateTimeInterface $dateFin): self
     {
         $this->dateFin = $dateFin;
 

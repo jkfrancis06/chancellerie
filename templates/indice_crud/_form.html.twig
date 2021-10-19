@@ -1,0 +1,70 @@
+
+<div class="col col-12">
+
+    {{ form_start(indiceForm) }}
+
+    <div class="text-danger">
+        {{ form_errors(indiceForm) }}
+    </div>
+
+    <div class="mb-3">
+        {{ form_label(indiceForm.grade, "Grade : ", {'label_attr': {'class': 'intitule_label'}}) }}
+        {{ form_widget(indiceForm.grade, {'attr': {'class': 'mdb-select md-form colorful-select dropdown-primary','searchable':'Rechercher..'}}) }}
+        <div class="form-error" style="color: red">
+            {{ form_errors(indiceForm.grade) }}
+        </div>
+    </div>
+
+    <div class="mb-3">
+        {{ form_label(indiceForm.echelon, "Echelon : ", {'label_attr': {'class': 'intitule_label'}}) }}
+        {{ form_widget(indiceForm.echelon, {'attr': {'class': 'form-control'}}) }}
+        <div class="form-error" style="color: red">
+            {{ form_errors(indiceForm.echelon) }}
+        </div>
+    </div>
+
+    <div class="mb-3">
+        {{ form_label(indiceForm.indice, "Indice : ", {'label_attr': {'class': 'intitule_label'}}) }}
+        {{ form_widget(indiceForm.indice, {'attr': {'class': 'form-control'}}) }}
+        <div class="form-error" style="color: red">
+            {{ form_errors(indiceForm.indice) }}
+        </div>
+    </div>
+
+    <div class="mb-3">
+        {{ form_label(indiceForm.periodeAnciennete, "Anciennete en annees : ", {'label_attr': {'class': 'intitule_label'}}) }}
+        <div class="row">
+            <div class="col col-2">
+                {{ form_widget(indiceForm.periodeAnciennete, {'attr': {'class': 'form-control'}}) }}
+                <div class="form-error" style="color: red">
+                    {{ form_errors(indiceForm.periodeAnciennete) }}
+                </div>
+            </div>
+            <div class="col col-10">
+                {{ form_widget(indiceForm.anciennete, {'attr': {'class': 'form-control'}}) }}
+                <div class="form-error" style="color: red">
+                    {{ form_errors(indiceForm.anciennete) }}
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+
+    <div class="mb-3">
+        {{ form_label(indiceForm.prerequation, "Prerequation en % : ", {'label_attr': {'class': 'intitule_label'}}) }}
+        {{ form_widget(indiceForm.prerequation, {'attr': {'class': 'form-control'}}) }}
+        <div class="form-error" style="color: red">
+            {{ form_errors(indiceForm.prerequation) }}
+        </div>
+    </div>
+
+
+    <hr>
+    <div class="d-flex justify-content-center">
+        {{ form_row(indiceForm.cancel,{'attr':{'class': 'btn btn-outline-secondary form-btn'}}) }}
+        {{ form_row(indiceForm.submit,{'attr':{'class': 'btn btn-outline-success form-btn'}}) }}
+    </div>
+
+    {{ form_end(indiceForm) }}
+</div>

@@ -1,0 +1,17 @@
+{% extends 'nav.html.twig' %}
+
+{% block title %}Nouvel Indice{% endblock %}
+
+{% block content %}
+
+    <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="{{ path('indice_crud_index') }}">Liste des indices</a></li>
+            <li class="breadcrumb-item active">Nouveau</li>
+        </ol>
+    </nav>
+
+    {{ include('indice_crud/_form.html.twig') }}
+
+
+{% endblock %}

@@ -8,7 +8,6 @@ use App\Validator as AppAssert;
 
 /**
  * @ORM\Entity(repositoryClass=MilitaireExerciceRepository::class)
- * @AppAssert\DateInterval()
  */
 class MilitaireExercice
 {

@@ -90,39 +90,6 @@ class PunitionType extends AbstractType
         ;
 
 
-        $builder->addEventListener(FormEvents::PRE_SET_DATA, function (FormEvent $event)  {
-
-            $form = $event->getForm();
-
-            if (null !== $event->getData()->getPiece()) {
-                // we don't need to add the friend field because
-                // the message will be addressed to a fixed friend
-                return;
-            }
-
-            $data = $event->getData();
-
-
-
-            // create the field, this is similar the $builder->add()
-            // field name, field type, field options
-            $form->add('piece', EntityType::class, [
-                'class' => Piece::class,
-                'label' => 'Piece Archive : ',
-                'choice_label' => function (Piece $piece) {
-                    return $this->stringGetter->getString($piece->getSousDossier()->getType()). ' / ' .$piece->getDescription();
-                },
-                'query_builder' => function (EntityRepository $er) use ($event) {
-                    return $er->createQueryBuilder('p')
-                        ->leftJoin('p.sousDossier', 'sd')
-                        ->where('sd.militaire = :militaire')
-                        ->andWhere('sd.type = :type')
-                        ->setParameter('militaire',$event->getData()->getMilitaireFautif())
-                        ->setParameter('type',SousDossier::PIECE_PUNITIONS);
-                },
-                'placeholder' => 'Choisir une piece dans les archives'
-            ]);
-        });
     }
 
     public function configureOptions(OptionsResolver $resolver)

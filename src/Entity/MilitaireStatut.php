@@ -29,6 +29,21 @@ class MilitaireStatut
     const UPDATED_BY_CHEF_CORPS = 2;
 
 
+    const STATUT_ACTIF = [
+            self::STATUT_RETRAITE,
+            self::STATUT_PERM_LD,
+            self::STATUT_SERVICE,
+            self::STATUT_DISPONIBILITE,
+            self::STATUT_DETACHEMENT,
+            self::STATUT_ABSENCE,
+            self::STATUT_ARR_MALADIE,
+        ];
+
+    const STATUT_INACTIF = [
+        self::STATUT_RADIE,
+        self::STATUT_DESERTEUR
+    ];
+
 
     /**
      * @ORM\Id

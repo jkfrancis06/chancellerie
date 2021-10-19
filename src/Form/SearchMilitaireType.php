@@ -3,6 +3,7 @@
 namespace App\Form;
 
 use App\Entity\Grade;
+use App\Entity\MilitaireStatut;
 use App\Entity\OrigineRecrutement;
 use App\Entity\Specialite;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
@@ -182,6 +183,25 @@ class SearchMilitaireType extends AbstractType
                 'required' => false,
                 'help' => "Nombre de mois restant avant limite d'age",
                 'label' => 'Limite d\'age : ',
+            ])
+
+            ->add('statut', ChoiceType::class, [
+                'required' => false,
+                'choices'  => [
+                    'Selectionner' => null,
+                    'Retraite' => MilitaireStatut::STATUT_RETRAITE,
+                    'Radie' => MilitaireStatut::STATUT_RADIE,
+                    'Permission longue-duree' => MilitaireStatut::STATUT_PERM_LD,
+                    'En service' => MilitaireStatut::STATUT_SERVICE,
+                    'Disponibilite' => MilitaireStatut::STATUT_DISPONIBILITE,
+                    'Detachement' => MilitaireStatut::STATUT_DETACHEMENT,
+                    'Deserteur' => MilitaireStatut::STATUT_DESERTEUR,
+                    'Absence' => MilitaireStatut::STATUT_ABSENCE,
+                    'Arret maladie' => MilitaireStatut::STATUT_ARR_MALADIE,
+                ],
+                'attr' => [
+                    'placeholder' => 'Selectionner',
+                ],
             ])
 
             ->add('submit', SubmitType::class, ['label' => 'Rechercher'])

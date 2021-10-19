@@ -43,10 +43,6 @@ class Unite
      */
     private $affectations;
 
-    /**
-     * @ORM\ManyToOne(targetEntity=Militaire::class, inversedBy="formationDirected")
-     */
-    private $chefFormation;
 
     /**
      * @ORM\OneToMany(targetEntity=Spa::class, mappedBy="unite", orphanRemoval=true)
@@ -130,17 +126,6 @@ class Unite
         return $this;
     }
 
-    public function getChefFormation(): ?Militaire
-    {
-        return $this->chefFormation;
-    }
-
-    public function setChefFormation(?Militaire $chefFormation): self
-    {
-        $this->chefFormation = $chefFormation;
-
-        return $this;
-    }
 
     /**
      * @return Collection|Spa[]
@@ -173,6 +158,6 @@ class Unite
     }
 
     public function __toString():string{
-        return $this->intitule;
+        return $this->intitule .' / '. $this->corps;
     }
 }

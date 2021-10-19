@@ -34,10 +34,10 @@ class FamilleType extends AbstractType
                 'required' => true,
                 'choices'  => [
                     'Selectionner' => null,
-                    'Pere' => 0,
-                    'Mere' => 1,
-                    'Conjoint(e)' => 2,
-                    'Enfant' => 4,
+                    'Père' => Famille::PERE,
+                    'Mère' => Famille::MERE,
+                    'Conjoint(e)' => Famille::CONJ,
+                    'Enfant' => Famille::ENFANT,
                 ],
                 'attr' => [
                     'placeholder' => 'Selectionner',

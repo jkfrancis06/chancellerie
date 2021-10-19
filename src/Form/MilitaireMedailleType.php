@@ -21,12 +21,10 @@ class MilitaireMedailleType extends AbstractType
         $builder
             ->add('date', DateType::class, [
                 'required' => true,
-                'html5' => false,
+                'html5' => true,
                 'widget' => 'single_text',
-                'format' => 'dd-MM-yyyy',
                 // adds a class that can be selected in JavaScript
                 'attr' => [
-                    'class' => 'js-datepicker',
                     'placeholder' => 'Selectionner une date'
                 ],
 
@@ -36,9 +34,7 @@ class MilitaireMedailleType extends AbstractType
 
             ])
             ->add('commentaire', TextareaType::class, [
-                'constraints' => [
-                    new NotBlank()
-                ]
+               'required' => false
             ])
             ->add('medaille', EntityType::class, [
                 'class' => Medaille::class,

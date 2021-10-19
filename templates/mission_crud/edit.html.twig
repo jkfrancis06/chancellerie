@@ -1,0 +1,19 @@
+{% extends 'nav.html.twig' %}
+
+{% block title %}Edit Mission{% endblock %}
+
+{% block content %}
+
+    <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="{{ path('mission_crud_index') }}">Liste des missions</a></li>
+            <li class="breadcrumb-item"><a href="{{ path('mission_crud_show', {'id': mission.id}) }}">{{ mission.intitule }}</a></li>
+            <li class="breadcrumb-item active">Modifier</li>
+        </ol>
+    </nav>
+
+
+    {{ include('mission_crud/_form.html.twig', {'button_label': 'Update'}) }}
+
+
+{% endblock %}
