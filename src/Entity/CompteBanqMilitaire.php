@@ -4,9 +4,11 @@ namespace App\Entity;
 
 use App\Repository\CompteBanqMilitaireRepository;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
 /**
  * @ORM\Entity(repositoryClass=CompteBanqMilitaireRepository::class)
+ * @UniqueEntity("numeroCompte", message="Ce compte est deja existant")
  */
 class CompteBanqMilitaire
 {
@@ -33,9 +35,10 @@ class CompteBanqMilitaire
     private $isActive;
 
     /**
-     * @ORM\ManyToOne(targetEntity=Militaire::class, inversedBy="compteBanqMilitaires")
+     * @ORM\OneToOne(targetEntity=Militaire::class, mappedBy="compteBanquaire", cascade={"persist", "remove"})
      */
     private $militaire;
+
 
     public function __construct(){
         $this->isActive = true;
@@ -89,8 +92,20 @@ class CompteBanqMilitaire
 
     public function setMilitaire(?Militaire $militaire): self
     {
+        // unset the owning side of the relation if necessary
+        if ($militaire === null && $this->militaire !== null) {
+            $this->militaire->setCompteBanquaire(null);
+        }
+
+        // set the owning side of the relation if necessary
+        if ($militaire !== null && $militaire->getCompteBanquaire() !== $this) {
+            $militaire->setCompteBanquaire($this);
+        }
+
         $this->militaire = $militaire;
 
         return $this;
     }
+
+
 }

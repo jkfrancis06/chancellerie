@@ -118,7 +118,7 @@
                         <div class="col col-4">
                             <div class="mb-3">
                                 {{ form_label(militaireForm.nom, '', {'label_attr': {'class': 'intitule_label'}}) }}
-                                {{ form_widget(militaireForm.nom, {'attr': {'class': 'form-control'}}) }}
+                                {{ form_widget(militaireForm.nom, {'attr': {'class': 'form-control','readonly':'true'}}) }}
                                 <div class="form-error" style="color: red">
                                     {{ form_errors(militaireForm.nom) }}
                                 </div>
@@ -128,7 +128,7 @@
                         <div class="col col-4">
                             <div class="mb-3">
                                 {{ form_label(militaireForm.prenoms, '', {'label_attr': {'class': 'intitule_label'}}) }}
-                                {{ form_widget(militaireForm.prenoms, {'attr': {'class': 'form-control'}}) }}
+                                {{ form_widget(militaireForm.prenoms, {'attr': {'class': 'form-control','readonly':'true'}}) }}
                                 <div class="form-error" style="color: red">
                                     {{ form_errors(militaireForm.prenoms) }}
                                 </div>
@@ -192,7 +192,7 @@
                         <div class="col col-3">
                             <div class="mb-3">
                                 {{ form_label(militaireForm.sexe,'', {'label_attr': {'class': 'intitule_label'}}) }}
-                                {{ form_widget(militaireForm.sexe, {'attr': {'class': 'mdb-select md-form colorful-select dropdown-ins','readonly':'true'}}) }}
+                                {{ form_widget(militaireForm.sexe, {'attr': {'class': 'form-control','readonly':'true'}}) }}
                                 <div class="form-error" style="color: red">
                                     {{ form_errors(militaireForm.sexe) }}
                                 </div>
@@ -203,7 +203,7 @@
                         <div class="col col-3">
                             <div class="mb-3">
                                 {{ form_label(militaireForm.groupeSanguin,'', {'label_attr': {'class': 'intitule_label'}}) }}
-                                {{ form_widget(militaireForm.groupeSanguin, {'attr': {'class': 'mdb-select md-form colorful-select dropdown-ins','readonly':'true'}}) }}
+                                {{ form_widget(militaireForm.groupeSanguin, {'attr': {'class': 'form-control','readonly':'true'}}) }}
                                 <div class="form-error" style="color: red">
                                     {{ form_errors(militaireForm.groupeSanguin) }}
                                 </div>

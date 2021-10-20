@@ -264,8 +264,15 @@ class SpaController extends AbstractController
 
                     // Verifier si la SPA sera ecraser par le statut de la chancellerie
 
-                    if ($militaire->getStatut() == null || $lastSpa == null || $lastSpa->getSpa()->getDateSpa()->getTimestamp() >= $militaire->getStatut()->getDateDebut()->getTimestamp()) {
+                    $do = false;
 
+                    if ($militaire->getStatut() == null || $lastSpa == null) {
+                        $do = true;
+                    }elseif ($lastSpa->getSpa()->getDateSpa()->getTimestamp() >= $militaire->getStatut()->getDateDebut()->getTimestamp()){
+                        $do = true;
+                    }
+
+                    if ($do){
                         $militaireStatut = new MilitaireStatut();
 
                         $militaireStatut->setStatut(intval($row['statut']));
@@ -279,6 +286,19 @@ class SpaController extends AbstractController
                         $militaire->setStatut($militaireStatut);
 
                         $em->flush();
+
+
+                        if ($militaireStatut->getStatut() == MilitaireStatut::STATUT_RADIE){
+                            $affectation = $this->getDoctrine()->getManager()->getRepository(Affectation::class)->findOneBy([
+                                'active' => true,
+                                'militaire' => $militaire
+                            ]);
+
+                            if ($affectation != null) {
+                                $affectation->setIsActive(false);
+                                $em->flush();
+                            }
+                        }
                     }
 
                     $dateObj = new \DateTime($date);

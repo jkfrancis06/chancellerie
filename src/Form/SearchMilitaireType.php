@@ -6,6 +6,7 @@ use App\Entity\Grade;
 use App\Entity\MilitaireStatut;
 use App\Entity\OrigineRecrutement;
 use App\Entity\Specialite;
+use App\Entity\Unite;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
@@ -174,8 +175,8 @@ class SearchMilitaireType extends AbstractType
                 'class' => OrigineRecrutement::class,
                 'multiple' => true,
                 'data' => null,
-                'label' => 'Origine de recrutement: ',
                 'choice_label' => 'intitule',
+                'label' => 'Origine de recrutement: ',
                 'placeholder' => 'Choisir une origine de recrutement'
             ])
 
@@ -183,6 +184,15 @@ class SearchMilitaireType extends AbstractType
                 'required' => false,
                 'help' => "Nombre de mois restant avant limite d'age",
                 'label' => 'Limite d\'age : ',
+            ])
+
+            ->add('unite', EntityType::class, [
+                'required' => false,
+                'class' => Unite::class,
+                'multiple' => true,
+                'data' => null,
+                'label' => 'Unite: ',
+                'placeholder' => 'Choisir une origine de recrutement'
             ])
 
             ->add('statut', ChoiceType::class, [

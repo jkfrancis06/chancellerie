@@ -546,7 +546,49 @@
         </div>
     </div>
 
+    <!-- Formulaire Compte banquaire -->
 
+
+    <!-- Formulaire Medaille -->
+    <div class="modal fade" id="compteModal" tabindex="-1" aria-labelledby="compteModalLabel" aria-hidden="true" data-backdrop="static" data-keyboard="false">
+        <div class="modal-dialog modal-lg modal-dialog-centered modal-dialog-scrollable">
+            <div class="modal-content">
+                {{ form_start(compteForm) }}
+
+                <span class="text-danger mt-3">
+                  {{ form_errors(compteForm) }}
+                </span>
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Ajouter / Modifier le compte</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+
+                    <div class="mb-3">
+                        {{ form_label(compteForm.institution, "Institution Banquaire : ", {'label_attr': {'class': 'intitule_label'}}) }}
+                        {{ form_widget(compteForm.institution, {'attr': {'class': 'form-control'}}) }}
+                        <div class="form-error" style="color: red">
+                            {{ form_errors(compteForm.institution) }}
+                        </div>
+                    </div>
+
+                    <div class="mb-3">
+                        {{ form_label(compteForm.numeroCompte, "Numero de compte", {'label_attr': {'class': 'intitule_label'}}) }}
+                        {{ form_widget(compteForm.numeroCompte, {'attr': {'class': 'form-control'}}) }}
+                        <div class="form-error" style="color: red">
+                            {{ form_errors(compteForm.numeroCompte) }}
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Fermer</button>
+                    {{ form_row(compteForm.cancel,{'attr':{'class': 'btn btn-outline-secondary form-btn'}}) }}
+                    {{ form_row(compteForm.submit,{'attr':{'class': 'btn btn-outline-success form-btn'}}) }}
+                </div>
+                {{ form_end(compteForm) }}
+            </div>
+        </div>
+    </div>
 
     <div style="margin-top: 1em">
         {% for message in app.session.flashbag.get('create_militaire') %}
@@ -615,13 +657,6 @@
                                                 </span>
                                             </p>
 
-                                            <p>
-                                                <span>Annees de service: </span>
-                                                <span class="font-weight-bold">
-                                                    {% set srv = date().diff(date(militaire.dateIncorp)).y %}
-                                                    {{ srv }} ans
-                                                </span>
-                                            </p>
 
 
 
@@ -641,6 +676,15 @@
                                             </p>
 
                                             <p>
+                                                <span>Annees de service: </span>
+                                                <span class="font-weight-bold">
+                                                    {% set srv = date().diff(date(militaire.dateIncorp)).y %}
+                                                    {{ srv }} ans
+                                                </span>
+                                            </p>
+
+
+                                            <p>
                                                 <span>Age: </span>
                                                 {% set age = date().diff(date(militaire.dateNaissance)).y %}
                                                 <span class="font-weight-bold">{{ age }} ans</span>
@@ -655,14 +699,7 @@
                                                     {% endif %}
                                                  </span>
                                             </p>
-                                            <p>
-                                                <span>Taille: </span>
-                                                <span class="font-weight-bold">{{ militaire.taille }} m</span>
-                                            </p>
-                                            <p>
-                                                <span>Couleur des yeux: </span>
-                                                <span class="font-weight-bold">{{ militaire.couleurYeux }}</span>
-                                            </p>
+
 
                                             <p>
                                                 <span>Situation familiale: </span>
@@ -737,6 +774,108 @@
                                             </p>
 
                                         </div>
+
+                                        <div class="col col-12">
+                                            <hr>
+                                        </div>
+
+                                        <div class="col col-3">
+                                            <p>
+                                                <span>Lieu de naissance: </span>
+                                                <span class="font-weight-bold">{{ militaire.lieuNaissance }} m</span>
+                                            </p>
+                                            <p>
+                                                <span>Quartier: </span>
+                                                <span class="font-weight-bold">{{ militaire.quartier }} m</span>
+                                            </p>
+                                            <p>
+                                                <span>Taille: </span>
+                                                <span class="font-weight-bold">{{ militaire.taille }} m</span>
+                                            </p>
+                                            <p>
+                                                <span>Couleur des yeux: </span>
+                                                <span class="font-weight-bold">{{ militaire.couleurYeux }}</span>
+                                            </p>
+                                            <p>
+                                                <span>Groupe sanguin: </span>
+                                                <span class="font-weight-bold">{{ militaire.groupeSanguin }}</span>
+                                            </p>
+                                        </div>
+
+                                        <div class="col col-3">
+                                            <p>
+                                                <span>Numero carte d'identité: </span>
+                                                <span class="font-weight-bold">{{ militaire.numCarte }} </span>
+                                            </p>
+                                            <p>
+                                                <span>Numero de passport: </span>
+                                                <span class="font-weight-bold">{{ militaire.numPassport }} </span>
+                                            </p>
+                                            <p>
+                                                <span>Permis de conduire civil: </span>
+                                                <span class="font-weight-bold">{{ militaire.permisConduireCiv }} </span>
+                                            </p>
+                                            <p>
+                                                <span>Permis de conduire militaire: </span>
+                                                <span class="font-weight-bold">{{ militaire.permisConduireMil }} </span>
+                                            </p>
+
+                                            <p>
+                                                <span>Lieu de permission: </span>
+                                                <span class="font-weight-bold">{{ militaire.lieuPermission }} </span>
+                                            </p>
+                                        </div>
+
+                                        <div class="col col-3">
+                                            <p>
+                                                <span>Nom et prenoms de personne a prevenir: </span>
+                                                {% if militaire.personnePrev is not null %}
+                                                    <span class="font-weight-bold">{{ militaire.personnePrev.nom }}</span>
+                                                {% endif %}
+                                            </p>
+                                            <p>
+                                                <span>Adresse: </span>
+                                                {% if militaire.personnePrev is not null %}
+                                                    <span class="font-weight-bold">{{ militaire.personnePrev.adresse }} </span>
+                                                {% endif %}
+                                            </p>
+                                            <p>
+                                                <span>Profession: </span>
+                                                {% if militaire.personnePrev is not null %}
+                                                    <span class="font-weight-bold">{{ militaire.personnePrev.profession }} </span>
+                                                {% endif %}
+                                            </p>
+                                            <p>
+                                                <span>Employeur: </span>
+                                                {% if militaire.personnePrev is not null %}
+                                                    <span class="font-weight-bold">{{ militaire.personnePrev.employeur }} </span>
+                                                {% endif %}
+                                            </p>
+                                        </div>
+
+                                        <div class="col col-3">
+                                            <p>
+                                                <span>Niveau d'instruction general: </span>
+                                                <span class="font-weight-bold">{{ militaire.nivInstruGen }} </span>
+                                            </p>
+                                            <p>
+                                                <span>Formation technique: </span>
+                                                <span class="font-weight-bold">{{ militaire.formTech }} </span>
+                                            </p>
+                                            <p>
+                                                <span>Langues parlees: </span>
+                                                <span class="font-weight-bold">{{ militaire.languePar }} </span>
+                                            </p>
+                                            <p>
+                                                <span>Langues ecrites: </span>
+                                                <span class="font-weight-bold">{{ militaire.langueEcr }} </span>
+                                            </p>
+                                            <p>
+                                                <span>Sports partiques: </span>
+                                                <span class="font-weight-bold">{{ militaire.sports }} </span>
+                                            </p>
+                                        </div>
+
                                     </div>
                                 </div>
                             </div>
@@ -779,17 +918,61 @@
 
                 {#    Tab B1            #}
 
-                {% if is_granted('ROLE_B1') or is_granted('ROLE_CHAN')  %}
                     <div class="tab-pane fade show active" id="nav-b1" role="tabpanel" aria-labelledby="nav-b1">
+                        {% if is_granted('ROLE_B1') or is_granted('ROLE_CHAN')  %}
+
+                            {% for message in app.session.flashbag.get('create_cpt_banq') %}
+                                <div class="alert alert-success alert-dismissible fade show" role="alert">
+                                    <strong>{{ message }}!</strong>
+                                    <button type="button" class="close"  data-dismiss="alert"  aria-label="Close">
+                                        <span aria-hidden="true">&times;</span>
+                                    </button>
+                                </div>
+                            {% endfor %}
+
+
+
+
+
+                            {% if militaire.compteBanquaire is not null %}
+                                <div class="row">
+                                    <div class="col col-3">
+                                        <div class="card mb-4">
+
+                                            <div class="card-body">
+                                                <div>
+                                                    <span>Institution Banquaire: </span><span class="font-weight-bold">{{ militaire.compteBanquaire.institution }}</span><br>
+                                                </div>
+                                                <div class="mt-3">
+                                                    <span>Numero de compte: </span><span class="font-weight-bold">{{ militaire.compteBanquaire.numeroCompte }}</span>
+                                                </div>
+                                            </div>
+
+                                            <hr>
+
+                                            <button type="button" class="btn btn-primary btn-md" data-toggle="modal" data-target="#compteModal">
+                                                Modifier
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                            {% else %}
+                                <button type="button" class="btn btn-primary btn-md" data-toggle="modal" data-target="#compteModal">
+                                    Ajouter un compte
+                                </button>
+                            {% endif %}
+
+
+                        {% endif %}
 
                     </div>
-                {% endif %}
 
                 {#         Tab B2       #}
-                {% if is_granted('ROLE_B2') or is_granted('ROLE_CHAN')  %}
                     <div class="tab-pane fade" id="nav-b2" role="tabpanel" aria-labelledby="nav-b2">
 
-                        <div class="mt-5" style="margin-left: 1em">
+                        {% if is_granted('ROLE_B2') or is_granted('ROLE_CHAN')  %}
+
+                            <div class="mt-5" style="margin-left: 1em">
 
                             {% for message in app.session.flashbag.get('create_punition') %}
                                 <div class="alert alert-success alert-dismissible fade show" role="alert">
@@ -857,422 +1040,423 @@
                             </div>
 
                         </div>
+                        {% endif %}
                     </div>
-                {% endif %}
+
 
 
                 {#         Tab B3       #}
-                {% if is_granted('ROLE_B3') or is_granted('ROLE_CHAN')  %}
                     <div class="tab-pane fade" id="nav-b3" role="tabpanel" aria-labelledby="nav-b3">
 
+                        {% if is_granted('ROLE_B3') or is_granted('ROLE_CHAN')  %}
 
-                        <div class="mt-5" style="margin-left: 1em">
-                            <div class="row">
-                                <div class="col col-12 mt-4"  style="word-wrap: break-word;">
+                            <div class="mt-5" style="margin-left: 1em">
+                                <div class="row">
+                                    <div class="col col-12 mt-4"  style="word-wrap: break-word;">
 
-                                    {% for message in app.session.flashbag.get('create_affectation') %}
-                                        <div class="alert alert-success alert-dismissible fade show" role="alert">
-                                            <strong>{{ message }}!</strong>
-                                            <button type="button" class="close"  data-dismiss="alert"  aria-label="Close">
-                                                <span aria-hidden="true">&times;</span>
-                                            </button>
-                                        </div>
-                                    {% endfor %}
-
-                                    <div class="card card-">
-                                        <div class="card-header">
-                                            <div class="d-flex justify-content-between">
-                                                <span class="fw-bold">Mutations</span>
-                                                <span>
-                                                <button type="button" class="btn btn-outline-primary waves-effect" data-toggle="modal" data-target="#affectationModal">
-                                                    <i class="fa fa-plus"></i>
-                                                    Nouvelle mutation
+                                        {% for message in app.session.flashbag.get('create_affectation') %}
+                                            <div class="alert alert-success alert-dismissible fade show" role="alert">
+                                                <strong>{{ message }}!</strong>
+                                                <button type="button" class="close"  data-dismiss="alert"  aria-label="Close">
+                                                    <span aria-hidden="true">&times;</span>
                                                 </button>
-                                            </span>
                                             </div>
-                                        </div>
-                                        <div class="card-body">
-                                            <table class="table b3_table text-center table-bordered table-striped table-hover">
-                                                <thead>
-                                                <tr>
-                                                    <th scope="col">Date de debut</th>
-                                                    <th scope="col">Date de fin</th>
-                                                    <th scope="col">Unite</th>
-                                                    <th scope="col">Corps</th>
-                                                    <th scope="col">Poste</th>
-                                                </tr>
-                                                </thead>
-                                                <tbody>
-                                                {% if affectations | length == 0 %}
-                                                    <p class="text-center">Aucune affectation</p>
-                                                {% else %}
-                                                    {% for key,affectation in affectations %}
+                                        {% endfor %}
 
-                                                        <tr {% if key == 0 %}style="background-color: darkseagreen!important;" {% endif %}>
-                                                            <td>{{ affectation.dateDebut|date("d-M-Y")  }}</td>
-                                                            <td>
-                                                                {% if affectation.dateFin is not null %}
-                                                                    {{ affectation.dateFin|date("d-M-Y")  }}
-                                                                {% else %}
-                                                                    -
-                                                                {% endif %}
-                                                            </td>
-                                                            <td>{{ affectation.unite.intitule }}</td>
-                                                            <td>{{ affectation.unite.corps.intitule }}</td>
-                                                            <td>{{ affectation.fonction }}</td>
-                                                        </tr>
-                                                    {% endfor %}
+                                        <div class="card">
+                                            <div class="card-header">
+                                                <div class="d-flex justify-content-between">
+                                                    <span class="fw-bold">Mutations</span>
+                                                    <span>
+                                                    <button type="button" class="btn btn-outline-primary waves-effect" data-toggle="modal" data-target="#affectationModal">
+                                                        <i class="fa fa-plus"></i>
+                                                        Nouvelle mutation
+                                                    </button>
+                                                </span>
+                                                </div>
+                                            </div>
+                                            <div class="card-body">
+                                                <table class="table b3_table text-center table-bordered table-striped table-hover">
+                                                    <thead>
+                                                    <tr>
+                                                        <th scope="col">Date de debut</th>
+                                                        <th scope="col">Date de fin</th>
+                                                        <th scope="col">Unite</th>
+                                                        <th scope="col">Corps</th>
+                                                        <th scope="col">Poste</th>
+                                                    </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                    {% if affectations | length == 0 %}
+                                                        <p class="text-center">Aucune affectation</p>
+                                                    {% else %}
+                                                        {% for key,affectation in affectations %}
 
-                                                {% endif %}
-                                                </tbody>
-                                            </table>
+                                                            <tr {% if key == 0 %}style="background-color: darkseagreen!important;" {% endif %}>
+                                                                <td>{{ affectation.dateDebut|date("d-M-Y")  }}</td>
+                                                                <td>
+                                                                    {% if affectation.dateFin is not null %}
+                                                                        {{ affectation.dateFin|date("d-M-Y")  }}
+                                                                    {% else %}
+                                                                        -
+                                                                    {% endif %}
+                                                                </td>
+                                                                <td>{{ affectation.unite.intitule }}</td>
+                                                                <td>{{ affectation.unite.corps.intitule }}</td>
+                                                                <td>{{ affectation.fonction }}</td>
+                                                            </tr>
+                                                        {% endfor %}
+
+                                                    {% endif %}
+                                                    </tbody>
+                                                </table>
+                                            </div>
                                         </div>
                                     </div>
-                                </div>
 
-                                <div class="col col-6"></div>
+                                    <div class="col col-6"></div>
 
-                                <div class="col col-12 mt-4"  style="word-wrap: break-word;">
+                                    <div class="col col-12 mt-4"  style="word-wrap: break-word;">
 
-                                    {% for message in app.session.flashbag.get('create_militaireMission') %}
-                                        <div class="alert alert-success alert-dismissible fade show" role="alert">
-                                            <strong>{{ message }}!</strong>
-                                            <button type="button" class="close"  data-dismiss="alert"  aria-label="Close">
-                                                <span aria-hidden="true">&times;</span>
-                                            </button>
-                                        </div>
-                                    {% endfor %}
-
-                                    <div class="card ">
-                                        <div class="card-header">
-                                            <div class="d-flex justify-content-between">
-                                                <span class="fw-bold">Missions effectues</span>
-                                                <span>
-                                                <button type="button" class="btn btn-outline-primary" data-toggle="modal" data-target="#missionModal">
-                                                    <i class="fa fa-plus"></i>
-                                                    Ajouter
+                                        {% for message in app.session.flashbag.get('create_militaireMission') %}
+                                            <div class="alert alert-success alert-dismissible fade show" role="alert">
+                                                <strong>{{ message }}!</strong>
+                                                <button type="button" class="close"  data-dismiss="alert"  aria-label="Close">
+                                                    <span aria-hidden="true">&times;</span>
                                                 </button>
-                                            </span>
                                             </div>
-                                        </div>
-                                        <div class="card-body">
-                                            <table class="table b3_table text-center table-bordered table-striped table-hover">
-                                                <thead>
-                                                <tr>
-                                                    <th scope="col">Date de debut</th>
-                                                    <th scope="col">Date de fin</th>
-                                                    <th scope="col">Mission</th>
-                                                    <th scope="col">Lieu</th>
-                                                    <th scope="col">Commentaires</th>
-                                                </tr>
-                                                </thead>
-                                                <tbody>
-                                                {% if militaireMissions | length == 0 %}
-                                                    <p class="text-center">Aucune mission</p>
-                                                {% else %}
-                                                    {% for militaireMission in militaireMissions %}
-                                                        <tr>
-                                                            <td>{{ militaireMission.dateDebut|date("d-M-Y")  }}</td>
-                                                            <td>
-                                                                {% if militaireMission.dateFin is not null %}
-                                                                    {{ militaireMission.dateFin|date("d-M-Y")  }}
-                                                                {% endif %}
-                                                            </td>
-                                                            <td>{{ militaireMission.mission.intitule }}</td>
-                                                            <td>{{ militaireMission.mission.lieu}}</td>
-                                                            <td>{{ militaireMission.commentaire }}</td>
+                                        {% endfor %}
 
-                                                        </tr>
-                                                    {% endfor %}
+                                        <div class="card ">
+                                            <div class="card-header">
+                                                <div class="d-flex justify-content-between">
+                                                    <span class="fw-bold">Missions effectues</span>
+                                                    <span>
+                                                    <button type="button" class="btn btn-outline-primary" data-toggle="modal" data-target="#missionModal">
+                                                        <i class="fa fa-plus"></i>
+                                                        Ajouter
+                                                    </button>
+                                                </span>
+                                                </div>
+                                            </div>
+                                            <div class="card-body">
+                                                <table class="table b3_table text-center table-bordered table-striped table-hover">
+                                                    <thead>
+                                                    <tr>
+                                                        <th scope="col">Date de debut</th>
+                                                        <th scope="col">Date de fin</th>
+                                                        <th scope="col">Mission</th>
+                                                        <th scope="col">Lieu</th>
+                                                        <th scope="col">Commentaires</th>
+                                                    </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                    {% if militaireMissions | length == 0 %}
+                                                        <p class="text-center">Aucune mission</p>
+                                                    {% else %}
+                                                        {% for militaireMission in militaireMissions %}
+                                                            <tr>
+                                                                <td>{{ militaireMission.dateDebut|date("d-M-Y")  }}</td>
+                                                                <td>
+                                                                    {% if militaireMission.dateFin is not null %}
+                                                                        {{ militaireMission.dateFin|date("d-M-Y")  }}
+                                                                    {% endif %}
+                                                                </td>
+                                                                <td>{{ militaireMission.mission.intitule }}</td>
+                                                                <td>{{ militaireMission.mission.lieu}}</td>
+                                                                <td>{{ militaireMission.commentaire }}</td>
 
-                                                {% endif %}
-                                                </tbody>
-                                            </table>
+                                                            </tr>
+                                                        {% endfor %}
+
+                                                    {% endif %}
+                                                    </tbody>
+                                                </table>
+                                            </div>
                                         </div>
                                     </div>
-                                </div>
 
-                                <div class="col col-6"></div>
+                                    <div class="col col-6"></div>
 
-                                <div class="col col-12 mt-4"  style="word-wrap: break-word;">
+                                    <div class="col col-12 mt-4"  style="word-wrap: break-word;">
 
-                                    {% for message in app.session.flashbag.get('create_militaireExercice') %}
-                                        <div class="alert alert-success alert-dismissible fade show" role="alert">
-                                            <strong>{{ message }}!</strong>
-                                            <button type="button" class="close"  data-dismiss="alert"  aria-label="Close">
-                                                <span aria-hidden="true">&times;</span>
-                                            </button>
-                                        </div>
-                                    {% endfor %}
-
-                                    <div class="card ">
-                                        <div class="card-header">
-                                            <div class="d-flex justify-content-between">
-                                                <span class="fw-bold">Exercices</span>
-                                                <span>
-                                                <button type="button"  class="btn btn-outline-primary" data-toggle="modal" data-target="#exerciceModal">
-                                                    <i class="fa fa-plus"></i>
-                                                    Ajouter
+                                        {% for message in app.session.flashbag.get('create_militaireExercice') %}
+                                            <div class="alert alert-success alert-dismissible fade show" role="alert">
+                                                <strong>{{ message }}!</strong>
+                                                <button type="button" class="close"  data-dismiss="alert"  aria-label="Close">
+                                                    <span aria-hidden="true">&times;</span>
                                                 </button>
-                                            </span>
                                             </div>
-                                        </div>
-                                        <div class="card-body">
-                                            <table class="table b3_table text-center table-bordered table-striped table-hover">
-                                                <thead>
-                                                <tr>
-                                                    <th scope="col">Date</th>
-                                                    <th scope="col">Exercice</th>
-                                                    <th scope="col">Lieu</th>
-                                                    <th scope="col">Commentaires</th>
-                                                </tr>
-                                                </thead>
-                                                <tbody>
-                                                {% if militaireExercices | length == 0 %}
-                                                    <p class="text-center">Aucun exercice</p>
-                                                {% else %}
-                                                    {% for militaireExercice in militaireExercices %}
-                                                        <tr>
-                                                            <td>{{ militaireExercice.date|date("d-M-Y")  }}</td>
-                                                            <td>{{ militaireExercice.exercice.intitule  }}</td>
-                                                            <td>{{ militaireExercice.exercice.lieu }}</td>
-                                                            <td>{{ militaireExercice.commentaire }}</td>
-                                                        </tr>
-                                                    {% endfor %}
+                                        {% endfor %}
 
-                                                {% endif %}
-                                                </tbody>
-                                            </table>
+                                        <div class="card ">
+                                            <div class="card-header">
+                                                <div class="d-flex justify-content-between">
+                                                    <span class="fw-bold">Exercices</span>
+                                                    <span>
+                                                    <button type="button"  class="btn btn-outline-primary" data-toggle="modal" data-target="#exerciceModal">
+                                                        <i class="fa fa-plus"></i>
+                                                        Ajouter
+                                                    </button>
+                                                </span>
+                                                </div>
+                                            </div>
+                                            <div class="card-body">
+                                                <table class="table b3_table text-center table-bordered table-striped table-hover">
+                                                    <thead>
+                                                    <tr>
+                                                        <th scope="col">Date</th>
+                                                        <th scope="col">Exercice</th>
+                                                        <th scope="col">Lieu</th>
+                                                        <th scope="col">Commentaires</th>
+                                                    </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                    {% if militaireExercices | length == 0 %}
+                                                        <p class="text-center">Aucun exercice</p>
+                                                    {% else %}
+                                                        {% for militaireExercice in militaireExercices %}
+                                                            <tr>
+                                                                <td>{{ militaireExercice.date|date("d-M-Y")  }}</td>
+                                                                <td>{{ militaireExercice.exercice.intitule  }}</td>
+                                                                <td>{{ militaireExercice.exercice.lieu }}</td>
+                                                                <td>{{ militaireExercice.commentaire }}</td>
+                                                            </tr>
+                                                        {% endfor %}
+
+                                                    {% endif %}
+                                                    </tbody>
+                                                </table>
+                                            </div>
                                         </div>
                                     </div>
-                                </div>
 
-                                <div class="col col-6"></div>
+                                    <div class="col col-6"></div>
 
-                                <div class="col col-12 mt-4"  style="word-wrap: break-word;">
+                                    <div class="col col-12 mt-4"  style="word-wrap: break-word;">
 
-                                    {% for message in app.session.flashbag.get('create_militaireMedaille') %}
-                                        <div class="alert alert-success alert-dismissible fade show" role="alert">
-                                            <strong>{{ message }}!</strong>
-                                            <button type="button" class="close"  data-dismiss="alert"  aria-label="Close">
-                                                <span aria-hidden="true">&times;</span>
-                                            </button>
-                                        </div>
-                                    {% endfor %}
-
-                                    <div class="card ">
-                                        <div class="card-header">
-                                            <div class="d-flex justify-content-between">
-                                                <span class="fw-bold">Medailles ou distinction obtenues</span>
-                                                <span>
-                                                <button type="button"  class="btn btn-outline-primary" data-toggle="modal" data-target="#medailleModal">
-                                                    <i class="fa fa-plus"></i>
-                                                    Ajouter
+                                        {% for message in app.session.flashbag.get('create_militaireMedaille') %}
+                                            <div class="alert alert-success alert-dismissible fade show" role="alert">
+                                                <strong>{{ message }}!</strong>
+                                                <button type="button" class="close"  data-dismiss="alert"  aria-label="Close">
+                                                    <span aria-hidden="true">&times;</span>
                                                 </button>
-                                            </span>
+                                            </div>
+                                        {% endfor %}
+
+                                        <div class="card ">
+                                            <div class="card-header">
+                                                <div class="d-flex justify-content-between">
+                                                    <span class="fw-bold">Medailles ou distinction obtenues</span>
+                                                    <span>
+                                                    <button type="button"  class="btn btn-outline-primary" data-toggle="modal" data-target="#medailleModal">
+                                                        <i class="fa fa-plus"></i>
+                                                        Ajouter
+                                                    </button>
+                                                </span>
+                                                </div>
+                                            </div>
+                                            <div class="card-body">
+                                                <table class="table b3_table text-center table-bordered table-striped table-hover">
+                                                    <thead>
+                                                    <tr>
+                                                        <th scope="col">Date</th>
+                                                        <th scope="col">Medaille ou distinction</th>
+                                                        <th scope="col">Commentaires</th>
+                                                    </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                    {% if militaireMedailles | length == 0 %}
+                                                        <p class="text-center">Aucun exercice</p>
+                                                    {% else %}
+                                                        {% for militaireMedaille in militaireMedailles %}
+                                                            <tr>
+                                                                <td>{{ militaireMedaille.date|date("d-M-Y")  }}</td>
+                                                                <td>{{ militaireMedaille.medaille.designation  }}</td>
+                                                                <td>{{ militaireMedaille.commentaire }}</td>
+                                                            </tr>
+                                                        {% endfor %}
+
+                                                    {% endif %}
+                                                    </tbody>
+                                                </table>
                                             </div>
                                         </div>
-                                        <div class="card-body">
-                                            <table class="table b3_table text-center table-bordered table-striped table-hover">
-                                                <thead>
-                                                <tr>
-                                                    <th scope="col">Date</th>
-                                                    <th scope="col">Medaille ou distinction</th>
-                                                    <th scope="col">Commentaires</th>
-                                                </tr>
-                                                </thead>
-                                                <tbody>
-                                                {% if militaireMedailles | length == 0 %}
-                                                    <p class="text-center">Aucun exercice</p>
-                                                {% else %}
-                                                    {% for militaireMedaille in militaireMedailles %}
-                                                        <tr>
-                                                            <td>{{ militaireMedaille.date|date("d-M-Y")  }}</td>
-                                                            <td>{{ militaireMedaille.medaille.designation  }}</td>
-                                                            <td>{{ militaireMedaille.commentaire }}</td>
-                                                        </tr>
-                                                    {% endfor %}
+                                    </div>
 
-                                                {% endif %}
-                                                </tbody>
-                                            </table>
+                                </div>
+
+
+                                <div class="row">
+
+                                    <div class="col col-12 mt-4"  style="word-wrap: break-word;">
+
+                                        {% for message in app.session.flashbag.get('create_militaireFormation') %}
+                                            <div class="alert alert-success alert-dismissible fade show" role="alert">
+                                                <strong>{{ message }}!</strong>
+                                                <button type="button" class="close"  data-dismiss="alert"  aria-label="Close">
+                                                    <span aria-hidden="true">&times;</span>
+                                                </button>
+                                            </div>
+                                        {% endfor %}
+
+
+                                        <div class="card ">
+                                            <div class="card-header">
+                                                <div class="d-flex justify-content-between">
+                                                    <span class="fw-bold">Formations effectuees</span>
+                                                    <span>
+                                                    <button id="formationBtn" type="button" class="btn btn-outline-primary" data-toggle="modal" data-target="#formationModal">
+                                                        <i class="fa fa-plus"></i>
+                                                        Ajouter une formation
+                                                    </button>
+                                                </span>
+                                                </div>
+                                            </div>
+                                            <div class="card-body">
+                                                <table class="table b3_table text-center table-bordered table-striped table-hover">
+                                                    <thead>
+                                                    <tr>
+                                                        <th scope="col">Date de debut</th>
+                                                        <th scope="col">Date de fin</th>
+                                                        <th scope="col">Formation</th>
+                                                        <th scope="col">Lieu</th>
+                                                    </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                    {% if militaireFormations | length == 0 %}
+                                                        <p class="text-center">Aucune formation</p>
+                                                    {% else %}
+                                                        {% for militaireFormation in militaireFormations %}
+                                                            {% if militaireFormation.statut == 1 %}
+                                                                <tr>
+                                                                    <td>{{ militaireFormation.dateDebut|date("d-M-Y")  }}</td>
+                                                                    <td>
+                                                                        {% if militaireFormation.dateFin is not null %}
+                                                                            {{ militaireFormation.dateFin|date("d-M-Y")  }}
+                                                                        {% endif %}
+                                                                    </td>
+                                                                    <td>{{ militaireFormation.formation.intitule }}</td>
+                                                                    <td>{{ militaireFormation.lieu }}</td>
+                                                                </tr>
+                                                            {% endif %}
+                                                        {% endfor %}
+
+                                                    {% endif %}
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="col col-6" style="margin-left: 1em"></div>
+
+
+
+                                    <div class="col col-12 mt-4"  style="word-wrap: break-word;">
+
+
+                                        {% for message in app.session.flashbag.get('cancel_militaireFormation') %}
+                                            <div class="alert alert-warning alert-dismissible fade show" role="alert">
+                                                <strong>{{ message }}!</strong>
+                                                <button type="button" class="close"  data-dismiss="alert"  aria-label="Close">
+                                                    <span aria-hidden="true">&times;</span>
+                                                </button>
+                                            </div>
+                                        {% endfor %}
+
+                                        {% for message in app.session.flashbag.get('mark_formation') %}
+                                            <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                                                <strong>{{ message }}!</strong>
+                                                <button type="button" class="close"  data-dismiss="alert"  aria-label="Close">
+                                                    <span aria-hidden="true">&times;</span>
+                                                </button>
+                                            </div>
+                                        {% endfor %}
+
+                                        {% for message in app.session.flashbag.get('create_militaireFormationPlan') %}
+                                            <div class="alert alert-success alert-dismissible fade show" role="alert">
+                                                <strong>{{ message }}!</strong>
+                                                <button type="button" class="close"  data-dismiss="alert"  aria-label="Close">
+                                                    <span aria-hidden="true">&times;</span>
+                                                </button>
+                                            </div>
+                                        {% endfor %}
+
+                                        <div class="card ">
+                                            <div class="card-header">
+                                                <div class="d-flex justify-content-between">
+                                                    <span class="fw-bold">Formations  planifiees</span>
+                                                    <span>
+                                                    <button id="formationPlanBtn" type="button" class="btn btn-outline-primary" data-toggle="modal" data-target="#formationModal">
+                                                        <i class="fa fa-plus"></i>
+                                                        Planifier une formation
+                                                    </button>
+                                                </span>
+                                                </div>
+                                            </div>
+                                            <div class="card-body">
+                                                <table class="table b3_table text-center table-bordered table-striped table-hover">
+                                                    <thead>
+                                                    <tr>
+                                                        <th scope="col">Date de debut</th>
+                                                        <th scope="col">Date de fin</th>
+                                                        <th scope="col">Formation</th>
+                                                        <th scope="col">Lieu</th>
+                                                        <th scope="col">Action</th>
+                                                    </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                    {% if militaireFormations | length == 0 %}
+                                                        <p class="text-center">Aucune formation planifiee</p>
+                                                    {% else %}
+                                                        {% for militaireFormation in militaireFormations %}
+                                                            {% if militaireFormation.statut == 2 %}
+                                                                <tr>
+                                                                    <td>{{ militaireFormation.dateDebut|date("d-M-Y")  }}</td>
+                                                                    <td>
+                                                                        {% if militaireFormation.dateFin is not null %}
+                                                                            {{ militaireFormation.dateFin|date("d-M-Y")  }}
+                                                                        {% endif %}
+                                                                    </td>
+                                                                    <td>{{ militaireFormation.formation.intitule }}</td>
+                                                                    <td>{{ militaireFormation.lieu }}</td>
+                                                                    <td>
+                                                                        <a class="btn btn-sm btn-primary" href="{{ path('mark_as_done',{'formation':militaireFormation.id} ) }}">Marquer comme fait</a>
+                                                                        <a class="btn btn-sm btn-danger"
+                                                                           onclick="return confirm('Êtes-vous sûr?')"
+                                                                           href="{{ path('cancel_formation',{'formation':militaireFormation.id} ) }}">Annuler la programmation</a>
+                                                                    </td>
+                                                                </tr>
+                                                            {% endif %}
+                                                        {% endfor %}
+                                                    {% endif %}
+                                                    </tbody>
+                                                </table>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
 
                             </div>
 
+                            <div class="mt-5" style="margin-left: 1em">
 
-                            <div class="row">
-
-                                <div class="col col-12 mt-4"  style="word-wrap: break-word;">
-
-                                    {% for message in app.session.flashbag.get('create_militaireFormation') %}
-                                        <div class="alert alert-success alert-dismissible fade show" role="alert">
-                                            <strong>{{ message }}!</strong>
-                                            <button type="button" class="close"  data-dismiss="alert"  aria-label="Close">
-                                                <span aria-hidden="true">&times;</span>
-                                            </button>
-                                        </div>
-                                    {% endfor %}
-
-
-                                    <div class="card ">
-                                        <div class="card-header">
-                                            <div class="d-flex justify-content-between">
-                                                <span class="fw-bold">Formations effectuees</span>
-                                                <span>
-                                                <button id="formationBtn" type="button" class="btn btn-outline-primary" data-toggle="modal" data-target="#formationModal">
-                                                    <i class="fa fa-plus"></i>
-                                                    Ajouter une formation
-                                                </button>
-                                            </span>
-                                            </div>
-                                        </div>
-                                        <div class="card-body">
-                                            <table class="table b3_table text-center table-bordered table-striped table-hover">
-                                                <thead>
-                                                <tr>
-                                                    <th scope="col">Date de debut</th>
-                                                    <th scope="col">Date de fin</th>
-                                                    <th scope="col">Formation</th>
-                                                    <th scope="col">Lieu</th>
-                                                </tr>
-                                                </thead>
-                                                <tbody>
-                                                {% if militaireFormations | length == 0 %}
-                                                    <p class="text-center">Aucune formation</p>
-                                                {% else %}
-                                                    {% for militaireFormation in militaireFormations %}
-                                                        {% if militaireFormation.statut == 1 %}
-                                                            <tr>
-                                                                <td>{{ militaireFormation.dateDebut|date("d-M-Y")  }}</td>
-                                                                <td>
-                                                                    {% if militaireFormation.dateFin is not null %}
-                                                                        {{ militaireFormation.dateFin|date("d-M-Y")  }}
-                                                                    {% endif %}
-                                                                </td>
-                                                                <td>{{ militaireFormation.formation.intitule }}</td>
-                                                                <td>{{ militaireFormation.lieu }}</td>
-                                                            </tr>
-                                                        {% endif %}
-                                                    {% endfor %}
-
-                                                {% endif %}
-                                                </tbody>
-                                            </table>
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <div class="col col-6" style="margin-left: 1em"></div>
-
-
-
-                                <div class="col col-12 mt-4"  style="word-wrap: break-word;">
-
-
-                                    {% for message in app.session.flashbag.get('cancel_militaireFormation') %}
-                                        <div class="alert alert-warning alert-dismissible fade show" role="alert">
-                                            <strong>{{ message }}!</strong>
-                                            <button type="button" class="close"  data-dismiss="alert"  aria-label="Close">
-                                                <span aria-hidden="true">&times;</span>
-                                            </button>
-                                        </div>
-                                    {% endfor %}
-
-                                    {% for message in app.session.flashbag.get('mark_formation') %}
-                                        <div class="alert alert-danger alert-dismissible fade show" role="alert">
-                                            <strong>{{ message }}!</strong>
-                                            <button type="button" class="close"  data-dismiss="alert"  aria-label="Close">
-                                                <span aria-hidden="true">&times;</span>
-                                            </button>
-                                        </div>
-                                    {% endfor %}
-
-                                    {% for message in app.session.flashbag.get('create_militaireFormationPlan') %}
-                                        <div class="alert alert-success alert-dismissible fade show" role="alert">
-                                            <strong>{{ message }}!</strong>
-                                            <button type="button" class="close"  data-dismiss="alert"  aria-label="Close">
-                                                <span aria-hidden="true">&times;</span>
-                                            </button>
-                                        </div>
-                                    {% endfor %}
-
-                                    <div class="card ">
-                                        <div class="card-header">
-                                            <div class="d-flex justify-content-between">
-                                                <span class="fw-bold">Formations  planifiees</span>
-                                                <span>
-                                                <button id="formationPlanBtn" type="button" class="btn btn-outline-primary" data-toggle="modal" data-target="#formationModal">
-                                                    <i class="fa fa-plus"></i>
-                                                    Planifier une formation
-                                                </button>
-                                            </span>
-                                            </div>
-                                        </div>
-                                        <div class="card-body">
-                                            <table class="table b3_table text-center table-bordered table-striped table-hover">
-                                                <thead>
-                                                <tr>
-                                                    <th scope="col">Date de debut</th>
-                                                    <th scope="col">Date de fin</th>
-                                                    <th scope="col">Formation</th>
-                                                    <th scope="col">Lieu</th>
-                                                    <th scope="col">Action</th>
-                                                </tr>
-                                                </thead>
-                                                <tbody>
-                                                {% if militaireFormations | length == 0 %}
-                                                    <p class="text-center">Aucune formation planifiee</p>
-                                                {% else %}
-                                                    {% for militaireFormation in militaireFormations %}
-                                                        {% if militaireFormation.statut == 2 %}
-                                                            <tr>
-                                                                <td>{{ militaireFormation.dateDebut|date("d-M-Y")  }}</td>
-                                                                <td>
-                                                                    {% if militaireFormation.dateFin is not null %}
-                                                                        {{ militaireFormation.dateFin|date("d-M-Y")  }}
-                                                                    {% endif %}
-                                                                </td>
-                                                                <td>{{ militaireFormation.formation.intitule }}</td>
-                                                                <td>{{ militaireFormation.lieu }}</td>
-                                                                <td>
-                                                                    <a class="btn btn-sm btn-primary" href="{{ path('mark_as_done',{'formation':militaireFormation.id} ) }}">Marquer comme fait</a>
-                                                                    <a class="btn btn-sm btn-danger"
-                                                                       onclick="return confirm('Êtes-vous sûr?')"
-                                                                       href="{{ path('cancel_formation',{'formation':militaireFormation.id} ) }}">Annuler la programmation</a>
-                                                                </td>
-                                                            </tr>
-                                                        {% endif %}
-                                                    {% endfor %}
-                                                {% endif %}
-                                                </tbody>
-                                            </table>
-                                        </div>
-                                    </div>
-                                </div>
                             </div>
 
-                        </div>
+                        {% endif %}
 
-
-
-                        <div class="mt-5" style="margin-left: 1em">
-
-                        </div>
 
                     </div>
 
-                {% endif %}
 
 
                 {#         Tab Affaires Sociales        #}
-                {% if is_granted('ROLE_B1') or is_granted('ROLE_CHAN')  %}
                     <div class="tab-pane fade" id="nav-social" role="tabpanel" aria-labelledby="nav-social">
 
+                        {% if is_granted('ROLE_B1') or is_granted('ROLE_CHAN')  %}
 
-                        <div class="mt-5" style="margin-left: 1em">
+                            <div class="mt-5" style="margin-left: 1em">
 
 
                             <div class="row">
@@ -1367,9 +1551,10 @@
                             </div>
 
                         </div>
+                        {% endif %}
+
 
                     </div>
-                {% endif %}
 
 
                 {#         Tab Sante      #}
@@ -1377,84 +1562,87 @@
 
                 {#         Tab Commandement de formation     #}
 
-                {% if  is_granted('ROLE_SPA') or is_granted('ROLE_CHAN')  %}
                     <div class="tab-pane fade" id="nav-com" role="tabpanel" aria-labelledby="nav-com">
 
-                        <div class="d-flex justify-content-start">
+                        {% if  is_granted('ROLE_SPA') or is_granted('ROLE_CHAN')  %}
 
-                            <div class="mt-3">
-                                <span>Statut Actuel: </span>
-                                {% if militaire.statut is not null  %}
-                                    <span class="{{ statut_color }} font-weight-bold ml-2">{{  GetMilitaireStatut.getString(lastSpa.statut)  }}</span>
 
-                                    <span>
-                                    {% if militaire.statut.definedBy == 1 %}
-                                        (Chancellerie, le {{ militaire.statut.updateAt|date('d-m-Y H:i:s') }} )
-                                    {% else %}
-                                        (SPA)
+                            <div class="d-flex justify-content-start">
+
+                                <div class="mt-3">
+                                    <span>Statut Actuel: </span>
+                                    {% if militaire.statut is not null  %}
+                                        <span class="{{ statut_color }} font-weight-bold ml-2">{{  GetMilitaireStatut.getString(lastSpa.statut)  }}</span>
+
+                                        <span>
+                                        {% if militaire.statut.definedBy == 1 %}
+                                            (Chancellerie, le {{ militaire.statut.updateAt|date('d-m-Y H:i:s') }} )
+                                        {% else %}
+                                            (SPA)
+                                        {% endif %}
+                                    </span>
+
                                     {% endif %}
-                                </span>
 
-                                {% endif %}
+                                </div>
 
+                                <div class="ml-5">
+
+                                    <button  type="button" class="btn btn-outline-primary" data-toggle="modal" data-target="#statutModal">
+                                        <i class="fa fa-plus"></i>
+                                        Changer de statut
+                                    </button>
+
+                                </div>
                             </div>
 
-                            <div class="ml-5">
+                            <nav aria-label="breadcrumb" class="mt-5">
+                                <ol class="breadcrumb">
+                                    <li class="breadcrumb-item">
+                                        <a>Historique des SPA</a>
+                                    </li>
+                                </ol>
+                            </nav>
 
-                                <button  type="button" class="btn btn-outline-primary" data-toggle="modal" data-target="#statutModal">
-                                    <i class="fa fa-plus"></i>
-                                    Changer de statut
-                                </button>
+                            <div class="row p-3">
 
-                            </div>
-                        </div>
-
-                        <nav aria-label="breadcrumb" class="mt-5">
-                            <ol class="breadcrumb">
-                                <li class="breadcrumb-item">
-                                    <a>Historique des SPA</a>
-                                </li>
-                            </ol>
-                        </nav>
-
-                        <div class="row p-3">
-
-                          <div class="col col-12">
-                              <table id="militaire_spa"  class="table table-bordered table-hover table-striped">
-                                  <thead>
-                                  <tr>
-                                      <th>Date</th>
-                                      <th>Unite/Corps</th>
-                                      <th>Statut</th>
-                                      <th>Cree par</th>
-                                      <th>Commentaire</th>
-                                  </tr>
-                                  </thead>
-
-                                  <tbody>
-                                  {% for spa in militaire.militaireSpas %}
+                              <div class="col col-12">
+                                  <table id="militaire_spa"  class="table table-bordered table-hover table-striped">
+                                      <thead>
                                       <tr>
-                                          <td>{{ spa.spa.dateSpa|date('d-m-Y') }}</td>
-                                          <td>{{ spa.spa.unite}} / {{ spa.spa.unite.corps}}</td>
-                                          <td class="{{ MilitaireStatutGetter.getString(spa.statut) }}">{{ GetMilitaireStatut.getString(spa.statut)  }}</td>
-                                          <td>{{ spa.spa.createdBy }}</td>
-                                          <td>{{ spa.commentaire|raw }}</td>
+                                          <th>Date</th>
+                                          <th>Unite/Corps</th>
+                                          <th>Statut</th>
+                                          <th>Cree par</th>
+                                          <th>Commentaire</th>
                                       </tr>
-                                  {% endfor %}
-                                  </tbody>
-                              </table>
-                          </div>
+                                      </thead>
+
+                                      <tbody>
+                                      {% for spa in militaire.militaireSpas %}
+                                          <tr>
+                                              <td>{{ spa.spa.dateSpa|date('d-m-Y') }}</td>
+                                              <td>{{ spa.spa.unite}} / {{ spa.spa.unite.corps}}</td>
+                                              <td class="{{ MilitaireStatutGetter.getString(spa.statut) }}">{{ GetMilitaireStatut.getString(spa.statut)  }}</td>
+                                              <td>{{ spa.spa.createdBy }}</td>
+                                              <td>{{ spa.commentaire|raw }}</td>
+                                          </tr>
+                                      {% endfor %}
+                                      </tbody>
+                                  </table>
+                              </div>
 
 
-                        </div>
+                            </div>
+
+
+                        {% endif %}
+
 
                     </div>
-                {% endif %}
 
                 {#         Tab Archive    #}
                 <div class="tab-pane fade" id="nav-archive" role="tabpanel" aria-labelledby="nav-archive">
-
-
 
 
                 </div>

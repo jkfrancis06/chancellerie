@@ -72,8 +72,6 @@
                        </div>
                    </div>
 
-
-
                    <div class="row">
                        <div class="col col-12 mt-4">
                            <h5 class="font-weight-bold">Recherche avancée</h5>
@@ -226,11 +224,19 @@
                            </div>
                        </div>
 
-                       <div class="col col-3 mb-3">
+                       <div class="col col-6 mb-3">
                            {{ form_label(searchForm.statut, "Statut : ", {'label_attr': {'class': 'c_image_name_input_label'}}) }}
                            {{ form_widget(searchForm.statut, {'attr': {'class': 'form-control'}}) }}
                            <div class="form-error" style="color: red">
                                {{ form_errors(searchForm.statut) }}
+                           </div>
+                       </div>
+
+                       <div class="col col-6 mb-3">
+                           {{ form_label(searchForm.unite, "Statut : ", {'label_attr': {'class': 'c_image_name_input_label'}}) }}
+                           {{ form_widget(searchForm.unite, {'attr': {'class': 'mdb-select md-form colorful-select dropdown-primary','searchable':'Rechercher'}}) }}
+                           <div class="form-error" style="color: red">
+                               {{ form_errors(searchForm.unite) }}
                            </div>
                        </div>
 

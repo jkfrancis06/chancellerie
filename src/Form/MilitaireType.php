@@ -54,7 +54,8 @@ class MilitaireType extends AbstractType
                 'label' => 'Matricule : ',
                 'constraints' => [
                     new NotBlank()
-                ]
+                ],
+                'validation_groups'=> $options['validation_groups']
             ])
             ->add('nom', TextType::class, [
                 'required' => true,
@@ -290,18 +291,6 @@ class MilitaireType extends AbstractType
                 'label' => 'Lieu de permission : ',
             ])
 
-            ->add('compteBanqMilitaires', CollectionType::class, [
-                'required' => false,
-                'entry_type' => CompteBanqMilType::class,
-                'label' => ' ',
-                'entry_options' => ['label' => false],
-                'by_reference' => false,
-                'allow_add' => true,
-                'allow_delete' => true,
-                'attr' => array(
-                    'class' => 'compte',
-                ),
-            ])
             ->add('sousDossiers', CollectionType::class, [
                 'required' => false,
                 'entry_type' => SousDossierType::class,
@@ -320,6 +309,7 @@ class MilitaireType extends AbstractType
     {
         $resolver->setDefaults([
             'data_class' => Militaire::class,
+            'validation_groups' => ''
         ]);
     }
 

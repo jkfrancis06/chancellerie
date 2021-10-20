@@ -11,7 +11,7 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
 /**
  * @ORM\Entity(repositoryClass=MilitaireRepository::class)
- * @UniqueEntity("matricule", message="Ce matricule est deja existant.")
+ * @UniqueEntity("matricule", message="Ce matricule est deja existant",groups={"create"})
  */
 class Militaire
 {
@@ -242,10 +242,6 @@ class Militaire
          */
         private $lieuNaissance;
 
-        /**
-         * @ORM\OneToMany(targetEntity=CompteBanqMilitaire::class, mappedBy="militaire", cascade={"persist", "remove"})
-         */
-        private $compteBanqMilitaires;
 
         /**
          * @ORM\OneToOne(targetEntity=PersonnePrev::class, mappedBy="militaire", cascade={"persist", "remove"})
@@ -287,6 +283,12 @@ class Militaire
          */
         private $statut;
 
+        /**
+         * @ORM\OneToOne(targetEntity=CompteBanqMilitaire::class, inversedBy="militaire", cascade={"persist", "remove"})
+         */
+        private $compteBanquaire;
+
+
 
 
 
@@ -306,7 +308,6 @@ class Militaire
         $this->formationDirected = new ArrayCollection();
         $this->militaireSpas = new ArrayCollection();
         $this->spas = new ArrayCollection();
-        $this->compteBanqMilitaires = new ArrayCollection();
         $this->sousDossiers = new ArrayCollection();
         $this->punitions = new ArrayCollection();
         $this->demandesPunitions = new ArrayCollection();
@@ -1058,35 +1059,6 @@ class Militaire
         return $this;
     }
 
-    /**
-     * @return Collection|CompteBanqMilitaire[]
-     */
-    public function getCompteBanqMilitaires(): Collection
-    {
-        return $this->compteBanqMilitaires;
-    }
-
-    public function addCompteBanqMilitaire(CompteBanqMilitaire $compteBanqMilitaire): self
-    {
-        if (!$this->compteBanqMilitaires->contains($compteBanqMilitaire)) {
-            $this->compteBanqMilitaires[] = $compteBanqMilitaire;
-            $compteBanqMilitaire->setMilitaire($this);
-        }
-
-        return $this;
-    }
-
-    public function removeCompteBanqMilitaire(CompteBanqMilitaire $compteBanqMilitaire): self
-    {
-        if ($this->compteBanqMilitaires->removeElement($compteBanqMilitaire)) {
-            // set the owning side to null (unless already changed)
-            if ($compteBanqMilitaire->getMilitaire() === $this) {
-                $compteBanqMilitaire->setMilitaire(null);
-            }
-        }
-
-        return $this;
-    }
 
     public function getPersonnePrev(): ?PersonnePrev
     {
@@ -1254,6 +1226,18 @@ class Militaire
     public function setStatut(?MilitaireStatut $statut): self
     {
         $this->statut = $statut;
+
+        return $this;
+    }
+
+    public function getCompteBanquaire(): ?CompteBanqMilitaire
+    {
+        return $this->compteBanquaire;
+    }
+
+    public function setCompteBanquaire(?CompteBanqMilitaire $compteBanquaire): self
+    {
+        $this->compteBanquaire = $compteBanquaire;
 
         return $this;
     }

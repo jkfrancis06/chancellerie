@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\Corps;
+use App\Entity\Unite;
 use App\Form\Corps1Type;
 use App\Form\CorpsEditType;
 use App\Form\CorpsType;
@@ -41,6 +42,15 @@ class CorpsCrudController extends AbstractController
             }
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->persist($corps);
+            $entityManager->flush();
+
+
+            $defaultUnite = new Unite();
+            $defaultUnite->setCorps($corps);
+            $defaultUnite->setIntitule('DEFAULT');
+            $defaultUnite->setDescription('DEFAULT');
+
+            $entityManager->persist($defaultUnite);
             $entityManager->flush();
 
             $request->getSession()->getFlashBag()->add('corps_crud_new', 'Le corps a été crée avec succès');

@@ -50,13 +50,16 @@ class MilitaireEditType extends AbstractType
 
             ])
             ->add('matricule', IntegerType::class, [
+                'disabled' => true,
                 'required' => true,
                 'label' => 'Matricule : ',
                 'constraints' => [
                     new NotBlank()
                 ]
+
             ])
             ->add('nom', TextType::class, [
+                'disabled' => true,
                 'required' => true,
                 'label' => 'Nom : ',
                 'constraints' => [
@@ -64,6 +67,7 @@ class MilitaireEditType extends AbstractType
                 ]
             ])
             ->add('prenoms', TextType::class, [
+                'disabled' => true,
                 'required' => true,
                 'label' => 'Prenoms : ',
                 'constraints' => [
@@ -71,6 +75,7 @@ class MilitaireEditType extends AbstractType
                 ]
             ])
             ->add('dateNaissance', DateType::class, [
+                'disabled' => true,
                 'required' => true,
                 'label' => 'Date de naissance: ',
                 'html5' => true,
@@ -92,6 +97,7 @@ class MilitaireEditType extends AbstractType
             ])
 
             ->add('sexe', ChoiceType::class, [
+                'disabled' => true,
                 'required' => false,
                 'label' => 'Sexe : ',
                 'choices'  => [
@@ -99,10 +105,11 @@ class MilitaireEditType extends AbstractType
                     'Femme' => 'f',
                 ],
                 'attr' => [
-                    'placeholder' => 'Selectionner'
+                    'placeholder' => 'Selectionner',
                 ],
             ])
             ->add('groupeSanguin', ChoiceType::class, [
+                'disabled' => true,
                 'required' => false,
                 'label' => 'Groupe Sanguin : ',
                 'choices'  => [
@@ -121,6 +128,7 @@ class MilitaireEditType extends AbstractType
                 ],
             ])
             ->add('taille',NumberType::class,[
+                'disabled' => true,
                 'required' => false,
                 'label' => 'Taille : ',
                 'attr' => array(
@@ -131,6 +139,7 @@ class MilitaireEditType extends AbstractType
                 ]
             ])
             ->add('couleurYeux', TextType::class, [
+                'disabled' => true,
                 'required' => false,
                 'label' => 'Couleur des yeux : ',
 
@@ -150,6 +159,7 @@ class MilitaireEditType extends AbstractType
 
 
             ->add('hasChildren', ChoiceType::class, [
+                'disabled' => true,
                 'required' => false,
                 'label' => 'Situation familiale : ',
                 'choices'  => [
@@ -178,6 +188,7 @@ class MilitaireEditType extends AbstractType
             ])
 
             ->add('dateIncorp', DateType::class, [
+                'disabled' => true,
                 'required' => true,
                 'widget' => 'single_text',
                 'label' => 'Date d\'incorporation : ',

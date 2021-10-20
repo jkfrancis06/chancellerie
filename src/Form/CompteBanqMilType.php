@@ -4,6 +4,8 @@ namespace App\Form;
 
 use App\Entity\CompteBanqMilitaire;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\ResetType;
+use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
@@ -19,6 +21,9 @@ class CompteBanqMilType extends AbstractType
             ->add('numeroCompte', TextType::class,[
                 'label' => 'Numero de compte : ',
             ])
+
+            ->add('submit', SubmitType::class, ['label' => 'Enregistrer'])
+            ->add('cancel', ResetType::class, ['label' => 'Annuler'])
         ;
     }
 
@@ -29,9 +34,5 @@ class CompteBanqMilType extends AbstractType
         ]);
     }
 
-    public function getBlockPrefix()
-    {
-        return 'CompteBanqMilType';
-    }
 
 }

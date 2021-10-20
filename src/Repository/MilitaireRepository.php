@@ -47,7 +47,7 @@ class MilitaireRepository extends ServiceEntityRepository
 
 
 
-    public function findMilitairesFromUnites($unite)
+    public function  findMilitairesFromUnites($unite)
     {
         return $this->createQueryBuilder('m')
             ->leftJoin('m.affectations', 'a')
@@ -76,13 +76,13 @@ class MilitaireRepository extends ServiceEntityRepository
         // nom
         $nom = $form->get('nom')->getData();
         if ($nom != null){
-            $qb->andWhere("m.nom LIKE '%$nom%'");
+            $qb->andWhere("LOWER(m.nom) LIKE '%$nom%'");
         }
 
         // prenom
         $prenom = $form->get('prenoms')->getData();
         if ($nom != null){
-            $qb->andWhere("m.prenoms LIKE '%$prenom%'");
+            $qb->andWhere("LOWER(m.prenoms) LIKE '%$prenom%'");
         }
 
 
@@ -159,7 +159,7 @@ class MilitaireRepository extends ServiceEntityRepository
         // adresse
         $adresse = $form->get('adresse')->getData();
         if ($adresse != null){
-            $qb->andWhere("m.adresse = :adresse");
+            $qb->andWhere("LOWER(m.adresse) = :adresse");
             $qb->setParameter('adresse', $adresse);
         }
 
@@ -192,7 +192,7 @@ class MilitaireRepository extends ServiceEntityRepository
         // professionAnt
         $professionAnt = $form->get('professionAnt')->getData();
         if ($professionAnt != null){
-            $qb->andWhere("m.professionAnt LIKE '%$professionAnt%'");
+            $qb->andWhere("LOWER(m.professionAnt) LIKE '%$professionAnt%'");
         }
 
 
@@ -225,6 +225,18 @@ class MilitaireRepository extends ServiceEntityRepository
             $qb->leftJoin('m.statut','s');
             $qb->andWhere('s.statut = :statut');
             $qb->setParameter('statut', $statut);
+        }
+
+
+        // unite
+        $unite = $form->get('unite')->getData();
+        if ($unite != null){
+
+            $qb->leftJoin('m.affectations','a');
+            $qb->andWhere('a.isActive = :active');
+            $qb->andWhere('a.unite IN (:unite)');
+            $qb->setParameter('active', true);
+            $qb->setParameter('unite', $unite);
         }
 
         $qb->leftJoin('m.grade','g');

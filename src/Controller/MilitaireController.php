@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\Affectation;
+use App\Entity\CompteBanqMilitaire;
 use App\Entity\Famille;
 use App\Entity\Fichier;
 use App\Entity\Militaire;
@@ -16,6 +17,7 @@ use App\Entity\Punition;
 use App\Entity\SousDossier;
 use App\Entity\Telephone;
 use App\Form\AffectationType;
+use App\Form\CompteBanqMilType;
 use App\Form\FamilleType;
 use App\Form\MilitaireEditType;
 use App\Form\MilitaireExerciceType;
@@ -32,6 +34,7 @@ use Knp\Bundle\SnappyBundle\Snappy\Response\PdfResponse;
 use Knp\Snappy\Pdf;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Form\FormError;
+use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
@@ -83,7 +86,7 @@ class MilitaireController extends AbstractController
 
         }
 
-        $militaireForm = $this->createForm(MilitaireType::class, $militaire);
+        $militaireForm = $this->createForm(MilitaireType::class, $militaire ,['validation_groups'=>'create']);
 
         $militaireForm->handleRequest($request);
 
@@ -212,6 +215,12 @@ class MilitaireController extends AbstractController
         $militaireMedaille = new MilitaireMedaille();
         $militaireFormation = new MilitaireFormation();
         $militaireFormationPlan = new MilitaireFormation();
+
+        if ($militaire->getCompteBanquaire() == null) {
+            $compteBanquaire = new CompteBanqMilitaire();
+        }else{
+            $compteBanquaire = $militaire->getCompteBanquaire();
+        }
         $famille = new Famille();
         $militaireStatut = new MilitaireStatut();
         $famille->setMilitaire($militaire);
@@ -229,6 +238,7 @@ class MilitaireController extends AbstractController
         $familleForm = $this->createForm(FamilleType::class,$famille);
         $militaireStautForm = $this->createForm(MilitaireStatutType::class,$militaireStatut);
         $punitionForm = $this->createForm(PunitionType::class,$punition);
+        $compteBanquaireForm = $this->createForm(CompteBanqMilType::class,$compteBanquaire);
 
 
 
@@ -241,6 +251,7 @@ class MilitaireController extends AbstractController
         $familleForm->handleRequest($request);
         $militaireStautForm->handleRequest($request);
         $punitionForm->handleRequest($request);
+        $compteBanquaireForm->handleRequest($request);
 
         $form_error = false;
 
@@ -256,7 +267,8 @@ class MilitaireController extends AbstractController
             ($militaireFormationPlanForm->isSubmitted() && !$militaireFormationPlanForm->isValid()) ||
             ($familleForm->isSubmitted() && !$familleForm->isValid()) ||
             ($militaireStautForm->isSubmitted() && !$militaireStautForm->isValid()) ||
-            ($punitionForm->isSubmitted() && !$punitionForm->isValid())
+            ($punitionForm->isSubmitted() && !$punitionForm->isValid()) ||
+            ($compteBanquaireForm->isSubmitted() && !$compteBanquaireForm->isValid())
         ){
             $form_error = true;
         }
@@ -337,12 +349,40 @@ class MilitaireController extends AbstractController
             return $this->redirectToRoute('militaire_details', array('id' => $militaire->getId()));
         }
 
+
+        if ($compteBanquaireForm->isSubmitted() && $compteBanquaireForm->isValid()){
+            $militaire->setCompteBanquaire($compteBanquaire);
+            $em->flush();
+            $request->getSession()->getFlashBag()->add('create_cpt_banq', 'Success');
+            return $this->redirectToRoute('militaire_details', array('id' => $militaire->getId()));
+        }
+
         if ($militaireStautForm->isSubmitted() && $militaireStautForm->isValid()){
 
             $lastSpa = $this->getDoctrine()->getManager()->getRepository(MilitaireSpa::class)->findLastSpa($militaire);
 
 
-            if ($lastSpa->getSpa() == null || $lastSpa->getSpa()->getDateSpa()->getTimestamp() < $militaireStatut->getDateDebut()->getTimestamp()) {
+            if ($militaireStatut->getStatut() == MilitaireStatut::STATUT_RADIE){
+                $affectation = $this->getDoctrine()->getManager()->getRepository(Affectation::class)->findOneBy([
+                   'active' => true,
+                   'militaire' => $militaire
+                ]);
+
+                if ($affectation != null) {
+                    $affectation->setIsActive(false);
+                    $em->flush();
+                }
+            }
+
+
+
+
+            if ($lastSpa == null) {
+                $militaireStatut->setDefinedBy(MilitaireStatut::UPDATED_BY_CHAN);
+                $militaire->setStatut($militaireStatut);
+                $em->flush();
+                $request->getSession()->getFlashBag()->add('statut', 'Success');
+            }elseif ($lastSpa->getSpa()->getDateSpa()->getTimestamp() < $militaireStatut->getDateDebut()->getTimestamp()){
                 $militaireStatut->setDefinedBy(MilitaireStatut::UPDATED_BY_CHAN);
                 $militaire->setStatut($militaireStatut);
                 $em->flush();
@@ -383,7 +423,7 @@ class MilitaireController extends AbstractController
 
         foreach ($militaireFamilles as $item) {
 
-            if ($item->getTypeFiliation() == 4) {
+            if ($item->getTypeFiliation() == Famille::ENFANT) {
                 $nbEnfants++;
             }
         }
@@ -411,6 +451,7 @@ class MilitaireController extends AbstractController
             'militaireExerciceForm' => $militaireExerciceForm->createView(),
             'militaireFormationForm' => $militaireFormationForm->createView(),
             'militaireMedailleForm' => $militaireMedailleForm->createView(),
+            'compteForm' => $compteBanquaireForm->createView(),
             'familleForm' => $familleForm->createView(),
             'militaireStautForm' => $militaireStautForm->createView(),
             'punitionForm' => $punitionForm->createView(),
@@ -575,8 +616,9 @@ class MilitaireController extends AbstractController
     /**
      * @Route("/militaires/e/{militaire}", name="edit_militaire")
      */
-    public function editMilitaires(Militaire $militaire,Request $request): Response
+    public function editMilitaires(Militaire $militaire,Request $request, FileUploader $fileUploader): Response
     {
+
 
         $editForm = $this->createForm(MilitaireEditType::class,$militaire);
 
@@ -585,7 +627,16 @@ class MilitaireController extends AbstractController
 
         if ($editForm->isSubmitted() && $editForm->isValid()){
 
+            $mainPicture = $editForm->get('mainPicture')->getData();
+
+            if ($mainPicture instanceof UploadedFile){
+                $fileName = $fileUploader->upload($mainPicture,$this->elementsDir.'/'.md5($militaire->getMatricule()));
+                $militaire->setMainPicture($fileName);
+            }
+
             $em = $this->getDoctrine()->getManager();
+
+            $em->merge($militaire);
 
             $em->flush();
 
