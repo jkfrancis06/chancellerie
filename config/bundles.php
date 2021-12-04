@@ -17,4 +17,5 @@ return [
     Knp\Bundle\SnappyBundle\KnpSnappyBundle::class => ['all' => true],
     FOS\CKEditorBundle\FOSCKEditorBundle::class => ['all' => true],
     EasyCorp\Bundle\EasyAdminBundle\EasyAdminBundle::class => ['all' => true],
+    BM\BackupManagerBundle\BMBackupManagerBundle::class => ['all' => true],
 ];

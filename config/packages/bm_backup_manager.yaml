@@ -1,0 +1,9 @@
+# See full config at https://github.com/backup-manager/symfony
+bm_backup_manager:
+    database:
+        development:
+            dsn: postgresql://%env(DATABASE_USERNAME)%:%env(DATABASE_PASSWORD)%@127.0.0.1:5432/chancellerie?serverVersion=13&charset=utf8
+    storage:
+        local:
+            type: Local
+            root: '%kernel.project_dir%/db'

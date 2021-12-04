@@ -1,4 +1,19 @@
 {
+    "backup-manager/backup-manager": {
+        "version": "3.0.1"
+    },
+    "backup-manager/symfony": {
+        "version": "2.1",
+        "recipe": {
+            "repo": "github.com/symfony/recipes-contrib",
+            "branch": "master",
+            "version": "2.1",
+            "ref": "4bb70c3f71c9bcd581e28724f50569af236df758"
+        },
+        "files": [
+            "config/packages/bm_backup_manager.yaml"
+        ]
+    },
     "doctrine/annotations": {
         "version": "1.0",
         "recipe": {
@@ -142,6 +157,12 @@
     "laminas/laminas-code": {
         "version": "3.4.1"
     },
+    "league/flysystem": {
+        "version": "1.1.8"
+    },
+    "league/mime-type-detection": {
+        "version": "1.9.0"
+    },
     "monolog/monolog": {
         "version": "2.3.2"
     },
@@ -153,6 +174,9 @@
     },
     "ninsuo/symfony-collection": {
         "version": "2.1.33"
+    },
+    "nyholm/dsn": {
+        "version": "2.0.1"
     },
     "phar-io/manifest": {
         "version": "2.0.3"
