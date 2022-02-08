@@ -1,51 +1,9 @@
 
 
-{% extends 'nav.html.twig' %}
+{% extends 'base.html.twig' %}
 
 {% block title %}Creer un element{% endblock %}
 
- {% block javascripts %}
-     <script  src="{{ asset('/assets/js/datepicker/moment.min.js') }}"></script>
-     <script  src="{{ asset('/assets/js/datepicker/daterangepicker.js') }}"></script>
-     <script  src="{{ asset('/assets/js/custom/picker.js') }}"></script>
- {% endblock %}
-
-{% block stylesheets %}
-    <link rel="stylesheet" href="{{ asset('/assets/css/datepicker/daterangepicker.css') }}" />
-    <link rel="stylesheet" href="{{ asset('/assets/css/datepicker/daterangepicker.css') }}" />
-    <link rel="stylesheet" href="{{ asset('/assets/css/fileinput/fileinput.min.css') }}" />
-    <link rel="stylesheet" href="{{ asset('/assets/css/fileinput/theme/theme.css') }}" />
-    <link rel="stylesheet" href="{{ asset('/assets/css/fileinput/fileinput-rtl.min.css') }}" />
-
-
-    <style>
-        .kv-avatar .krajee-default.file-preview-frame,.kv-avatar .krajee-default.file-preview-frame:hover {
-            margin: 0;
-            padding: 0;
-            border: none;
-            box-shadow: none;
-            text-align: center;
-        }
-        .kv-avatar {
-            display: inline-block;
-        }
-        .kv-avatar .file-input {
-            display: table-cell;
-            width: 213px;
-        }
-        .kv-reqd {
-            color: red;
-            font-family: monospace;
-            font-weight: normal;
-        }
-
-        .kv-file-upload{
-            display: none;
-        }
-    </style>
-
-
-{% endblock %}
 
 
 {% block content %}

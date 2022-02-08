@@ -5,110 +5,64 @@
         <title>{% block title %}Welcome!{% endblock %}</title>
         <link rel="icon" href="{{ asset('/assets/img/favicon.ico') }}" />
 
-        <link rel="stylesheet" href="{{ asset('/assets/css/pro/bootstrap.css') }}" />
-        <link rel="stylesheet" href="{{ asset('/assets/css/bootstrap/bootstrap-icons.min.css') }}" />
-        <link rel="stylesheet" href="{{ asset('/assets/css/pro/mdb.css') }}" />
-        <link rel="stylesheet" href="{{ asset('/assets/css/pro/style.css') }}" />
-        <link rel="stylesheet" href="{{ asset('/assets/css/datatables/datatables.css') }}" />
-        <link rel="stylesheet" href="{{ asset('/assets/css/fa/all.css') }}" />
-
-        <script  src="{{ asset('/assets/js/pro/jquery.js') }}"></script>
-        <script src="{{ asset('/assets/js/jquery.collection.js') }}"></script>
-
-
-
-
-        <style>
-            .md-tabs {
-                background-color: #3d8e33!important;
-            }
-            .card-header{
-                background-color: transparent!important;
-            }
-            .pagination{
-                color:black!important;
-            }
-            label.required:before {
-                content: "* ";
-                color: red;
-                font-weight: bold;
-            }
-        </style>
-
-
-
-
 
 
         {% block javascripts %}
-            {#{{ encore_entry_script_tags('app') }}#}
+            {{ encore_entry_script_tags('app') }}
         {% endblock %}
 
         {# Run `composer require symfony/webpack-encore-bundle`
            and uncomment the following Encore helpers to start using Symfony UX #}
         {% block stylesheets %}
-            {#{{ encore_entry_link_tags('app') }}#}
+            {{ encore_entry_link_tags('app') }}
         {% endblock %}
 
 
     </head>
 
-    <body class="fixed-sn dark-skin">
-
-        <div id="mdb-preloader" class="flex-center">
-            <div id="preloader-markup">
-            </div>
-        </div>
-
-        <div class="container-fluid">
-            {% block body %}{% endblock %}
-        </div>
+    <body>
 
 
+        <main id="swup">
+
+            {% if fullscreen is defined %}
+
+                {% block body %}
+
+                {% endblock %}
+
+            {% else %}
+
+                <div class="container-fluid">
+
+                    <div class="row flex-nowrap">
+
+
+                        {% include '_nav.html.twig' %}
+
+                        <div class="col py-3">
+
+
+                           {% include '_navBar.html.twig' %}
+
+                            {% block content %}
+
+
+                            {% endblock %}
 
 
 
+                        </div>
+                    </div>
 
 
-        <script  src="{{ asset('/assets/js/pro/popper.js') }}"></script>
-        <script  src="{{ asset('/assets/js/pro/bootstrap.js') }}"></script>
-        <script  src="{{ asset('/assets/js/pro/mdb.js') }}"></script>
-        <script  src="{{ asset('/assets/js/custom/tab.js') }}"></script>
-        <script  src="{{ asset('/assets/js/datatables/datatables.js') }}"></script>
-        <script  src="{{ asset('/assets/js/custom/tables.js') }}"></script>
-
-        {% block js %}
-            {#{{ encore_entry_script_tags('app') }}#}
-        {% endblock %}
-
-        <script>
-            // SideNav Initialization
-            $(document).ready(function() {
-                $('.dataTables_length').addClass('bs-select');
-
-                $(".button-collapse").sideNav();
-
-                var container = document.querySelector('.custom-scrollbar');
-                var ps = new PerfectScrollbar(container, {
-                    wheelSpeed: 2,
-                    wheelPropagation: true,
-                    minScrollbarLength: 20
-                });
-
-                $('.mdb-select').materialSelect();
+                </div>
+                </div>
 
 
-                //popup buttons
-                $('#btnTopLeft').on('click', );
-            });
+            {% endif %}
 
-
-        </script>
-
-
-        {% block botton_javascripts %}
-            {#{{ encore_entry_script_tags('app') }}#}
-        {% endblock %}
+        </main>
 
     </body>
 </html>

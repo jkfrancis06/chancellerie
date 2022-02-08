@@ -1,0 +1,80 @@
+<div class="col-auto col-md-3 col-xl-2 bg-dark sticky-top">
+    <div class="d-flex flex-column flex-shrink-0 p-3 text-white bg-dark min-vh-100 sticky-top" >
+
+        <a href="/" class="d-flex align-items-center pb-3 mb-md-0 me-md-auto text-white text-decoration-none">
+            <img src="{{ asset('/assets/img/and_bg_1.png') }}" style="height: 5em;">
+        </a>
+        <ul class="nav nav-pills flex-column mb-auto" id="menu">
+            <li>
+                <a href="{{ path('dashboard') }}" class="nav-link text-white {% if active == "dashboard" %}active{% endif %}" aria-current="page">
+                    <i class="fa fa-home"></i>
+                    Tableau de bord
+                </a>
+            </li>
+
+
+            <li class="nav-item text-white">
+                <button class="btn btn-toggle  collapsed text-white nav-link" data-bs-toggle="collapse" data-bs-target="#element-collapse" aria-expanded="false"
+                    {% if active == 'militaire' or  active == 'create_militaire' or  active == 'search_militaire' %}
+                        aria-expanded="true"
+                    {% endif %}" >
+                    <span style="font-size: 1.22em">Elements</span>
+                </button>
+
+                <div class="collapse m-2 {% if active == 'militaire' or  active == 'create_militaire' or  active == 'search_militaire' %}
+                         show
+                         {% endif %}" id="element-collapse">
+                    <ul class="btn-toggle-nav list-unstyled fw-normal pb-1 small">
+                        <li><a href="{{ path('all_militaires') }}" class="nav-link text-white {% if active == "militaire" %}active{% endif %}">Toutes les donnees</a></li>
+                        <li><a href="{{ path('create_militaire') }}" class="nav-link text-white {% if active == "create_militaire" %}active{% endif %}">Creer</a></li>
+                        <li><a href="{{ path('search_militaire') }}" class="nav-link text-white {% if active == "search_militaire" %}active{% endif %}">Recherche avancee</a></li>
+                    </ul>
+                </div>
+            </li>
+
+
+            <li>
+                <a href="{{ path('unite_index') }}" class="nav-link text-white
+                {% if active == "unite" %}active{% endif %}">
+                    <i class="fa fa-user-edit"></i>
+                    Unites
+                </a>
+            </li>
+            <li>
+                <a href="{{ path('corps_crud_index') }}"
+                   class="nav-link text-white {% if active == "corps" %}active{% endif %}">
+                    <i class="fas fa-list"></i>
+                    Corps
+                </a>
+            </li>
+            <li>
+                <a href="{{ path('indice_crud_index') }}" class="nav-link text-white {% if active == "indices" %}active{% endif %}">
+                    <i class="fas fa-chart-bar"></i>
+                    Indices
+                </a>
+            </li>
+            <li>
+                <a href="{{ path('mission_crud_index') }}" class="nav-link text-white {% if active == "mission" %}active{% endif %}">
+                    <i class="fas fa-boxes"></i>
+                    Missions
+                </a>
+            </li>
+        </ul>
+        <hr>
+        <div class="dropdown pb-4">
+            <a href="#" class="d-flex align-items-center text-white text-decoration-none dropdown-toggle" id="dropdownUser1" data-bs-toggle="dropdown" aria-expanded="false">
+                <img src="https://github.com/mdo.png" alt="hugenerd" width="30" height="30" class="rounded-circle">
+                <span class="d-none d-sm-inline mx-1">loser</span>
+            </a>
+            <ul class="dropdown-menu dropdown-menu-dark text-small shadow" aria-labelledby="dropdownUser1">
+                <li><a class="dropdown-item" href="#">New project...</a></li>
+                <li><a class="dropdown-item" href="#">Settings</a></li>
+                <li><a class="dropdown-item" href="#">Profile</a></li>
+                <li>
+                    <hr class="dropdown-divider">
+                </li>
+                <li><a class="dropdown-item" href="#">Sign out</a></li>
+            </ul>
+        </div>
+    </div>
+</div>
